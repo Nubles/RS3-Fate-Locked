@@ -14,12 +14,12 @@ export default {
     extend: {
       colors: {
         osrs: {
-          bg: '#161616',
-          panel: '#2d2d2d',
-          border: '#3e3e3e',
-          gold: '#fbbf24',
-          text: '#d1d5db',
-          accent: '#8b5cf6',
+          bg: '#0a1128',
+          panel: '#121a36',
+          border: '#1d2d5c',
+          gold: '#f59e0b',
+          text: '#e2e8f0',
+          accent: '#06b6d4',
           success: '#22c55e',
           fail: '#ef4444',
           pity: '#f59e0b'

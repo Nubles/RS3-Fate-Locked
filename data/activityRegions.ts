@@ -10,11 +10,11 @@
 
 export const ACTIVITY_REGIONS: Record<string, string> = {
   // ---- Bosses & Raids ------------------------------------------------------
-  'Chambers of Xeric': 'Kourend & Kebos',
-  'Theatre of Blood': 'Morytania',
-  'Tombs of Amascut': 'Kharidian Desert',
-  'The Gauntlet': 'Tirannwn',
-  'The Nightmare': 'Morytania',
+  'Temple of Aminishi': 'Kourend & Kebos',
+  'Dragonkin Laboratory': 'Morytania',
+  'Shadow Reef': 'Kharidian Desert',
+  'Arch-Glacor': 'Tirannwn',
+  'Telos': 'Morytania',
   "Phosani's Nightmare": 'Morytania',
   'Nex': 'Fremennik',
   'Corporeal Beast': 'Wilderness',

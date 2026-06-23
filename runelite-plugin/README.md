@@ -52,7 +52,7 @@ overlay, all three colors).
 ### Easiest — download the prebuilt jar (no build tools)
 
 1. Grab `fatelocked-0.1.0-all.jar` from the repo's
-   [**latest plugin release**](https://github.com/Nubles/OSRS-Fate-Locked/releases/tag/runelite-plugin-latest)
+   [**latest plugin release**](https://github.com/Nubles/RS3-Fate-Locked/releases/tag/runelite-plugin-latest)
    (auto-built by CI on every change).
 2. Drop it into `~/.runelite/sideloaded-plugins/` (create the folder if needed).
    On Windows that's `%USERPROFILE%\.runelite\sideloaded-plugins\`.

@@ -20,8 +20,8 @@ export interface ActivityReq {
 
 export const ACTIVITY_REQUIREMENTS: Record<string, ActivityReq> = {
   // ===== Bosses & Raids =====================================================
-  'Tombs of Amascut': { quests: ['Beneath Cursed Sands'] },
-  'The Gauntlet': { quests: ['Song of the Elves'] },
+  'Shadow Reef': { quests: ['Beneath Cursed Sands'] },
+  'Arch-Glacor': { quests: ['Song of the Elves'] },
   'Nex': { note: 'God Wars Dungeon access + a Frozen key from all four generals.' },
   'General Graardor': { note: 'God Wars Dungeon — 40 kill-count to enter the Bandos chamber.' },
   'Commander Zilyana': { note: 'God Wars Dungeon — 40 kill-count to enter the Saradomin chamber.' },
@@ -83,8 +83,8 @@ export const ACTIVITY_REQUIREMENTS: Record<string, ActivityReq> = {
   'Lunar Spellbook': { quests: ['Lunar Diplomacy'] },
   'Arceuus Spellbook': { note: 'Swap at the bookcase in Arceuus, Kourend & Kebos.' },
   'Piety': { skills: { Prayer: 70, Defence: 70 }, quests: ["King's Ransom"], note: 'Knight Waves training grounds.' },
-  'Rigour': { skills: { Prayer: 74 }, note: 'Dexterous prayer scroll (Chambers of Xeric).' },
-  'Augury': { skills: { Prayer: 77 }, note: 'Arcane prayer scroll (Chambers of Xeric).' },
+  'Rigour': { skills: { Prayer: 74 }, note: 'Dexterous prayer scroll (Temple of Aminishi).' },
+  'Augury': { skills: { Prayer: 77 }, note: 'Arcane prayer scroll (Temple of Aminishi).' },
   'Preserve': { skills: { Prayer: 55 } },
   'Bones to Peaches': { note: 'Mage Training Arena reward shop.' },
   'Dwarf Cannon': { quests: ['Dwarf Cannon'] },
@@ -110,7 +110,7 @@ export const ACTIVITY_REQUIREMENTS: Record<string, ActivityReq> = {
   'Impetuous Impulses': { skills: { Hunter: 17 }, quests: ['Lost City'] },
   'Rat Pits': { quests: ['Ratcatchers'] },
   'Vale Totems': { skills: { Fletching: 20 }, note: 'Vale Totems miniquest (Auburn Valley).' },
-  'Barracuda Trials': { skills: { Sailing: 30 }, note: 'Trials at 30 / 55 / 72 Sailing; the 72 trial needs Regicide.' },
+  'Barracuda Trials': { skills: { Summoning: 30 }, note: 'Trials at 30 / 55 / 72 Summoning; the 72 trial needs Regicide.' },
   'Blast Furnace': { note: '60 Smithing to use free; under 60, pay a fee.' },
   'Nightmare Zone': { note: 'Requires several quests completed (for the dream bosses).' },
   "Sorceress's Garden": { note: 'Gardens gated by Thieving level (1 / 27 / 45 / 65 / 85).' },
@@ -161,7 +161,7 @@ export const ACTIVITY_REQUIREMENTS: Record<string, ActivityReq> = {
 
   // ---- Bosses with an access gate (most others have no hard requirement) -----
   'Inferno': { note: 'Complete the Fight Cave (TzTok-Jad) to enter.' },
-  "Phosani's Nightmare": { note: 'Sleeping Giants miniquest; must have defeated The Nightmare.' },
+  "Phosani's Nightmare": { note: 'Sleeping Giants miniquest; must have defeated Telos.' },
   'Fortis Colosseum': { note: 'Varlamore — high-level combat (Sol Heredit).' },
   'The Hueycoatl': { note: 'Varlamore.' },
   'The Royal Titans': { note: 'Varlamore.' },

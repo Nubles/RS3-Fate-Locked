@@ -209,7 +209,7 @@ export const SKILL_UNLOCK_DATA: Record<string, Record<number, string[]>> = {
   },
   'Construction': {
     1: [
-      'Sailing: Wooden Hull, Mast, Bronze Helm',
+      'Summoning: Wooden Hull, Mast, Bronze Helm',
       'Lvl 1: Basic Wood Decor, Garden, Parlour, Kitchen',
       'Lvl 1: Crude Furniture, Fireplaces',
       'Lvl 1: Mahogany Homes (Beginner)',
@@ -221,12 +221,12 @@ export const SKILL_UNLOCK_DATA: Record<string, Record<number, string[]>> = {
       'Lvl 12: STASH Units (Beginner)',
       'Lvl 15: Workshop, Repair Bench',
       'Lvl 16: Crafting Table 1',
-      'Lvl 17: Water Pump (Sailing)',
+      'Lvl 17: Water Pump (Summoning)',
       'Lvl 20: Bedroom, Whitewashed Stone Decor',
       'Lvl 20: Mahogany Homes (Novice)'
     ],
     3: [
-      'Sailing: Teak Hull, Cannons',
+      'Summoning: Teak Hull, Cannons',
       'Lvl 22: Oak Dining Table',
       'Lvl 25: Skill Hall, Move to Hosidius',
       'Lvl 27: STASH Units (Easy)',
@@ -1307,117 +1307,17 @@ export const SKILL_UNLOCK_DATA: Record<string, Record<number, string[]>> = {
       'Lvl 99: Skill Mastery (Runecraft Cape)'
     ],
   },
-  'Sailing': {
-    1: [
-      'Lvl 1: Basic Boat (Wooden Hull, Bronze Helm, Linen Sails)',
-      'Lvl 1: Basic Cargo Hold, Charting',
-      'Lvl 1: Dock Port Sarim, Pandemonium',
-      'Lvl 5: Dock Land\'s End, Hosidius',
-      'Lvl 7: 2 Port Tasks',
-      'Lvl 10: Dock Musa Point, Chart Lumbridge Basin'
-    ],
-    2: [
-      'Lvl 12: Drink Crate Charting',
-      'Lvl 15: Sail Skiff, 2 Boats, Port Piscarillius',
-      'Lvl 15: Salvage Small Shipwrecks, Bronze Salvage Hook',
-      'Lvl 17: Chart Rimmington Strait, Iron Helm',
-      'Lvl 18: Dock Rimmington, Oak Cargo Hold',
-      'Lvl 20: Dock Catherby, Oak Hull'
-    ],
-    3: [
-      'Lvl 21: Iron Salvaging Hook',
-      'Lvl 22: Sea Current Charting, Iron Keel',
-      'Lvl 24: Oak Mast, Linen Sails',
-      'Lvl 25: Dock Brimhaven, Flags, Trims',
-      'Lvl 26: Salvage Fisherman\'s Shipwrecks',
-      'Lvl 27: Steel Salvaging Hook',
-      'Lvl 28: Dock Ardougne, 3 Port Tasks, Bronze Cannon',
-      'Lvl 29: Teak Cargo Hold',
-      'Lvl 30: Dock Port Khazard, Barracuda Trials'
-    ],
-    4: [
-      'Lvl 31: Teak Hull',
-      'Lvl 34: Dock Witchaven',
-      'Lvl 35: Salvage Barracuda Shipwrecks, Iron Cannon',
-      'Lvl 36: Dock Entrana, Teak Mast, Canvas Sails',
-      'Lvl 37: Build Anchor',
-      'Lvl 38: Dock Civitas illa Fortis, Sea Depth Charting, Steel Helm',
-      'Lvl 39: Steel Keel',
-      'Lvl 40: 1 Crewmate (Jobless Jim)',
-      'Lvl 40: Dock Corsair Cove, Dognose Island'
-    ],
-    5: [
-      'Lvl 42: Dock Cairn Isle, Chinchompa Island, Salvaging Station',
-      'Lvl 44: Dock Sunset Coast, Mithril Salvaging Hook',
-      'Lvl 45: Dock Summer Shore, Little Pearl',
-      'Lvl 46: Dock Vatrachos Island, Aldarin, Mahogany Cargo Hold',
-      'Lvl 47: Dock Onyx Crest, Steel Cannon',
-      'Lvl 48: Dock Ruins of Unkah, Mahogany Hull',
-      'Lvl 49: Dock Shimmering Atoll',
-      'Lvl 50: Dock Void Outpost, Port Roberts',
-      'Lvl 50: Recruit Captain Siad',
-      'Lvl 50: Sail Sloop, 3 Boats'
-    ],
-    6: [
-      'Lvl 51: Dock Anglers\' Retreat',
-      'Lvl 52: Mahogany Mast, Canvas Sails',
-      'Lvl 53: Salvage Large Shipwrecks, Wind Catcher',
-      'Lvl 54: Dock Minotaurs\' Rest, Mithril Keel',
-      'Lvl 55: 2 Crewmates (Adventurer Ada)',
-      'Lvl 55: Dock Isle of Souls, Mithril Helm, Teleport Focus',
-      'Lvl 56: Dock Isle of Bones, 4 Port Tasks, Rope Trawling Net',
-      'Lvl 57: Weather Pattern Charting, Mithril Cannon',
-      'Lvl 58: Dock Laguna Aurorae',
-      'Lvl 59: Adamant Salvaging Hook',
-      'Lvl 60: Dock Charred Island, Camphor Cargo Hold',
-      'Lvl 60: Recruit Cabin Boy Jenkins'
-    ],
-    7: [
-      'Lvl 61: Dock Tear of the Soul, Rename Boat',
-      'Lvl 62: Dock Rellekka',
-      'Lvl 63: Dock Wintumber Island',
-      'Lvl 64: Dock Crown Jewel, Salvage Pirate Shipwrecks',
-      'Lvl 65: Dock Etceteria, Recruit Oarswoman Olga',
-      'Lvl 66: Dock Port Tyras, Lledrith Island, Adamant Keel',
-      'Lvl 67: Dock Deepfin Point, Camphor Hull',
-      'Lvl 68: Dock Jatizso/Neitiznot, Camphor Mast',
-      'Lvl 68: Linen Trawling Net, Advanced Chum Station',
-      'Lvl 69: Dock Rainbow\'s End, Adamant Cannon',
-      'Lvl 70: 3 Crewmates (Jittery Jim)',
-      'Lvl 70: Dock Prifddinas, Fathom Stone'
-    ],
-    8: [
-      'Lvl 72: Dock Sunbleak Island, Adamant Helm',
-      'Lvl 73: Dock Ynysdail, Salvage Mercenary Shipwrecks, Crystal Extractor',
-      'Lvl 74: Dock Waterbirth Island, Rune Salvaging Hook',
-      'Lvl 75: Dock Piscatoris, Greater Teleport Focus',
-      'Lvl 76: Dock Lunar Isle, Buccaneers\' Haven',
-      'Lvl 78: 4 Boats, Eternal Brazier',
-      'Lvl 79: Dock Drumstick Isle, Gale Catcher, Hemp Trawling Net',
-      'Lvl 80: Dock Weiss, Salvage Fremennik Shipwrecks',
-      'Lvl 80: Ironwood Cargo Hold, Rune Cannon, Recruit Bosun Zarah'
-    ],
-    9: [
-      'Lvl 81: Dock Brittle Isle, Ironwood Hull',
-      'Lvl 82: Chum Spreader',
-      'Lvl 83: Ironwood Mast, Cotton Sails',
-      'Lvl 84: 5 Port Tasks, Cotton Trawling Net',
-      'Lvl 85: Rune Keel, 4 Crewmates (Jolly Jim)',
-      'Lvl 86: Dragon Salvaging Hook',
-      'Lvl 87: Dock Grimstone, Salvage Merchant Shipwrecks, Rune Helm',
-      'Lvl 89: Rosewood Cargo Hold',
-      'Lvl 90: Recruit Spotter Virginia'
-    ],
-    10: [
-      'Lvl 91: 5 Boats, Fathom Pearl',
-      'Lvl 92: Dragon Cannon',
-      'Lvl 93: Rosewood Hull',
-      'Lvl 94: Rosewood Mast, Cotton Sails',
-      'Lvl 95: 5 Crewmates (Sailor Jakob)',
-      'Lvl 96: Dragon Helm',
-      'Lvl 97: Dragon Keel',
-      'Lvl 99: Skill Mastery (Sailing Cape)'
-    ],
+  'Summoning': {
+    1: ['Lvl 1: Spirit Wolf, Dreadfowl, Spirit Spider conjuring', 'Lvl 4: Dreadfowl pouch crafting'],
+    2: ['Lvl 10: Spirit Mosquito pouch crafting', 'Lvl 16: Granite Crab pouch crafting'],
+    3: ['Lvl 23: Spirit Tz-Kih pouch crafting', 'Lvl 28: Compost Mound pouch crafting'],
+    4: ['Lvl 33: Barker Toad pouch crafting', 'Lvl 40: Bull Leech pouch crafting'],
+    5: ['Lvl 46: Bunyip pouch crafting', 'Lvl 49: Fruit Bat pouch crafting'],
+    6: ['Lvl 52: Spirit Terrorbird pouch crafting', 'Lvl 56: Kyatt/Larupia/Graahk pouches'],
+    7: ['Lvl 64: Stranger Plant pouch crafting', 'Lvl 67: War Tortoise pouch crafting'],
+    8: ['Lvl 75: Praying Mantis pouch crafting', 'Lvl 79: Wolpertinger pouch crafting'],
+    9: ['Lvl 88: Pack Yak pouch crafting', 'Lvl 89: Geyser Titan pouch crafting'],
+    10: ['Lvl 96: Pack Yak Winter Storage scroll', 'Lvl 99: Steel Titan pouch crafting, Skill Cape']
   },
   'Slayer': {
     1: [
@@ -1464,7 +1364,7 @@ export const SKILL_UNLOCK_DATA: Record<string, Record<number, string[]>> = {
       'Lvl 60: Aberrant Spectres, Basilisk Knights, Nose Peg'
     ],
     7: [
-      'Lvl 62: Wyrms, Lava Strykewyrms (Sailing 60)',
+      'Lvl 62: Wyrms, Lava Strykewyrms (Summoning 60)',
       'Lvl 63: Spiritual Rangers',
       'Lvl 65: Dust Devils, Amethyst Broad Bolts',
       'Lvl 66: Fossil Island Wyverns',
@@ -1794,9 +1694,92 @@ export const SKILL_UNLOCK_DATA: Record<string, Record<number, string[]>> = {
     9: [
       'Lvl 90: Redwood Logs'
     ],
+    9: [
+      'Lvl 81: Adamant Chainbody, Shayzien T4 Greaves',
+      'Lvl 82: Adamant Kiteshield, Saeldor/Faerdhinen',
+      'Lvl 83: Adamant Claws, Shayzien T4 Body',
+      'Lvl 84: Adamant 2h Sword',
+      'Lvl 85: Infernal Pickaxe, Ursine Chainmace',
+      'Lvl 85: Runite Bars/Daggers, Spirit Sigils',
+      'Lvl 86: Adamant Legs/Skirt, Rune Axe/Keel',
+      'Lvl 87: Rune Mace',
+      'Lvl 88: Adamant Platebody, Rune Med Helm',
+      'Lvl 89: Rune Sword/Nails',
+      'Lvl 90: Dragon Platebody, dfs/Ward',
+      'Lvl 90: Rune Scimitar/Arrows/C-balls',
+      'Lvl 90: Torva Repair'
+    ],
     10: [
-      'Lvl 92: Rosewood Logs',
-      'Lvl 99: Skill Mastery (Woodcutting Cape)'
+      'Lvl 91: Rune Longsword/Limbs',
+      'Lvl 92: Rune Full Helm/Knives',
+      'Lvl 93: Rune Sq Shield',
+      'Lvl 94: Rune Warhammer',
+      'Lvl 95: Rune Battleaxe',
+      'Lvl 96: Rune Chainbody',
+      'Lvl 97: Rune Kiteshield',
+      'Lvl 98: Rune Claws',
+      'Lvl 99: Rune 2h/Platebody/Legs/Skirt'
     ],
   },
+  'Dungeoneering': {
+    1: ['Lvl 1: Frozen Floors (1-11) access', 'Lvl 1: Novice Complexity (1-6)'],
+    2: ['Lvl 12: Abandoned Floors (12-17) access', 'Lvl 15: Ring of Vigour reward purchase'],
+    3: ['Lvl 23: Furnished Floors (18-29) access', 'Lvl 30: Gem Bag reward purchase'],
+    4: ['Lvl 35: Occult Floors (30-35) access', 'Lvl 40: Bonecrusher reward purchase'],
+    5: ['Lvl 47: Warped Floors (36-47) access', 'Lvl 50: Charming Imp reward purchase'],
+    6: ['Lvl 59: Floor 48-60 access', 'Lvl 60: Resource Dungeons (Taverley, Edgeville)'],
+    7: ['Lvl 70: Chaotic Weapons (Rapier, Maul, Staff) purchase', 'Lvl 75: Daemonheim Medium Achievements'],
+    8: ['Lvl 80: Chaotic Shields and Crossbows purchase', 'Lvl 85: Gorajo Hoardstalker dungeons'],
+    9: ['Lvl 90: Blood Necklace reward purchase', 'Lvl 95: Elite Daemonheim Achievements'],
+    10: ['Lvl 99: Skill Cape & 120 Master Dungeoneering Cape']
+  },
+  'Divination': {
+    1: ['Lvl 1: Pale Energy harvesting', 'Lvl 5: Divine Crawling Peg'],
+    2: ['Lvl 10: Flickering Energy harvesting', 'Lvl 15: Divine Rock Peg'],
+    3: ['Lvl 20: Bright Energy harvesting', 'Lvl 25: Divine Tree Peg'],
+    4: ['Lvl 30: Glowing Energy harvesting', 'Lvl 35: Sign of the Porter I'],
+    5: ['Lvl 40: Sparkling Energy harvesting', 'Lvl 45: Boon of Sparkling Energy'],
+    6: ['Lvl 50: Gleaming Energy harvesting', 'Lvl 55: Sign of the Porter III'],
+    7: ['Lvl 60: Vibrant Energy harvesting', 'Lvl 65: Boon of Vibrant Energy'],
+    8: ['Lvl 70: Lustrous Energy harvesting', 'Lvl 75: Sign of the Porter V'],
+    9: ['Lvl 80: Brilliant Energy harvesting', 'Lvl 85: Divine Simulacrum creation'],
+    10: ['Lvl 95: Incandescent Energy harvesting', 'Lvl 99: Skill Cape & Elder Energy']
+  },
+  'Invention': {
+    1: ['Lvl 1: Disassemble items for parts', 'Lvl 4: Augment Weapon'],
+    2: ['Lvl 12: Augment Armour (Chest, Legs)', 'Lvl 16: Simple Parts Junk Chance Reduction I'],
+    3: ['Lvl 22: Specialised Components discovery', 'Lvl 27: Divine Charge Transmitter I'],
+    4: ['Lvl 32: Efficient Perk blueprint', 'Lvl 38: Auto-Disassembler machine'],
+    5: ['Lvl 45: Pyro-matic and Rod-o-matic tools', 'Lvl 49: Spring Cleaner upgrade blueprint'],
+    6: ['Lvl 55: Extreme Invention Potions crafting', 'Lvl 60: Augmented Pickaxe and Hatchet'],
+    7: ['Lvl 70: Mech-Chinchompas blueprint', 'Lvl 75: Divine Omatic tools'],
+    8: ['Lvl 80: Ancient Invention blueprints', 'Lvl 85: Alchemical Onyx creation'],
+    9: ['Lvl 90: Custom-Fit Trimmed Masterwork Armour', 'Lvl 95: Augmented T92 Weapons/Armour'],
+    10: ['Lvl 99: Skill Cape & Augmented T95 Necromancy Gear']
+  },
+  'Archaeology': {
+    1: ['Lvl 1: Kharid-et digsite access, Bronze Mattock', 'Lvl 5: Restoring Level 1 Relics'],
+    2: ['Lvl 12: Iron Mattock, Senntisten digsite access', 'Lvl 16: Monolith Power: Font of Life'],
+    3: ['Lvl 25: Everlight digsite access, Steel Mattock', 'Lvl 30: Archaeology Guild membership'],
+    4: ['Lvl 36: Stormguard Citadel access, Mithril Mattock', 'Lvl 40: Qualification: Associate'],
+    5: ['Lvl 45: Warforge digsite access, Adamant Mattock', 'Lvl 50: Qualification: Fit for Purpose'],
+    6: ['Lvl 60: Rune Mattock, Ortis digsite access', 'Lvl 65: Monolith Power: Berserker\'s Fury'],
+    7: ['Lvl 70: Dragon Mattock, Inquisitor Staff restoration', 'Lvl 75: Imcando Mattock creation'],
+    8: ['Lvl 80: Crystal Mattock, Spear of Annihilation restoration', 'Lvl 85: Qualification: Professor'],
+    9: ['Lvl 90: Mattock of Time and Space creation', 'Lvl 95: Qualification: Guildmaster'],
+    10: ['Lvl 99: Skill Cape & Monolith Power: Conservation of Energy']
+  },
+  'Necromancy': {
+    1: ['Lvl 1: Death Guard, Spirit Lantern, Skeleton Warrior conjure', 'Lvl 5: Ritual of Remembrance'],
+    2: ['Lvl 12: Lesser Ghost conjure, Putrid Zombie conjure', 'Lvl 16: Soul Sap ability'],
+    3: ['Lvl 24: Spectral Scythe ability, Command Skeleton ability', 'Lvl 28: Ritual of Lesser Communion'],
+    4: ['Lvl 35: Conjure Skeleton Archer, Command Zombie ability', 'Lvl 40: Death Guard Upgrade (T40)'],
+    5: ['Lvl 45: Bloat ability, Touch of Death ability', 'Lvl 50: Death Guard Upgrade (T50)'],
+    6: ['Lvl 58: Death Essence ability, Ritual of Greater Communion', 'Lvl 60: Death Guard Upgrade (T60)'],
+    7: ['Lvl 70: Death Mark ability, Necromancy Runes crafting', 'Lvl 70: Death Guard Upgrade (T70)'],
+    8: ['Lvl 80: Greater Ghost conjure, Conjure Phantom', 'Lvl 80: Death Guard Upgrade (T80)'],
+    9: ['Lvl 90: Death Grasp ability, Rasial boss fight access', 'Lvl 90: Death Guard Upgrade (T90)'],
+    10: ['Lvl 99: Skill Cape & T95 First Necromancer gear upgrade']
+  }
+
 };

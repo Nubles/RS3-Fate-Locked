@@ -1139,7 +1139,7 @@ export const QUEST_DATA: Record<string, QuestData> = {
   'The Red Reef': {
     id: 'The Red Reef', name: 'The Red Reef',
     regions: ['The Open Seas'],
-    skills: { Sailing: 52, Smithing: 48 }, prereqs: ['Troubled Tortugans'], points: 2, series: 'Tortugan',
+    skills: { Summoning: 52, Smithing: 48 }, prereqs: ['Troubled Tortugans'], points: 2, series: 'Tortugan',
     difficulty: DropSource.QUEST_EXPERIENCED
   },
   'The Ides of Milk': {

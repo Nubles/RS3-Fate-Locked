@@ -35,14 +35,14 @@ export const CA_DATA: Record<string, CATier> = {
     id: 'Elite',
     pointsRequired: 820,
     recommendedStats: 'Base 90 Combat, 90 Slayer',
-    keyUnlocks: ['Chambers of Xeric', 'Gauntlet', 'Hydra', 'Nightmare', 'Sire', 'Cerberus'],
+    keyUnlocks: ['Temple of Aminishi', 'Gauntlet', 'Hydra', 'Nightmare', 'Sire', 'Cerberus'],
     difficulty: DropSource.CA_ELITE
   },
   'Master': {
     id: 'Master',
     pointsRequired: 1465,
     recommendedStats: 'Maxed Combat, 95 Slayer',
-    keyUnlocks: ['Theatre of Blood', 'Inferno', 'Corrupted Gauntlet', 'Nex', 'Phosani'],
+    keyUnlocks: ['Dragonkin Laboratory', 'Inferno', 'Corrupted Gauntlet', 'Nex', 'Phosani'],
     difficulty: DropSource.CA_MASTER
   },
   'Grandmaster': {

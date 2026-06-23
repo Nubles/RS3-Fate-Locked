@@ -911,68 +911,68 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
 
   // --- RAIDS & ENDGAME ---
   'Twisted Bow': [
-    { type: 'DROP', name: 'Chambers of Xeric', regions: ['Kourend & Kebos'], unlockId: 'Chambers of Xeric' }
+    { type: 'DROP', name: 'Temple of Aminishi', regions: ['Kourend & Kebos'], unlockId: 'Temple of Aminishi' }
   ],
   'Kodai Wand': [
-    { type: 'DROP', name: 'Chambers of Xeric', regions: ['Kourend & Kebos'], unlockId: 'Chambers of Xeric' }
+    { type: 'DROP', name: 'Temple of Aminishi', regions: ['Kourend & Kebos'], unlockId: 'Temple of Aminishi' }
   ],
   'Elder Maul': [
-    { type: 'DROP', name: 'Chambers of Xeric', regions: ['Kourend & Kebos'], unlockId: 'Chambers of Xeric' }
+    { type: 'DROP', name: 'Temple of Aminishi', regions: ['Kourend & Kebos'], unlockId: 'Temple of Aminishi' }
   ],
   'Dragon Claws': [
-    { type: 'DROP', name: 'Chambers of Xeric', regions: ['Kourend & Kebos'], unlockId: 'Chambers of Xeric' },
+    { type: 'DROP', name: 'Temple of Aminishi', regions: ['Kourend & Kebos'], unlockId: 'Temple of Aminishi' },
     { type: 'DROP', name: 'Tormented Demon', regions: ['Misthalin'], quests: ['While Guthix Sleeps'] }
   ],
   'Ancestral Robe Top': [
-    { type: 'DROP', name: 'Chambers of Xeric', regions: ['Kourend & Kebos'], unlockId: 'Chambers of Xeric' }
+    { type: 'DROP', name: 'Temple of Aminishi', regions: ['Kourend & Kebos'], unlockId: 'Temple of Aminishi' }
   ],
   'Ancestral Robe Bottom': [
-    { type: 'DROP', name: 'Chambers of Xeric', regions: ['Kourend & Kebos'], unlockId: 'Chambers of Xeric' }
+    { type: 'DROP', name: 'Temple of Aminishi', regions: ['Kourend & Kebos'], unlockId: 'Temple of Aminishi' }
   ],
   'Ancestral Hat': [
-    { type: 'DROP', name: 'Chambers of Xeric', regions: ['Kourend & Kebos'], unlockId: 'Chambers of Xeric' }
+    { type: 'DROP', name: 'Temple of Aminishi', regions: ['Kourend & Kebos'], unlockId: 'Temple of Aminishi' }
   ],
   'Scythe of Vitur': [
-    { type: 'DROP', name: 'Theatre of Blood', regions: ['Morytania'], unlockId: 'Theatre of Blood' }
+    { type: 'DROP', name: 'Dragonkin Laboratory', regions: ['Morytania'], unlockId: 'Dragonkin Laboratory' }
   ],
   'Ghrazi Rapier': [
-    { type: 'DROP', name: 'Theatre of Blood', regions: ['Morytania'], unlockId: 'Theatre of Blood' }
+    { type: 'DROP', name: 'Dragonkin Laboratory', regions: ['Morytania'], unlockId: 'Dragonkin Laboratory' }
   ],
   'Sanguinesti Staff': [
-    { type: 'DROP', name: 'Theatre of Blood', regions: ['Morytania'], unlockId: 'Theatre of Blood' }
+    { type: 'DROP', name: 'Dragonkin Laboratory', regions: ['Morytania'], unlockId: 'Dragonkin Laboratory' }
   ],
   'Justiciar Faceguard': [
-    { type: 'DROP', name: 'Theatre of Blood', regions: ['Morytania'], unlockId: 'Theatre of Blood' }
+    { type: 'DROP', name: 'Dragonkin Laboratory', regions: ['Morytania'], unlockId: 'Dragonkin Laboratory' }
   ],
   'Justiciar Chestguard': [
-    { type: 'DROP', name: 'Theatre of Blood', regions: ['Morytania'], unlockId: 'Theatre of Blood' }
+    { type: 'DROP', name: 'Dragonkin Laboratory', regions: ['Morytania'], unlockId: 'Dragonkin Laboratory' }
   ],
   'Justiciar Legguards': [
-    { type: 'DROP', name: 'Theatre of Blood', regions: ['Morytania'], unlockId: 'Theatre of Blood' }
+    { type: 'DROP', name: 'Dragonkin Laboratory', regions: ['Morytania'], unlockId: 'Dragonkin Laboratory' }
   ],
   'Avernic Defender Hilt': [
-    { type: 'DROP', name: 'Theatre of Blood', regions: ['Morytania'], unlockId: 'Theatre of Blood' }
+    { type: 'DROP', name: 'Dragonkin Laboratory', regions: ['Morytania'], unlockId: 'Dragonkin Laboratory' }
   ],
   'Tumeken\'s Shadow': [
-    { type: 'DROP', name: 'Tombs of Amascut', regions: ['Kharidian Desert'], unlockId: 'Tombs of Amascut' }
+    { type: 'DROP', name: 'Shadow Reef', regions: ['Kharidian Desert'], unlockId: 'Shadow Reef' }
   ],
   'Osmumten\'s Fang': [
-    { type: 'DROP', name: 'Tombs of Amascut', regions: ['Kharidian Desert'], unlockId: 'Tombs of Amascut' }
+    { type: 'DROP', name: 'Shadow Reef', regions: ['Kharidian Desert'], unlockId: 'Shadow Reef' }
   ],
   'Masori Body': [
-    { type: 'DROP', name: 'Tombs of Amascut', regions: ['Kharidian Desert'], unlockId: 'Tombs of Amascut' }
+    { type: 'DROP', name: 'Shadow Reef', regions: ['Kharidian Desert'], unlockId: 'Shadow Reef' }
   ],
   'Masori Chaps': [
-    { type: 'DROP', name: 'Tombs of Amascut', regions: ['Kharidian Desert'], unlockId: 'Tombs of Amascut' }
+    { type: 'DROP', name: 'Shadow Reef', regions: ['Kharidian Desert'], unlockId: 'Shadow Reef' }
   ],
   'Masori Mask': [
-    { type: 'DROP', name: 'Tombs of Amascut', regions: ['Kharidian Desert'], unlockId: 'Tombs of Amascut' }
+    { type: 'DROP', name: 'Shadow Reef', regions: ['Kharidian Desert'], unlockId: 'Shadow Reef' }
   ],
   'Elidinis\' Ward': [
-    { type: 'DROP', name: 'Tombs of Amascut', regions: ['Kharidian Desert'], unlockId: 'Tombs of Amascut' }
+    { type: 'DROP', name: 'Shadow Reef', regions: ['Kharidian Desert'], unlockId: 'Shadow Reef' }
   ],
   'Lightbearer': [
-    { type: 'DROP', name: 'Tombs of Amascut', regions: ['Kharidian Desert'], unlockId: 'Tombs of Amascut' }
+    { type: 'DROP', name: 'Shadow Reef', regions: ['Kharidian Desert'], unlockId: 'Shadow Reef' }
   ],
   'Zaryte Crossbow': [
     { type: 'DROP', name: 'Nex', regions: ['Fremennik'], unlockId: 'Nex' }
@@ -987,19 +987,19 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
     { type: 'DROP', name: 'Nex', regions: ['Fremennik'], unlockId: 'Nex' }
   ],
   'Inquisitor\'s Mace': [
-    { type: 'DROP', name: 'The Nightmare', regions: ['Morytania'], unlockId: 'The Nightmare' }
+    { type: 'DROP', name: 'Telos', regions: ['Morytania'], unlockId: 'Telos' }
   ],
   'Inquisitor\'s Great Helm': [
-    { type: 'DROP', name: 'The Nightmare', regions: ['Morytania'], unlockId: 'The Nightmare' }
+    { type: 'DROP', name: 'Telos', regions: ['Morytania'], unlockId: 'Telos' }
   ],
   'Inquisitor\'s Hauberk': [
-    { type: 'DROP', name: 'The Nightmare', regions: ['Morytania'], unlockId: 'The Nightmare' }
+    { type: 'DROP', name: 'Telos', regions: ['Morytania'], unlockId: 'Telos' }
   ],
   'Inquisitor\'s Plateskirt': [
-    { type: 'DROP', name: 'The Nightmare', regions: ['Morytania'], unlockId: 'The Nightmare' }
+    { type: 'DROP', name: 'Telos', regions: ['Morytania'], unlockId: 'Telos' }
   ],
   'Nightmare Staff': [
-    { type: 'DROP', name: 'The Nightmare', regions: ['Morytania'], unlockId: 'The Nightmare' }
+    { type: 'DROP', name: 'Telos', regions: ['Morytania'], unlockId: 'Telos' }
   ],
   'Soulreaper Axe': [
     { type: 'SKILL', name: 'Assembly', regions: ['Any'], inputs: {'Leviathan Lure': 1, 'Siren\'s Staff': 1, 'Executioner\'s Axe Head': 1, 'Eye of the Duke': 1} }
@@ -1038,13 +1038,13 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
     { type: 'DROP', name: 'Spindel', regions: ['Wilderness'], unlockId: 'Spindel' }
   ],
   'Blade of Saeldor': [
-    { type: 'MINIGAME', name: 'The Gauntlet', regions: ['Tirannwn'], unlockId: 'The Gauntlet', notes: 'Enhanced Crystal Weapon Seed' }
+    { type: 'MINIGAME', name: 'Arch-Glacor', regions: ['Tirannwn'], unlockId: 'Arch-Glacor', notes: 'Enhanced Crystal Weapon Seed' }
   ],
   'Bow of Faerdhinen': [
-    { type: 'MINIGAME', name: 'The Gauntlet', regions: ['Tirannwn'], unlockId: 'The Gauntlet', notes: 'Enhanced Crystal Weapon Seed' }
+    { type: 'MINIGAME', name: 'Arch-Glacor', regions: ['Tirannwn'], unlockId: 'Arch-Glacor', notes: 'Enhanced Crystal Weapon Seed' }
   ],
   'Crystal Armour Seed': [
-    { type: 'MINIGAME', name: 'The Gauntlet', regions: ['Tirannwn'], unlockId: 'The Gauntlet' }
+    { type: 'MINIGAME', name: 'Arch-Glacor', regions: ['Tirannwn'], unlockId: 'Arch-Glacor' }
   ],
 
   // --- SLAYER & BOSS UNIQUES ---
@@ -1190,7 +1190,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
   ],
   'Crystal Tool Seed': [
     { type: 'MINIGAME', name: 'Zalcano', regions: ['Tirannwn'], unlockId: 'Zalcano' },
-    { type: 'MINIGAME', name: 'The Gauntlet', regions: ['Tirannwn'], unlockId: 'The Gauntlet' }
+    { type: 'MINIGAME', name: 'Arch-Glacor', regions: ['Tirannwn'], unlockId: 'Arch-Glacor' }
   ],
 
   // --- QUEST ITEMS ---
@@ -2281,7 +2281,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
     { type: 'SKILL', name: 'Herblore', regions: ['Any'], skills: { 'Herblore': 70 }, inputs: { 'Super Strength': 1, 'Crystal Dust': 1 } }
   ],
   'Egniol Potion': [
-    { type: 'SKILL', name: 'Herblore', regions: ['Any'], skills: { 'Herblore': 1 }, inputs: { 'Crystal Dust (The Gauntlet)': 10 } },
+    { type: 'SKILL', name: 'Herblore', regions: ['Any'], skills: { 'Herblore': 1 }, inputs: { 'Crystal Dust (Arch-Glacor)': 10 } },
     { type: 'SKILL', name: 'Herblore', regions: ['Any'], skills: { 'Herblore': 1 }, inputs: { 'Corrupted Dust': 10 } }
   ],
   'Extended Anti-venom+': [
@@ -2452,7 +2452,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
     { type: 'SKILL', name: 'Grinding', regions: ['Any'], inputs: { 'Superior Dragon Bones': 1 }, notes: 'Grind with a Pestle and mortar' }
   ],
   'Crystal Shard': [
-    { type: 'MINIGAME', name: 'The Gauntlet', regions: ['Tirannwn'], unlockId: 'The Gauntlet' },
+    { type: 'MINIGAME', name: 'Arch-Glacor', regions: ['Tirannwn'], unlockId: 'Arch-Glacor' },
     { type: 'SKILL', name: 'Prifddinas Activities', regions: ['Tirannwn'], quests: ['Song of the Elves'], notes: 'Crystal Maths, mining, etc.' }
   ],
   'Crystal Dust': [
@@ -2539,7 +2539,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
   ],
   'Nihil Shard': [
     { type: 'DROP', name: 'Nex', regions: ['Fremennik'], unlockId: 'Nex' },
-    { type: 'DROP', name: 'Tombs of Amascut', regions: ['Kharidian Desert'], unlockId: 'Tombs of Amascut' }
+    { type: 'DROP', name: 'Shadow Reef', regions: ['Kharidian Desert'], unlockId: 'Shadow Reef' }
   ],
   'Helm of Neitiznot': [
     { type: 'QUEST', name: 'The Fremennik Isles', regions: ['Fremennik'], notes: 'Quest Reward' }
@@ -2764,7 +2764,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
   'Overload (-)': [
     { type: 'SKILL', name: 'Mastering Mixology', regions: ['Morytania'], skills: { 'Herblore': 60 }, unlockId: 'Mastering Mixology', inputs: { 'Noxifer': 1, 'Elder (-)': 1, 'Twisted (-)': 1, 'Kodai (-)': 1 } }
   ],
-  'Overload (Chambers of Xeric)': [
+  'Overload (Temple of Aminishi)': [
     { type: 'SKILL', name: 'Mastering Mixology', regions: ['Morytania'], skills: { 'Herblore': 75 }, unlockId: 'Mastering Mixology', inputs: { 'Noxifer': 1, 'Elder Potion': 1, 'Twisted Potion': 1, 'Kodai Potion': 1 } }
   ],
   'Goading Potion': [
@@ -3011,7 +3011,7 @@ export const RESOURCE_CATEGORIES: Record<string, string[]> = {
     'Prayer Enhance', 'Prayer Enhance (+)', 'Prayer Enhance (-)',
     'Revitalisation Potion', 'Revitalisation (+)', 'Revitalisation (-)',
     "Xeric's Aid", "Xeric's Aid (+)", "Xeric's Aid (-)",
-    'Overload (+)', 'Overload (-)', 'Overload (Chambers of Xeric)',
+    'Overload (+)', 'Overload (-)', 'Overload (Temple of Aminishi)',
     'Goading Potion', 'Prayer Regeneration Potion',
   ],
   'Adamant Smithing': [

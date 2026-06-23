@@ -16,7 +16,7 @@ import { MODEL_FILES } from './modelManifest';
 
 /**
  * Prefix a /public path with the app's base URL so it resolves under a project
- * subpath (e.g. GitHub Pages serves the app at /OSRS-Fate-Locked/). Without this
+ * subpath (e.g. GitHub Pages serves the app at /RS3-Fate-Locked/). Without this
  * a hardcoded "/models/x.gltf" 404s on the live site and the model silently
  * falls back to its 2D sprite (which then doesn't rotate).
  */

@@ -26,6 +26,6 @@ describe('boss key tiers', () => {
     expect(r('low')).toBeLessThan(r('mid'));
     expect(r('mid')).toBeLessThan(r('high'));
     expect(r('high')).toBeLessThan(r('raid'));
-    expect(bossTier('Chambers of Xeric')).toBe('raid');
+    expect(bossTier('Temple of Aminishi')).toBe('raid');
   });
 });

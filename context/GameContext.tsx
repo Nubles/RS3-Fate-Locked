@@ -171,7 +171,7 @@ const migrateSave = (saveData: Partial<GameState>): GameState => {
   }
 
   // 5. Deep merge unlocks
-  // This ensures that if we add a new table (e.g. "Sailing") in the code,
+  // This ensures that if we add a new table (e.g. "Summoning") in the code,
   // old saves won't crash the app with undefined arrays.
   mergedState.unlocks = {
       ...defaultUnlocks,

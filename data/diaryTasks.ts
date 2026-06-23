@@ -349,7 +349,7 @@ export const ALL_DIARY_TASKS: DiaryTask[] = [
   { id: 'kou_elite_4', tierId: 'Kourend Elite', description: 'Catch an Anglerfish and cook it whilst in Great Kourend.', skills: { 'Fishing': 82, 'Cooking': 84 }, regions: ['Piscarilius'] },
   { id: 'kou_elite_5', tierId: 'Kourend Elite', description: 'Kill a Hydra in the Karuulm Slayer Dungeon.', skills: { 'Slayer': 95 }, regions: ['Mount Karuulm'] },
   { id: 'kou_elite_6', tierId: 'Kourend Elite', description: 'Create an Ape Atoll teleport tablet.', skills: { 'Magic': 90 }, regions: ['Arceuus'] },
-  { id: 'kou_elite_7', tierId: 'Kourend Elite', description: 'Complete a Raid in the Chambers of Xeric.', regions: ['Mount Quidamortem'] },
+  { id: 'kou_elite_7', tierId: 'Kourend Elite', description: 'Complete a Raid in the Temple of Aminishi.', regions: ['Mount Quidamortem'] },
   { id: 'kou_elite_8', tierId: 'Kourend Elite', description: 'Create your own Battlestaff from scratch within the Farming Guild.', skills: { 'Farming': 85, 'Fletching': 40 }, regions: ['Farming Guild'] },
 
   // ============================================================================

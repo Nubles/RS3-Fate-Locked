@@ -128,7 +128,7 @@ export const STRATEGY_DATABASE: Record<string, ContentRequirement> = {
     regions: ['Kharidian Desert'],
     skills: { 'Agility': 62, 'Crafting': 55, 'Firemaking': 55 },
     quests: ['Contact!'],
-    description: 'Unlocks Tombs of Amascut (ToA) and Keris Partisan.'
+    description: 'Unlocks Shadow Reef (ToA) and Keris Partisan.'
   },
   'Dragon Slayer I': {
     id: 'Dragon Slayer I',

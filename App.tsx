@@ -233,7 +233,7 @@ const Header = ({ setShowAltar, setShowStats, setShowReference, setShowOracle, s
               <WikiIcon file="Crystal_key.png" alt="Fate Locked" Fallback={Key} size={24} className="drop-shadow-md" />
             </div>
             <div>
-              <h1 className="text-lg font-black text-gray-100 tracking-tight uppercase leading-none">Fate Locked Ironman</h1>
+              <h1 className="text-lg font-black text-gray-100 tracking-tight uppercase leading-none">RS3 Fate Locked Ironman</h1>
               <p className="text-[10px] text-gray-500 font-mono mt-0.5 tracking-wide">RNG EDITION COMMAND CENTER</p>
             </div>
             <ProfileSwitcher />

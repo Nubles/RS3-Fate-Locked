@@ -1,8 +1,8 @@
 # Fate Locked Ironman
 
-A companion tracker for the **Fate Locked Ironman** challenge mode in Old School RuneScape — a "snowball" restriction run where your account starts with *everything* locked, and Fate decides what you unlock.
+A companion tracker for the **Fate Locked Ironman** challenge mode in RuneScape 3 RuneScape — a "snowball" restriction run where your account starts with *everything* locked, and Fate decides what you unlock.
 
-**Live app:** https://nubles.github.io/OSRS-Fate-Locked/
+**Live app:** https://nubles.github.io/RS3-Fate-Locked/
 
 ## The concept
 
@@ -68,4 +68,4 @@ To enable it on a fresh fork: **Settings → Pages → Build and deployment → 
 
 ## Disclaimer
 
-Old School RuneScape and its assets are © Jagex Ltd. This is an unofficial fan-made tool and is not affiliated with Jagex.
+RuneScape 3 RuneScape and its assets are © Jagex Ltd. This is an unofficial fan-made tool and is not affiliated with Jagex.

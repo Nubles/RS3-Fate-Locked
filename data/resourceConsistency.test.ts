@@ -69,7 +69,7 @@ describe('boss-drop regions agree with ACTIVITY_REGIONS', () => {
 // pointing at the wrong item name — the kind of bug we want CI to catch.
 const INTENTIONAL_INPUT_LEAVES = new Set([
   'Caviar', 'Chitin', 'Corrupted Dust', 'Cotton Yarn',
-  'Crystal Dust (The Gauntlet)', 'Cup of Hot Water', 'Demonic Tallow',
+  'Crystal Dust (Arch-Glacor)', 'Cup of Hot Water', 'Demonic Tallow',
   'Haddock Eye', 'Haemostatic Poultice',
   'Herb Tea Mix (2 Guams and Harralander)',
   'Herb Tea Mix (2 Guams and Marrentill)',

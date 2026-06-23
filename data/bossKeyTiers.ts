@@ -15,13 +15,15 @@ export type BossTier = 'low' | 'mid' | 'high' | 'raid';
 
 export const BOSS_TIERS: Record<string, BossTier> = {
   // ── Raids ──────────────────────────────────────────────────────────────────
-  'Chambers of Xeric': 'raid',
-  'Theatre of Blood': 'raid',
-  'Tombs of Amascut': 'raid',
+  'Temple of Aminishi': 'raid',
+  'Dragonkin Laboratory': 'raid',
+  'Shadow Reef': 'raid',
+  'Zamorakian Underworld': 'raid',
 
   // ── High (endgame solo/duo, DT2, Inferno, wave survival) ────────────────────
-  'The Gauntlet': 'high',
-  'The Nightmare': 'high',
+  'Arch-Glacor': 'high',
+  'Telos': 'high',
+  'Raksha': 'high',
   "Phosani's Nightmare": 'high',
   'Nex': 'high',
   'Corporeal Beast': 'high',

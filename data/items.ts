@@ -8,7 +8,7 @@ export const SKILLS_LIST = [
   'Prayer', 'Crafting', 'Firemaking', 
   'Magic', 'Fletching', 'Woodcutting', 
   'Runecraft', 'Slayer', 'Farming', 
-  'Construction', 'Hunter', 'Sailing'
+  'Construction', 'Hunter', 'Summoning', 'Dungeoneering', 'Divination', 'Invention', 'Archaeology', 'Necromancy'
 ];
 
 export const EQUIPMENT_SLOTS = [
@@ -118,7 +118,7 @@ export const FARMING_UNLOCK_DETAILS: Record<string, string> = {
 };
 
 export const BOSSES_LIST = [
-  'Chambers of Xeric', 'Theatre of Blood', 'Tombs of Amascut', 'The Gauntlet', 'The Nightmare', 
+  'Temple of Aminishi', 'Dragonkin Laboratory', 'Shadow Reef', 'Zamorakian Underworld', 'Arch-Glacor', 'Telos', 'Raksha', 
   'Phosani\'s Nightmare', 'Nex', 'Corporeal Beast', 'General Graardor', 'Commander Zilyana', 
   'Kree\'arra', 'K\'ril Tsutsaroth', 'Abyssal Sire', 'Alchemical Hydra', 'Cerberus', 
   'Grotesque Guardians', 'Kraken', 'Skotizo', 'Thermonuclear Smoke Devil', 'Araxxor', 
