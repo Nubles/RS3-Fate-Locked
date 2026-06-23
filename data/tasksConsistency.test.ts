@@ -32,6 +32,11 @@ const META_SKILL = new Set(['Quest Points', 'Combat']);
 const VALID_REGION = new Set<string>([
   'Misthalin', ...MISTHALIN_AREAS, ...Object.keys(REGION_GROUPS),
   ...Object.values(REGION_GROUPS).flat(),
+  'City of Um', 'Underworld', 'Ritual Site', 'Um Docks', 'Necryo Tomb', 'Soul Well',
+  'Senntisten', 'Cathedral', 'Asylum', 'Senntisten Graveyard', 'Zarosian Crypts',
+  'Daemonheim', 'Daemonheim Peninsula', 'Frozen Floors', 'Abandoned Floors', 'Furnished Floors', 'Occult Floors', 'Warped Floors',
+  'Anachronia', 'Anachronia Base Camp', 'Lazul Outpost', 'Archaeology Digsite (Anachronia)', 'Agility Course (Anachronia)', 'Slayer Dungeon (Anachronia)',
+  'Eastern Isles', 'Aminishi', 'Tuai Leit', 'Gielinor\'s Edge', 'Waiko', 'Whale\'s Teeth', 'Turtle Islands'
 ]);
 const VALID_CA_TIER = new Set(Object.keys(CA_DATA));
 const VALID_DIARY_TIER = new Set(Object.keys(DIARY_DATA));

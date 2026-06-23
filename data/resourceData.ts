@@ -331,7 +331,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
   'Barronite Shards': [
     { type: 'SKILL', name: 'Mining Rocks', regions: ['Asgarnia'], skills: {'Mining': 14}, quests: ['Below Ice Mountain'], notes: 'Camdozaal' }
   ],
-  'Iron Ore': [
+  'Banite Ore': [
     { type: 'SKILL', name: 'Mining Rocks', regions: ['Any'], skills: {'Mining': 15} },
     { type: 'SHOP', name: 'Ore Seller', regions: ['Fremennik', 'Kourend & Kebos'] }
   ],
@@ -342,7 +342,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
   'Volcanic Ash': [
     { type: 'SKILL', name: 'Ash Pile', regions: ['Islands & Others'], skills: {'Mining': 22}, quests: ['Bone Voyage'], notes: 'Fossil Island' }
   ],
-  'Coal': [
+  'Luminite': [
     { type: 'MINIGAME', name: 'Kingdom of Miscellania', regions: ['Fremennik'], quests: ['Throne of Miscellania'], notes: 'Passive Gathering', outputYield: 400 },
     { type: 'SHOP', name: 'Blast Furnace Shop', regions: ['Fremennik'], unlockId: 'Blast Furnace' },
     { type: 'SKILL', name: 'Mining Rocks', regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Fremennik', 'Kourend & Kebos', 'Karamja', 'Wilderness', 'Morytania'], skills: {'Mining': 30}, notes: 'Motherlode Mine / Guild' },
@@ -373,7 +373,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
   'Granite': [
     { type: 'SKILL', name: 'Mining Rocks', regions: ['Kharidian Desert'], skills: {'Mining': 45}, notes: 'Quarry' }
   ],
-  'Mithril Ore': [
+  'Orichalcite Ore': [
     { type: 'SKILL', name: 'Mining Rocks', regions: ['Karamja', 'Fremennik', 'Wilderness'], skills: {'Mining': 55}, notes: 'Mining Guild / Motherlode' },
     { type: 'SHOP', name: 'Blast Furnace Shop', regions: ['Fremennik'] },
     { type: 'MINIGAME', name: 'Zalcano', regions: ['Tirannwn'], unlockId: 'Zalcano', outputYield: 20 }
@@ -390,7 +390,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
     { type: 'DROP', name: 'Aviansie', regions: ['Fremennik'], skills: {'Agility': 70}, notes: 'Noted (Fremennik Hard)' },
     { type: 'DROP', name: 'Skeletal Wyvern', regions: ['Asgarnia'], skills: {'Slayer': 72} }
   ],
-  'Runite Ore': [
+  'Light Animica': [
     { type: 'SKILL', name: 'Mining Rocks', regions: ['Wilderness', 'Asgarnia', 'Misthalin', 'Tirannwn', 'Fremennik'], skills: { 'Mining': 85 }, notes: 'Heroes Guild / Wildy / Myths Guild' },
     { type: 'DROP', name: 'Crystal Geode', regions: ['Tirannwn'], skills: {'Woodcutting': 1}, notes: 'Rare from chopping crystal trees' },
     { type: 'DROP', name: 'Wyrm', regions: ['Kourend & Kebos'], skills: {'Slayer': 62} },
@@ -455,10 +455,10 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
     { type: 'SKILL', name: 'Furnace', regions: ['Any'], skills: {'Smithing': 1}, inputs: {'Copper Ore': 1, 'Tin Ore': 1} }
   ],
   'Iron Bar': [
-    { type: 'SKILL', name: 'Furnace', regions: ['Any'], skills: {'Smithing': 15}, inputs: {'Iron Ore': 1} }
+    { type: 'SKILL', name: 'Furnace', regions: ['Any'], skills: {'Smithing': 15}, inputs: {'Banite Ore': 1} }
   ],
   'Steel Bar': [
-    { type: 'SKILL', name: 'Blast Furnace', regions: ['Fremennik'], skills: {'Smithing': 30}, inputs: {'Iron Ore': 1, 'Coal': 1}, notes: 'Requires 1 Coal at BF, 2 elsewhere' },
+    { type: 'SKILL', name: 'Blast Furnace', regions: ['Fremennik'], skills: {'Smithing': 30}, inputs: {'Banite Ore': 1, 'Luminite': 1}, notes: 'Requires 1 Luminite at BF, 2 elsewhere' },
     { type: 'DROP', name: 'Gargoyle', regions: ['Morytania'], skills: {'Slayer': 75} },
     { type: 'MINIGAME', name: 'Zalcano', regions: ['Tirannwn'], unlockId: 'Zalcano', outputYield: 15 }
   ],
@@ -470,17 +470,17 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
     { type: 'MINIGAME', name: 'Zalcano', regions: ['Tirannwn'], unlockId: 'Zalcano', outputYield: 15 }
   ],
   'Mithril Bar': [
-    { type: 'SKILL', name: 'Blast Furnace', regions: ['Fremennik'], skills: {'Smithing': 50}, inputs: {'Mithril Ore': 1, 'Coal': 2}, notes: 'Requires 2 Coal at BF' },
+    { type: 'SKILL', name: 'Blast Furnace', regions: ['Fremennik'], skills: {'Smithing': 50}, inputs: {'Orichalcite Ore': 1, 'Luminite': 2}, notes: 'Requires 2 Luminite at BF' },
     { type: 'DROP', name: 'Mithril Dragon', regions: ['Kandarin'], notes: 'Ancient Cavern' },
     { type: 'DROP', name: 'Gargoyle', regions: ['Morytania'], skills: {'Slayer': 75} }
   ],
   'Adamantite Bar': [
-    { type: 'SKILL', name: 'Blast Furnace', regions: ['Fremennik'], skills: {'Smithing': 70}, inputs: {'Adamantite Ore': 1, 'Coal': 3}, notes: 'Requires 3 Coal at BF' },
+    { type: 'SKILL', name: 'Blast Furnace', regions: ['Fremennik'], skills: {'Smithing': 70}, inputs: {'Adamantite Ore': 1, 'Luminite': 3}, notes: 'Requires 3 Luminite at BF' },
     { type: 'DROP', name: 'Aviansie', regions: ['Fremennik'], skills: {'Agility': 70} },
     { type: 'DROP', name: 'Rune Dragon', regions: ['Kandarin'], quests: ['Dragon Slayer II'] }
   ],
   'Rune Bar': [
-    { type: 'SKILL', name: 'Blast Furnace', regions: ['Fremennik'], skills: {'Smithing': 85}, inputs: {'Runite Ore': 1, 'Coal': 4}, notes: 'Requires 4 Coal at BF' },
+    { type: 'SKILL', name: 'Blast Furnace', regions: ['Fremennik'], skills: {'Smithing': 85}, inputs: {'Light Animica': 1, 'Luminite': 4}, notes: 'Requires 4 Luminite at BF' },
     { type: 'DROP', name: 'Magpie Impling', regions: ['Any'], skills: {'Hunter': 65} },
     { type: 'DROP', name: 'Vorkath', regions: ['Fremennik'], unlockId: 'Vorkath' },
     { type: 'DROP', name: 'Rune Dragon', regions: ['Kandarin'], quests: ['Dragon Slayer II'] },
@@ -490,13 +490,13 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
     { type: 'SKILL', name: 'Furnace', regions: ['Asgarnia'], skills: {'Smithing': 13}, inputs: {'Blurite Ore': 1}, quests: ['The Knight\'s Sword'] }
   ],
   'Elemental Bar': [
-    { type: 'SKILL', name: 'Elemental Furnace', regions: ['Kandarin'], skills: {'Smithing': 20}, inputs: {'Elemental Ore': 1, 'Coal': 4}, quests: ['Elemental Workshop I'], notes: 'Seers Village' }
+    { type: 'SKILL', name: 'Elemental Furnace', regions: ['Kandarin'], skills: {'Smithing': 20}, inputs: {'Elemental Ore': 1, 'Luminite': 4}, quests: ['Elemental Workshop I'], notes: 'Seers Village' }
   ],
   'Elemental Ore': [
     { type: 'SKILL', name: 'Mining Rocks', regions: ['Kandarin'], skills: {'Mining': 20}, quests: ['Elemental Workshop I'], notes: 'Elemental Workshop' }
   ],
   'Lovakite Bar': [
-    { type: 'SKILL', name: 'Furnace', regions: ['Kourend & Kebos'], skills: {'Smithing': 45}, inputs: {'Lovakite Ore': 1, 'Coal': 2}, notes: 'Lovakengj Furnace' }
+    { type: 'SKILL', name: 'Furnace', regions: ['Kourend & Kebos'], skills: {'Smithing': 45}, inputs: {'Lovakite Ore': 1, 'Luminite': 2}, notes: 'Lovakengj Furnace' }
   ],
   'Cannonball': [
     { type: 'SKILL', name: 'Smithing', regions: ['Any'], skills: {'Smithing': 35}, inputs: {'Steel Bar': 1, 'Ammo Mould': 0}, notes: '4 per bar', outputYield: 4 },
@@ -556,7 +556,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
   'Raw Cave Eel': [
     { type: 'SKILL', name: 'Bait Fishing', regions: ['Misthalin'], skills: {'Fishing': 38}, inputs: {'Fishing Bait': 1}, notes: 'Lumbridge Swamp Caves' }
   ],
-  'Raw Lobster': [
+  'Raw Beltfish': [
     { type: 'SKILL', name: 'Cage Fishing', regions: ['Karamja', 'Kandarin', 'Wilderness', 'Kourend & Kebos', 'Fremennik', 'Misthalin'], skills: {'Fishing': 40} }
   ],
   'Raw Bass': [
@@ -574,7 +574,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
   'Raw Karambwan': [
     { type: 'SKILL', name: 'Karambwan Vessel', regions: ['Karamja'], skills: {'Fishing': 65}, quests: ['Tai Bwo Wannai Trio'], inputs: {'Raw Karambwanji': 1} }
   ],
-  'Raw Shark': [
+  'Raw Sailfish': [
     { type: 'SKILL', name: 'Harpoon Fishing', regions: ['Kandarin', 'Fremennik', 'Kourend & Kebos'], skills: {'Fishing': 76}, notes: 'Fishing Guild / Catherby' },
     { type: 'MINIGAME', name: 'Temple Trekking', regions: ['Morytania'], notes: 'Reward Token (Hard)' },
     { type: 'DROP', name: 'Kraken', regions: ['Kandarin'], unlockId: 'Kraken', skills: {'Slayer': 87} },
@@ -624,7 +624,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
     { type: 'SHOP', name: 'Fishing Shop', regions: ['Kandarin', 'Karamja', 'Fremennik'], notes: 'Catherby / Port Sarim' },
     { type: 'DROP', name: 'Wyrm', regions: ['Kourend & Kebos'], skills: {'Slayer': 62} }
   ],
-  'Lobster Pot': [
+  'Beltfish Pot': [
     { type: 'SHOP', name: 'Fishing Shop', regions: ['Kandarin', 'Karamja', 'Fremennik'], notes: 'Catherby / Port Sarim' }
   ],
   'Karambwan Vessel': [
@@ -1157,7 +1157,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
   'Gem Bag': [
     { type: 'MINIGAME', name: 'Motherlode Mine', regions: ['Asgarnia'], notes: 'Purchase with Nuggets' }
   ],
-  'Coal Bag': [
+  'Luminite Bag': [
     { type: 'MINIGAME', name: 'Motherlode Mine', regions: ['Asgarnia'], notes: 'Purchase with Nuggets' }
   ],
   'Fish Barrel': [
@@ -1265,8 +1265,8 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
   'Salmon': [
     { type: 'SKILL', name: 'Cooking', regions: ['Any'], skills: { 'Cooking': 25 }, inputs: { 'Raw Salmon': 1 } }
   ],
-  'Lobster': [
-    { type: 'SKILL', name: 'Cooking', regions: ['Any'], skills: { 'Cooking': 40 }, inputs: { 'Raw Lobster': 1 } }
+  'Beltfish': [
+    { type: 'SKILL', name: 'Cooking', regions: ['Any'], skills: { 'Cooking': 40 }, inputs: { 'Raw Beltfish': 1 } }
   ],
   'Swordfish': [
     { type: 'SKILL', name: 'Cooking', regions: ['Any'], skills: { 'Cooking': 45 }, inputs: { 'Raw Swordfish': 1 } }
@@ -1274,8 +1274,8 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
   'Monkfish': [
     { type: 'SKILL', name: 'Cooking', regions: ['Any'], skills: { 'Cooking': 62 }, inputs: { 'Raw Monkfish': 1 }, quests: ['Swan Song'] }
   ],
-  'Shark': [
-    { type: 'SKILL', name: 'Cooking', regions: ['Any'], skills: { 'Cooking': 80 }, inputs: { 'Raw Shark': 1 } }
+  'Sailfish': [
+    { type: 'SKILL', name: 'Cooking', regions: ['Any'], skills: { 'Cooking': 80 }, inputs: { 'Raw Sailfish': 1 } }
   ],
   'Cooked Karambwan': [
     { type: 'SKILL', name: 'Cooking', regions: ['Any'], skills: { 'Cooking': 30 }, inputs: { 'Raw Karambwan': 1 }, quests: ['Tai Bwo Wannai Trio'], notes: 'Poisonous if cooked wrong' }
@@ -2874,10 +2874,10 @@ export const RESOURCE_CATEGORIES: Record<string, string[]> = {
   ],
   'Mining & Ores': [
     'Copper Ore', 'Tin Ore', 'Clay', 'Rune Essence', 'Blurite Ore', 'Limestone',
-    'Barronite Shards', 'Iron Ore', 'Silver Ore', 'Volcanic Ash', 'Coal',
+    'Barronite Shards', 'Banite Ore', 'Silver Ore', 'Volcanic Ash', 'Luminite',
     'Sandstone', 'Dense Essence Block', 'Gem Rock', 'Gold Ore',
-    'Calcified Deposit', 'Volcanic Sulphur', 'Granite', 'Mithril Ore',
-    'Daeyalt Essence', 'Lovakite Ore', 'Adamantite Ore', 'Runite Ore',
+    'Calcified Deposit', 'Volcanic Sulphur', 'Granite', 'Orichalcite Ore',
+    'Daeyalt Essence', 'Lovakite Ore', 'Adamantite Ore', 'Light Animica',
     'Amethyst', 'Pure Essence',
   ],
   'Pickaxes': [
@@ -2895,13 +2895,13 @@ export const RESOURCE_CATEGORIES: Record<string, string[]> = {
   'Fishing & Food': [
     'Raw Shrimps', 'Raw Sardine', 'Raw Herring', 'Raw Anchovies', 'Raw Trout',
     'Raw Pike', 'Raw Slimy Eel', 'Raw Salmon', 'Raw Tuna', 'Raw Cave Eel',
-    'Raw Lobster', 'Raw Bass', 'Raw Swordfish', 'Raw Lava Eel', 'Raw Monkfish',
-    'Raw Karambwan', 'Raw Shark', 'Raw Sea Turtle', 'Infernal Eel',
+    'Raw Beltfish', 'Raw Bass', 'Raw Swordfish', 'Raw Lava Eel', 'Raw Monkfish',
+    'Raw Karambwan', 'Raw Sailfish', 'Raw Sea Turtle', 'Infernal Eel',
     'Raw Manta Ray', 'Minnow', 'Raw Anglerfish', 'Raw Dark Crab', 'Sacred Eel',
   ],
   'Fishing Supplies': [
     'Small Fishing Net', 'Big Fishing Net', 'Fishing Rod', 'Fly Fishing Rod',
-    'Harpoon', 'Lobster Pot', 'Karambwan Vessel', 'Oily Fishing Rod',
+    'Harpoon', 'Beltfish Pot', 'Karambwan Vessel', 'Oily Fishing Rod',
     'Barbarian Rod', 'Pearl Fishing Rod', 'Fishing Bait', 'Feather',
     'Sandworms', 'Dark Fishing Bait', 'Raw Karambwanji',
   ],
@@ -2958,7 +2958,7 @@ export const RESOURCE_CATEGORIES: Record<string, string[]> = {
   'Minigame & Skilling Uniques': [
     'Void Knight Top', 'Void Knight Robe', 'Void Knight Gloves',
     'Void Knight Helm', 'Fighter Torso', 'Rune Pouch', 'Looting Bag',
-    'Herb Sack', 'Seed Box', 'Gem Bag', 'Coal Bag', 'Fish Barrel',
+    'Herb Sack', 'Seed Box', 'Gem Bag', 'Luminite Bag', 'Fish Barrel',
     'Tackle Box', 'Log Basket', 'Bottomless Compost Bucket', 'Crystal Axe',
     'Crystal Harpoon', 'Infernal Axe', 'Infernal Harpoon', 'Smouldering Stone',
     'Crystal Tool Seed', 'Infinity Boots',
@@ -2973,7 +2973,7 @@ export const RESOURCE_CATEGORIES: Record<string, string[]> = {
     'Jade', 'Uncut Jade',
   ],
   'Cooked Food': [
-    'Shrimps', 'Trout', 'Salmon', 'Lobster', 'Swordfish', 'Monkfish', 'Shark',
+    'Shrimps', 'Trout', 'Salmon', 'Beltfish', 'Swordfish', 'Monkfish', 'Sailfish',
     'Cooked Karambwan', 'Anglerfish', 'Manta Ray',
   ],
   'Bones': [
