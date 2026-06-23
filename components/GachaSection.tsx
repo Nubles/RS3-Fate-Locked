@@ -160,7 +160,7 @@ export const GachaSection: React.FC = () => {
   // Helper to get image (mirrored from App.tsx/gameEngine logic)
   const getUnlockImage = (table: string, item: string) => {
     const baseUrl = 'https://oldschool.runescape.wiki/images/';
-    if (UTILITY_ITEM_IDS[item]) return `https://chisel.weirdgloop.org/static/img/osrs-sprite/${UTILITY_ITEM_IDS[item]}.png`;
+    return `https://runescape.wiki/w/Special:Filepath/${encodeURIComponent(item.replace(/ /g, '_'))}.png`;
     
     if (table === 'skill') return `${baseUrl}${item}_icon.png`;
     if (table === 'equipment') return SLOT_CONFIG[item] ? `${baseUrl}${SLOT_CONFIG[item].file}` : undefined;

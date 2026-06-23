@@ -547,7 +547,7 @@ export const NO_WIKI_PAGE = new Set<string>([
 
 /** Wiki link for any content name — a direct article, or a search fallback. */
 export const wikiUrlFor = (name: string): string => {
-  if (WIKI_OVERRIDES[name]) return `https://oldschool.runescape.wiki/w/${WIKI_OVERRIDES[name]}`;
-  if (NO_WIKI_PAGE.has(name)) return `https://oldschool.runescape.wiki/w/Special:Search?search=${encodeURIComponent(name)}`;
-  return `https://oldschool.runescape.wiki/w/${encodeURIComponent(name.replace(/ /g, '_'))}`;
+  if (WIKI_OVERRIDES[name]) return `https://runescape.wiki/w/${WIKI_OVERRIDES[name]}`;
+  if (NO_WIKI_PAGE.has(name)) return `https://runescape.wiki/w/Special:Search?search=${encodeURIComponent(name)}`;
+  return `https://runescape.wiki/w/${encodeURIComponent(name.replace(/ /g, '_'))}`;
 };

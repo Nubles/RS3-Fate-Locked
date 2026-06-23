@@ -177,7 +177,7 @@ const UnlockCard: React.FC<UnlockCardProps> = ({
   const GLOBE = 'https://oldschool.runescape.wiki/images/Globe_icon.png';
   const curated = icon || SPECIAL_ICONS[item];
   const itemId = UTILITY_ITEM_IDS[item];
-  const spriteUrl = itemId ? `https://chisel.weirdgloop.org/static/img/osrs-sprite/${itemId}.png` : null;
+  const spriteUrl = `https://runescape.wiki/w/Special:Filepath/${encodeURIComponent(item.replace(/ /g, '_'))}.png`;
   const curatedUrl = curated ? `https://oldschool.runescape.wiki/images/${curated}` : null;
   const [wikiUrl, setWikiUrl] = useState<string | null>(null);
   const [failed, setFailed] = useState<Record<string, true>>({});
@@ -404,7 +404,7 @@ export const Dashboard: React.FC = () => {
       
       // Prefer ID based image
       if (UTILITY_ITEM_IDS[item]) {
-         imageUrl = `https://chisel.weirdgloop.org/static/img/osrs-sprite/${UTILITY_ITEM_IDS[item]}.png`;
+         imageUrl = `https://runescape.wiki/w/Special:Filepath/${encodeURIComponent(item.replace(/ /g, '_'))}.png`;
       } 
       // Fetch image from wiki for specific tables if no ID or as fallback.
       // Keep this list in sync with GachaSection.tsx's WIKI_FETCH_TYPES.

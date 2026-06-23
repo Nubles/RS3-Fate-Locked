@@ -252,7 +252,7 @@ interface ClueScrollCardProps {
 
 const ClueScrollCard: React.FC<ClueScrollCardProps> = ({ tier, displayRate, bonus, itemId, onClick }) => {
   const style = getTierStyle(tier);
-  const imageUrl = `https://chisel.weirdgloop.org/static/img/osrs-sprite/${itemId}.png`;
+  const imageUrl = `https://runescape.wiki/w/Special:Filepath/Reward_casket_(${tier.toLowerCase()}).png`;
   const { isRolling, triggerRoll } = useRollSuspense(onClick);
   
   return (
