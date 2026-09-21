@@ -6,7 +6,7 @@
 
 ## Quests
 
-- Wiki: **180** quests (156 members + 24 F2P), 335 quest points.
+- Wiki: **184** quests (160 members + 24 F2P), 343 quest points.
 - App: **207** quest entries (includes miniquests / sub-quests, so a higher number is expected).
 - Watch the wiki total: an increase means a new quest was released — add it to `data/questData.ts`.
 
@@ -15,12 +15,12 @@
 | Tier | Wiki | App | Δ |
 | --- | --- | --- | --- |
 | Easy | 41 | 41 | — |
-| Medium | 60 | 60 | — |
-| Hard | 85 | 85 | — |
-| Elite | 162 | 162 | — |
-| Master | 168 | 168 | — |
-| Grandmaster | 121 | 121 | — |
-| **Total** | **637** | **637** | — |
+| Medium | 64 | 64 | — |
+| Hard | 89 | 89 | — |
+| Elite | 166 | 166 | — |
+| Master | 173 | 173 | — |
+| Grandmaster | 122 | 122 | — |
+| **Total** | **655** | **655** | — |
 
 ## Achievement Diaries
 
