@@ -157,7 +157,7 @@ const RollingOverlay = () => (
             <div className="bg-black/50 p-1.5 rounded-full border border-white/20 mb-0.5 shadow-lg">
                 <Dices className="w-4 h-4 text-white animate-spin" />
             </div>
-            <span className="text-[9px] font-black text-white uppercase tracking-[0.2em] text-shadow-osrs animate-pulse leading-none">
+            <span className="text-[9px] font-black text-white uppercase tracking-[0.2em] text-shadow-rs3 animate-pulse leading-none">
                 FATE
             </span>
         </div>

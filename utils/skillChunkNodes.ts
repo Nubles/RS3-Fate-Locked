@@ -4,13 +4,16 @@
  * Scans the whole chunk dataset — objects, NPCs and monsters — and classifies
  * each entity to a skill + level, so the tab can show *everywhere* you can
  * train a skill on the map:
- *   • objects  → resourceReqFor (trees, ores, fishing spots, RC altars, stalls)
- *     + RS3 agility-course obstacles + farming patches
- *   • NPCs/monsters → curated Hunter-creature and Thieving-pickpocket tables
- *     with RS3-wiki-verified levels (these never appear as objects)
+ *   • objects  → resourceReqFor (trees, ores, RC altars, stalls) + farming
+ *     patches + use-stations
+ *   • NPCs/monsters → resourceReqFor for fishing spots (NPCs in RS3), plus
+ *     curated Divination-wisp, Hunter-creature and Thieving-pickpocket tables
+ *     with RS3-wiki levels (these never appear as objects)
  *
  * Levels are grouped by the tier that unlocks them (cap model), matching the
- * resource gate. Names come from our own chunk-content dataset.
+ * resource gate. Names are the RS3 cache names in our chunk-content dataset.
+ * Agility has no chunk nodes: RS3 course obstacles carry generic names (see
+ * the Agility shortcuts panel for level-gated shortcuts instead).
  */
 import { chunkContentService, EntityKind } from '../services/ChunkContentService';
 import { resourceReqFor } from './chunkResources';
@@ -63,6 +66,20 @@ const NOT_NODE = /butterfly ray|guard dog|guard captain|\bgnome (archer|mage|tro
 // butterfly — isn't mistaken for a Thieving "knight"). First match wins.
 // Levels are RS3 values (runescape.wiki Hunter/Thieving level up tables).
 const NPC_RULES: [RegExp, Req][] = [
+  // ── Divination: wisps (enriched variants share the level) ──
+  [/\bpale wisp/i, { skill: 'Divination', level: 1 }],
+  [/flickering wisp/i, { skill: 'Divination', level: 10 }],
+  [/bright wisp/i, { skill: 'Divination', level: 20 }],
+  [/glowing wisp/i, { skill: 'Divination', level: 30 }],
+  [/sparkling wisp/i, { skill: 'Divination', level: 40 }],
+  [/gleaming wisp/i, { skill: 'Divination', level: 50 }],
+  [/vibrant wisp/i, { skill: 'Divination', level: 60 }],
+  [/lustrous wisp/i, { skill: 'Divination', level: 70 }],
+  [/elder wisp/i, { skill: 'Divination', level: 75 }],
+  [/brilliant wisp/i, { skill: 'Divination', level: 80 }],
+  [/radiant wisp/i, { skill: 'Divination', level: 85 }],
+  [/luminous wisp/i, { skill: 'Divination', level: 90 }],
+  [/incandescent wisp/i, { skill: 'Divination', level: 95 }],
   // ── Hunter: birds ──
   [/crimson swift/i, { skill: 'Hunter', level: 1 }],
   [/golden warbler/i, { skill: 'Hunter', level: 5 }],
@@ -159,29 +176,16 @@ const npcReq = (name: string): Req | null => {
   return null;
 };
 
-// RS3 Agility-course obstacles (named by their course, so the level is the
-// course requirement). Advanced routes first so they win over their base
-// course. Generic shortcuts aren't included — their requirements vary widely
-// and aren't derivable from the chunk name.
-const AGILITY_OBJ: [RegExp, number][] = [
-  [/advanced barbarian/i, 90], [/advanced gnome/i, 85],
-  [/dorgesh-kaan agility/i, 80], [/hefin (agility )?course/i, 77],
-  [/het'?s oasis/i, 65], [/werewolf agility/i, 60], [/bandos agility/i, 60],
-  [/wilderness agility/i, 52], [/ape atoll agility/i, 48],
-  [/barbarian outpost agility|barbarian agility/i, 35],
-  [/agility pyramid/i, 30], [/penguin agility/i, 30], [/anachronia agility/i, 30],
-  [/gnome stronghold agility|gnome agility/i, 1], [/burthorpe agility/i, 1],
-];
-
 const reqFor = (name: string, kind: EntityKind): Req | null => {
   if (kind === 'object') {
     const r = resourceReqFor(name);
     if (r) return r;
     if (FARMING_PATCH.test(name) && !NOT_PATCH.test(name)) return { skill: 'Farming', level: 1 };
-    for (const [re, level] of AGILITY_OBJ) if (re.test(name)) return { skill: 'Agility', level };
     return stationReq(name);
   }
-  return npcReq(name); // npc | monster
+  // npc | monster — RS3 fishing spots are NPCs ("Fishing spot (net, bait)").
+  if (/^fishing spot/i.test(name)) return resourceReqFor(name);
+  return npcReq(name);
 };
 
 /** Gatherable/trainable nodes for `skill` present in the chunk data, by level. */

@@ -138,7 +138,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
 
   const SortIcon = ({ column }: { column: SortKey }) => {
       if (sortConfig.key !== column) return <ArrowUpDown size={12} className="opacity-30" />;
-      return sortConfig.direction === 'asc' ? <ArrowUp size={12} className="text-osrs-gold" /> : <ArrowDown size={12} className="text-osrs-gold" />;
+      return sortConfig.direction === 'asc' ? <ArrowUp size={12} className="text-rs3-gold" /> : <ArrowDown size={12} className="text-rs3-gold" />;
   };
 
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -167,10 +167,10 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
 
   return (
     <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Fate Analytics" tabIndex={-1} className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="bg-[#161616] border border-osrs-border w-full max-w-5xl rounded-lg shadow-2xl overflow-hidden flex flex-col h-[85vh]">
+      <div className="bg-[#161616] border border-rs3-border w-full max-w-5xl rounded-lg shadow-2xl overflow-hidden flex flex-col h-[85vh]">
         
         {/* Header */}
-        <div className="bg-[#2d2d2d] p-4 border-b border-osrs-border flex justify-between items-center shrink-0">
+        <div className="bg-[#2d2d2d] p-4 border-b border-rs3-border flex justify-between items-center shrink-0">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-900/30 rounded border border-blue-500/30">
                 <Activity className="w-5 h-5 text-blue-400" />
@@ -183,22 +183,22 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex border-b border-osrs-border bg-[#1a1a1a] shrink-0">
+        <div className="flex border-b border-rs3-border bg-[#1a1a1a] shrink-0">
             <button 
                 onClick={() => setActiveTab('overview')}
-                className={`px-6 py-3 text-sm font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'overview' ? 'border-osrs-gold text-osrs-gold bg-osrs-gold/5' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+                className={`px-6 py-3 text-sm font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'overview' ? 'border-rs3-gold text-rs3-gold bg-rs3-gold/5' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
             >
                 <PieChart size={16} /> Overview
             </button>
             <button 
                 onClick={() => setActiveTab('charts')}
-                className={`px-6 py-3 text-sm font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'charts' ? 'border-osrs-gold text-osrs-gold bg-osrs-gold/5' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+                className={`px-6 py-3 text-sm font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'charts' ? 'border-rs3-gold text-rs3-gold bg-rs3-gold/5' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
             >
                 <LineChartIcon size={16} /> Visualizations
             </button>
             <button 
                 onClick={() => setActiveTab('breakdown')}
-                className={`px-6 py-3 text-sm font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'breakdown' ? 'border-osrs-gold text-osrs-gold bg-osrs-gold/5' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+                className={`px-6 py-3 text-sm font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'breakdown' ? 'border-rs3-gold text-rs3-gold bg-rs3-gold/5' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
             >
                 <List size={16} /> Activity Breakdown
             </button>
@@ -233,11 +233,11 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
                         </div>
                         <div className="bg-[#1f1f1f] p-4 rounded border border-white/5 flex flex-col items-center">
                             <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">RNG Keys</span>
-                            <span className="text-2xl font-bold text-osrs-gold flex items-center gap-2"><Key size={16} /> {stats.actualSuccesses}</span>
+                            <span className="text-2xl font-bold text-rs3-gold flex items-center gap-2"><Key size={16} /> {stats.actualSuccesses}</span>
                         </div>
                         <div className="bg-[#1f1f1f] p-4 rounded border border-white/5 flex flex-col items-center">
                             <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Pity Keys</span>
-                            <span className="text-2xl font-bold text-osrs-pity flex items-center gap-2"><Shield size={16} /> {stats.pityKeys}</span>
+                            <span className="text-2xl font-bold text-rs3-pity flex items-center gap-2"><Shield size={16} /> {stats.pityKeys}</span>
                         </div>
                         <div className="bg-[#1f1f1f] p-4 rounded border border-white/5 flex flex-col items-center">
                             <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Max Dry Streak</span>

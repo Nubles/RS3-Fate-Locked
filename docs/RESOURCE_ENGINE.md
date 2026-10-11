@@ -229,14 +229,11 @@ Endpoint: `https://runescape.wiki/api.php?action=bucket&format=json&query=…`
   Asgarnia, Rasial → Morytania, Deep Sea Fishing → Kandarin, …).
 - Farming sources carry the patch type as `unlockId` (`'Herb'`, `'Bush'`,
   `'Tree'`, `'Cactus'`, …) from `FARMING_PATCH_LIST`.
-- **Chunk data.** `public/chunk-content.json` is Old School chunk-picker data
-  on the Old School map grid. RS3 shares the mainland geography, so the
-  chunk-truth test and `utils/chunkLocations.ts` use it, but both ignore any
-  chunk painted with a non-RS3 continent. `utils/chunkResources.ts` gates
-  gathering nodes with RS3 levels and leaves OSRS-only node types (amethyst,
-  lovakite, sulphur, anglerfish/dark crab spots, Sailing trees, Kourend
-  altars) ungated. RS3-only nodes (necrite, banite, animica, elder trees,
-  Menaphos, Anachronia, the Arc, …) don't appear in the dataset at all.
+- **Chunk data.** `public/chunk-content.json` is built from RS3 cache data
+  (mejrs `data_rs3`: NPC spawns, objects, map labels) by
+  `scripts/sync-chunk-content.mjs`, on the RS3 map grid (`cx = x>>6`,
+  `cy = y>>6`). `utils/chunkResources.ts` gates gathering nodes with RS3
+  levels, including RS3-only nodes such as necrite, banite and elder trees.
 
 ---
 
@@ -265,8 +262,9 @@ Endpoint: `https://runescape.wiki/api.php?action=bucket&format=json&query=…`
   and inks, Summoning pouches, Dungeoneering, Hunter/Farming produce beyond
   the potion secondaries, hydrix jewellery, elite-tier weapon lines beyond
   those listed, +1…+5 smithing upgrades, juju/combination potions.
-- **Chunk data is OSRS.** RS3-only areas (Menaphos, Prifddinas interior,
-  Anachronia, the Arc, City of Um, Fort Forinthry) have no chunk coverage.
+- **Chunk data gaps.** The cache data has no quest steps, shop stock or
+  Slayer master tables, lodestone positions are hand-written, and the Arc
+  and Havenhythe are off the map grid.
 - **GE prices** integration was deliberately deferred. `services/PriceService.ts`
   exists.
 

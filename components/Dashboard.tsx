@@ -62,8 +62,8 @@ const AchievementsModal = lazy(() => import('./AchievementsModal').then(m => ({ 
 const FateForecastModal = lazy(() => import('./FateForecastModal').then(m => ({ default: m.FateForecastModal })));
 // Rival Ghost modal — race a simulated nemesis or a friend's run.
 const RivalModal = lazy(() => import('./RivalModal').then(m => ({ default: m.RivalModal })));
-// Boss Kill Planner — DPS/TTK/readiness vs your unlocked bosses. OSRS-data
-// based; its header button is hidden in the RS3 mode (palette route kept).
+// Boss Kill Planner — RS3 readiness / ability-damage TTK vs your unlocked bosses
+// (curated RS3 boss + gear datasets in data/rs3Bosses.ts, data/rs3Gear.ts).
 const BossKillPlanner = lazy(() => import('./BossKillPlanner').then(m => ({ default: m.BossKillPlanner })));
 // Auto-Roll (prototype) — sync a run from a real account via the hiscores API.
 const AutoRollPanel = lazy(() => import('./AutoRollPanel').then(m => ({ default: m.AutoRollPanel })));
@@ -430,8 +430,8 @@ export const Dashboard: React.FC = () => {
   const renderCharacterTab = () => (
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 h-full overflow-y-auto pr-2 custom-scrollbar pb-10">
         {/* Equipment Lab — interactive paper-doll (click a slot for its tier
-            ladder + upgrade) and a target-loadout planner. (The OSRS fork's DPS
-            calculator is not shown — RS3 has no equivalent stats dataset.) */}
+            ladder + upgrade) and a target-loadout planner, backed by the bundled
+            RS3 gear dataset (data/rs3Gear.ts). */}
         <EquipmentLab onUpgrade={(slot) => handleSpecialUnlock(TableType.EQUIPMENT, slot)} />
 
         {/* Skills Section */}
@@ -873,7 +873,7 @@ export const Dashboard: React.FC = () => {
 
   return (
     <>
-    <div className="bg-osrs-panel border border-osrs-border rounded-lg shadow-lg flex flex-col h-full overflow-hidden relative">
+    <div className="bg-rs3-panel border border-rs3-border rounded-lg shadow-lg flex flex-col h-full overflow-hidden relative">
       {pendingSpecial && (
           <VoidReveal itemName={pendingSpecial.item} itemType={pendingSpecial.table} itemImage={pendingSpecial.image} onComplete={finalizeSpecial} animationsEnabled={animationsEnabled} />
       )}
@@ -927,7 +927,7 @@ export const Dashboard: React.FC = () => {
       {/* Header */}
       <div className="p-4 border-b border-white/5 bg-[#1b1b1b] shrink-0">
          <div className="flex flex-wrap justify-between items-center gap-y-2 mb-3">
-             <h2 className="text-lg font-bold text-osrs-gold flex flex-wrap items-center gap-2 min-w-0">
+             <h2 className="text-lg font-bold text-rs3-gold flex flex-wrap items-center gap-2 min-w-0">
                  <span className="whitespace-nowrap">Progression Dashboard</span>
                  <span
                    className="text-[10px] font-normal text-amber-200 bg-amber-900/40 px-2 py-0.5 rounded border border-amber-500/30 whitespace-nowrap shrink-0"
@@ -975,8 +975,14 @@ export const Dashboard: React.FC = () => {
                  Fate Thread
                </button>
                <RivalHeaderButton onClick={() => setShowRival(true)} />
-               {/* Boss Kill Planner button hidden in the RS3 mode: it computes OSRS
-                   DPS against the OSRS monster dataset (see services/MonsterService). */}
+               <button
+                 onClick={() => setShowBossPlanner(true)}
+                 className="flex items-center gap-1.5 px-2.5 py-1 rounded border border-red-500/30 bg-red-950/30 hover:bg-red-900/40 text-red-300 text-[11px] font-medium whitespace-nowrap transition-colors"
+                 title="Plan RS3 boss kills: readiness, ability damage and time-to-kill"
+               >
+                 <Skull size={12} />
+                 Kill Planner
+               </button>
                <button
                  onClick={() => setShowRunCard(true)}
                  className="flex items-center gap-1.5 px-2.5 py-1 rounded border border-amber-500/30 bg-amber-950/30 hover:bg-amber-900/40 text-amber-300 text-[11px] font-medium whitespace-nowrap transition-colors"

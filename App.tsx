@@ -38,7 +38,6 @@ const StrategyGuide = lazy(() => import('./components/StrategyGuide').then(m => 
 const SupplyChainCalculator = lazy(() => import('./components/SupplyChainCalculator').then(m => ({ default: m.SupplyChainCalculator })));
 const GameModePicker = lazy(() => import('./components/GameModePicker').then(m => ({ default: m.GameModePicker })));
 const SyncCodeModal = lazy(() => import('./components/SyncCodeModal').then(m => ({ default: m.SyncCodeModal })));
-const ModelGallery = lazy(() => import('./components/ModelGallery').then(m => ({ default: m.ModelGallery })));
 import { obfuscateFateSave, deobfuscateFateSave } from './utils/encryption';
 import { GameState } from './types';
 import { Key, Sparkles, Download, Upload, RotateCcw, BarChart3, HelpCircle, Dna, PlayCircle, PauseCircle, Search, Swords, ShoppingBag, ScrollText, Compass, Database, SlidersHorizontal, Link2, Lightbulb } from 'lucide-react';
@@ -359,7 +358,7 @@ const ControlPanel = () => {
         <button
           data-tour="spend"
           onClick={() => setActiveTab('SPEND')}
-          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'SPEND' ? 'bg-[#252525] text-osrs-gold border-b-2 border-osrs-gold' : 'text-gray-500 hover:text-gray-300 hover:bg-[#1a1a1a]'}`}
+          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'SPEND' ? 'bg-[#252525] text-rs3-gold border-b-2 border-rs3-gold' : 'text-gray-500 hover:text-gray-300 hover:bg-[#1a1a1a]'}`}
         >
           <WikiIcon file="Mystery_box.png" alt="Spend Keys" Fallback={ShoppingBag} size={15} className={activeTab === 'SPEND' ? '' : 'opacity-60 grayscale'} /> Spend Keys
         </button>
@@ -435,7 +434,6 @@ const GameLayout = () => {
         'open:supply': setShowSupplyChain,
         'open:gamemode': setShowGameMode,
         'open:sync': setShowSyncCode,
-        'open:gallery': setShowGallery,
       };
       map[target]?.(true);
     };
@@ -443,7 +441,6 @@ const GameLayout = () => {
     return () => window.removeEventListener('fate:nav', onNav);
   }, []);
   const [showGameMode, setShowGameMode] = useState(false);
-  const [showGallery, setShowGallery] = useState(false);
   const [showSyncCode, setShowSyncCode] = useState(false);
   const [syncImportCode, setSyncImportCode] = useState<string | undefined>(undefined);
   const [activeRitualAnim, setActiveRitualAnim] = useState<'NONE' | 'LUCK' | 'GREED' | 'CHAOS' | 'TRANSMUTE'>('NONE');
@@ -509,7 +506,7 @@ const GameLayout = () => {
   }, anyModalOpen);
 
   return (
-    <div className="min-h-screen bg-osrs-bg text-osrs-text pb-6 font-sans selection:bg-osrs-gold selection:text-black relative">
+    <div className="min-h-screen bg-rs3-bg text-rs3-text pb-6 font-sans selection:bg-rs3-gold selection:text-black relative">
       <EffectsLayer />
 
       {/* Shared notification stacks: every toast/reveal portals into one of
@@ -535,7 +532,6 @@ const GameLayout = () => {
         {showSupplyChain && <SupplyChainCalculator initialQuery={supplyChainPreset} onClose={() => { setShowSupplyChain(false); setSupplyChainPreset(undefined); }} />}
         {showGameMode && <GameModePicker onClose={() => setShowGameMode(false)} />}
         {showSyncCode && <SyncCodeModal onClose={() => { setShowSyncCode(false); setSyncImportCode(undefined); }} initialImportCode={syncImportCode} />}
-        {showGallery && <ModelGallery onClose={() => setShowGallery(false)} />}
       </Suspense>
 
       <Header

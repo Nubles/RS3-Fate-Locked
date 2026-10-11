@@ -2,8 +2,9 @@
  * Combat-power model for the Equipment Lab.
  *
  * Fate Locked has no real item stats — equipment is abstracted as a tier (0–9)
- * per slot and skills as a tier (0–10). RS3 combat is ability-based and there's
- * no public stats dataset to feed a true DPS calc, so instead we derive a consistent set of 0–100 "power" ratings from the
+ * per slot and skills as a tier (0–10). This is the quick, abstract summary; the
+ * real-item RS3 numbers live in the Gear / DPS tabs (data/rs3Gear.ts,
+ * utils/dps.ts). Here we derive a consistent set of 0–100 "power" ratings from the
  * tiers the player has unlocked. Each axis blends the relevant gear slots with
  * the relevant skills (50/50), giving a stable, explainable readout that grows
  * as a run progresses.

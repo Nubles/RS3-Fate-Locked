@@ -294,7 +294,7 @@ export const CollectionLog: React.FC<CollectionLogProps> = ({ searchTerm = '' })
                     <span className="text-green-400 font-mono">({formatNumber(mostValuable.value)})</span>
                 </div>
             )}
-            <div className="flex items-center gap-2 text-xs font-mono bg-black/30 px-3 py-1 rounded border border-[#5a5245] text-osrs-gold shadow-inner">
+            <div className="flex items-center gap-2 text-xs font-mono bg-black/30 px-3 py-1 rounded border border-[#5a5245] text-rs3-gold shadow-inner">
                 <Coins size={12} className="text-yellow-400" />
                 <span>{formatNumber(vaultValue)} gp</span>
             </div>

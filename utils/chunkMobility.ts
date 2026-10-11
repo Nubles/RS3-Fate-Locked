@@ -8,12 +8,13 @@
  * on a merchant category.
  *
  * Facts (which node belongs to which RS3 transport network) follow the
- * RuneScape Wiki's Transportation article; the node *names* come from our own
- * chunk-content dataset. Every network returned is a MOBILITY_LIST entry.
+ * RuneScape Wiki's Transportation article; the node *names* are the RS3 names
+ * in our chunk-content dataset ("Varrock lodestone", "Spirit tree", "Fairy
+ * ring", "Canoe station", "Obelisk"). Every network returned is a
+ * MOBILITY_LIST entry.
  */
 
-// Ordered specific → general; first match wins. Names target the real object
-// strings seen in the dataset (see the mobility audit).
+// Ordered specific → general; first match wins.
 const MOBILITY_RULES: [RegExp, string][] = [
   [/lodestone/i, 'Lodestone Network'],
   [/spirit tree/i, 'Spirit Trees'],

@@ -78,8 +78,9 @@ The Old School version shipped a RuneLite plugin; RuneLite is OSRS-only, so the 
 
 ## Known limitations
 
-- The world map image is the shared Gielinor mainland; RS3-only areas (Daemonheim, Anachronia, the Arc, Menaphos, Prifddinas and others) are listed in the region panel but have no painted chunks on the map.
-- RS3 combat is ability-based, and there is no public RS3 equipment/monster stats dataset like the OSRS DPS calculator's, so the Equipment Lab shows equipment tiers only (no DPS calculator).
+- The world map is the RS3 map (mainland incl. Menaphos, Prifddinas, Fort Forinthry and the Daemonheim peninsula, plus Anachronia), stitched from the RuneScape Wiki maps project's cache-rendered tiles by mejrs (`scripts/build-rs3-map.py`). The Arc (far north) and Havenhythe (not in that tile set yet) aren't drawn and are listed in an "Off the map" panel; instanced areas (Daemonheim floors, Zanaris, Mazcab, …) are list-only too.
+- Shooting stars: RS3 telescopes announce a region, not a site, so the map's **Star sites** layer shows every region's landing sites (`public/star-sites.json`, per the RuneScape Wiki) and highlights the announced region. RS3 has no public live-star feed, so none is built in; a feed returning `[{ world, region, size?, earliest?, latest?, site? }]` with CORS can be set via the layer's *feed* button (saved in `localStorage` as `fate_star_feed`) or `VITE_STAR_FEED` at build time.
+- The Equipment Lab's Gear view, DPS calculator and the Boss Kill Planner use a bundled, curated RS3 dataset (`data/rs3Gear.ts`, `data/rs3Bosses.ts`) and the RuneScape Wiki's ability-damage and hit-chance formulas. DPS is an estimate: each global cooldown averages a chosen rotation multiplier (basic / Revolution / advanced), and Necromancy affinities are estimated where the wiki doesn't list them.
 - The RS3 hiscores do not allow cross-origin requests from a browser, so Auto-Roll falls back to pasting your levels when the lookup is blocked.
 
 ## Disclaimer

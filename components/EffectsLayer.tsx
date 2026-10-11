@@ -113,7 +113,7 @@ export const EffectsLayer: React.FC = () => {
           }}
         >
           {p.type === 'key' ? (
-             <Key className="text-osrs-gold w-8 h-8 drop-shadow-[0_0_10px_#fbbf24]" />
+             <Key className="text-rs3-gold w-8 h-8 drop-shadow-[0_0_10px_#fbbf24]" />
           ) : (
              <Sparkles className="text-purple-400 w-8 h-8 drop-shadow-[0_0_10px_#a855f7]" />
           )}
@@ -122,7 +122,7 @@ export const EffectsLayer: React.FC = () => {
 
       {rollFeedback.map(f => (
         <div key={f.id}
-             className="fixed z-[200] pointer-events-none font-bold text-sm flex flex-col items-center justify-center text-shadow-osrs whitespace-nowrap"
+             className="fixed z-[200] pointer-events-none font-bold text-sm flex flex-col items-center justify-center text-shadow-rs3 whitespace-nowrap"
              style={{
                  left: f.x,
                  top: f.y,

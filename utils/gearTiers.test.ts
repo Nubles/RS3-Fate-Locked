@@ -1,34 +1,40 @@
 import { describe, it, expect } from 'vitest';
 import { EQUIPMENT_TIER_MAX } from '../constants';
-import {
-  powerScore, assignTiersForSlot, canonicalTierFromName,
-  itemStyle, buildTierAnchors, anchoredTier,
-} from './gearTiers';
-import { ZERO_BONUSES, GearBonuses } from './gearStats';
-
-const b = (over: Partial<GearBonuses>): GearBonuses => ({ ...ZERO_BONUSES, ...over });
+import { canonicalTierFromName, fateTierForRs3Tier, maxRs3TierForFate, RS3_TIER_CAP } from './gearTiers';
+import { ALL_GEAR } from './bossPlanner';
 
 describe('gear tiers', () => {
-  it('powerScore is zero for no bonuses and rises with offence', () => {
-    expect(powerScore(ZERO_BONUSES)).toBe(0);
-    expect(powerScore(b({ slash: 80 }))).toBeGreaterThan(powerScore(b({ slash: 10 })));
-    expect(powerScore(b({ slash: 80, meleeStr: 80 }))).toBeGreaterThan(powerScore(b({ slash: 80 })));
+  it('maps RS3 item tiers onto the Codex Fate ladder', () => {
+    expect(fateTierForRs3Tier(1)).toBe(1);
+    expect(fateTierForRs3Tier(10)).toBe(1);
+    expect(fateTierForRs3Tier(20)).toBe(2);
+    expect(fateTierForRs3Tier(50)).toBe(3);
+    expect(fateTierForRs3Tier(60)).toBe(4);
+    expect(fateTierForRs3Tier(70)).toBe(5);
+    expect(fateTierForRs3Tier(75)).toBe(5);
+    expect(fateTierForRs3Tier(80)).toBe(6);
+    expect(fateTierForRs3Tier(85)).toBe(7);
+    expect(fateTierForRs3Tier(87)).toBe(7);
+    expect(fateTierForRs3Tier(90)).toBe(8);
+    expect(fateTierForRs3Tier(92)).toBe(9);
+    expect(fateTierForRs3Tier(95)).toBe(9);
+    expect(RS3_TIER_CAP.length).toBe(EQUIPMENT_TIER_MAX + 1);
   });
 
-  it('counts defence (weighted) and prayer', () => {
-    expect(powerScore(b({ defStab: 100 }))).toBeGreaterThan(0);
-    expect(powerScore(b({ prayer: 10 }))).toBeGreaterThan(0);
+  it('maxRs3TierForFate is the inverse cap and is monotonic', () => {
+    expect(maxRs3TierForFate(0)).toBe(0);
+    for (let f = 1; f <= EQUIPMENT_TIER_MAX; f++) {
+      expect(maxRs3TierForFate(f)).toBeGreaterThan(maxRs3TierForFate(f - 1));
+      expect(fateTierForRs3Tier(maxRs3TierForFate(f))).toBe(f);
+    }
   });
 
-  it('buckets a large slot across the full tier range, monotonically', () => {
-    const items = Array.from({ length: 90 }, (_, i) => ({ id: i, score: i }));
-    const tiers = assignTiersForSlot(items);
-    const values = [...tiers.values()];
-    expect(Math.min(...values)).toBe(1);
-    expect(Math.max(...values)).toBe(EQUIPMENT_TIER_MAX);
-    // Stronger item never lands below a weaker one.
-    for (let i = 1; i < items.length; i++) {
-      expect(tiers.get(items[i].id)!).toBeGreaterThanOrEqual(tiers.get(items[i - 1].id)!);
+  it('dataset items agree with the Codex name ladder (where the name is classifiable)', () => {
+    for (const it of ALL_GEAR) {
+      if (it.style === 'all' || it.style === 'necromancy') continue;
+      const byName = canonicalTierFromName(it.name);
+      if (byName == null) continue;
+      expect(Math.abs(byName - it.fateTier), it.name).toBeLessThanOrEqual(1);
     }
   });
 
@@ -91,36 +97,5 @@ describe('gear tiers', () => {
   it('returns null only for genuinely unclassifiable items', () => {
     expect(canonicalTierFromName('Cabbage')).toBeNull();
     expect(canonicalTierFromName('Spinning plate')).toBeNull();
-  });
-
-  it('detects an item\'s combat style', () => {
-    expect(itemStyle(b({ slash: 80, meleeStr: 80 }))).toBe('melee');
-    expect(itemStyle(b({ ranged: 60, rangedStr: 30 }))).toBe('ranged');
-    expect(itemStyle(b({ magic: 30, magicStr: 15 }))).toBe('magic');
-    expect(itemStyle(b({ defStab: 100 }))).toBe('armour');
-  });
-
-  it('anchored fallback places unknown gear against the canonical ladder, per style', () => {
-    // Canonical melee anchors: a weak T2 and a strong T8.
-    const known = [
-      { tier: 2, bonuses: b({ slash: 20, meleeStr: 20 }) },
-      { tier: 8, bonuses: b({ slash: 120, meleeStr: 120 }) },
-    ];
-    const anchors = buildTierAnchors(known);
-    // A whip-like melee item (strong) lands at/above the strong anchor.
-    expect(anchoredTier(b({ slash: 110, meleeStr: 100 }), anchors)).toBeGreaterThanOrEqual(7);
-    // A weak melee item lands at the low anchor.
-    expect(anchoredTier(b({ slash: 25, meleeStr: 15 }), anchors)).toBeLessThanOrEqual(3);
-    // Stronger never tiers below weaker.
-    expect(anchoredTier(b({ slash: 120, meleeStr: 120 }), anchors))
-      .toBeGreaterThanOrEqual(anchoredTier(b({ slash: 40, meleeStr: 40 }), anchors));
-  });
-
-  it('handles empty and tiny slots without crashing', () => {
-    expect(assignTiersForSlot([]).size).toBe(0);
-    const tiny = assignTiersForSlot([{ id: 1, score: 5 }, { id: 2, score: 50 }]);
-    expect(tiny.get(1)).toBe(1);
-    expect(tiny.get(2)!).toBeGreaterThanOrEqual(1);
-    expect(tiny.get(2)!).toBeLessThanOrEqual(EQUIPMENT_TIER_MAX);
   });
 });

@@ -109,8 +109,8 @@ const SpendCard: React.FC<SpendCardProps> = ({
            <span className="flex items-center gap-1 px-1.5 py-0.5 bg-emerald-900/40 text-emerald-300 text-[9px] font-bold uppercase rounded border border-emerald-700/50 tracking-wider"><Check size={10} strokeWidth={3} />Done</span>
         ) : (
            <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-black/40 border border-white/10 shadow-sm">
-              <Key size={10} className="text-osrs-gold" />
-              <span className="text-osrs-gold font-bold text-sm leading-none text-shadow-osrs">{priceDisplay}</span>
+              <Key size={10} className="text-rs3-gold" />
+              <span className="text-rs3-gold font-bold text-sm leading-none text-shadow-rs3">{priceDisplay}</span>
            </div>
         )}
       </div>
@@ -331,7 +331,7 @@ export const GachaSection: React.FC = () => {
                         <p className="text-xs text-red-300/60 font-mono">Unlocks a random item from ANY category.</p>
                     </div>
                 </div>
-                <div className="text-2xl font-bold text-red-500 group-hover:scale-110 transition-transform relative z-10 text-shadow-osrs">{chaosKeys}</div>
+                <div className="text-2xl font-bold text-red-500 group-hover:scale-110 transition-transform relative z-10 text-shadow-rs3">{chaosKeys}</div>
             </button>
         ) : (
             <div className="w-full p-3 rounded-lg border border-white/5 bg-[#1a1a1a] flex items-center justify-between relative overflow-hidden">

@@ -16,11 +16,10 @@ import type { ChunkCoord } from './mapCoords';
 
 const key = (cx: number, cy: number) => `${cx},${cy}`;
 
-// The chunk grid is the Old School map, whose mainland matches RS3. Only RS3
-// continents count: should the authoring data ever paint an OSRS-only block
-// (Kourend & Kebos, Varlamore, The Open Seas, …), its chunks — and any
-// sub-areas inside them — are treated as unpainted rather than offered as
-// places the player could unlock.
+// The chunk grid is the RS3 map-square grid (cx = x >> 6, cy = y >> 6). Only
+// RS3 continents count: anything the authoring data paints under a name that
+// is not an RS3 continent is treated as unpainted rather than offered as a
+// place the player could unlock.
 const RS3_CONTINENTS = new Set<string>(['Misthalin', ...Object.keys(REGION_GROUPS)]);
 
 const CHUNK_REGION: Record<string, string> = {};
@@ -73,7 +72,8 @@ export const placeOf = (cx: number, cy: number): ChunkPlace => {
   return { cx, cy, subArea, region, label };
 };
 
-const nameUnlocked = (name: string, unlocks: UnlockState): boolean => {
+/** Is a named place (sub-area or continent) unlocked? Free areas always are. */
+export const placeUnlocked = (name: string, unlocks: UnlockState): boolean => {
   if (isFreeArea(name)) return true;
   if (unlocks.regions.includes(name)) return true;
   const children = name === 'Misthalin' ? MISTHALIN_AREAS : REGION_GROUPS[name];
@@ -87,9 +87,9 @@ const nameUnlocked = (name: string, unlocks: UnlockState): boolean => {
 export const chunkUnlocked = (cx: number, cy: number, unlocks: UnlockState): boolean => {
   const k = key(cx, cy);
   const sub = CHUNK_SUB[k];
-  if (sub) return nameUnlocked(sub, unlocks);
+  if (sub) return placeUnlocked(sub, unlocks);
   const region = CHUNK_REGION[k];
-  if (region) return nameUnlocked(region, unlocks);
+  if (region) return placeUnlocked(region, unlocks);
   return false;
 };
 

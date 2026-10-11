@@ -23,10 +23,10 @@ export const VoidAltar: React.FC<VoidAltarProps> = ({ onClose }) => {
   // Visual identity per ritual — name, effect and cost all come from
   // config/economy.ts (RITUALS), the same source the reducer and Codex use.
   const RITUAL_UI: Record<string, { icon: any; color: string; border: string; bg: string; costColor: string }> = {
-    LUCK:      { icon: Dices,    color: 'text-blue-400',   border: 'border-blue-500/30',   bg: 'bg-blue-900/20',   costColor: 'text-osrs-pity' },
-    GREED:     { icon: Coins,    color: 'text-yellow-400', border: 'border-yellow-500/30', bg: 'bg-yellow-900/20', costColor: 'text-osrs-pity' },
-    CHAOS:     { icon: Dna,      color: 'text-red-500',    border: 'border-red-500/30',    bg: 'bg-red-900/20',    costColor: 'text-osrs-pity' },
-    TRANSMUTE: { icon: Sparkles, color: 'text-purple-400', border: 'border-purple-500/30', bg: 'bg-purple-900/20', costColor: 'text-osrs-gold' },
+    LUCK:      { icon: Dices,    color: 'text-blue-400',   border: 'border-blue-500/30',   bg: 'bg-blue-900/20',   costColor: 'text-rs3-pity' },
+    GREED:     { icon: Coins,    color: 'text-yellow-400', border: 'border-yellow-500/30', bg: 'bg-yellow-900/20', costColor: 'text-rs3-pity' },
+    CHAOS:     { icon: Dna,      color: 'text-red-500',    border: 'border-red-500/30',    bg: 'bg-red-900/20',    costColor: 'text-rs3-pity' },
+    TRANSMUTE: { icon: Sparkles, color: 'text-purple-400', border: 'border-purple-500/30', bg: 'bg-purple-900/20', costColor: 'text-rs3-gold' },
   };
 
   const rituals = RITUALS.map((r) => {
@@ -75,12 +75,12 @@ export const VoidAltar: React.FC<VoidAltarProps> = ({ onClose }) => {
 
         {/* Resources Bar */}
         <div className="bg-black/40 px-6 py-3 border-b border-white/5 flex gap-6 justify-center font-mono text-sm relative z-10">
-            <div className="flex items-center gap-2 text-osrs-pity">
+            <div className="flex items-center gap-2 text-rs3-pity">
                 <Shield size={16} />
                 <span>Fate Points: <span className="font-bold text-lg">{fatePoints}</span></span>
             </div>
             <div className="w-px h-6 bg-white/10"></div>
-            <div className="flex items-center gap-2 text-osrs-gold">
+            <div className="flex items-center gap-2 text-rs3-gold">
                 <Key size={16} />
                 <span>Keys: <span className="font-bold text-lg">{keys}</span></span>
             </div>

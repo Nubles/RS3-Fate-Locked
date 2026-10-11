@@ -32,7 +32,6 @@ Thumbs.db
 # Claude Code local preview config
 .claude/
 
-# Local OSRS cache for the model exporter — never commit game cache data
-osrs-cache/
+# Never commit game cache data
 *.dat2
 main_file_cache.*

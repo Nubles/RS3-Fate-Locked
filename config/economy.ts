@@ -210,7 +210,7 @@ export const KEY_TYPES: KeyTypeInfo[] = [
     id: 'standard',
     name: 'Standard Key',
     icon: `${WIKI}Crystal_key.png`,
-    accent: 'text-osrs-gold',
+    accent: 'text-rs3-gold',
     tagline: 'Your bread-and-butter currency.',
     earn: [
       'Any successful Farm Key roll (+1, or +2 under Ritual of Greed).',

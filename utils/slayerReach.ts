@@ -1,8 +1,10 @@
 /**
  * Slayer task reachability.
  *
- * Given each Slayer master's assignable-monster table (from the chunk picker)
- * and your current state, work out which tasks you could actually be assigned
+ * Given each Slayer master's assignable-monster table (ChunkContentService
+ * slayerMasters — empty in the current RS3 cache-derived dataset, which has no
+ * assignment tables, so the panel stays hidden until one is supplied) and
+ * your current state, work out which tasks you could actually be assigned
  * and complete: Slayer level, quest unlocks, combat level (RS3 formula, so a
  * master's combat floor — Vannaka 30, Mazchna 50, Chaeldar 75, Sumona 90,
  * Duradel 100, Kuradal 110, Morvran/Laniakea/Mandrith 120 — compares like for
@@ -51,7 +53,7 @@ export const RS3_SLAYER_MASTERS: Rs3SlayerMaster[] = [
   { name: 'Death', aliases: ['Reaper'], location: "Death's Office", combat: 50, slayer: 45, quests: [], source: DropSource.SLAYER_BOSS, image: 'Death_chathead.png' },
 ];
 
-/** The RS3 master a chunk-dataset master name refers to (null = not an RS3 master). */
+/** The RS3 master a table's master name refers to (null = not an RS3 master). */
 export const rs3MasterFor = (name: string): Rs3SlayerMaster | null => {
   const n = name.trim().toLowerCase();
   return RS3_SLAYER_MASTERS.find(m =>
@@ -137,8 +139,7 @@ export function slayerReachability(masters: SlayerMasters, unlocks: UnlockState,
 
   const out: SlayerMasterReach[] = [];
   for (const [master, tasks] of Object.entries(masters)) {
-    // Only RS3 masters are listed; OSRS-only masters in the source table
-    // (Konar, Nieve/Steve, Krystilia…) are skipped.
+    // Only RS3 masters are listed; any other name in the table is skipped.
     const rs3 = rs3MasterFor(master);
     if (!rs3) continue;
     const masterQuestsMet = rs3.quests.every(q => questSet.has(q));

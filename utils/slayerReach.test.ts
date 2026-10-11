@@ -63,9 +63,9 @@ describe('slayerReachability', () => {
     expect(statusOf(r, 'Banshees')).toBe('area-locked');   // chunk not unlocked
   });
 
-  it('skips OSRS-only masters and applies the RS3 master gates', () => {
+  it('skips non-RS3 master names and applies the RS3 master gates', () => {
     const masters: SlayerMasters = {
-      Konar: { Crawling: { weight: 1 } },          // OSRS-only → dropped
+      Konar: { Crawling: { weight: 1 } },          // not an RS3 master → dropped
       Sumona: { Crawling: { weight: 1 } },         // combat 90, Slayer 35, Smoking Kills
     };
     const u = base({ skills: { Slayer: 5 }, levels: { Slayer: 40, Attack: 99, Strength: 99, Defence: 99, Constitution: 99 } });
