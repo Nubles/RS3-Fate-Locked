@@ -40,16 +40,23 @@ describe('questChunkStatus', () => {
 });
 
 describe('entryBlockedGate', () => {
-  const qs = { '100': ['Pandemonium'], '200': ['Access the fishing guild'], '300': ['Dragon Slayer I'] };
-  const known = new Set(['Pandemonium', 'Dragon Slayer I']);
+  const qs = { '100': ['Necromancy!'], '200': ['Access the fishing guild'], '300': ['Dragon Slayer'] };
+  const known = new Set(['Necromancy!', 'Dragon Slayer']);
   it('blocks a chunk whose required quest is known but not completed', () => {
     const gate = entryBlockedGate(qs, new Set<string>(), known);
     expect(gate('100')).toBe(true);
     expect(gate('300')).toBe(true);
   });
   it('does not block once the quest is completed', () => {
-    const gate = entryBlockedGate(qs, new Set(['Pandemonium', 'Dragon Slayer I']), known);
+    const gate = entryBlockedGate(qs, new Set(['Necromancy!', 'Dragon Slayer']), known);
     expect(gate('100')).toBe(false);
+  });
+  it('translates Old School requirement titles to their RS3 quest', () => {
+    // The chunk picker data is OSRS-derived: "Dragon Slayer I" is RS3's "Dragon Slayer".
+    const gate = entryBlockedGate({ '400': ['Dragon Slayer I'] }, new Set<string>(), known);
+    expect(gate('400')).toBe(true);
+    const done = entryBlockedGate({ '400': ['Dragon Slayer I'] }, new Set(['Dragon Slayer']), known);
+    expect(done('400')).toBe(false);
   });
   it('ignores non-quest / unknown requirements (errs toward reachable)', () => {
     const gate = entryBlockedGate(qs, new Set<string>(), known);

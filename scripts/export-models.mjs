@@ -1,4 +1,9 @@
 /**
+ * RS3 NOTE: this exporter only understands the *Old School* cache format
+ * (osrscachereader). There is no equivalent open-source RS3 (NXT) cache →
+ * glTF pipeline, so it cannot produce RS3 models; it's kept for the legacy
+ * OSRS files in public/models. See public/models/README.md.
+ *
  * Batch-export OSRS models → public/models/<slug>.gltf using the open-source
  * osrscachereader (BSD-2). You provide a local cache; this turns the entities
  * you list into models the app auto-displays on unlock (via the manifest).

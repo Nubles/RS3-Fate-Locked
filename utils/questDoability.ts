@@ -12,11 +12,15 @@
  * "doable now" verdict.
  */
 
+import { rs3QuestName } from './questLocations';
+
 /**
  * Build a chunk-entry gate from the picker's per-chunk quest requirements
  * (questSections). A chunk is blocked when any of its required quests is a
  * *known* quest the player hasn't completed — unknown/non-quest requirements
- * are ignored so we never falsely mark a chunk unreachable. Pass the result to
+ * are ignored so we never falsely mark a chunk unreachable. The picker data
+ * uses Old School titles, so each requirement is first translated to its RS3
+ * title (e.g. "Dragon Slayer I" → "Dragon Slayer"). Pass the result to
  * chunkReachability(connect, unlocks, home, gate).
  */
 export function entryBlockedGate(
@@ -27,7 +31,10 @@ export function entryBlockedGate(
   return (chunkId: string) => {
     const reqs = questSections[chunkId];
     if (!reqs) return false;
-    return reqs.some(r => knownQuests.has(r) && !completedQuests.has(r));
+    return reqs.some(raw => {
+      const r = rs3QuestName(raw);
+      return knownQuests.has(r) && !completedQuests.has(r);
+    });
   };
 }
 

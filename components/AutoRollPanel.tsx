@@ -5,32 +5,39 @@ import { useGame } from '../context/GameContext';
 /**
  * Auto-Roll (PROTOTYPE)
  * ─────────────────────
- * Type an OSRS username → pull the account's real skill levels from a public
- * API and "auto-roll" the run so the app's progression matches what you've
- * already earned in-game.
+ * Type an RS3 username → pull the account's real skill levels from the
+ * official RuneScape 3 hiscores and "auto-roll" the run so the app's
+ * progression matches what you've already earned in-game.
  *
- * Data source: Wise Old Man (https://wiseoldman.net) — its v2 API sends CORS
- * headers, so the browser can call it directly. The official Jagex hiscores do
- * NOT send CORS headers, so they can't be fetched client-side without a proxy;
- * WOM mirrors the same hiscore data and auto-tracks unknown players on update.
+ * Data source: the RS3 hiscores "lite" endpoint
+ *   https://secure.runescape.com/m=hiscore/index_lite.ws?player=NAME
+ * which returns one `rank,level,xp` CSV line per skill (Overall first, then
+ * the 29 skills in HISCORE_ORDER), followed by activities.
+ *
+ * CORS: Jagex's hiscores (and RuneMetrics) do NOT send CORS headers, so a
+ * direct browser fetch from this site is normally blocked. We therefore:
+ *   1. go through a CORS proxy when one is configured — Vite env
+ *      `VITE_HISCORES_PROXY` or localStorage `fateLocked.hiscoresProxy`
+ *      (a URL prefix; the encoded hiscores URL is appended), else
+ *   2. try the endpoint directly (works if the browser/extension allows it),
+ *      and if that fails
+ *   3. fall back to MANUAL mode: the user opens the hiscores link in a new tab
+ *      and pastes the text (or "Skill level" lines) back here.
  *
  * This is a prototype: it syncs SKILL LEVELS only (the cleanest 1:1 mapping).
- * Bosses/diaries/collection-log syncing is sketched in the UI but not wired.
  */
 
-const WOM_BASE = 'https://api.wiseoldman.net/v2/players/';
+const HISCORES_LITE = 'https://secure.runescape.com/m=hiscore/index_lite.ws?player=';
+const PROXY_STORAGE_KEY = 'fateLocked.hiscoresProxy';
 
-// App skill names in display order. WOM uses lowercase metric keys; the only
-// non-trivial remaps are runecrafting→Runecraft and the already-capitalised rest.
-const SKILLS = [
-  'Attack', 'Strength', 'Defence', 'Hitpoints', 'Ranged', 'Prayer', 'Magic',
-  'Runecraft', 'Construction', 'Agility', 'Herblore', 'Thieving', 'Crafting',
-  'Fletching', 'Slayer', 'Hunter', 'Mining', 'Smithing', 'Fishing', 'Cooking',
-  'Firemaking', 'Woodcutting', 'Farming',
+/** RS3 hiscores lite CSV order (after the Overall line). */
+const HISCORE_ORDER = [
+  'Attack', 'Defence', 'Strength', 'Constitution', 'Ranged', 'Prayer', 'Magic',
+  'Cooking', 'Woodcutting', 'Fletching', 'Fishing', 'Firemaking', 'Crafting',
+  'Smithing', 'Mining', 'Herblore', 'Agility', 'Thieving', 'Slayer', 'Farming',
+  'Runecrafting', 'Hunter', 'Construction', 'Summoning', 'Dungeoneering',
+  'Divination', 'Invention', 'Archaeology', 'Necromancy',
 ] as const;
-
-const womMetric = (skill: string) =>
-  skill === 'Runecraft' ? 'runecrafting' : skill.toLowerCase();
 
 interface FetchedSkill { skill: string; level: number }
 interface Fetched {
@@ -41,51 +48,101 @@ interface Fetched {
   updatedAt: string | null;
 }
 
-async function fetchPlayer(name: string): Promise<Fetched> {
-  const url = WOM_BASE + encodeURIComponent(name.trim());
-  // Read first (fast, works for already-tracked players).
-  let res = await fetch(url);
-  let data = res.ok ? await res.json() : null;
+/** Thrown when the hiscores can't be reached from the browser (CORS/network). */
+class HiscoresBlockedError extends Error {}
 
-  // If the player is unknown (404) or the read didn't carry a snapshot, POST to
-  // track + import them, which returns a full latestSnapshot for valid RSNs.
-  if (!data?.latestSnapshot) {
-    const post = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
-    if (post.ok) {
-      data = await post.json();
-    } else if (!data) {
-      // Both the read and the update failed → report the most useful reason.
-      if (post.status === 404 || res.status === 404) throw new Error(`"${name}" isn't on the OSRS hiscores.`);
-      if (post.status === 429) throw new Error('Rate-limited by the API — wait a moment and retry.');
-      const body = await post.json().catch(() => null);
-      if (body?.code === 'HISCORES_USERNAME_NOT_FOUND') throw new Error(`"${name}" isn't on the OSRS hiscores — check the spelling.`);
-      throw new Error(`Wise Old Man API error (${post.status}).`);
-    }
-  }
+const hiscoresUrl = (name: string) => HISCORES_LITE + encodeURIComponent(name.trim());
 
-  const snap = data?.latestSnapshot?.data?.skills;
-  if (!snap) throw new Error(`No hiscores snapshot available for "${name}" yet — try again in a moment.`);
+const proxyPrefix = (): string | null => {
+  const env = (import.meta as any).env?.VITE_HISCORES_PROXY as string | undefined;
+  if (env) return env;
+  try { return localStorage.getItem(PROXY_STORAGE_KEY); } catch { return null; }
+};
 
-  const skills: FetchedSkill[] = SKILLS.map(s => {
-    const entry = snap[womMetric(s)];
-    const level = entry && typeof entry.level === 'number' && entry.level > 0 ? entry.level : 1;
-    return { skill: s, level };
-  });
+/** RS3 combat level (pre-Necromancy formula extended with Necromancy as a 4th style). */
+const rs3Combat = (lv: Record<string, number>): number => {
+  const g = (k: string) => lv[k] ?? 1;
+  const offence = Math.max(
+    g('Attack') + g('Strength'),
+    2 * g('Magic'),
+    2 * g('Ranged'),
+    2 * g('Necromancy'),
+  );
+  return Math.floor((13 / 10 * offence + g('Defence') + g('Constitution') + Math.floor(g('Prayer') / 2) + Math.floor(g('Summoning') / 2)) / 4);
+};
+
+const build = (displayName: string, levels: Record<string, number>, total?: number): Fetched => {
+  // Fate Locked caps every skill at 99 (RS3's 120-cap skills included), so
+  // real levels above 99 are clamped — the level-up engine can't go higher.
+  const skills = HISCORE_ORDER.map(skill => ({ skill, level: Math.max(1, Math.min(99, levels[skill] ?? (skill === 'Constitution' ? 10 : 1))) }));
   return {
-    displayName: data.displayName ?? name,
-    totalLevel: snap.overall?.level ?? skills.reduce((a, s) => a + s.level, 0),
-    combatLevel: typeof data.combatLevel === 'number' ? data.combatLevel : null,
+    displayName,
+    totalLevel: total && total > 0 ? total : skills.reduce((a, s) => a + s.level, 0),
+    combatLevel: rs3Combat(Object.fromEntries(skills.map(s => [s.skill, s.level]))),
     skills,
-    updatedAt: data.updatedAt ?? null,
+    updatedAt: null,
   };
+};
+
+/**
+ * Parse pasted hiscores data. Accepts either the raw index_lite CSV
+ * (`rank,level,xp` per line, Overall first) or free-form "Skill level" lines
+ * such as "Attack 99" / "Necromancy: 120".
+ */
+export function parseHiscores(text: string, displayName: string): Fetched {
+  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const csv = lines.filter(l => /^-?\d+,-?\d+(,-?\d+)?$/.test(l));
+  if (csv.length >= HISCORE_ORDER.length + 1) {
+    const levels: Record<string, number> = {};
+    HISCORE_ORDER.forEach((skill, i) => {
+      const lvl = Number(csv[i + 1].split(',')[1]);
+      if (lvl > 0) levels[skill] = lvl;
+    });
+    return build(displayName, levels, Number(csv[0].split(',')[1]));
+  }
+  const levels: Record<string, number> = {};
+  const byLower = new Map<string, string>(HISCORE_ORDER.map(s => [s.toLowerCase(), s]));
+  byLower.set('hitpoints', 'Constitution');
+  byLower.set('runecraft', 'Runecrafting');
+  for (const l of lines) {
+    const m = l.match(/^([A-Za-z]+)\s*[:=,\s]\s*(\d{1,3})\b/);
+    const skill = m && byLower.get(m[1].toLowerCase());
+    if (skill) levels[skill] = Number(m![2]);
+  }
+  if (Object.keys(levels).length === 0) {
+    throw new Error('Couldn\'t read any levels — paste the hiscores page text, or lines like "Attack 99".');
+  }
+  return build(displayName, levels);
+}
+
+async function fetchPlayer(name: string): Promise<Fetched> {
+  const target = hiscoresUrl(name);
+  const proxy = proxyPrefix();
+  const url = proxy ? proxy + encodeURIComponent(target) : target;
+  let res: Response;
+  try {
+    res = await fetch(url);
+  } catch {
+    // A CORS rejection surfaces as an opaque network TypeError.
+    throw new HiscoresBlockedError('The RS3 hiscores block direct browser requests (no CORS headers).');
+  }
+  if (res.status === 404) throw new Error(`"${name}" isn't on the RS3 hiscores — check the spelling.`);
+  if (!res.ok) throw new Error(`RS3 hiscores error (${res.status}).`);
+  const text = await res.text();
+  // The hiscores answer an unknown player with an HTML error page, not CSV.
+  if (!/^-?\d+,-?\d+,-?\d+/.test(text.trim())) throw new Error(`"${name}" isn't on the RS3 hiscores — check the spelling.`);
+  return parseHiscores(text, name.trim());
 }
 
 export function AutoRollPanel() {
   const { unlocks, createBackup, levelUpSkill, keys, specialKeys, chaosKeys, linkedAccount, setLinkedAccount } = useGame() as any;
-  // Each run binds to one OSRS account: once set, the input is locked to it.
+  // Each run binds to one RS3 account: once set, the input is locked to it.
   const [name, setName] = useState(linkedAccount ?? '');
   const [status, setStatus] = useState<'idle' | 'loading' | 'error' | 'loaded'>('idle');
   const [error, setError] = useState('');
+  // Manual paste fallback, shown when the hiscores can't be fetched (CORS).
+  const [manual, setManual] = useState(false);
+  const [pasted, setPasted] = useState('');
   const [fetched, setFetched] = useState<Fetched | null>(null);
   const [rolledTo, setRolledTo] = useState(0); // how many skills the roll animation has revealed
   const [applied, setApplied] = useState(false);
@@ -128,10 +185,28 @@ export function AutoRollPanel() {
       // Bind the run to this account on the first successful fetch.
       if (!linkedAccount) { setLinkedAccount?.(data.displayName); setName(data.displayName); }
     } catch (e: any) {
-      setError(e?.message ?? 'Failed to reach the hiscores API.');
+      if (e instanceof HiscoresBlockedError) setManual(true);
+      setError(e?.message ?? 'Failed to reach the RS3 hiscores.');
       setStatus('error');
     }
   }, [name, linkedAccount, setLinkedAccount]);
+
+  // Manual fallback: parse what the user pasted from the hiscores page.
+  const onParsePasted = useCallback(() => {
+    const who = (linkedAccount ?? name).trim();
+    if (!who) { setError('Enter your RS3 username first.'); setStatus('error'); return; }
+    setRolledTo(0); setApplied(false); setSkillRolling(false); setSkillKeysGained(null);
+    try {
+      const data = parseHiscores(pasted, who);
+      setFetched(data);
+      setStatus('loaded');
+      setError('');
+      if (!linkedAccount) { setLinkedAccount?.(data.displayName); setName(data.displayName); }
+    } catch (e: any) {
+      setError(e?.message ?? 'Couldn\'t read the pasted levels.');
+      setStatus('error');
+    }
+  }, [pasted, name, linkedAccount, setLinkedAccount]);
 
   // If the run is already bound, pull that account's hiscores on open.
   useEffect(() => { if (linkedAccount) onFetch(); /* eslint-disable-line react-hooks/exhaustive-deps */ }, []);
@@ -190,8 +265,8 @@ export function AutoRollPanel() {
             <span className="text-[10px] uppercase tracking-wide bg-fuchsia-500/20 text-fuchsia-300 px-1.5 py-0.5 rounded">Prototype</span>
           </h2>
           <p className="text-xs text-gray-500 mt-1 max-w-xl">
-            Pull your real account from the OSRS hiscores and auto-roll your run to match what you've already earned.
-            Powered by the <span className="text-gray-400">Wise Old Man</span> API. Currently syncs skill levels.
+            Pull your real account from the RuneScape 3 hiscores and auto-roll your run to match what you've already earned.
+            Currently syncs all 29 skill levels. The official hiscores block browser requests, so if the lookup fails you can paste your levels instead.
           </p>
         </div>
       </div>
@@ -204,7 +279,7 @@ export function AutoRollPanel() {
             value={linkedAccount ?? name}
             onChange={(e) => !linkedAccount && setName(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && onFetch()}
-            placeholder="OSRS username…"
+            placeholder="RS3 username…"
             readOnly={!!linkedAccount}
             title={linkedAccount ? 'This run is permanently bound to this account' : undefined}
             className={`flex-1 min-w-0 bg-transparent text-sm focus:outline-none ${linkedAccount ? 'text-gray-300 cursor-default' : 'text-gray-100 placeholder:text-gray-600'}`}
@@ -229,6 +304,37 @@ export function AutoRollPanel() {
       {status === 'error' && (
         <div className="flex items-start gap-2 text-sm text-red-300 bg-red-950/40 border border-red-900/60 rounded-lg px-3 py-2 max-w-xl">
           <AlertTriangle size={15} className="shrink-0 mt-0.5" /> <span>{error}</span>
+        </div>
+      )}
+
+      {/* Manual fallback (CORS) */}
+      {(manual || status === 'error') && (
+        <div className="max-w-xl space-y-2 bg-white/5 border border-white/10 rounded-lg px-3 py-3">
+          <div className="text-xs text-gray-300 font-semibold">Paste your levels instead</div>
+          <p className="text-[11px] text-gray-500">
+            Open{' '}
+            <a
+              href={hiscoresUrl((linkedAccount ?? name) || 'Zezima')}
+              target="_blank"
+              rel="noreferrer"
+              className="text-fuchsia-300 underline"
+            >your hiscores data</a>{' '}
+            in a new tab, select all, copy and paste it below — or type one skill per line, e.g. <span className="font-mono">Attack 99</span>.
+          </p>
+          <textarea
+            value={pasted}
+            onChange={(e) => setPasted(e.target.value)}
+            rows={5}
+            placeholder={'1234,2898,5600000000\n…  or  Attack 99\nNecromancy 120'}
+            className="w-full bg-black/40 border border-white/15 rounded px-2 py-1.5 text-xs font-mono text-gray-200 placeholder:text-gray-600 focus:outline-none focus:border-fuchsia-500/60"
+          />
+          <button
+            onClick={onParsePasted}
+            disabled={!pasted.trim()}
+            className="px-3 py-1.5 rounded bg-fuchsia-600 hover:bg-fuchsia-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-semibold"
+          >
+            Use pasted levels
+          </button>
         </div>
       )}
 
@@ -325,7 +431,7 @@ export function AutoRollPanel() {
           </div>
 
           <p className="text-[10px] text-gray-600">
-            Hiscores data via Wise Old Man · each synced level runs through the live RNG engine, so it awards keys, Omni and
+            Data from the RuneScape 3 hiscores · each synced level runs through the live RNG engine, so it awards keys, Omni and
             Chaos exactly as levelling it would — all logged to History · a backup is created first.
           </p>
         </div>
@@ -333,7 +439,7 @@ export function AutoRollPanel() {
 
       {status === 'idle' && !linkedAccount && (
         <div className="text-xs text-gray-600 max-w-xl border border-dashed border-white/10 rounded-lg px-4 py-6 text-center">
-          Enter your OSRS username to bind this run to your account. It's saved permanently to the run and can't be changed afterward.
+          Enter your RS3 username to bind this run to your account. It's saved permanently to the run and can't be changed afterward.
         </div>
       )}
     </div>

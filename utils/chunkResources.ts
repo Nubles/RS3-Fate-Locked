@@ -10,10 +10,14 @@
  * A node is usable when the run's unlocked skill TIER actually reaches the
  * node's required level (cap model — tier N unlocks levels 1…N×10) AND the
  * player's current level meets it. So 99 Woodcutting at tier 3 still can't cut
- * yews (level 60 needs tier 6), exactly as the tier system intends.
+ * yews (level 70 needs tier 7), exactly as the tier system intends.
  *
- * Facts (which node needs which level) are standard OSRS skilling requirements,
- * re-expressed here; the node *names* come from our own chunk-content dataset.
+ * Facts (which node needs which level) are RuneScape 3 skilling requirements
+ * (post-2018 Mining & Smithing rework; runescape.wiki), re-expressed here; the
+ * node *names* come from our chunk-content dataset, which is Old School
+ * chunk-picker data. The mainland geography is shared, but a handful of OSRS
+ * node types have no RS3 counterpart (amethyst, lovakite, sulphur, anglerfish,
+ * Sailing trees, Kourend altars, …) and are deliberately left ungated.
  */
 import type { UnlockState } from '../types';
 import { tierForLevel } from './skillTiers';
@@ -23,19 +27,40 @@ export interface ResourceReq {
   level: number;
 }
 
+// Old School-only node types present in the chunk data. They are not RS3
+// resources, so they resolve to null (ungated) instead of falling through to
+// a generic "tree" / "fishing spot" rule with a wrong RS3 level.
+const OSRS_ONLY = new RegExp([
+  // Woodcutting: Kourend/Varlamore/Sailing trees, Fremennik juniper
+  'redwood', 'mature juniper', 'camphor', 'ironwood', 'rosewood', 'jatoba',
+  // Mining
+  'amethyst', 'nickel rocks', 'basalt rock', 'lovakite', 'volcanic sulphur', 'lead rocks',
+  'daeyalt', 'dense essence', 'dig site specimen',
+  // Fishing
+  'sacred eel', 'dark crab', 'anglerfish', 'minnow', 'lantern\\)', 'aerial fishing',
+  'tempoross', 'civitas illa fortis', 'stranglewood', 'nasty token', 'ominous fishing',
+  // Runecrafting
+  '\\(kourend\\)', 'dark altar', 'temple of the eye',
+].join('|'), 'i');
+
 // Ordered most-specific → least: the first matching rule wins, so "Magic tree"
 // is tested before the bare "tree" fallback, "Coal rocks" before "rocks".
 const RESOURCE_RULES: [RegExp, ResourceReq][] = [
-  // ── Woodcutting ─────────────────────────────────────────────────────────
-  [/redwood tree(?! patch)/i, { skill: 'Woodcutting', level: 90 }],
-  [/magic tree/i, { skill: 'Woodcutting', level: 75 }],
-  [/yew tree/i, { skill: 'Woodcutting', level: 60 }],
-  [/arctic pine|mature juniper/i, { skill: 'Woodcutting', level: 54 }],
-  [/mahogany tree/i, { skill: 'Woodcutting', level: 50 }],
-  [/maple tree|hollow tree/i, { skill: 'Woodcutting', level: 45 }],
-  [/teak tree/i, { skill: 'Woodcutting', level: 35 }],
-  [/willow tree/i, { skill: 'Woodcutting', level: 30 }],
-  [/oak tree/i, { skill: 'Woodcutting', level: 15 }],
+  // ── Woodcutting (RS3 levels) ────────────────────────────────────────────
+  [/eternal magic tree/i, { skill: 'Woodcutting', level: 100 }],
+  [/elder tree(?! patch)/i, { skill: 'Woodcutting', level: 90 }],
+  [/magic tree/i, { skill: 'Woodcutting', level: 80 }],
+  [/blisterwood/i, { skill: 'Woodcutting', level: 76 }],
+  [/yew tree/i, { skill: 'Woodcutting', level: 70 }],
+  [/mahogany tree/i, { skill: 'Woodcutting', level: 60 }],
+  [/eucalyptus tree/i, { skill: 'Woodcutting', level: 58 }],
+  [/arctic pine/i, { skill: 'Woodcutting', level: 54 }],
+  [/acadia tree/i, { skill: 'Woodcutting', level: 50 }],
+  [/hollow tree/i, { skill: 'Woodcutting', level: 45 }],
+  [/maple tree/i, { skill: 'Woodcutting', level: 40 }],
+  [/teak tree/i, { skill: 'Woodcutting', level: 30 }],
+  [/willow tree/i, { skill: 'Woodcutting', level: 20 }],
+  [/oak tree/i, { skill: 'Woodcutting', level: 10 }],
   [/achey tree/i, { skill: 'Woodcutting', level: 1 }],
   // Generic trees (incl. evergreen, jungle, banana, palm, tropical, dead) — lvl 1.
   // Farming "… tree patch" nodes are pulled out upstream before this runs, so a
@@ -44,66 +69,66 @@ const RESOURCE_RULES: [RegExp, ResourceReq][] = [
 
   // ── Mining (only explicitly-named mineable rocks — bare "rocks"/"rock"/
   //    handholds are ambiguous Agility/scenery and stay ungated) ───────────
-  [/amethyst/i, { skill: 'Mining', level: 92 }],
-  [/runite rocks/i, { skill: 'Mining', level: 85 }],
-  [/nickel rocks/i, { skill: 'Mining', level: 74 }],
-  [/basalt rock/i, { skill: 'Mining', level: 72 }],
-  [/adamantite rocks/i, { skill: 'Mining', level: 70 }],
-  [/lovakite rocks/i, { skill: 'Mining', level: 65 }],
-  [/mithril rocks/i, { skill: 'Mining', level: 55 }],
+  [/(light|dark) animica/i, { skill: 'Mining', level: 90 }],
+  [/seren stone/i, { skill: 'Mining', level: 89 }],
+  [/banite rocks?/i, { skill: 'Mining', level: 80 }],
+  [/necrite rocks?|phasmatite rocks?/i, { skill: 'Mining', level: 70 }],
+  [/orichalcite rocks?|drakolith rocks?/i, { skill: 'Mining', level: 60 }],
+  [/runite rocks/i, { skill: 'Mining', level: 50 }],
+  [/sandstone rocks|mineral deposit/i, { skill: 'Mining', level: 50 }],
   [/granite rocks/i, { skill: 'Mining', level: 45 }],
-  [/volcanic sulphur/i, { skill: 'Mining', level: 42 }],
+  [/adamantite rocks|luminite rocks?/i, { skill: 'Mining', level: 40 }],
   [/gold rocks/i, { skill: 'Mining', level: 40 }],
-  [/gem rocks?\b/i, { skill: 'Mining', level: 40 }],
-  [/boulder \(dense essence/i, { skill: 'Mining', level: 38 }],
-  [/sandstone rocks/i, { skill: 'Mining', level: 35 }],
-  [/coal rocks/i, { skill: 'Mining', level: 30 }],
-  [/lead rocks/i, { skill: 'Mining', level: 25 }],
-  [/silver rocks|daeyalt/i, { skill: 'Mining', level: 20 }],
-  [/iron rocks/i, { skill: 'Mining', level: 15 }],
-  [/(copper|tin|clay) rocks|dig site specimen/i, { skill: 'Mining', level: 1 }],
+  [/gem rocks?\b/i, { skill: 'Mining', level: 40 }], // Shilo Village / Lunar Isle gem rocks
+  [/mithril rocks/i, { skill: 'Mining', level: 30 }],
+  [/coal rocks?\b/i, { skill: 'Mining', level: 20 }],
+  [/silver rocks/i, { skill: 'Mining', level: 20 }],
+  [/iron rocks|limestone rocks?/i, { skill: 'Mining', level: 10 }],
+  [/(copper|tin|clay) rocks/i, { skill: 'Mining', level: 1 }],
 
   // ── Fishing (by the spot's method / catch) ──────────────────────────────
-  [/fishing spot \(sacred eel\)/i, { skill: 'Fishing', level: 87 }],
-  [/fishing spot \(dark crab\)/i, { skill: 'Fishing', level: 85 }],
-  [/fishing spot \(lantern\)/i, { skill: 'Fishing', level: 87 }],
-  [/fishing spot \(anglerfish\)/i, { skill: 'Fishing', level: 82 }],
-  [/fishing spot \(minnow\)/i, { skill: 'Fishing', level: 82 }],
-  [/fishing spot \(karambwan\)\b/i, { skill: 'Fishing', level: 65 }],
+  [/fishing spot \(karambwan\)/i, { skill: 'Fishing', level: 65 }],
   [/fishing spot \(lava eel\)/i, { skill: 'Fishing', level: 53 }],
-  [/fishing spot \(barbarian\)/i, { skill: 'Fishing', level: 48 }],
-  [/fishing spot \(cage, harpoon\)/i, { skill: 'Fishing', level: 40 }],
-  [/fishing spot \(aerial fishing\)/i, { skill: 'Fishing', level: 35 }],
+  [/fishing spot \(barbarian\)/i, { skill: 'Fishing', level: 48 }], // leaping trout
+  [/fishing spot \(cage, harpoon\)/i, { skill: 'Fishing', level: 35 }], // tuna 35 / lobster 40 / swordfish 50
   [/fishing spot \(harpoon\)/i, { skill: 'Fishing', level: 35 }],
   [/fishing spot \(lure, bait\)/i, { skill: 'Fishing', level: 20 }],
-  [/fishing spot \(big net, harpoon\)/i, { skill: 'Fishing', level: 16 }],
+  [/fishing spot \(big net, harpoon\)/i, { skill: 'Fishing', level: 16 }], // mackerel 16 / bass 46 / shark 76
   [/fishing spot \(karambwanji\)/i, { skill: 'Fishing', level: 5 }],
   [/fishing spot/i, { skill: 'Fishing', level: 1 }], // small net / bait / swamp / location spots
 
-  // ── Thieving (named market stalls + thievable chests; levels are the OSRS
-  //    stall requirements. Bank/quest chests are excluded below) ────────────
+  // ── Thieving (named market stalls; RS3 stall requirements. Bank/quest
+  //    chests are excluded below) ─────────────────────────────────────────
   [/gem stall/i, { skill: 'Thieving', level: 75 }],
   [/scimitar stall/i, { skill: 'Thieving', level: 65 }],
   [/spice stall/i, { skill: 'Thieving', level: 65 }],
   [/magic stall/i, { skill: 'Thieving', level: 65 }],
   [/silver stall/i, { skill: 'Thieving', level: 50 }],
+  [/fish stall/i, { skill: 'Thieving', level: 42 }],
   [/fur stall/i, { skill: 'Thieving', level: 35 }],
+  [/seed stall/i, { skill: 'Thieving', level: 27 }],
+  [/wine stall|market stall \(wine\)/i, { skill: 'Thieving', level: 22 }],
   [/silk stall/i, { skill: 'Thieving', level: 20 }],
   [/(fruit|veg|vegetable) stall/i, { skill: 'Thieving', level: 2 }],
   [/(baker'?s|cake|bread) stall/i, { skill: 'Thieving', level: 5 }],
   [/tea stall/i, { skill: 'Thieving', level: 5 }],
-  [/wine stall/i, { skill: 'Thieving', level: 22 }],
-  [/(crafting|crossbow) stall/i, { skill: 'Thieving', level: 5 }],
-  [/general stall|food stall|seed stall/i, { skill: 'Thieving', level: 5 }],
+  [/(crafting|craft|crossbow) stall/i, { skill: 'Thieving', level: 5 }],
+  [/general stall|food stall/i, { skill: 'Thieving', level: 5 }],
   [/\bstall\b/i, { skill: 'Thieving', level: 5 }], // generic market stall fallback
 
-  // ── Runecrafting altars (Prayer altars and travel portals are excluded
-  //    below; the basic rune altars are reached via "Mysterious ruins") ─────
-  [/soul altar/i, { skill: 'Runecraft', level: 90 }],
-  [/blood altar/i, { skill: 'Runecraft', level: 77 }],
-  [/astral altar/i, { skill: 'Runecraft', level: 40 }],
-  [/dark altar|mysterious ruins|\brift\b|temple of the eye/i, { skill: 'Runecraft', level: 1 }],
-  // Agility rooftop courses are classified in utils/skillChunkNodes (their
+  // ── Runecrafting altars (RS3 levels; Prayer altars and travel portals are
+  //    excluded below; the basic rune altars are reached via "Mysterious ruins")
+  [/time altar/i, { skill: 'Runecrafting', level: 100 }],
+  [/soul altar/i, { skill: 'Runecrafting', level: 90 }],
+  [/blood altar/i, { skill: 'Runecrafting', level: 77 }],
+  [/death altar/i, { skill: 'Runecrafting', level: 65 }],
+  [/law altar/i, { skill: 'Runecrafting', level: 54 }],
+  [/nature altar/i, { skill: 'Runecrafting', level: 44 }],
+  [/astral altar/i, { skill: 'Runecrafting', level: 40 }],
+  [/cosmic altar/i, { skill: 'Runecrafting', level: 27 }],
+  [/body altar/i, { skill: 'Runecrafting', level: 20 }],
+  [/mysterious ruins|\brift\b/i, { skill: 'Runecrafting', level: 1 }],
+  // Agility courses are classified in utils/skillChunkNodes (their
   // obstacle objects are named "… Rooftop Course", excluded from trees above).
 ];
 
@@ -114,7 +139,7 @@ const NOT_A_RESOURCE = /spirit tree|mushtree|rooftop course|\(prayer\)|altar of 
 
 /** The Skill + level needed to gather this object, or null if it's inert. */
 export const resourceReqFor = (objectName: string): ResourceReq | null => {
-  if (NOT_A_RESOURCE.test(objectName)) return null;
+  if (NOT_A_RESOURCE.test(objectName) || OSRS_ONLY.test(objectName)) return null;
   for (const [re, req] of RESOURCE_RULES) if (re.test(objectName)) return req;
   return null;
 };

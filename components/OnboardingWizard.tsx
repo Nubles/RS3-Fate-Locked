@@ -215,7 +215,7 @@ const UnlockVisual: React.FC = () => {
                 <div className="relative">
                     <div className="absolute inset-0 bg-purple-500 blur-xl opacity-50 animate-pulse"></div>
                     <div className="w-12 h-12 bg-[#2a2620] border-2 border-purple-500 rounded flex items-center justify-center relative z-10 animate-float-up">
-                        <img src="https://oldschool.runescape.wiki/images/Head_slot.png" className="w-8 h-8" alt="" />
+                        <img src="https://runescape.wiki/images/Head_slot.png" className="w-8 h-8" alt="" />
                     </div>
                 </div>
                 <span className="text-purple-300 text-[10px] font-bold mt-2 uppercase tracking-widest animate-pulse">Head Slot</span>
@@ -301,8 +301,8 @@ export const OnboardingWizard: React.FC = () => {
   const STEPS = [
     {
       title: "Fate Locked",
-      subtitle: "The Concept",
-      desc: "You begin with nothing. No skills. No equipment. No map access. Your account is completely locked until Fate decides otherwise.",
+      subtitle: "A RuneScape 3 Ironman mode",
+      desc: "You begin your RS3 Ironman with nothing. No skills past level 1 (Constitution starts at 10). No equipment. No map beyond your starting area in Misthalin. Your account is completely locked until Fate decides otherwise.",
       visual: <ConceptVisual />,
       color: "text-red-500",
       bg: "from-red-900/20"
@@ -310,7 +310,7 @@ export const OnboardingWizard: React.FC = () => {
     {
       title: "The Roll",
       subtitle: "Earning Keys",
-      desc: "Complete tasks in-game (Slayer, Quests, Clues) then click the matching card. Rolls are based on difficulty. Success grants a Key.",
+      desc: "Complete tasks in-game (Slayer tasks, Quests, Clue scrolls, Achievements) then click the matching card. Rolls are based on difficulty. Success grants a Key.",
       visual: <RollVisual />,
       color: "text-green-400",
       bg: "from-green-900/20"

@@ -8,6 +8,14 @@
  * Reuses the tested combat engine in utils/dps.ts. Pure + side-effect free.
  * (Magic is left to the DPS tab — it needs a spell choice; here the auto-best
  * covers melee + ranged, which gear fully determines.)
+ *
+ * RS3 caveat: the combat engine (utils/dps.ts), gear bonuses (GearService) and
+ * monster stat blocks (MonsterService) are still the classic accuracy/max-hit
+ * model and dataset inherited from the Old School fork — RS3's ability-based
+ * damage (tier/ability damage, adrenaline, Necromancy) is not modelled. Treat
+ * the numbers as a relative readiness gauge, not exact RS3 kill times. Only
+ * RS3 bosses that share a creature with that dataset resolve (via
+ * BOSS_ALIASES); the rest are listed as encounters without a DPS estimate.
  */
 
 import { GearBonuses, ZERO_BONUSES } from './gearStats';
@@ -47,13 +55,17 @@ export interface BossPlan {
   gearGapPct: number;
 }
 
-/** Boss names that map to a different monster entry than their app name. */
+/**
+ * RS3 boss unlock names → the monster-dataset entry used as their stat block
+ * (bosses whose name already matches, e.g. 'King Black Dragon', need no alias).
+ */
 export const BOSS_ALIASES: Record<string, string> = {
-  'Tormented Demons': 'Tormented Demon',
-  'Mimic': 'The Mimic',
-  'Grotesque Guardians': 'Dusk',
   'Dagannoth Kings': 'Dagannoth Rex',
   'Barrows Brothers': 'Ahrim the Blighted',
+  'TzHaar Fight Cave': 'TzTok-Jad',
+  'Nex: Angel of Death': 'Nex',
+  'Exiled Kalphite Queen': 'Kalphite Queen',
+  'Zemouregal & Vorkath': 'Vorkath',
 };
 
 const COMBOS: { style: Style; attackType: AttackType }[] = [

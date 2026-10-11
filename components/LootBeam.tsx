@@ -12,7 +12,7 @@ interface LootBeamProps {
 }
 
 /**
- * An OSRS-style pillar of light. Pure CSS (keyframes in styles.css), fixed-
+ * A RuneScape-style loot beam (pillar of light). Pure CSS (keyframes in styles.css), fixed-
  * positioned, self-dismissing via the `loot-beam` animation. Rendered by
  * EffectsLayer when a roll/unlock event fires.
  */

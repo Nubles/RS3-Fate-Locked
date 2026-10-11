@@ -1,18 +1,23 @@
-// Game-tile / pixel / chunk coordinate utilities for the OSRS world map.
+// Game-tile / pixel / chunk coordinate utilities for the world map.
+//
+// The base image is the wiki's Gielinor world map from the OSRS fork (file
+// names kept). The mainland and its tile/region grid are shared by RS3 and
+// OSRS; RS3-only areas (Daemonheim, Anachronia, the Arc, Menaphos, …) aren't
+// on it and are handled as list-only regions by components/RegionMap.tsx.
 //
 // Axes:
 //   Game tile X increases east (right).  Image pixel X increases right. Same direction.
 //   Game tile Y increases north (up).    Image pixel Y increases down.  Flipped.
 //
-// A "chunk" here is the 64x64 tile region that the OSRS wiki draws grid
+// A "chunk" here is the 64x64 tile region that the RuneScape Wiki draws grid
 // lines on — the same boundaries as in-game region IDs
 // (regionId = (x >> 6) << 8 | (y >> 6)).
 
 export const CHUNK_TILES = 64;
 
 export const MAP_IMAGE = {
-  // Official OSRS Wiki world map (Old_School_RuneScape_world_map.png), re-encoded
-  // to WebP. Cropped to a whole number of OSRS chunks (see MAP_BOUNDS below),
+  // Wiki world map image (originally Old_School_RuneScape_world_map.png),
+  // re-encoded to WebP. Cropped to a whole number of chunks (see MAP_BOUNDS below),
   // so the chunk grid lines up exactly with the canonical region grid.
   src: `${import.meta.env.BASE_URL}osrs_world_map.webp`,
   /** Tiny (~90 KB) low-res placeholder shown instantly while `src` streams in. */
@@ -24,14 +29,14 @@ export const MAP_IMAGE = {
 // tileMinX/tileMinY = game tile at the image's BOTTOM-LEFT pixel;
 // tileMaxX/tileMaxY = game tile at the TOP-RIGHT pixel.
 //
-// Calibrated to the canonical OSRS region grid. The image is the wiki world map
+// Calibrated to the canonical region grid. The image is the wiki world map
 // cropped to a whole number of 64x64-tile chunks — 48 columns x 34 rows =
 // 3072x2176 tiles, at 192 px/chunk = a clean 3.0 px/tile on the 9216x6528 image.
 // So every bound lands on a chunk boundary (a multiple of 64):
 //   X: tiles 960..4032  (chunks 15..62)    Y: tiles 2048..4224  (chunks 32..65)
 // These match the Chunk Picker (source-chunk.github.io/chunk-picker-v2), whose
 // own code clamps the identical 9216x6528 crop to x in [960,4031], y in
-// [2048,4223]. Result: our chunk coords equal canonical OSRS region coords
+// [2048,4223]. Result: our chunk coords equal canonical region coords
 // (regionX = x >> 6, regionY = y >> 6) and align 1:1 with the picker.
 export const MAP_BOUNDS = {
   tileMinX: 960,

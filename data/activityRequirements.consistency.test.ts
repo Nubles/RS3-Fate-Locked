@@ -3,7 +3,7 @@ import { ACTIVITY_REQUIREMENTS } from './activityRequirements';
 import { ACTIVITY_REGIONS } from './activityRegions';
 import {
   BOSSES_LIST, MINIGAMES_LIST, GUILDS_LIST, MOBILITY_LIST, ARCANA_LIST,
-  POH_LIST, STORAGE_LIST, MERCHANTS_LIST, FARMING_PATCH_LIST, SKILLS_LIST,
+  POH_LIST, STORAGE_LIST, MERCHANTS_LIST, FARMING_PATCH_LIST, SKILLS_LIST, REGION_GROUPS,
 } from './items';
 import { QUEST_DATA } from './questData';
 
@@ -13,12 +13,10 @@ const ALL_ACTIVITY_ITEMS = new Set<string>([
 ]);
 const SKILLS = new Set(SKILLS_LIST);
 // Quests are referenced everywhere by their canonical id (= the QUEST_DATA key),
-// e.g. "Desert Treasure II" — not the long display name. Validate against ids.
+// i.e. the official RS3 quest title, e.g. "Plague's End". Validate against ids.
 const QUEST_IDS = new Set(Object.keys(QUEST_DATA));
-const CONTINENTS = new Set([
-  'Misthalin','Asgarnia','Kandarin','Karamja','Kharidian Desert','Morytania','Fremennik',
-  'Tirannwn','Wilderness','Kourend & Kebos','Varlamore','Islands & Others','The Open Seas',
-]);
+// RS3 continents: the REGION_GROUPS keys plus Misthalin (the free starter kingdom).
+const CONTINENTS = new Set(['Misthalin', ...Object.keys(REGION_GROUPS)]);
 
 describe('activity requirements + regions consistency', () => {
   it('every requirement key is a real activity item (no typos)', () => {
@@ -42,6 +40,18 @@ describe('activity requirements + regions consistency', () => {
       for (const q of req.quests ?? []) {
         expect(QUEST_IDS.has(q), `${item}: quest "${q}" not in QUEST_DATA`).toBe(true);
       }
+    }
+  });
+
+  it('every region tag key is a real activity item', () => {
+    for (const key of Object.keys(ACTIVITY_REGIONS)) {
+      expect(ALL_ACTIVITY_ITEMS.has(key), `unknown activity "${key}"`).toBe(true);
+    }
+  });
+
+  it('every boss, minigame and guild has a region tag', () => {
+    for (const item of [...BOSSES_LIST, ...MINIGAMES_LIST, ...GUILDS_LIST]) {
+      expect(ACTIVITY_REGIONS[item], `${item} has no region`).toBeTruthy();
     }
   });
 

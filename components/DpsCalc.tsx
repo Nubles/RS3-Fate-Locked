@@ -1,3 +1,5 @@
+// RS3 MODE: not mounted — this view runs on the OSRS dps-calc dataset, and
+// RS3 has no equivalent. Kept so it can be revived with RS3 data later.
 import React, { useState, useEffect, useMemo } from 'react';
 import {
   Swords, Crosshair, Wand2, X, Search, Loader2, AlertCircle, RefreshCw, Target, Info, Zap, Clock, Crown,
@@ -21,7 +23,7 @@ const STYLE_META: { id: Style; label: string; Icon: typeof Swords }[] = [
   { id: 'magic', label: 'Magic', Icon: Wand2 },
 ];
 const MELEE_TYPES: AttackType[] = ['stab', 'slash', 'crush'];
-const monsterImg = (file: string) => `https://oldschool.runescape.wiki/images/${(file || '').replace(/ /g, '_')}`;
+const monsterImg = (file: string) => `https://runescape.wiki/images/${(file || '').replace(/ /g, '_')}`;
 
 const Field: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
   <label className="flex flex-col gap-1">

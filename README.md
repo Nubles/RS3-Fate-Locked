@@ -1,6 +1,6 @@
 # Fate Locked Ironman
 
-A companion tracker for the **Fate Locked Ironman** challenge mode in RuneScape 3 RuneScape — a "snowball" restriction run where your account starts with *everything* locked, and Fate decides what you unlock.
+A companion tracker for the **Fate Locked Ironman** challenge mode in **RuneScape 3 (RS3)** — a "snowball" restriction run where your account starts with *everything* locked, and Fate decides what you unlock.
 
 **Live app:** https://nubles.github.io/RS3-Fate-Locked/
 
@@ -11,6 +11,17 @@ You begin as a fresh Ironman with nothing: no skills past level 1, no equipment 
 1. **Farm Keys** — complete in-game tasks (Slayer tasks, Clue scrolls, quests, diaries, levels) and roll against their drop rate.
 2. **Spend Keys** — cash Keys in on a content table (Skills, Equipment, Regions, Bosses, Minigames…) to unlock a random entry.
 3. **Snowball** — each unlock opens up new tasks, which earn more Keys.
+
+## The RS3 mode
+
+Everything in the tables is RuneScape 3 content:
+
+- **All 29 skills** — including Constitution (starts at 10), Summoning, Dungeoneering, Divination, Invention, Archaeology and Necromancy — unlocked in level tiers.
+- **RS3 regions** — Misthalin is the free starting area; every other continent is locked: Asgarnia, Kandarin, Karamja, the Kharidian Desert (incl. Menaphos), Morytania, Fremennik Province, Tirannwn (incl. Prifddinas), the Wilderness, Daemonheim, Anachronia, the Arc and the outlying islands (Ape Atoll, Zanaris, Mazcab, Everlight…).
+- **RS3 Slayer masters** — Turael/Spria/Jacquelyn, Vannaka, the Raptor, Mazchna, Chaeldar, Sumona, Duradel/Lapalok, Kuradal, Morvran, Laniakea and Mandrith, plus Reaper (boss) assignments. Clue scrolls run Easy → Master.
+- **RS3 bossing** — God Wars Dungeon 1 & 2, Elite Dungeons (Temple of Aminishi, Dragonkin Laboratory, The Shadow Reef), Raids (Liberation of Mazcab), Zamorakian Undercity, Vorago, Telos, Solak, Araxxor, Arch-Glacor, Kerapac, Rasial, Sanctum of Rebirth and more.
+- **RS3 equipment tiers** — nine Fate tiers from Bronze/Iron up to tier 92-95 Masterwork / Elite Tectonic / Elite Sirenic / Elite Malevolent / tier 95 Necromancy gear.
+- **RS3 unlocks** — Distractions & Diversions, minigames, transport (lodestones, fairy rings, spirit trees…), Player-Owned House, guilds and Slayer rewards.
 
 Bad luck is cushioned by **Fate Points** (a pity timer) and the **Void Altar**, where Fate Points can be spent on rituals. Rare **Omni-Keys** let you pick an unlock directly; **Chaos Keys** unlock from any table at random.
 
@@ -26,7 +37,6 @@ Bad luck is cushioned by **Fate Points** (a pity timer) and the **Void Altar**, 
 - **Integrity & verification** — a tamper-evident hash chain over the run history, a deterministic run ID, invariant replay, and exportable verified bundles, so a completed run can be shared and checked.
 - **Shareable run card & timelapse** — generate an image of your run, or play its history back as a narrated timelapse.
 - **Profiles** — multiple independent runs in one browser.
-- **RuneLite companion plugin** — see [`runelite-plugin/`](./runelite-plugin) for an in-game overlay of your authored chunks.
 
 ## Tech stack
 
@@ -62,10 +72,16 @@ To enable it on a fresh fork: **Settings → Pages → Build and deployment → 
 
 - [`docs/RESOURCE_ENGINE.md`](./docs/RESOURCE_ENGINE.md) — the Resource Engine: data shape, the supply-chain analyzer, the three wiki-sourced generator scripts (`scripts/buildCraftables.mjs`, `scripts/buildPotions.mjs`, `scripts/buildSourceEnrichment.ts`), the enrichment merge pattern, the integrity-test contract, and the workflow for adding curated items.
 
-## RuneLite plugin
+## Client plugins
 
-`runelite-plugin/` contains a Java RuneLite plugin that renders your authored Fate Locked chunks on the in-game world map and minimap, and warns when you enter a locked region. Build it with `./gradlew shadowJar` and sideload the JAR — see [`runelite-plugin/README.md`](./runelite-plugin/README.md).
+The Old School version shipped a RuneLite plugin; RuneLite is OSRS-only, so the RS3 mode does not include one. An [Alt1 Toolkit](https://runeapps.org/alt1) app would be the RS3 equivalent and is not built yet.
+
+## Known limitations
+
+- The world map image is the shared Gielinor mainland; RS3-only areas (Daemonheim, Anachronia, the Arc, Menaphos, Prifddinas and others) are listed in the region panel but have no painted chunks on the map.
+- RS3 combat is ability-based, and there is no public RS3 equipment/monster stats dataset like the OSRS DPS calculator's, so the Equipment Lab shows equipment tiers only (no DPS calculator).
+- The RS3 hiscores do not allow cross-origin requests from a browser, so Auto-Roll falls back to pasting your levels when the lookup is blocked.
 
 ## Disclaimer
 
-RuneScape 3 RuneScape and its assets are © Jagex Ltd. This is an unofficial fan-made tool and is not affiliated with Jagex.
+RuneScape and its assets are © Jagex Ltd. This is an unofficial fan-made tool and is not affiliated with Jagex.

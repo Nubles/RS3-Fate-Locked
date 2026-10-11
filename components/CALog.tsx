@@ -40,8 +40,8 @@ export const CALog: React.FC<CALogProps> = ({ searchTerm: externalSearch = '' })
   };
 
   const getWikiUrl = (monster: string) => {
-    if (monster === 'General') return 'https://oldschool.runescape.wiki/w/Combat_Achievements';
-    return `https://oldschool.runescape.wiki/w/${encodeURIComponent(monster.replace(/ /g, '_'))}`;
+    if (monster === 'General') return 'https://runescape.wiki/w/Combat_achievements';
+    return `https://runescape.wiki/w/${encodeURIComponent(monster.replace(/ /g, '_'))}`;
   };
 
   const handleToggle = (e: React.MouseEvent, ca: CATier) => {

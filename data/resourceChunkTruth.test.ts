@@ -8,7 +8,8 @@ import chunkDoc from '../public/chunk-content.json';
  * Chunk-truth invariant for the Resource Engine.
  *
  * public/chunk-content.json (synced from the Chunk Picker via
- * scripts/sync-chunk-content.mjs) proves which of our map regions contain each
+ * scripts/sync-chunk-content.mjs — Old School map data, whose mainland
+ * geography matches RS3's) proves which of our map regions contain each
  * monster. Presence is proof; absence is not (the picker doesn't list every
  * dungeon interior). So the enforceable direction is:
  *
@@ -28,12 +29,18 @@ function loadChunkRegions(): Record<string, string> {
   return out;
 }
 
+// Only RS3 map regions are enforceable. The chunk dataset is Old School
+// chunk-picker data; the mainland geography it covers is shared with RS3, but
+// any OSRS-only block (Kourend & Kebos, Varlamore, The Open Seas, …) that
+// REGION_CHUNKS might still paint has no RS3 counterpart and is ignored.
+const RS3_REGIONS = new Set<string>(['Misthalin', ...Object.keys(REGION_GROUPS)]);
+
 function monsterRegionTruth(): Map<string, Set<string>> {
   const chunkRegion = loadChunkRegions();
   const truth = new Map<string, Set<string>>();
   for (const [id, e] of Object.entries<any>(chunkDoc.chunks)) {
     const region = chunkRegion[`${Math.floor(+id / 256)},${+id % 256}`];
-    if (!region) continue;
+    if (!region || !RS3_REGIONS.has(region)) continue;
     for (const [name] of e.m ?? []) {
       const k = (name as string).toLowerCase();
       if (!truth.has(k)) truth.set(k, new Set());

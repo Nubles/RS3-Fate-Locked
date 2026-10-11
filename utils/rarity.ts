@@ -6,7 +6,7 @@ import { TableType } from '../types';
 
 export type Rarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 
-/** OSRS-loot-beam-flavoured rarity palette (raw hex, for gradients + glows). */
+/** Loot-beam-flavoured rarity palette (raw hex, for gradients + glows). */
 export const RARITY_COLOR: Record<Rarity, string> = {
   common: '#22c55e', // green
   uncommon: '#38bdf8', // blue

@@ -1,5 +1,10 @@
 /**
  * OSRS combat / DPS engine.
+ * RS3 MODE: legacy from the OSRS fork. RS3 combat is ability/tier-based and has
+ * no equivalent public dataset, so the Gear and DPS views that used this are
+ * not mounted (components/EquipmentLab.tsx). Kept compiling + tested because
+ * components/BossKillPlanner still imports it.
+ *
  *
  * Standard Old School RuneScape formulas: effective levels (with stance, prayer
  * and potion boosts) feed max hit and the attack/defence rolls, which give hit

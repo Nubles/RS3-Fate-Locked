@@ -2,8 +2,8 @@
  * Combat-power model for the Equipment Lab.
  *
  * Fate Locked has no real item stats — equipment is abstracted as a tier (0–9)
- * per slot and skills as a tier (0–10). There's nothing to feed a true OSRS DPS
- * calc, so instead we derive a consistent set of 0–100 "power" ratings from the
+ * per slot and skills as a tier (0–10). RS3 combat is ability-based and there's
+ * no public stats dataset to feed a true DPS calc, so instead we derive a consistent set of 0–100 "power" ratings from the
  * tiers the player has unlocked. Each axis blends the relevant gear slots with
  * the relevant skills (50/50), giving a stable, explainable readout that grows
  * as a run progresses.
@@ -16,12 +16,15 @@ import { EQUIPMENT_TIER_MAX } from '../config/rules';
 
 const SKILL_TIER_MAX = 10;
 
-/** OSRS-flavoured names for equipment tiers 1..9 (index 0 = T1). */
+/**
+ * RS3 gear names for equipment tiers 1..9 (index 0 = T1), matching the Codex
+ * "Equipment Tiers" table: T1 Bronze/Iron (1-10) … T9 tier 92-95 gear.
+ */
 export const TIER_LABELS = [
-  'Stone', 'Bronze', 'Iron', 'Steel', 'Adamant', 'Rune', 'Dragon', 'Ancient', 'Crystal',
+  'Iron', 'Mithril', 'Rune', 'Dragon', 'Barrows', 'Bane', 'Tetsu', 'Tectonic', 'Masterwork',
 ] as const;
 
-export type PowerAxisKey = 'melee' | 'ranged' | 'magic' | 'defence' | 'prayer';
+export type PowerAxisKey = 'melee' | 'ranged' | 'magic' | 'necromancy' | 'defence' | 'prayer';
 
 export interface PowerAxisDef {
   key: PowerAxisKey;
@@ -35,7 +38,8 @@ export const POWER_AXES: PowerAxisDef[] = [
   { key: 'melee',   label: 'Melee',   slots: ['Weapon', 'Body', 'Legs', 'Gloves', 'Boots'], skills: ['Attack', 'Strength'] },
   { key: 'ranged',  label: 'Ranged',  slots: ['Weapon', 'Body', 'Legs', 'Ammo', 'Boots'],   skills: ['Ranged'] },
   { key: 'magic',   label: 'Magic',   slots: ['Weapon', 'Body', 'Legs', 'Neck'],             skills: ['Magic'] },
-  { key: 'defence', label: 'Defence', slots: ['Head', 'Body', 'Legs', 'Shield', 'Gloves', 'Boots', 'Cape'], skills: ['Defence', 'Hitpoints'] },
+  { key: 'necromancy', label: 'Necromancy', slots: ['Weapon', 'Shield', 'Body', 'Legs', 'Pocket'], skills: ['Necromancy'] },
+  { key: 'defence', label: 'Defence', slots: ['Head', 'Body', 'Legs', 'Shield', 'Gloves', 'Boots', 'Cape'], skills: ['Defence', 'Constitution'] },
   { key: 'prayer',  label: 'Prayer',  slots: ['Neck', 'Cape', 'Ring'],                       skills: ['Prayer'] },
 ];
 

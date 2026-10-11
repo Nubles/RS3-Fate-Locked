@@ -1,10 +1,11 @@
 /**
  * Runtime self-update for the Collection Log.
  *
- * The bundled data/collectionLogData.ts is a snapshot of the wiki log at build
- * time. This service fetches the wiki's authoritative source live and merges any
- * NEWLY-tracked items into the in-memory log — so when Jagex adds a drop and the
- * wiki records it, it appears in the app with NO redeploy. It is deliberately:
+ * The bundled data/collectionLogData.ts is a snapshot of the RS3 wiki's
+ * collection logs at build time. This service fetches the wiki's log pages live
+ * and merges any NEWLY-listed items into the in-memory log — so when Jagex adds
+ * a drop and the wiki records it, it appears in the app with NO redeploy. It is
+ * deliberately:
  *
  *   • additive only — never renames or deletes existing slots (those stay under
  *     the reviewed build-time data + `npm run clog:sync`); it only APPENDS items
@@ -12,6 +13,14 @@
  *   • fail-safe — any network/parse error leaves the bundled data untouched.
  *   • lazy + cached — fetched once when the log is first opened, cached in
  *     localStorage (works offline afterwards), re-checked after the TTL.
+ *
+ * Source: unlike OSRS, the RS3 wiki has no machine-readable collection-log
+ * module, so the rendered log pages (`Boss collection log`, `Slayer collection
+ * log`) are parsed: each section heading is a log entry (= an app page) and the
+ * first item link of each table row is a tracked item. The Treasure Trail log is
+ * NOT synced at runtime — the bundled Clues tab is a curated subset of its
+ * hundreds of casket rewards, and auto-appending them all would balloon the slot
+ * count; `npm run clog:sync` covers it at build time instead.
  *
  * Brand-new *pages* (e.g. a new boss) are detected and exposed via `newSources`
  * for a heads-up, but NOT auto-added: a boss also needs a model, drop-rate, key
@@ -21,18 +30,71 @@
  */
 import { COLLECTION_LOG_DATA } from '../data/collectionLogData';
 
-const API = 'https://oldschool.runescape.wiki/api.php';
-const DATA_TITLE = 'Module:Collection_log/data.json';
-const LUA_TITLE = 'Module:Collection_log'; // holds the display-override table
-// v2: v1 compared raw data.json names against the app's override-rendered names
-// and cached spurious duplicate additions — bumped to discard that stale cache.
-const CACHE_KEY = 'fate_clog_sync_v2';
+const API = 'https://runescape.wiki/api.php';
+/** Wiki log pages synced at runtime (see header for why Treasure Trails is excluded). */
+const RUNTIME_SOURCES = ['Boss collection log', 'Slayer collection log'];
+// v3: RS3 data (v1/v2 caches held OSRS additions keyed to OSRS page names).
+const CACHE_KEY = 'fate_clog_sync_v3';
 const CACHE_TTL = 1000 * 60 * 60 * 24 * 7; // 7 days
 
-// App page-name (normalised) -> wiki page name, only where they differ.
+// App page-name (normalised) -> wiki section name, only where they differ.
+// Bosses/Slayer pages already use the wiki's section names; the clue pages
+// carry friendlier titles than the Treasure Trail log's sections.
 const PAGE_ALIAS: Record<string, string> = {
-  'mage training arena': 'Magic Training Arena',
+  'shared treasure trail rewards': 'General clue rewards',
+  'easy treasure trails': 'Easy clue rewards',
+  'medium treasure trails': 'Medium clue rewards',
+  'hard treasure trails': 'Hard clue rewards',
+  'elite treasure trails': 'Elite clue rewards',
+  'master treasure trails': 'Master clue rewards',
 };
+
+// Section headings on the log pages that are not log entries.
+const NON_LOG_SECTIONS = new Set([
+  'contents', 'tracked drops', 'rewards', 'achievements', 'disassembly', 'update history',
+  'trivia', 'references', 'gallery', 'see also', 'book info', 'combat stats', 'changes',
+  'navigation menu',
+]);
+
+const decode = (s: string) => s
+  .replace(/&#0?39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&')
+  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;|&#160;/g, ' ');
+
+/**
+ * Parse a rendered wiki log page (action=parse HTML) into its log entries.
+ * Each h2/h3 heading starts an entry; within it, the FIRST article link of each
+ * table row (`<tr>`) is the tracked item — later cells (e.g. "dropped by")
+ * are ignored. File/Category/etc. links are skipped. Exported for testing.
+ */
+export function parseLogPageHtml(html: string): Record<string, string[]> {
+  const out: Record<string, string[]> = {};
+  const parts = html.split(/<h[23]\b[^>]*>/i);
+  for (let i = 1; i < parts.length; i++) {
+    const end = parts[i].search(/<\/h[23]>/i);
+    if (end < 0) continue;
+    // Old skins wrap the title in .mw-headline next to an [edit] span; newer
+    // MediaWiki puts the bare title in the <hN> and the edit links outside it.
+    const raw = parts[i].slice(0, end);
+    const headline = raw.match(/class="mw-headline"[^>]*>([\s\S]*?)<\/span>/i);
+    const heading = decode((headline ? headline[1] : raw.replace(/<span[^>]*mw-editsection[\s\S]*$/i, ''))
+      .replace(/<[^>]+>/g, '')).trim();
+    if (!heading || NON_LOG_SECTIONS.has(heading.toLowerCase())) continue;
+    const body = parts[i].slice(end);
+    const items: string[] = [];
+    for (const row of body.split(/<tr\b/i).slice(1)) {
+      const re = /<a\b[^>]*href="\/w\/([^"#?]+)[^"]*"[^>]*title="([^"]+)"/gi;
+      let m;
+      while ((m = re.exec(row)) !== null) {
+        const title = decode(m[2]);
+        if (/^(File|Category|Template|Special|Help|RuneScape|Module|User|Update):/i.test(title)) continue;
+        if (!items.includes(title)) items.push(title);
+        break;
+      }
+    }
+    if (items.length) out[heading] = items;
+  }
+  return out;
+}
 
 interface WikiItem { id: number; name: string; tabs: string[]; }
 interface Addition { tab: string; page: string; id: number; name: string; }
@@ -47,14 +109,14 @@ const norm = (s: string) => s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0
  * items to APPEND to existing pages (with freshly-minted, collision-free IDs)
  * and any brand-new wiki pages the app doesn't have. Exported for testing.
  *
- * `overrides` maps a wiki item id -> the display name the wiki actually RENDERS
- * (its Module:Collection_log override table). The bundled data already uses
- * those rendered names, so applying them here is essential: comparing the raw
- * data.json name ("Chompy bird hat") against the app's rendered name ("Chompy
- * bird hat (ogre bowman)") would otherwise treat it as new and add a duplicate.
+ * `overrides` optionally maps a wiki item id -> the display name the app stores
+ * when it differs from the scraped name. The RS3 log pages already render final
+ * names so the runtime passes none, but the hook stays: comparing a raw name
+ * ("Crawling hand") against an app name ("Crawling hand (item)") would
+ * otherwise treat it as new and add a duplicate.
  */
 export function computeSync(wiki: WikiItem[], data: LogData, overrides: Record<number, string> = {}): SyncResult {
-  // wiki page name -> ordered item names (rendered with overrides, as the app stores them)
+  // wiki page name -> ordered item names (with overrides applied, as the app stores them)
   const wikiPages = new Map<string, string[]>();
   for (const it of wiki) {
     const name = overrides[it.id] !== undefined ? overrides[it.id] : it.name;
@@ -125,10 +187,8 @@ class CollectionLogSyncService {
       const cached = this.loadCache();
       let result = cached;
       if (!result) {
-        // Both sources are required: without the overrides we'd mis-read raw
-        // names as new and add duplicates, so a failure here aborts the sync.
-        const [items, overrides] = await Promise.all([this.fetchData(), this.fetchOverrides()]);
-        result = computeSync(items, COLLECTION_LOG_DATA, overrides);
+        // RS3 log pages render final display names, so no override table is needed.
+        result = computeSync(await this.fetchData(), COLLECTION_LOG_DATA);
       }
       this.apply(result);
       if (!cached) this.saveCache(result);
@@ -144,41 +204,35 @@ class CollectionLogSyncService {
     }
   }
 
-  /** Fetch the raw text content of a wiki page via the CORS-enabled API. */
-  private async fetchPageContent(title: string): Promise<string> {
-    const url = `${API}?action=query&prop=revisions&titles=${encodeURIComponent(title)}` +
-      `&rvslots=main&rvprop=content&format=json&origin=*`;
+  /** Fetch a wiki page's rendered HTML via the CORS-enabled API. */
+  private async fetchPageHtml(title: string): Promise<string> {
+    const url = `${API}?action=parse&page=${encodeURIComponent(title)}&prop=text&format=json&origin=*`;
     let lastErr: unknown;
     for (let attempt = 0; attempt < 2; attempt++) {
       try {
         const ctrl = new AbortController();
         const timer = setTimeout(() => ctrl.abort(), 12000);
-        const res = await fetch(url, { signal: ctrl.signal, headers: { 'Api-User-Agent': 'FateLockedUIM/1.0 (clog runtime sync)' } });
+        const res = await fetch(url, { signal: ctrl.signal, headers: { 'Api-User-Agent': 'FateLockedRS3/1.0 (clog runtime sync)' } });
         clearTimeout(timer);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
-        const page: any = Object.values(json.query.pages)[0];
-        return page.revisions[0].slots.main['*'];
+        return json.parse.text['*'];
       } catch (e) { lastErr = e; }
     }
     throw lastErr ?? new Error('fetch failed');
   }
 
+  /** Flatten the runtime log pages into computeSync's item list. */
   private async fetchData(): Promise<WikiItem[]> {
-    const data = JSON.parse(await this.fetchPageContent(DATA_TITLE));
-    if (!Array.isArray(data)) throw new Error('unexpected data.json shape');
-    return data as WikiItem[];
-  }
-
-  /** Parse the wiki's `overrides = { [id] = { name = "..." } }` table. */
-  private async fetchOverrides(): Promise<Record<number, string>> {
-    const lua = await this.fetchPageContent(LUA_TITLE);
-    const out: Record<number, string> = {};
-    const re = /\[(\d+)\]\s*=\s*\{[^}]*name\s*=\s*"((?:[^"\\]|\\.)*)"[^}]*\}/g;
-    let m;
-    while ((m = re.exec(lua)) !== null) out[Number(m[1])] = m[2].replace(/\\"/g, '"');
-    if (Object.keys(out).length === 0) throw new Error('no overrides parsed');
-    return out;
+    const items: WikiItem[] = [];
+    let id = 0;
+    for (const title of RUNTIME_SOURCES) {
+      const sections = parseLogPageHtml(await this.fetchPageHtml(title));
+      if (Object.keys(sections).length === 0) throw new Error(`no log sections parsed from ${title}`);
+      for (const [section, names] of Object.entries(sections))
+        for (const name of names) items.push({ id: ++id, name, tabs: [section] });
+    }
+    return items;
   }
 
   /** Mutate COLLECTION_LOG_DATA in place (idempotent: skips items already present). */

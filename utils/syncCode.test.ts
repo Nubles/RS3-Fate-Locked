@@ -8,7 +8,7 @@ const sampleState = {
   chaosKeys: 1,
   fatePoints: 13,
   unlocks: {
-    skills: { Hitpoints: 5, Attack: 3 },
+    skills: { Constitution: 5, Attack: 3 },
     regions: ['Varrock', 'Falador'],
     quests: ['cooks_assistant', 'dragon_slayer'],
   },

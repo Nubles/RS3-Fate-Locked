@@ -14,11 +14,14 @@ import { planBoss, BossPlan, BOSS_ALIASES, PlayerCombat, Readiness, Danger } fro
 import { EntityModel } from './EntityModel';
 import { modelFor, orientationFor } from '../data/entityModels';
 import { WikiLink } from './WikiLink';
+import { SPECIAL_ICONS } from '../data/assets';
 
 interface Props { onClose: () => void }
 type Status = 'loading' | 'ready' | 'error';
 
-const monsterImg = (file: string) => `https://oldschool.runescape.wiki/images/${(file || '').replace(/ /g, '_')}`;
+const monsterImg = (file: string) => `https://runescape.wiki/images/${(file || '').replace(/ /g, '_')}`;
+/** RS3 wiki art for the boss (curated), falling back to the stat block's image. */
+const bossImg = (boss: string, monster: MonsterStats) => monsterImg(SPECIAL_ICONS[boss] ?? monster.imageFile);
 
 const READINESS: Record<Readiness, { label: string; cls: string; dot: string }> = {
   excellent: { label: 'Excellent', cls: 'text-emerald-300', dot: 'bg-emerald-400' },
@@ -69,7 +72,7 @@ export const BossKillPlanner: React.FC<Props> = ({ onClose }) => {
   const player: PlayerCombat = useMemo(() => {
     const L = unlocks.levels || {};
     return {
-      levels: { attack: L.Attack || 1, strength: L.Strength || 1, ranged: L.Ranged || 1, magic: L.Magic || 1, hitpoints: L.Hitpoints || 10 },
+      levels: { attack: L.Attack || 1, strength: L.Strength || 1, ranged: L.Ranged || 1, magic: L.Magic || 1, hitpoints: L.Constitution || 10 },
       gear: { bonuses: gear.bonuses, speedTicks: gear.speedTicks },
       boostsOn,
     };
@@ -100,12 +103,12 @@ export const BossKillPlanner: React.FC<Props> = ({ onClose }) => {
           <div className="p-2 bg-red-900/20 rounded-lg border border-red-500/30 text-red-300"><Skull size={18} /></div>
           <div className="flex-1 min-w-0">
             <h2 className="text-base font-bold text-white leading-none flex items-center gap-1.5">Boss Kill Planner <SectionGuide id="KILL_PLANNER" /></h2>
-            <p className="text-[11px] text-gray-500 mt-1">Your DPS, kill times and readiness against the bosses you've unlocked.</p>
+            <p className="text-[11px] text-gray-500 mt-1">Estimated DPS, kill times and readiness against the bosses you've unlocked.</p>
           </div>
           <button onClick={() => window.dispatchEvent(new CustomEvent('fate:nav', { detail: { target: 'open:gallery' } }))} title="Review all 3D models" className="flex items-center gap-1.5 px-2.5 py-1 rounded border border-white/10 bg-[#1f1f1f] text-gray-400 hover:text-white hover:border-white/20 text-[10px] font-bold uppercase tracking-wide transition-colors">
             <Boxes size={11} /> Gallery
           </button>
-          <button onClick={() => setBoostsOn((b) => !b)} title="Toggle prayers + potions" className={`flex items-center gap-1.5 px-2.5 py-1 rounded border text-[10px] font-bold uppercase tracking-wide transition-colors ${boostsOn ? 'border-emerald-500/40 bg-emerald-950/30 text-emerald-300' : 'border-white/10 bg-[#1f1f1f] text-gray-400'}`}>
+          <button onClick={() => setBoostsOn((b) => !b)} title="Toggle prayers (Piety/Rigour) + potions" className={`flex items-center gap-1.5 px-2.5 py-1 rounded border text-[10px] font-bold uppercase tracking-wide transition-colors ${boostsOn ? 'border-emerald-500/40 bg-emerald-950/30 text-emerald-300' : 'border-white/10 bg-[#1f1f1f] text-gray-400'}`}>
             <FlaskConical size={11} /> Boosts {boostsOn ? 'on' : 'off'}
           </button>
           <button onClick={onClose} className="p-1.5 rounded hover:bg-white/10 text-gray-400 hover:text-white" aria-label="Close"><X size={18} /></button>
@@ -136,7 +139,7 @@ export const BossKillPlanner: React.FC<Props> = ({ onClose }) => {
                 const isActive = current?.boss === boss;
                 return (
                   <button key={boss} onClick={() => setSelected(boss)} className={`w-full flex items-center gap-2.5 rounded-lg px-2.5 py-2 border text-left transition-colors ${isActive ? 'border-red-500/40 bg-red-950/30' : 'border-transparent hover:bg-white/5'}`}>
-                    <img src={monsterImg(monster.imageFile)} alt="" className="w-7 h-7 object-contain shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.visibility = 'hidden'; }} />
+                    <img src={bossImg(boss, monster)} alt="" className="w-7 h-7 object-contain shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.visibility = 'hidden'; }} />
                     <div className="flex-1 min-w-0">
                       <div className="text-[12px] font-semibold text-gray-200 truncate">{boss}</div>
                       <div className={`text-[10px] flex items-center gap-1.5 ${r.cls}`}><span className={`w-1.5 h-1.5 rounded-full ${r.dot}`} /> {r.label} · {plan.dps.toFixed(1)} dps</div>
@@ -147,7 +150,7 @@ export const BossKillPlanner: React.FC<Props> = ({ onClose }) => {
               })}
               {encounters.length > 0 && (
                 <div className="pt-2 mt-1 border-t border-white/5">
-                  <div className="text-[9px] uppercase tracking-widest text-gray-600 px-1 mb-1">Encounters (no single-target DPS)</div>
+                  <div className="text-[9px] uppercase tracking-widest text-gray-600 px-1 mb-1">Encounters (no stat block — fight-specific mechanics)</div>
                   {encounters.map((b) => (
                     <div key={b} className="flex items-center gap-2 px-2.5 py-1.5 text-[11px] text-gray-500">
                       <Skull size={11} className="text-gray-700 shrink-0" /> <span className="truncate">{b}</span>
@@ -188,14 +191,14 @@ const Detail: React.FC<{ boss: string; monster: MonsterStats; plan: BossPlan; we
       {/* Large 3D model viewer (drag to rotate, scroll to zoom) */}
       {model && show3D && (
         <div className="relative w-full h-60 rounded-xl bg-gradient-to-b from-white/[0.05] to-black/30 border border-white/10 overflow-hidden">
-          <EntityModel src={model} poster={monsterImg(monster.imageFile)} alt={boss} interactive autoRotate={animationsEnabled} orientation={orientationFor(boss)} fill />
+          <EntityModel src={model} poster={bossImg(boss, monster)} alt={boss} interactive autoRotate={animationsEnabled} orientation={orientationFor(boss)} fill />
           {toggleBtn('absolute top-2 right-2 z-10')}
         </div>
       )}
 
       <div className="flex items-center gap-3">
         {(!model || !show3D) && (
-          <img src={monsterImg(monster.imageFile)} alt="" className="w-12 h-12 object-contain shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.visibility = 'hidden'; }} />
+          <img src={bossImg(boss, monster)} alt="" className="w-12 h-12 object-contain shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.visibility = 'hidden'; }} />
         )}
         <div className="min-w-0">
           <h3 className="text-lg font-bold text-white leading-tight truncate"><WikiLink name={boss} icon /></h3>
@@ -243,7 +246,7 @@ const Detail: React.FC<{ boss: string; monster: MonsterStats; plan: BossPlan; we
 
       <p className="text-[9px] text-gray-600 leading-relaxed flex items-start gap-1.5">
         <Info size={11} className="shrink-0 mt-0.5" />
-        DPS auto-picks your best melee/ranged option (Magic → use the DPS tab for spell-specific numbers). Kills/trip & danger are rough threat estimates assuming no protection prayers; special attacks and item passives aren't modelled.
+        Estimates use a classic accuracy × max-hit model, not RS3's ability rotations, adrenaline or Necromancy — read them as a relative readiness gauge. DPS auto-picks your best melee/ranged option (Magic → use the DPS tab). Kills/trip & danger assume no protection prayers or defensive abilities.
       </p>
     </div>
   );

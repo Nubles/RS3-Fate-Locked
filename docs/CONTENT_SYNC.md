@@ -1,4 +1,4 @@
-# Keeping the app up to date with new OSRS content
+# Keeping the app up to date with new RuneScape 3 content
 
 > *"Can the app self-update — when a new quest / collection-log item / boss is
 > released, does it add itself?"*
@@ -16,11 +16,20 @@ mechanisms:
 ### 1. Runtime self-update — live, zero action (Collection Log)
 
 `services/CollectionLogSyncService.ts` runs in the browser the first time a
-player opens the Collection Log. It fetches the wiki's **authoritative** source
-— `Module:Collection_log/data.json`, the same data the wiki and the in-game log
-use — diffs it against the bundled snapshot, and **appends any newly-tracked
+player opens the Collection Log. RS3 has no machine-readable collection-log
+module (OSRS's WikiSync-fed `Module:Collection_log` does not exist on the RS3
+wiki), so it fetches the RS3 wiki's rendered log pages — **`Boss collection
+log`** and **`Slayer collection log`** — via `action=parse`, reads each section
+heading as a log entry and the first item link of each table row as a tracked
+item, diffs that against the bundled snapshot, and **appends any newly-listed
 items onto existing pages, in memory.** A drop Jagex adds and the wiki records
 shows up with **no redeploy**.
+
+The **Treasure Trail collection log** is synced only at build time
+(`npm run clog:sync`): the bundled Clues tab is a curated subset of its
+hundreds of casket rewards, and auto-appending them all at runtime would
+balloon the slot count. The **Minigames** and **Other** tabs are app-curated —
+RS3 has no minigame log — and are never synced.
 
 It is deliberately constrained to stay safe:
 
@@ -58,7 +67,7 @@ npm run clog:sync     # or: npm run content:sync
 | **Collection log items** | ✅ **Auto, live** (runtime sync) + baked in by CI | ⚠️ Detected; page added by `clog:sync` once a tab is chosen |
 | **Bosses** | ✅ new drops auto-add to the boss's log | ⚠️ **Detected** (new log page) → curate: model, drop-rate, key cost, gacha tier, `BOSSES_LIST` |
 | **Quests** | — | ✅ **Detected** by `content:check` (wiki `{{Globals\|quests}}` count) → curate: skill reqs, prereqs, region, QP, difficulty tier |
-| **Combat Achievements** | ✅ **Auto-synced** by `ca:sync` — a CA task is fully wiki-defined (monster, official name, requirement, tier) with stable in-game ids, so the whole list regenerates from the wiki | ✅ same sync |
+| **Combat Achievements** | ⚠️ App-side self-audit (RS3 has no tiered CA task pages to compare against) | ⚠️ same |
 | **Diaries** | — | ⚠️ App-side self-audit (no clean wiki marker; diary content changes very rarely) |
 
 The curation gate is **intentional**, not a limitation:
@@ -67,9 +76,11 @@ The curation gate is **intentional**, not a limitation:
   cost and a gacha tier for it — none of which can be mechanically derived from
   the wiki. Auto-injecting a boss with no model/economy would be broken.
 - **Cross-data invariants must hold.** e.g. *every* Collection-Log boss page must
-  map to an unlockable boss (`data/consistency.test.ts`). Blind auto-add already
-  *would have* shipped a contradiction (the novelty "Brutus" page) — the test
-  caught it. The review gate is where that judgement lives.
+  map to an unlockable boss (`data/consistency.test.ts`), directly, through
+  `BOSS_PAGE_ALIASES` (e.g. the log's "Araxxi" page → `Araxxor`), or via the
+  explicit `COLLOG_ONLY_BOSS_PAGES` holding list for brand-new bosses not yet in
+  `BOSSES_LIST` (both in `data/collectionLogData.ts`). The review gate is where
+  that judgement lives.
 - **The wiki can be mid-edit or vandalised.** A test-gated PR means a bad upstream
   edit can't silently reach players.
 
@@ -84,15 +95,15 @@ instead of a blind importer, `scripts/check-content-sync.mjs` (`npm run
 content:check`, also part of `content:sync`) is a **detector**. It records the
 wiki's own authoritative numbers next to the app's in **`docs/SYNC_STATUS.md`**:
 
-- **Quests** — the wiki's `{{Globals|quests}}` / `quests p2p` / `quests f2p`
-  count variables (rendered via the API). The app tracks *more* entries than the
+- **Quests** — the RS3 wiki's `{{Globals|quests}}` / `quests p2p` / `quests f2p`
+  / `quest points` variables (Module:Globals, rendered via the API). The app tracks *more* entries than the
   wiki's quest count because it also includes miniquests/sub-quests, so the
   signal to watch is a **change** in the wiki number.
-- **Combat Achievements** — fully **auto-synced** (`npm run ca:sync`,
-  `scripts/sync-combat-achievements.mjs`): regenerates `data/caTasks.ts` from the
-  six tier pages, keying each task by its stable in-game `data-ca-task-id` so
-  re-runs are idempotent and preserve progress. `content:check` then just
-  verifies the per-tier counts match.
+- **Combat Achievements** — RS3 has no OSRS-style tiered CA task pages (its
+  combat achievements are boss-grouped entries in the Achievements system), so
+  `content:check` reports the app's per-tier counts only; the wiki comparison
+  switches back on if `RS3_CA_WIKI_PAGES` in the script is given a per-tier
+  source.
 - **Diaries** — app-side self-audit (per region/tier counts); the wiki exposes no
   stable per-task marker and diary content changes very rarely.
 
@@ -102,8 +113,6 @@ quest/CA shipped" into a reviewable PR (`docs/SYNC_STATUS.md` is in its
 `add-paths`). A human then curates the real entry in `data/questData.ts` /
 `data/caTasks.ts`.
 
-> The detector originally surfaced that the app tracked only 223 of the wiki's
-> 637 combat achievements; `ca:sync` then backfilled the full set (now 637/637 in
-> `SYNC_STATUS.md`). Adding another content type later follows the same pattern:
-> a `sync-*` script (if fully wiki-defined) or a detector entry, joining the same
-> weekly PR automatically.
+> Adding another content type later follows the same pattern: a `sync-*`
+> script (if fully wiki-defined) or a detector entry, joining the same weekly PR
+> automatically.

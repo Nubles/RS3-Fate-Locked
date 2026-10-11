@@ -13,7 +13,7 @@ interface ReferenceModalProps {
 
 type TabId = 'core' | 'economy' | 'modes' | 'drops' | 'altar' | 'region' | 'unlocks' | 'equipment' | 'storage';
 
-// Colour a roll rate along the OSRS difficulty gradient (rare → guaranteed).
+// Colour a roll rate along the difficulty gradient (rare → guaranteed).
 const rateColor = (rate: number): string =>
   rate >= 100 ? 'text-yellow-400'
   : rate >= 75 ? 'text-purple-400'
@@ -108,7 +108,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                 
                 {/* Flavor Text at bottom of sidebar */}
                 <div className="mt-auto p-6 text-center opacity-30">
-                    <img src="https://oldschool.runescape.wiki/images/Ironman_chat_badge.png" alt="Ironman" className="w-8 h-8 mx-auto mb-2 grayscale" />
+                    <img src="https://runescape.wiki/images/Ironman_chat_badge.png" alt="Ironman" className="w-8 h-8 mx-auto mb-2 grayscale" />
                     <p className="text-[10px] font-mono text-gray-500">Fate is absolute.</p>
                 </div>
             </div>
@@ -130,7 +130,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                     <Skull size={18} /> The Concept
                                 </h3>
                                 <p className="text-gray-300 leading-relaxed text-sm">
-                                    This is a <b>"Snowball" style restriction mode</b> for Old School RuneScape. 
+                                    This is a <b>"Snowball" style restriction mode</b> for RuneScape 3 (RS3). 
                                     You start as a fresh account (Ironman) with everything locked: you cannot equip armor, train skills past level 1, enter specific map regions, or use transport methods.
                                 </p>
                             </div>
@@ -255,7 +255,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                             <div className="bg-gradient-to-br from-[#1d2230] to-[#222] p-6 rounded-xl border border-blue-500/20">
                                 <h3 className="text-blue-300 font-bold uppercase tracking-widest mb-4 flex items-center gap-2"><Dices size={18}/> A single roll, start to finish</h3>
                                 <ol className="space-y-3 text-sm text-gray-300">
-                                    <li><b className="text-white">1.</b> You finish <b>Dragon Slayer II</b> — a <b className="text-purple-400">Master</b> quest — and tick it off in the Journal.</li>
+                                    <li><b className="text-white">1.</b> You finish <b>Desert Treasure</b> — a <b className="text-purple-400">Master</b> quest — and tick it off in the Journal.</li>
                                     <li><b className="text-white">2.</b> The app rolls <span className="font-mono">1–100</span> against its <b className="text-purple-400">95%</b> threshold. You roll <span className="font-mono text-green-400">42</span> → a Key!</li>
                                     <li><b className="text-white">3.</b> Every success then rolls for an upgrade. In {activeMode.name} mode that's a <b className="text-purple-400">{rules.omniChanceBase}%</b> Omni chance (up to 20% on this very quest). Miss it and you bank a Standard Key; hit it and you <i>also</i> pocket an <b className="text-purple-400">Omni-Key</b>.</li>
                                     <li><b className="text-white">4.</b> Take the Key to <b className="text-osrs-gold">Spend Keys</b>, choose the <b>Skills</b> table, and unlock a random skill tier — say Slayer. Those new Slayer levels open fresh tasks to roll on.</li>
@@ -591,7 +591,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                     <div>
                                         <h3 className="font-bold text-gray-200 text-lg">Skills</h3>
                                         <p className="text-sm text-gray-400 mt-1 leading-relaxed">
-                                            All skills start locked at Level 1 (except HP).
+                                            All 29 skills start locked at Level 1 (except Constitution, which starts at 10).
                                             <br/>
                                             1 Key = Unlock Tier 1 (Content 1-10). You may level a skill to 99, but you are restricted to using resources/methods from your unlocked Tiers only.
                                             <br/>
@@ -609,7 +609,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                         <p className="text-sm text-gray-400 mt-1 leading-relaxed">
                                             You start in <b>Misthalin</b> (Lumbridge/Varrock/Draynor).
                                             <br/>
-                                            1 Key = Unlock a random adjacent or logical region chunk (e.g. "Catherby", "Fremennik Province").
+                                            1 Key = Unlock a random adjacent or logical region chunk (e.g. "Catherby", "Fremennik").
                                             <br/>
                                             You can only enter unlocked regions.
                                         </p>
@@ -643,7 +643,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                         <div className="space-y-8 animate-in slide-in-from-right-4 duration-300">
                             <div>
                                 <h1 className="text-3xl font-black text-white mb-2">Equipment Tiers</h1>
-                                <p className="text-gray-400">Progression of gear power.</p>
+                                <p className="text-gray-400">Progression of gear power, by RS3 item tier (the level needed to wield or wear it).</p>
                             </div>
 
                             <div className="bg-[#222] rounded-xl border border-white/5 overflow-hidden">
@@ -656,15 +656,15 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-800 text-gray-300">
-                                        <tr><td className="p-4 font-bold text-gray-500">Tier 1</td><td className="p-4">Bronze / Iron / Leather</td><td className="p-4 text-xs text-gray-500">Standard spells, Wooden shield</td></tr>
-                                        <tr><td className="p-4 font-bold text-orange-800">Tier 2</td><td className="p-4">Steel / Black / Studded</td><td className="p-4 text-xs text-gray-500">Oak shortbow, Steel scimitar</td></tr>
-                                        <tr><td className="p-4 font-bold text-gray-400">Tier 3</td><td className="p-4">Mithril / Initiate</td><td className="p-4 text-xs text-gray-500">Willow bow, Xerician robes</td></tr>
-                                        <tr><td className="p-4 font-bold text-green-700">Tier 4</td><td className="p-4">Adamant / Green D'hide</td><td className="p-4 text-xs text-gray-500">Maple bow, Mystic robes</td></tr>
-                                        <tr><td className="p-4 font-bold text-cyan-500">Tier 5</td><td className="p-4">Rune / Blue D'hide</td><td className="p-4 text-xs text-gray-500">Yew bow, Ibans Staff</td></tr>
-                                        <tr><td className="p-4 font-bold text-red-500">Tier 6</td><td className="p-4">Dragon / Red D'hide</td><td className="p-4 text-xs text-gray-500">Magic bow, Ancient staff</td></tr>
-                                        <tr><td className="p-4 font-bold text-purple-500">Tier 7</td><td className="p-4">Barrows / Black D'hide</td><td className="p-4 text-xs text-gray-500">Ahrims, Karils, Obsidian</td></tr>
-                                        <tr><td className="p-4 font-bold text-yellow-500">Tier 8</td><td className="p-4">God Wars / Zenyte</td><td className="p-4 text-xs text-gray-500">Bandos, Armadyl, Trident</td></tr>
-                                        <tr><td className="p-4 font-bold text-blue-400">Tier 9</td><td className="p-4">Raids / Endgame</td><td className="p-4 text-xs text-gray-500">Ancestral, Torva, Masori, T-Bow</td></tr>
+                                        <tr><td className="p-4 font-bold text-gray-500">Tier 1</td><td className="p-4">Bronze / Iron (tier 1–10)</td><td className="p-4 text-xs text-gray-500">Leather, Hard leather, Wizard robes, Standard spells</td></tr>
+                                        <tr><td className="p-4 font-bold text-orange-800">Tier 2</td><td className="p-4">Steel / Black / Mithril (tier 20–30)</td><td className="p-4 text-xs text-gray-500">Studded leather, Willow/Maple shieldbows, Battlestaves</td></tr>
+                                        <tr><td className="p-4 font-bold text-gray-400">Tier 3</td><td className="p-4">Adamant / Rune (tier 40–50)</td><td className="p-4 text-xs text-gray-500">Green / Blue d'hide, Mystic robes, Yew shieldbow</td></tr>
+                                        <tr><td className="p-4 font-bold text-green-700">Tier 4</td><td className="p-4">Granite / Orikalkum / Dragon (tier 55–60)</td><td className="p-4 text-xs text-gray-500">Red / Black d'hide, Dragon scimitar, Magic shieldbow</td></tr>
+                                        <tr><td className="p-4 font-bold text-cyan-500">Tier 5</td><td className="p-4">Necronium / Barrows / God Wars 1 armour (tier 70)</td><td className="p-4 text-xs text-gray-500">Bandos, Armadyl, Subjugation, Abyssal whip, Dark bow</td></tr>
+                                        <tr><td className="p-4 font-bold text-red-500">Tier 6</td><td className="p-4">Bane / Torva / Pernix / Virtus / Anima core / Elder rune (tier 80)</td><td className="p-4 text-xs text-gray-500">Chaotic weapons, Elder rune armour</td></tr>
+                                        <tr><td className="p-4 font-bold text-purple-500">Tier 7</td><td className="p-4">Tier 85–88</td><td className="p-4 text-xs text-gray-500">Tetsu, Death Lotus, Seasinger's, Refined anima core, Superior Statius/Vesta/Morrigan/Zuriel</td></tr>
+                                        <tr><td className="p-4 font-bold text-yellow-500">Tier 8</td><td className="p-4">Tier 90</td><td className="p-4 text-xs text-gray-500">Malevolent, Sirenic, Tectonic, Masterwork, Elder rune +5, Deathwarden/Deathdealer, Noxious, Drygore</td></tr>
+                                        <tr><td className="p-4 font-bold text-blue-400">Tier 9</td><td className="p-4">Tier 92–95</td><td className="p-4 text-xs text-gray-500">Trimmed masterwork, Elite Sirenic, Elite Tectonic, Elite Dracolich, Vestments of havoc, Zaros godsword, Eldritch crossbow, Fractured Staff of Armadyl</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -684,7 +684,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 <ul className="space-y-4 text-sm text-gray-300 list-disc list-inside">
                                     <li><b>No Banking</b> allowed by default (Ultimate Ironman).</li>
                                     <li>However, you can unlock specific <b>Storage Containers</b> via the gacha.</li>
-                                    <li>Unlockable items include: Looting Bag, Rune Pouch, Seed Box, etc.</li>
+                                    <li>Unlockable items include: Money Pouch, Rune Pouch, Ore Box, Gem Bag, Bonecrusher, Beast of Burden, etc.</li>
                                     <li>If you unlock "Bank Access" (Rare), you may use banks in specific regions only.</li>
                                 </ul>
                             </div>

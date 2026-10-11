@@ -1,8 +1,14 @@
 // One-off authoring tool: enriches existing RESOURCE_MAP items with SHOP and
-// DROP sources pulled from the OSRS Wiki `storeline` and `dropsline` buckets.
-// Writes data/resourceEnrichment.ts, which resourceData.ts merges at load.
+// DROP sources pulled from the RuneScape Wiki (RS3, runescape.wiki)
+// `storeline` and `dropsline` buckets. Writes data/resourceEnrichment.ts,
+// which resourceData.ts merges at load.
 //
-// Run:  npx tsx scripts/buildSourceEnrichment.ts
+// Run:  npx tsx scripts/buildSourceEnrichment.ts      (needs network)
+//
+// Assumes the RS3 wiki's buckets match the Weird Gloop schema used here
+// (storeline: sold_item/sold_by/store_currency; dropsline: item_name/
+// drop_json; infobox_monster: name/league_region; infobox_shop: page_name/
+// location). Any non-bucket response throws before anything is written.
 import { execFileSync } from 'child_process';
 import { writeFileSync } from 'fs';
 import { RESOURCE_MAP } from '../data/resourceData';
@@ -11,7 +17,7 @@ import { BOSSES_LIST, MINIGAMES_LIST, REGION_GROUPS, MISTHALIN_AREAS } from '../
 import { ACTIVITY_REGIONS } from '../data/activityRegions';
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)';
-const API = 'https://oldschool.runescape.wiki/api.php';
+const API = 'https://runescape.wiki/api.php';
 
 /** Fetch every row of a bucket, paginating past the 5000-row query cap. */
 const fetchAll = (table: string, fields: string[]): any[] => {
@@ -37,31 +43,29 @@ const toAppCase = (raw: string) =>
     return w.charAt(0).toUpperCase() + w.slice(1);
   }).join(' ');
 
-// Wiki Leagues region -> app region group.
+// RS3 wiki League region -> app region group. RS3 League regions that have no
+// single app continent (e.g. Havenhythe, Equilibrium) are deliberately absent
+// and fall back to the place-name lookup or 'Any'.
 const REGION_MAP: Record<string, string> = {
   Misthalin: 'Misthalin', Karamja: 'Karamja', Asgarnia: 'Asgarnia',
   Kandarin: 'Kandarin', Fremennik: 'Fremennik', Tirannwn: 'Tirannwn',
-  Morytania: 'Morytania', Wilderness: 'Wilderness', Varlamore: 'Varlamore',
-  Kourend: 'Kourend & Kebos', Desert: 'Kharidian Desert',
+  Morytania: 'Morytania', Wilderness: 'Wilderness', Desert: 'Kharidian Desert',
+  'Kharidian Desert': 'Kharidian Desert', Anachronia: 'Anachronia',
+  Daemonheim: 'Daemonheim', 'The Arc': 'The Arc',
 };
 
-// Curated region tags for notably region-locked shops; others fall back to 'Any'.
+// Curated region tags for notably region-locked shops; others fall back to
+// the infobox_shop location lookup, then 'Any'.
 const SHOP_REGION: Record<string, string> = {
   'Lletya Seamstress': 'Tirannwn',
-  'Eudav': 'Tirannwn',
-  'Cardea': 'Tirannwn',
-  'Lliann': 'Tirannwn',
   "Lliann's Wares": 'Tirannwn',
-  'TzHaar-Hur-Tel': 'Karamja',
+  'TzHaar-Hur-Tel\'s Equipment Store': 'Karamja',
   "TzHaar-Hur-Lek's Ore and Gem Store": 'Karamja',
-  'Tzhaar-Mej-Roh': 'Karamja',
-  'Sunset Coast Mining Resort': 'Varlamore',
-  'Hunter Guild': 'Varlamore',
-  'Wintertodt': 'Kourend & Kebos',
-  'Quartermaster': 'Kourend & Kebos',
-  'Mistrock': 'Fremennik',
-  'Daga': 'Islands & Others',
+  'TzHaar-Mej-Roh\'s Rune Store': 'Karamja',
   "Daga's Scimitar Smithy": 'Islands & Others',
+  "Thalmund's Smithy": 'Morytania',
+  'Meilyr Recipe Shop': 'Tirannwn',
+  'Anachronia Base Camp Supplies': 'Anachronia',
 };
 
 // --- gather wiki data -------------------------------------------------------
@@ -164,46 +168,45 @@ const rarityRank = (r: string): number => {
 // can gate enriched drops on whether the player has that unlock.
 const UNLOCK_BY_NAME = new Map<string, string>();
 for (const u of [...BOSSES_LIST, ...MINIGAMES_LIST]) UNLOCK_BY_NAME.set(u.toLowerCase(), u);
-// Activity-rewards drop sources whose bare names don't match a boss/minigame
-// list entry. Without these the lock analysis treated their drops as
-// unconditionally available (e.g. Twisted Bow's "Ancient Chest" source had
-// no unlockId, so the engine showed it unlockable from a fresh state).
+// Activity-rewards drop sources whose wiki names don't match a boss/minigame
+// list entry verbatim (full boss titles, individual encounter members,
+// reward chests). Without these the lock analysis would treat their drops as
+// unconditionally available on a fresh state.
 const UNLOCK_ALIAS: Record<string, string> = {
   barrows: 'Barrows Brothers',
-  "barrows chest": 'Barrows Brothers',
-  'dagannoth kings': 'Dagannoth Kings',
-  // Chambers of Xeric
-  'ancient chest': 'Chambers of Xeric',
-  'great olm': 'Chambers of Xeric',
-  // Tombs of Amascut
-  'monumental chest': 'Tombs of Amascut',
-  // Pest Control
+  'barrows chest': 'Barrows Brothers',
+  'rise of the six': 'Barrows: Rise of the Six',
+  'dagannoth rex': 'Dagannoth Kings',
+  'dagannoth prime': 'Dagannoth Kings',
+  'dagannoth supreme': 'Dagannoth Kings',
+  'telos, the warden': 'Telos',
+  'araxxi': 'Araxxor',
+  'rasial, the first necromancer': 'Rasial',
+  'kerapac, the bound': 'Kerapac',
+  'solak, guardian of the grove': 'Solak',
+  'raksha, the shadow colossus': 'Raksha',
+  'the twin furies': 'Twin Furies',
+  'vindicta': 'Vindicta & Gorvek',
+  'hermod, the spirit of war': 'Hermod',
+  'nex, angel of death': 'Nex: Angel of Death',
+  'zamorak': 'Zamorak, Lord of Chaos',
+  'amascut': 'Amascut, the Devourer',
+  'legio primus': 'Legiones', 'legio secundus': 'Legiones', 'legio tertius': 'Legiones',
+  'legio quartus': 'Legiones', 'legio quintus': 'Legiones', 'legio sextus': 'Legiones',
+  'tztok-jad': 'TzHaar Fight Cave',
+  // Elite dungeon end bosses
+  'seiryu the azure serpent': 'Temple of Aminishi',
+  'astellarn': 'Dragonkin Laboratory',
+  'the black stone dragon': 'Black Stone Dragon',
+  'the ambassador': 'The Shadow Reef',
+  // Minigame reward containers
   'extra supply crate': 'Pest Control',
-  // Wintertodt
-  'reward cart': 'Wintertodt',
-  // Hallowed Sepulchre — the "Coffin (...)" naming is caught by the paren
-  // rule below, but the standalone "Grand Hallowed Coffin" / "Casket" need
-  // an explicit alias.
-  'grand hallowed coffin': 'Hallowed Sepulchre',
-  // Theatre of Blood — final-boss / chamber-chest names that aren't in
-  // BOSSES_LIST/MINIGAMES_LIST as such.
-  'verzik vitur': 'Theatre of Blood',
-  'pestilent bloat': 'Theatre of Blood',
-  'sotetseg': 'Theatre of Blood',
-  'xarpus': 'Theatre of Blood',
-  'nylocas vasilias': 'Theatre of Blood',
-  'maiden of sugadinti': 'Theatre of Blood',
-  // ToA per-room bosses (Wardens (...) is paren-rule, but bare names need this)
-  'akkha': 'Tombs of Amascut',
-  'ba-ba': 'Tombs of Amascut',
-  'kephri': 'Tombs of Amascut',
-  'zebak': 'Tombs of Amascut',
 };
 const resolveUnlock = (name: string): string | undefined => {
   const l = name.toLowerCase();
   if (UNLOCK_BY_NAME.has(l)) return UNLOCK_BY_NAME.get(l);
   if (UNLOCK_ALIAS[l]) return UNLOCK_ALIAS[l];
-  // Reward-chest style names, e.g. "Rewards Chest (Fortis Colosseum)".
+  // Reward-chest style names, e.g. "Reward chest (Shattered Worlds)".
   const paren = name.match(/\(([^)]+)\)/);
   if (paren && UNLOCK_BY_NAME.has(paren[1].toLowerCase())) {
     return UNLOCK_BY_NAME.get(paren[1].toLowerCase());
@@ -292,8 +295,8 @@ const fmt = (s: any) => {
 
 let out =
   `// AUTO-GENERATED by scripts/buildSourceEnrichment.ts — do not edit by hand.\n` +
-  `// Additional SHOP/DROP sources sourced from the OSRS Wiki, merged into\n` +
-  `// RESOURCE_MAP at load time by resourceData.ts.\n` +
+  `// Additional SHOP/DROP sources sourced from the RuneScape Wiki (runescape.wiki\n` +
+  `// bucket API), merged into RESOURCE_MAP at load time by resourceData.ts.\n` +
   `import type { ResourceSource } from './resourceData';\n\n` +
   `export const ENRICHED_SOURCES: Record<string, ResourceSource[]> = {\n`;
 for (const key of Object.keys(enrichment).sort()) {

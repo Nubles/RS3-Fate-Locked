@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { createPortal } from 'react-dom';
 import { useGame } from '../context/GameContext';
 import { REGION_GROUPS, MISTHALIN_AREAS } from '../constants';
-import { Lock, Unlock, ZoomIn, ZoomOut, Move, Loader2, Download, Grid3x3, Paintbrush, Eye, EyeOff, ClipboardCopy, Trash2, FileDown, FileUp, Radio, Undo2, Redo2, Search, X, Target, ChevronLeft, ChevronRight, ChevronDown, Layers } from 'lucide-react';
+import { Lock, Unlock, ZoomIn, ZoomOut, Move, Loader2, Download, Grid3x3, Paintbrush, Eye, EyeOff, ClipboardCopy, Trash2, FileDown, FileUp, Undo2, Redo2, Search, X, Target, ChevronLeft, ChevronRight, ChevronDown, Layers } from 'lucide-react';
 import { ChunkActivityPanel } from './ChunkActivityPanel';
 import { SUB_AREA_CHUNKS } from '../data/subAreaChunks';
 import { REGION_CHUNKS } from '../data/regionChunks';
@@ -44,7 +44,7 @@ const CLUE_PREFIX = 'Clue: ';
 // ── Live shooting-star feed ────────────────────────────────────────────────
 // Crowdsourced active-star data (starminers) sends no CORS header, so the app
 // reads it through a user-hosted proxy (a tiny Cloudflare Worker — see
-// runelite-plugin/../docs). The URL comes from a Vite env var or a localStorage
+// docs). The URL comes from a Vite env var or a localStorage
 // override so it can be set without rebuilding.
 // Default proxy shipped for everyone (a Cloudflare Worker that re-serves the
 // starminers feed with CORS). A per-browser localStorage override or a build-time
@@ -58,14 +58,13 @@ const getStarFeedUrl = (): string => {
 };
 interface LiveStar { world: number; calledLocation: string; tier: number; minTime: number; maxTime: number }
 
-// Per-tier clue-scroll item images (OSRS wiki) shown in the marker hover card.
+// Per-tier clue-scroll item images (RuneScape Wiki) shown in the marker hover card.
 const CLUE_SCROLL_IMG: Record<string, string> = {
-  Beginner: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28beginner%29.png',
-  Easy: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28easy%29.png',
-  Medium: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28medium%29.png',
-  Hard: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28hard%29.png',
-  Elite: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28elite%29.png',
-  Master: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28master%29.png',
+  Easy: 'https://runescape.wiki/images/Clue_scroll_%28easy%29.png',
+  Medium: 'https://runescape.wiki/images/Clue_scroll_%28medium%29.png',
+  Hard: 'https://runescape.wiki/images/Clue_scroll_%28hard%29.png',
+  Elite: 'https://runescape.wiki/images/Clue_scroll_%28elite%29.png',
+  Master: 'https://runescape.wiki/images/Clue_scroll_%28master%29.png',
 };
 const overlayColor = (cat: string) =>
   cat.startsWith(CLUE_PREFIX) ? (CLUE_TIER_COLORS[cat.slice(CLUE_PREFIX.length)] ?? '#e879f9') : (OVERLAY_COLORS[cat] ?? '#38bdf8');
@@ -95,11 +94,15 @@ const REGION_COORDS: Record<string, { x: number; y: number }> = {
   'Fremennik': { x: 55.96, y: 26.73 },
   'Tirannwn': { x: 41.69, y: 44.33 },
   'Wilderness': { x: 71.13, y: 20.58 },
-  'Kourend & Kebos': { x: 20.77, y: 24.23 },
-  'Varlamore': { x: 17.91, y: 47.45 },
   'Islands & Others': { x: 78, y: 25 },
-  'The Open Seas': { x: 61.81, y: 74.35 }
 };
+
+// RS3-only continents (Daemonheim, Anachronia, The Arc) aren't on the shared
+// mainland map image, so they have no chunks and no marker. They're listed in
+// an "Off the map" panel instead (see MapContent).
+const OFF_MAP_CONTINENTS: string[] = Object.keys(REGION_GROUPS).filter(
+  c => !REGION_COORDS[c] && !(REGION_CHUNKS[c]?.length),
+);
 
 // REGION_CHUNKS lives in data/regionChunks.ts (shared with utils/chunkLocations
 // and the consistency tests). Re-exported here for back-compat.
@@ -183,6 +186,15 @@ interface LoadedDraft {
   keptStaleEdits: boolean;
 }
 
+// Names a draft may hold (RS3 continents + sub-areas). Hand-edited drafts
+// saved by the OSRS fork can carry continents that no longer exist (Kourend &
+// Kebos, Varlamore, The Open Seas…); those keys are dropped on load.
+const KNOWN_DRAFT_NAMES = new Set<string>([
+  'Misthalin', ...Object.keys(REGION_GROUPS), ...MISTHALIN_AREAS, ...Object.values(REGION_GROUPS).flat(),
+]);
+const pruneUnknown = (d: Record<string, ChunkCoord[]>): Record<string, ChunkCoord[]> =>
+  Object.fromEntries(Object.entries(d).filter(([k]) => KNOWN_DRAFT_NAMES.has(k)));
+
 const loadVersionedDraft = (key: string, shipped: Record<string, ChunkCoord[]>): LoadedDraft => {
   try {
     const raw = localStorage.getItem(key);
@@ -190,9 +202,9 @@ const loadVersionedDraft = (key: string, shipped: Record<string, ChunkCoord[]>):
       const parsed = JSON.parse(raw);
       if (parsed && parsed.v === 2 && parsed.data) {
         const stored = parsed as StoredDraft;
-        if (stored.seed === SEED_HASH) return { data: stored.data, dirty: stored.dirty, keptStaleEdits: false };
+        if (stored.seed === SEED_HASH) return { data: pruneUnknown(stored.data), dirty: stored.dirty, keptStaleEdits: false };
         if (!stored.dirty) return { data: shipped, dirty: false, keptStaleEdits: false }; // stale seed, no edits → resync
-        return { data: stored.data, dirty: true, keptStaleEdits: true };                   // keep real edits
+        return { data: pruneUnknown(stored.data), dirty: true, keptStaleEdits: true };     // keep real edits
       }
       // Legacy (pre-versioning) draft: can't tell edits from stale seed.
       // Resync to shipped — viewers get current data — but stash the old
@@ -249,13 +261,9 @@ const serializeDraft = (data: Record<string, ChunkCoord[]>) => {
   return `export const REGION_CHUNKS: Record<string, ChunkCoord[]> = {\n${entries.join('\n')}\n};`;
 };
 
-// Chunk-space offset between the web app's map coordinates and canonical OSRS
-// runescript coordinates (what RuneLite reports as `WorldPoint.getX() >> 6`).
-// MAP_BOUNDS is now calibrated exactly to the canonical chunk grid (see
-// utils/mapCoords.ts), so our cx/cy already equal canonical region coords and
-// no offset is required. Kept as an explicit field in RuneLite exports so the
-// plugin never has to guess.
-const RUNELITE_CHUNK_OFFSET = { cx: 0, cy: 0 } as const;
+// (The OSRS fork exported a bundle for its RuneLite plugin here. RuneLite is
+// OSRS-only, so the RS3 mode has no client-plugin export; an Alt1 Toolkit app
+// would be the RS3 equivalent.)
 
 // The heavy, rarely-changing part of the map: the 9216x6528 image, ~600 chunk
 // rects, the chunk grid and the region markers. Memoized so per-frame hover
@@ -286,7 +294,7 @@ const ProgressiveMapImage: React.FC = () => {
     <>
       <img
         src={MAP_IMAGE.srcLo}
-        alt="OSRS World Map"
+        alt="RuneScape 3 world map (Gielinor mainland)"
         className="w-full h-full object-fill pointer-events-none opacity-60 grayscale-[0.2]"
         draggable={false}
       />
@@ -385,14 +393,7 @@ const MapSurface = React.memo(({ chunkRects, gridLines, showGrid, rectBox, rectK
   </>
 ));
 
-interface GameSnapshot {
-  keys: number; specialKeys: number; chaosKeys: number;
-  fatePoints: number; activeBuff: string; pinnedGoals: string[];
-  /** OSRS account this run is bound to (Auto-Roll), if any. */
-  linkedAccount?: string;
-}
-
-const MapContent = React.memo(({ regionUnlocks, getGameSnapshot }: { regionUnlocks: string[]; getGameSnapshot: () => GameSnapshot }) => {
+const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapContentRef = useRef<HTMLDivElement>(null);
 
@@ -1105,37 +1106,6 @@ const MapContent = React.memo(({ regionUnlocks, getGameSnapshot }: { regionUnloc
     else window.prompt(`Copy this into ${isSub ? 'data/subAreaChunks.ts' : 'REGION_CHUNKS'}:`, code);
   };
 
-  const exportRuneLiteBundle = () => {
-    // v3 bundle: adds the run's bound OSRS account (state.linkedAccount) so the
-    // plugin can warn if you're logged into a different account. Builds on v2's
-    // sub-area layer + region hierarchy + live run state. Older plugins ignore
-    // the extra field; the plugin still accepts v1/v2 bundles.
-    const payload = {
-      version: 3,
-      exportedAt: new Date().toISOString(),
-      chunkOffset: RUNELITE_CHUNK_OFFSET,
-      chunks: draftChunks,
-      subAreaChunks: subDraft,
-      regionGroups: { Misthalin: MISTHALIN_AREAS, ...REGION_GROUPS },
-      unlockedRegions: regionUnlocks,
-      state: getGameSnapshot(),
-    };
-    const json = JSON.stringify(payload, null, 2);
-    // Clipboard first (paste straight into the plugin's side panel)…
-    navigator.clipboard?.writeText(json).catch(() => {});
-    // …and the file download for the watch-this-path workflow.
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `fate-locked-bundle-${new Date().toISOString().slice(0, 10)}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    showToast('RuneLite bundle copied + downloaded');
-  };
-
   const exportDraftJson = () => {
     const payload = {
       version: 1,
@@ -1693,6 +1663,28 @@ const MapContent = React.memo(({ regionUnlocks, getGameSnapshot }: { regionUnloc
           {authoring ? 'Authoring ON' : 'Authoring OFF'}
         </button>
 
+        {/* RS3-only regions that aren't on the map image (list-only). */}
+        {!authoring && OFF_MAP_CONTINENTS.length > 0 && (
+          <div className="bg-black/85 border border-white/15 rounded-md shadow-lg p-2 w-[220px] max-w-[60vw] flex flex-col gap-1.5">
+            <div className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Off the map</div>
+            {OFF_MAP_CONTINENTS.map(cont => {
+              const subs = REGION_GROUPS[cont] ?? [];
+              const done = subs.filter(s => isRegionUnlocked(s, regionUnlocks)).length;
+              const open = isRegionUnlocked(cont, regionUnlocks);
+              return (
+                <div key={cont} className="flex items-center gap-1.5 text-[11px]" title={subs.join(', ')}>
+                  {open ? <Unlock size={11} className="text-emerald-400 shrink-0" /> : <Lock size={11} className="text-red-400 shrink-0" />}
+                  <span className={`flex-1 truncate ${open ? 'text-emerald-300' : 'text-gray-300'}`}>{cont}</span>
+                  <span className="font-mono text-[10px] text-gray-500">{done}/{subs.length}</span>
+                </div>
+              );
+            })}
+            <p className="text-[9px] text-gray-500 leading-snug">
+              RS3-only areas (these continents, plus places like Menaphos, Prifddinas and Everlight) aren't drawn on this mainland map image — track them in the region list.
+            </p>
+          </div>
+        )}
+
         {authoring && (
           <div className="bg-black/90 border border-white/20 rounded-md shadow-lg p-3 flex flex-col gap-2 w-[260px]">
             {/* Layer toggle: paint broad continent blocks, or the named
@@ -1811,15 +1803,6 @@ const MapContent = React.memo(({ regionUnlocks, getGameSnapshot }: { regionUnloc
                 JSON
               </button>
               <button
-                onClick={exportRuneLiteBundle}
-                disabled={authorLevel === 'SUBAREA'}
-                className="flex-1 px-2 py-1 rounded text-[11px] border bg-amber-900/70 border-amber-500/50 text-amber-100 hover:bg-amber-800/80 disabled:opacity-40 flex items-center justify-center gap-1"
-                title={authorLevel === 'SUBAREA' ? 'RuneLite export works at the Regions level' : 'Export bundle for RuneLite plugin (chunks + unlocks + offset)'}
-              >
-                <Radio size={12} />
-                RL
-              </button>
-              <button
                 onClick={() => importFileRef.current?.click()}
                 disabled={authorLevel === 'SUBAREA'}
                 className="flex-1 px-2 py-1 rounded text-[11px] border bg-indigo-900/70 border-indigo-500/50 text-indigo-100 hover:bg-indigo-800/80 disabled:opacity-40 flex items-center justify-center gap-1"
@@ -1926,11 +1909,6 @@ const MapContent = React.memo(({ regionUnlocks, getGameSnapshot }: { regionUnloc
 }, (prev, next) => prev.regionUnlocks === next.regionUnlocks);
 
 export const RegionMap: React.FC = () => {
-  const { unlocks, keys, specialKeys, chaosKeys, fatePoints, activeBuff, pinnedGoals, linkedAccount } = useGame();
-  // Live run state for the RuneLite bundle, read lazily at export time via a
-  // stable getter so MapContent's memoization (regionUnlocks-only) holds.
-  const snapRef = useRef<GameSnapshot>({ keys: 0, specialKeys: 0, chaosKeys: 0, fatePoints: 0, activeBuff: 'NONE', pinnedGoals: [] as string[] });
-  snapRef.current = { keys, specialKeys, chaosKeys, fatePoints, activeBuff, pinnedGoals: pinnedGoals ?? [], linkedAccount };
-  const getGameSnapshot = useCallback(() => snapRef.current, []);
-  return <MapContent regionUnlocks={unlocks.regions} getGameSnapshot={getGameSnapshot} />;
+  const { unlocks } = useGame();
+  return <MapContent regionUnlocks={unlocks.regions} />;
 };

@@ -106,7 +106,7 @@ export const DiaryInsights: React.FC = () => {
     const areas = new Map<string, { done: number; total: number }>();
     let closest: { tier: string; left: number; doable: number; key: [number, number, number] } | null = null;
     for (const tier of Object.keys(DIARY_DATA)) {
-      const area = tier.replace(/ (Easy|Medium|Hard|Elite)$/, '');
+      const area = tier.replace(/ (Beginner|Easy|Medium|Hard|Elite)$/, '');
       const tasks = tasksByTier.get(tier) ?? [];
       const done = tasks.filter(t => doneTasks.has(t.id)).length;
       const a = areas.get(area) ?? { done: 0, total: 0 };

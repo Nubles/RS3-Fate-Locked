@@ -23,9 +23,9 @@ const getItemDescription = (type: string, name: string): string => {
     const t = type.toLowerCase();
     
     // New specific checks
-    if (name === 'Bedroom (Servant)') return "You may now hire Servants (Demon Butler) to speed up Construction training.";
+    if (name === 'Servant\'s Bedroom') return "You may now hire a servant (up to the Demon butler) to speed up Construction training.";
     if (name === 'Servant\'s Moneybag') return "You may now pay your servant directly from the coffer.";
-    if (name === 'Achievement Cape Hanger') return "You may now mount Achievement Capes to utilize their perks.";
+    if (name === 'Cape Rack') return "You may now store capes of accomplishment and other capes in your house.";
 
     if (t.includes('skill')) return `Training methods unlocked for ${name}. You may train to 99 using unlocked methods.`;
     if (t.includes('equipment')) return "You can now equip items in this slot (up to your unlocked tier).";
@@ -137,7 +137,7 @@ export const VoidReveal: React.FC<VoidRevealProps> = ({ itemName, itemType, item
   }, [isChaos, animationsEnabled]);
 
   const handleCopyFlex = () => {
-      const text = `🔥 Fate-Locked UIM Update 🔥\nJust unlocked: **${itemName}** (${itemType})!\n#OSRS #FateLocked`;
+      const text = `🔥 Fate-Locked Ironman Update 🔥\nJust unlocked: **${itemName}** (${itemType})!\n#RS3 #RuneScape #FateLocked`;
       navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);

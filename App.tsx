@@ -408,7 +408,7 @@ const GameLayout = () => {
   const [supplyChainPreset, setSupplyChainPreset] = useState<string | undefined>(undefined);
 
   // Cross-component shortcut: any child can dispatch `open-resource-engine`
-  // with `{ detail: { item: 'Vorkath' } }` to open the modal pre-populated.
+  // with `{ detail: { item: 'Vorago' } }` to open the modal pre-populated.
   // Used by the GoalTracker's Closest-unlocks chips so the dashboard can deep-
   // link into the engine without prop-drilling a callback through every layer.
   React.useEffect(() => {

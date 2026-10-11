@@ -7,7 +7,8 @@ import { diaryUnmet } from '../utils/journalProgress';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 type Status = 'done' | 'available' | 'almost' | 'locked';
-const TIERS = ['Easy', 'Medium', 'Hard', 'Elite'] as const;
+// RS3: Lumbridge runs Beginner–Hard (no Elite); every other area Easy–Elite.
+const TIERS = ['Beginner', 'Easy', 'Medium', 'Hard', 'Elite'] as const;
 
 const CELL: Record<Status, string> = {
   done: 'bg-emerald-500/80 hover:bg-emerald-400',
@@ -27,7 +28,7 @@ export const DiaryHeatmap: React.FC<{ onPick: (diaryId: string) => void }> = ({ 
 
   // Diary "areas" are the id prefix (e.g. "Ardougne"), not the continent.
   const { areas, statusOf } = useMemo(() => {
-    const areas = [...new Set(Object.keys(DIARY_DATA).map(id => id.replace(/ (Easy|Medium|Hard|Elite)$/, '')))];
+    const areas = [...new Set(Object.keys(DIARY_DATA).map(id => id.replace(/ (Beginner|Easy|Medium|Hard|Elite)$/, '')))];
     const statusOf = (area: string, tier: string): Status | null => {
       const d = DIARY_DATA[`${area} ${tier}`];
       if (!d) return null;
@@ -55,7 +56,7 @@ export const DiaryHeatmap: React.FC<{ onPick: (diaryId: string) => void }> = ({ 
       </button>
       {open && (
         <div className="px-2 pb-2 overflow-x-auto">
-          <div className="grid gap-1 min-w-[300px]" style={{ gridTemplateColumns: '78px repeat(4, 1fr)' }}>
+          <div className="grid gap-1 min-w-[300px]" style={{ gridTemplateColumns: `78px repeat(${TIERS.length}, 1fr)` }}>
             <div />
             {TIERS.map(t => <div key={t} className="text-[9px] text-gray-600 text-center pb-0.5">{t}</div>)}
             {areas.map(area => (

@@ -113,24 +113,13 @@ export const DiaryLog: React.FC<DiaryLogProps> = ({ searchTerm: externalSearch =
     return 'AVAILABLE';
   };
 
+  // RS3 wiki has one page per diary tier: "<Tier> <Area> achievements",
+  // e.g. https://runescape.wiki/w/Easy_Seers%27_Village_achievements.
   const getDiaryWikiLink = (tierId: string) => {
-    const [region, tier] = tierId.split(' ');
-    const map: Record<string, string> = {
-        'Ardougne': 'Ardougne_Diary',
-        'Desert': 'Desert_Diary',
-        'Falador': 'Falador_Diary',
-        'Fremennik': 'Fremennik_Diary',
-        'Kandarin': 'Kandarin_Diary',
-        'Karamja': 'Karamja_Diary',
-        'Kourend': 'Kourend_%26_Kebos_Diary',
-        'Lumbridge': 'Lumbridge_%26_Draynor_Diary',
-        'Morytania': 'Morytania_Diary',
-        'Varrock': 'Varrock_Diary',
-        'Western': 'Western_Provinces_Diary',
-        'Wilderness': 'Wilderness_Diary'
-    };
-    const page = map[region] || 'Achievement_Diary';
-    return `https://oldschool.runescape.wiki/w/${page}#${tier}`;
+    const m = tierId.match(/^(.*) (Beginner|Easy|Medium|Hard|Elite)$/);
+    if (!m) return 'https://runescape.wiki/w/Achievement_Diary';
+    const [, area, tier] = m;
+    return `https://runescape.wiki/w/${encodeURIComponent(`${tier} ${area} achievements`.replace(/ /g, '_'))}`;
   };
 
   const diaries = useMemo(() => {
@@ -249,6 +238,7 @@ export const DiaryLog: React.FC<DiaryLogProps> = ({ searchTerm: externalSearch =
         activeRegion={filterRegion}
         onRegionChange={setFilterRegion}
         tiers={[
+          { id: 'Beginner', colorClass: 'bg-teal-900/40 text-teal-300' },
           { id: 'Easy', colorClass: 'bg-green-900/40 text-green-300' },
           { id: 'Medium', colorClass: 'bg-blue-900/40 text-blue-300' },
           { id: 'Hard', colorClass: 'bg-red-900/40 text-red-300' },
@@ -280,7 +270,7 @@ export const DiaryLog: React.FC<DiaryLogProps> = ({ searchTerm: externalSearch =
           const isAvailable = diary.status === 'AVAILABLE';
           const isSearching = searchTerm.length > 0;
           const isExpanded = expandedId === diary.id || isSearching;
-          const color = diary.tier === 'Elite' ? 'text-purple-400' : diary.tier === 'Hard' ? 'text-red-400' : diary.tier === 'Medium' ? 'text-blue-400' : 'text-green-400';
+          const color = diary.tier === 'Elite' ? 'text-purple-400' : diary.tier === 'Hard' ? 'text-red-400' : diary.tier === 'Medium' ? 'text-blue-400' : diary.tier === 'Beginner' ? 'text-teal-400' : 'text-green-400';
 
           const tasks = ALL_DIARY_TASKS.filter(t => t.tierId === diary.id);
           const hasTasks = tasks.length > 0;
@@ -318,7 +308,7 @@ export const DiaryLog: React.FC<DiaryLogProps> = ({ searchTerm: externalSearch =
               className={`group relative border rounded-lg overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/40 ${isCompleted ? 'bg-green-900/10 border-green-500/20 opacity-60 hover:opacity-100' : isAvailable ? 'bg-green-900/10 border-green-500/40' : 'bg-[#1a1a1a] border-white/5 opacity-80 hover:opacity-100'} ${highlightedId === diary.id ? 'ring-2 ring-amber-400/70 shadow-[0_0_20px_rgba(251,191,36,0.25)]' : ''}`}
             >
               {/* Tier accent edge */}
-              <div className={`absolute left-0 top-0 bottom-0 w-1 ${diary.tier === 'Elite' ? 'bg-purple-400' : diary.tier === 'Hard' ? 'bg-red-400' : diary.tier === 'Medium' ? 'bg-blue-400' : 'bg-green-400'} ${isCompleted ? 'opacity-40' : 'opacity-80 group-hover:opacity-100'}`} />
+              <div className={`absolute left-0 top-0 bottom-0 w-1 ${diary.tier === 'Elite' ? 'bg-purple-400' : diary.tier === 'Hard' ? 'bg-red-400' : diary.tier === 'Medium' ? 'bg-blue-400' : diary.tier === 'Beginner' ? 'bg-teal-400' : 'bg-green-400'} ${isCompleted ? 'opacity-40' : 'opacity-80 group-hover:opacity-100'}`} />
               <div 
                 className="p-3 flex justify-between items-start gap-4 cursor-pointer hover:bg-white/5"
                 onClick={() => setExpandedId(isExpanded && !isSearching ? null : diary.id)}
@@ -371,7 +361,7 @@ export const DiaryLog: React.FC<DiaryLogProps> = ({ searchTerm: externalSearch =
                           {missingDiaryQuests.map(q => (
                             <a
                               key={q}
-                              href={`https://oldschool.runescape.wiki/w/${encodeURIComponent(q.replace(/ /g, '_'))}`}
+                              href={`https://runescape.wiki/w/${encodeURIComponent(q.replace(/ /g, '_'))}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={(e) => e.stopPropagation()}

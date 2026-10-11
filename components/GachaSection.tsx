@@ -56,20 +56,22 @@ interface SpendCardProps {
   animate?: boolean;
 }
 
-const OSRS_GACHA_ICONS = {
-  EQUIPMENT: 'https://oldschool.runescape.wiki/images/Equipment_Stats.png',
-  SKILLS: 'https://oldschool.runescape.wiki/images/Stats_icon.png',
-  REGIONS: 'https://oldschool.runescape.wiki/images/World_map_icon.png',
-  MOBILITY: 'https://oldschool.runescape.wiki/images/Graceful_boots.png',
-  ARCANA: 'https://oldschool.runescape.wiki/images/Spellbook_Swap.png',
-  MINIGAMES: 'https://oldschool.runescape.wiki/images/Minigames.png',
-  BOSSES: 'https://oldschool.runescape.wiki/images/Culinaromancer.png',
-  POH: 'https://oldschool.runescape.wiki/images/Portal_%28Player-owned_house%29.png',
-  MERCHANTS: 'https://oldschool.runescape.wiki/images/General_store_icon.png',
-  STORAGE: 'https://oldschool.runescape.wiki/images/Looting_bag.png',
-  GUILDS: 'https://oldschool.runescape.wiki/images/Achievement_Diaries_icon.png',
-  FARMING: 'https://oldschool.runescape.wiki/images/Farming_icon.png',
-  SLAYER_UNLOCKS: 'https://oldschool.runescape.wiki/images/Slayer_icon.png',
+// Table icons — RS3 wiki files (skill icons, map icons, interface sprites).
+const RS3_IMG = 'https://runescape.wiki/images/';
+const RS3_GACHA_ICONS = {
+  EQUIPMENT: `${RS3_IMG}Worn_Equipment_icon.png`,
+  SKILLS: `${RS3_IMG}Skills_icon.png`,
+  REGIONS: `${RS3_IMG}Lodestone_map_icon.png`,
+  MOBILITY: `${RS3_IMG}Transportation_map_icon.png`,
+  ARCANA: `${RS3_IMG}Magic-icon.png`,
+  MINIGAMES: `${RS3_IMG}Minigame_map_icon.png`,
+  BOSSES: `${RS3_IMG}Attack-icon.png`,
+  POH: `${RS3_IMG}House_portal_map_icon.png`,
+  MERCHANTS: `${RS3_IMG}General_store_map_icon.png`,
+  STORAGE: `${RS3_IMG}Bank_map_icon.png`,
+  GUILDS: `${RS3_IMG}Quest_map_icon.png`,
+  FARMING: `${RS3_IMG}Farming-icon.png`,
+  SLAYER_UNLOCKS: `${RS3_IMG}Slayer-icon.png`,
 };
 
 const SpendCard: React.FC<SpendCardProps> = ({
@@ -157,17 +159,17 @@ export const GachaSection: React.FC = () => {
 
   const canUnlock = checkUnlockAvailability(unlocks);
 
-  // Helper to get image (mirrored from App.tsx/gameEngine logic)
-  const getUnlockImage = (table: string, item: string) => {
-    const baseUrl = 'https://oldschool.runescape.wiki/images/';
+  // Reveal image for an unlock: RS3 skill icon / slot sprite / curated icon,
+  // else the item's own wiki file. Wiki-backed tables are refined below via
+  // WikiService (page image) when no exact item sprite is known.
+  const getUnlockImage = (table: string, item: string): string | undefined => {
+    if (table === 'skill') return `${RS3_IMG}${item}-icon.png`;
+    if (table === 'equipment') return SLOT_CONFIG[item] ? `${RS3_IMG}${SLOT_CONFIG[item].file}` : undefined;
+    if (table === 'region' && REGION_ICONS[item]) return `${RS3_IMG}${REGION_ICONS[item]}`;
+    if (SPECIAL_ICONS[item]) return `${RS3_IMG}${SPECIAL_ICONS[item]}`;
     return `https://runescape.wiki/w/Special:Filepath/${encodeURIComponent(item.replace(/ /g, '_'))}.png`;
-    
-    if (table === 'skill') return `${baseUrl}${item}_icon.png`;
-    if (table === 'equipment') return SLOT_CONFIG[item] ? `${baseUrl}${SLOT_CONFIG[item].file}` : undefined;
-    if (table === 'region') return REGION_ICONS[item] ? `${baseUrl}${REGION_ICONS[item]}` : `${baseUrl}Globe_icon.png`;
-    return SPECIAL_ICONS[item] ? `${baseUrl}${SPECIAL_ICONS[item]}` : undefined;
   };
-  
+
   // Categories whose unlock items have wiki pages with images we can fetch.
   // Keep this list in sync with the equivalent list in Dashboard.tsx.
   const WIKI_FETCH_TYPES = [
@@ -265,19 +267,19 @@ export const GachaSection: React.FC = () => {
   const tierCount = (rec: Record<string, number> | undefined) =>
     Object.values(rec ?? {}).filter((v) => (v as number) > 0).length;
   const SPEND_CATEGORIES: { type: TableType; label: string; subLabel: string; iconSrc?: string; icon?: any; unlocked: number; total: number; can: boolean }[] = [
-    { type: TableType.EQUIPMENT, label: 'Equipment', subLabel: 'Upgrade Gear', iconSrc: OSRS_GACHA_ICONS.EQUIPMENT, unlocked: tierCount(unlocks.equipment), total: EQUIPMENT_SLOTS.length, can: canUnlock.equipment },
-    { type: TableType.SKILLS, label: 'Skills', subLabel: '+10 Level Cap', iconSrc: OSRS_GACHA_ICONS.SKILLS, unlocked: tierCount(unlocks.skills), total: SKILLS_LIST.length, can: canUnlock.skills },
-    { type: TableType.REGIONS, label: 'Areas', subLabel: 'New Territory', iconSrc: OSRS_GACHA_ICONS.REGIONS, unlocked: (unlocks.regions ?? []).length, total: REGIONS_LIST.length, can: canUnlock.regions },
-    { type: TableType.MOBILITY, label: 'Mobility', subLabel: 'Travel Networks', iconSrc: OSRS_GACHA_ICONS.MOBILITY, unlocked: (unlocks.mobility ?? []).length, total: MOBILITY_LIST.length, can: canUnlock.mobility },
-    { type: TableType.ARCANA, label: 'Arcana', subLabel: 'Spells & Prayers', iconSrc: OSRS_GACHA_ICONS.ARCANA, unlocked: (unlocks.arcana ?? []).length, total: ARCANA_LIST.length, can: canUnlock.arcana },
-    { type: TableType.STORAGE, label: 'Storage', subLabel: 'Inventory Space', iconSrc: OSRS_GACHA_ICONS.STORAGE, unlocked: (unlocks.storage ?? []).length, total: STORAGE_LIST.length, can: canUnlock.storage },
-    { type: TableType.POH, label: 'Housing', subLabel: 'POH Facilities', iconSrc: OSRS_GACHA_ICONS.POH, unlocked: (unlocks.housing ?? []).length, total: POH_LIST.length, can: canUnlock.poh },
-    { type: TableType.MERCHANTS, label: 'Merchants', subLabel: 'Shops & Wares', iconSrc: OSRS_GACHA_ICONS.MERCHANTS, unlocked: (unlocks.merchants ?? []).length, total: MERCHANTS_LIST.length, can: canUnlock.merchants },
-    { type: TableType.MINIGAMES, label: 'Minigames', subLabel: 'Activities & Fun', iconSrc: OSRS_GACHA_ICONS.MINIGAMES, unlocked: (unlocks.minigames ?? []).length, total: MINIGAMES_LIST.length, can: canUnlock.minigames },
-    { type: TableType.BOSSES, label: 'Bosses', subLabel: 'Major Encounters', iconSrc: OSRS_GACHA_ICONS.BOSSES, unlocked: (unlocks.bosses ?? []).length, total: BOSSES_LIST.length, can: canUnlock.bosses },
-    { type: TableType.GUILDS, label: 'Guilds', subLabel: 'Professional Societies', iconSrc: OSRS_GACHA_ICONS.GUILDS, unlocked: (unlocks.guilds ?? []).length, total: GUILDS_LIST.length, can: canUnlock.guilds },
-    { type: TableType.FARMING_LAYERS, label: 'Farming', subLabel: 'Patches', iconSrc: OSRS_GACHA_ICONS.FARMING, unlocked: (unlocks.farming ?? []).length, total: FARMING_PATCH_LIST.length, can: canUnlock.farming },
-    { type: TableType.SLAYER_UNLOCKS, label: 'Slayer', subLabel: 'Reward Unlocks', iconSrc: OSRS_GACHA_ICONS.SLAYER_UNLOCKS, unlocked: (unlocks.slayerUnlocks ?? []).length, total: SLAYER_UNLOCKS_LIST.length, can: canUnlock.slayerUnlocks },
+    { type: TableType.EQUIPMENT, label: 'Equipment', subLabel: 'Upgrade Gear', iconSrc: RS3_GACHA_ICONS.EQUIPMENT, unlocked: tierCount(unlocks.equipment), total: EQUIPMENT_SLOTS.length, can: canUnlock.equipment },
+    { type: TableType.SKILLS, label: 'Skills', subLabel: '+10 Level Cap', iconSrc: RS3_GACHA_ICONS.SKILLS, unlocked: tierCount(unlocks.skills), total: SKILLS_LIST.length, can: canUnlock.skills },
+    { type: TableType.REGIONS, label: 'Areas', subLabel: 'New Territory', iconSrc: RS3_GACHA_ICONS.REGIONS, unlocked: (unlocks.regions ?? []).length, total: REGIONS_LIST.length, can: canUnlock.regions },
+    { type: TableType.MOBILITY, label: 'Mobility', subLabel: 'Travel Networks', iconSrc: RS3_GACHA_ICONS.MOBILITY, unlocked: (unlocks.mobility ?? []).length, total: MOBILITY_LIST.length, can: canUnlock.mobility },
+    { type: TableType.ARCANA, label: 'Arcana', subLabel: 'Spells & Prayers', iconSrc: RS3_GACHA_ICONS.ARCANA, unlocked: (unlocks.arcana ?? []).length, total: ARCANA_LIST.length, can: canUnlock.arcana },
+    { type: TableType.STORAGE, label: 'Storage', subLabel: 'Inventory Space', iconSrc: RS3_GACHA_ICONS.STORAGE, unlocked: (unlocks.storage ?? []).length, total: STORAGE_LIST.length, can: canUnlock.storage },
+    { type: TableType.POH, label: 'Housing', subLabel: 'POH Facilities', iconSrc: RS3_GACHA_ICONS.POH, unlocked: (unlocks.housing ?? []).length, total: POH_LIST.length, can: canUnlock.poh },
+    { type: TableType.MERCHANTS, label: 'Merchants', subLabel: 'Shops & Wares', iconSrc: RS3_GACHA_ICONS.MERCHANTS, unlocked: (unlocks.merchants ?? []).length, total: MERCHANTS_LIST.length, can: canUnlock.merchants },
+    { type: TableType.MINIGAMES, label: 'Minigames', subLabel: 'Activities & Fun', iconSrc: RS3_GACHA_ICONS.MINIGAMES, unlocked: (unlocks.minigames ?? []).length, total: MINIGAMES_LIST.length, can: canUnlock.minigames },
+    { type: TableType.BOSSES, label: 'Bosses', subLabel: 'Major Encounters', iconSrc: RS3_GACHA_ICONS.BOSSES, unlocked: (unlocks.bosses ?? []).length, total: BOSSES_LIST.length, can: canUnlock.bosses },
+    { type: TableType.GUILDS, label: 'Guilds', subLabel: 'Professional Societies', iconSrc: RS3_GACHA_ICONS.GUILDS, unlocked: (unlocks.guilds ?? []).length, total: GUILDS_LIST.length, can: canUnlock.guilds },
+    { type: TableType.FARMING_LAYERS, label: 'Farming', subLabel: 'Patches', iconSrc: RS3_GACHA_ICONS.FARMING, unlocked: (unlocks.farming ?? []).length, total: FARMING_PATCH_LIST.length, can: canUnlock.farming },
+    { type: TableType.SLAYER_UNLOCKS, label: 'Slayer', subLabel: 'Reward Unlocks', iconSrc: RS3_GACHA_ICONS.SLAYER_UNLOCKS, unlocked: (unlocks.slayerUnlocks ?? []).length, total: SLAYER_UNLOCKS_LIST.length, can: canUnlock.slayerUnlocks },
   ];
 
   return (

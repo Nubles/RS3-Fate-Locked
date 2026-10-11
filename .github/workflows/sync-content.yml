@@ -1,4 +1,4 @@
-# Keeps the DEPLOYED app's bundled game data current with the OSRS Wiki.
+# Keeps the DEPLOYED app's bundled game data current with the RuneScape Wiki.
 #
 # The collection log also self-updates live in the browser (additive only — see
 # services/CollectionLogSyncService.ts). This workflow is the other half: it
@@ -11,7 +11,7 @@
 # Flow: weekly (or manual) -> sync from wiki -> test -> open/refresh a PR.
 # A maintainer reviews + merges; the merge pushes to main and the existing
 # Deploy workflow publishes it. Nothing ships unreviewed.
-name: Sync content from the OSRS Wiki
+name: Sync content from the RuneScape Wiki
 
 on:
   schedule:
@@ -52,7 +52,7 @@ jobs:
         if: success()
         run: |
           {
-            echo "Automated sync of game data from the **OSRS Wiki** (\`npm run content:sync\`)."
+            echo "Automated sync of game data from the **RuneScape Wiki** (\`npm run content:sync\`)."
             echo ""
             echo "Review the data diff below, then merge to deploy. If the sync reports a"
             echo "brand-new page (e.g. a new boss), it needs manual curation — add it to the"
@@ -74,7 +74,7 @@ jobs:
             data/collectionLogData.ts
             data/caTasks.ts
             docs/SYNC_STATUS.md
-          commit-message: "chore(data): sync collection log from the OSRS Wiki"
-          title: "🔄 Sync game data from the OSRS Wiki"
+          commit-message: "chore(data): sync collection log from the RuneScape Wiki"
+          title: "🔄 Sync game data from the RuneScape Wiki"
           body-path: pr-body.md
           labels: data-sync

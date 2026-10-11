@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { summariseQuestPlaces, refineQuestRegion } from './questLocations';
+import { summariseQuestPlaces, refineQuestRegion, chunkQuestName, rs3QuestName } from './questLocations';
+import { QUEST_DATA } from '../data/questData';
 import type { EntityLocation } from '../services/ChunkContentService';
 import { UnlockState } from '../types';
 
@@ -68,5 +69,30 @@ describe('refineQuestRegion', () => {
   it('stays locked when there is no chunk evidence', () => {
     const none = summariseQuestPlaces([], unlocksWith([]));
     expect(refineQuestRegion(false, none)).toEqual({ met: false, via: 'locked' });
+  });
+});
+
+describe('chunkQuestName (RS3 title → OSRS-derived chunk dataset title)', () => {
+  it('passes shared titles through unchanged', () => {
+    expect(chunkQuestName('Cook\'s Assistant')).toBe('Cook\'s Assistant');
+  });
+  it('maps renamed quests to the dataset title', () => {
+    expect(chunkQuestName('Dragon Slayer')).toBe('Dragon Slayer I');
+    expect(chunkQuestName('A Fairy Tale I - Growing Pains')).toBe('Fairytale I - Growing Pains');
+  });
+  it('folds every Recipe for Disaster subquest onto the parent entry', () => {
+    expect(chunkQuestName('Recipe for Disaster: Freeing Pirate Pete')).toBe('Recipe for Disaster');
+  });
+  it('refuses chunk data for a same-titled but different OSRS quest', () => {
+    expect(chunkQuestName('Sins of the Father')).toBeNull();
+  });
+  it('reverse-maps dataset titles back to RS3', () => {
+    expect(rs3QuestName('Desert Treasure I')).toBe('Desert Treasure');
+    expect(rs3QuestName('Waterfall Quest')).toBe('Waterfall Quest');
+  });
+  it('every aliased RS3 title is a real quest', () => {
+    for (const rs3 of ['Dragon Slayer', 'Desert Treasure', 'Monkey Madness', 'Rat Catchers', 'Bar Crawl', 'Sins of the Father']) {
+      expect(QUEST_DATA[rs3], rs3).toBeDefined();
+    }
   });
 });

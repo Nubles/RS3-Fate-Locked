@@ -59,6 +59,7 @@ describe('combat power', () => {
   });
 
   it('exposes a stable set of named axes', () => {
-    expect(POWER_AXES.map((a) => a.key)).toEqual(['melee', 'ranged', 'magic', 'defence', 'prayer']);
+    // RS3 adds Necromancy as a fourth combat style.
+    expect(POWER_AXES.map((a) => a.key)).toEqual(['melee', 'ranged', 'magic', 'necromancy', 'defence', 'prayer']);
   });
 });

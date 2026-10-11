@@ -14,7 +14,31 @@ import { pushBackup, listBackups as readBackups, getBackupData, BackupMeta } fro
 import { showToast } from '../utils/toast';
 
 // --- Types ---
-const CURRENT_VERSION = 1;
+// v2: RS3 conversion — skill keys renamed (Hitpoints→Constitution,
+// Runecraft→Runecrafting) and OSRS-only skills dropped. See migrateSave.
+const CURRENT_VERSION = 2;
+
+/** OSRS skill names from v1 (OSRS-era) saves → their RS3 names. */
+const LEGACY_SKILL_RENAMES: Record<string, string> = {
+  Hitpoints: 'Constitution',
+  Runecraft: 'Runecrafting',
+};
+
+/**
+ * Rename legacy OSRS skill keys and drop any key that isn't an RS3 skill
+ * (e.g. OSRS Sailing). When both old and new names exist the higher value
+ * wins, so a save is never downgraded.
+ */
+const migrateSkillRecord = (rec: unknown): Record<string, number> | undefined => {
+  if (!rec || typeof rec !== 'object') return undefined;
+  const out: Record<string, number> = {};
+  for (const [rawKey, rawVal] of Object.entries(rec as Record<string, unknown>)) {
+    const key = LEGACY_SKILL_RENAMES[rawKey] ?? rawKey;
+    if (!SKILLS_LIST.includes(key) || typeof rawVal !== 'number') continue;
+    out[key] = Math.max(out[key] ?? 0, rawVal);
+  }
+  return out;
+};
 const SAVE_DEBOUNCE_MS = 500;
 
 const generateId = (): string => {
@@ -78,10 +102,10 @@ interface GameContextType extends GameState {
 // --- Initial State ---
 const getInitialUnlocks = (): UnlockState => ({
   equipment: EQUIPMENT_SLOTS.reduce((acc, slot) => ({ ...acc, [slot]: 0 }), {} as Record<string, number>),
-  skills: { 'Hitpoints': 1 },
+  skills: { 'Constitution': 1 },
   levels: SKILLS_LIST.reduce((acc, skill) => ({
     ...acc,
-    [skill]: skill === 'Hitpoints' ? 10 : 1
+    [skill]: skill === 'Constitution' ? 10 : 1
   }), {} as Record<string, number>),
   regions: [],
   mobility: [],
@@ -168,6 +192,27 @@ const migrateSave = (saveData: Partial<GameState>): GameState => {
   if (loadedUnlocks.poh && (!loadedUnlocks.housing || loadedUnlocks.housing.length === 0)) {
        loadedUnlocks.housing = loadedUnlocks.poh;
        delete loadedUnlocks.poh;
+  }
+
+  // v1 → v2 (RS3): rename OSRS skill keys and prune non-RS3 skills from the
+  // tier map and the level map. Constitution starts at 10 in RS3, so a
+  // carried-over level below that is lifted to 10.
+  // Array unlocks (regions, bosses, minigames…) are deliberately NOT pruned:
+  // an entry that no longer exists in the RS3 lists simply never matches a
+  // table row, so it is harmless, and keeping it means no player data is
+  // silently destroyed on load. History entries are never touched — they
+  // are covered by the integrity hash chain.
+  if ((saveData.version ?? 1) < 2) {
+    const skills = migrateSkillRecord(loadedUnlocks.skills);
+    if (skills) loadedUnlocks.skills = skills;
+    const levels = migrateSkillRecord(loadedUnlocks.levels);
+    if (levels) {
+      if (levels.Constitution !== undefined) levels.Constitution = Math.max(10, levels.Constitution);
+      loadedUnlocks.levels = levels;
+    }
+    // Collection-log ids were OSRS slots; the same ids now name different RS3
+    // items, so carrying them over would mark the wrong items as logged.
+    loadedUnlocks.collectionLog = {};
   }
 
   // 5. Deep merge unlocks
@@ -487,7 +532,8 @@ const rawReducer = (state: GameState & { lastEvent: GameEvent | null }, action: 
       const { skill, chaosRoll } = action.payload;
 
       // The UI gates leveling at level < 99, but defend the reducer too so a
-      // stray dispatch can't push the skill past the OSRS level cap.
+      // stray dispatch can't push the skill past the mode's level cap (99 — the
+      // RS3 120-cap skills are still capped at 99 in Fate Locked).
       const currentLevel = state.unlocks.levels[skill] || 1;
       const newLevel = Math.min(currentLevel + 1, 99);
       if (newLevel === currentLevel) return state; // already capped
@@ -607,7 +653,7 @@ const rawReducer = (state: GameState & { lastEvent: GameEvent | null }, action: 
     }
 
     case 'SET_LINKED_ACCOUNT': {
-      // Bind the run to one OSRS account, permanently — once set it can't change.
+      // Bind the run to one RS3 account, permanently — once set it can't change.
       if (state.linkedAccount) return state;
       return { ...state, linkedAccount: action.payload };
     }

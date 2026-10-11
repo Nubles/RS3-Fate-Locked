@@ -1,12 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { COLLECTION_LOG_DATA } from './collectionLogData';
 
-// TAB IDs: Bosses=1, Raids=2, Clues=3, Minigames=4, Other=5
-const TAB_ID: Record<string, number> = { Bosses: 1, Raids: 2, Clues: 3, Minigames: 4, Other: 5 };
+// TAB IDs: Bosses=1, Slayer=2, Clues=3, Minigames=4, Other=5
+const TAB_ID: Record<string, number> = { Bosses: 1, Slayer: 2, Clues: 3, Minigames: 4, Other: 5 };
 
 describe('collection log data integrity', () => {
+  // RS3 has Boss, Slayer and Treasure Trail logs; Minigames/Other are app tabs.
   it('has exactly the five expected tabs', () => {
-    expect(Object.keys(COLLECTION_LOG_DATA).sort()).toEqual(['Bosses', 'Clues', 'Minigames', 'Other', 'Raids']);
+    expect(Object.keys(COLLECTION_LOG_DATA).sort()).toEqual(['Bosses', 'Clues', 'Minigames', 'Other', 'Slayer']);
   });
 
   it('every item id is globally unique', () => {
@@ -21,11 +22,10 @@ describe('collection log data integrity', () => {
     expect(dups, 'duplicate item ids').toEqual([]);
   });
 
-  // A few OSRS log pages legitimately have many slots that share one display
-  // name (e.g. My Notes has 26 different "Ancient page" entries). Everywhere
-  // else, a repeated name means a real bug (distinct items mislabelled the
-  // same — as Castle Wars and Trouble Brewing's rum were before fixing).
-  const SAME_NAME_OK = new Set(['My Notes', 'Hallowed Sepulchre', 'Sea Treasures']);
+  // Some log pages could legitimately have several slots sharing one display
+  // name (none do in the current RS3 data). Everywhere else, a repeated name
+  // means a real bug (distinct items mislabelled the same).
+  const SAME_NAME_OK = new Set<string>([]);
   it('no page lists the same item name twice (outside known multi-slot pages)', () => {
     const dups: string[] = [];
     for (const tab of Object.values(COLLECTION_LOG_DATA))
@@ -59,25 +59,25 @@ describe('collection log data integrity', () => {
     expect(bad.slice(0, 30), 'items whose id tab-prefix is wrong').toEqual([]);
   });
 
-  // Coverage regression floor. The data is a faithful mirror of the live wiki
-  // log (synced from Module:Collection_log/data.json + its display overrides),
-  // which totals 1,905 item-slots. This floor catches accidental bulk item/page
-  // deletion; a future wiki re-sync that adds items only raises the number.
-  it('retains full collection-log coverage (>= 1905 slots)', () => {
+  // Coverage regression floor. RS3 data: Bosses 433, Slayer 168, Clues 325,
+  // Minigames 156, Other 85 = 1,167 slots (the old OSRS log had 1,905). This
+  // floor catches accidental bulk item/page deletion; a wiki re-sync
+  // (`npm run clog:sync`) that adds items only raises the number.
+  it('retains full collection-log coverage (>= 1167 slots)', () => {
     let slots = 0;
     for (const tab of Object.values(COLLECTION_LOG_DATA))
       for (const page of Object.values(tab.pages)) slots += page.items.length;
-    expect(slots).toBeGreaterThanOrEqual(1905);
+    expect(slots).toBeGreaterThanOrEqual(1167);
   });
 
-  // Page structure mirrors the live wiki: every wiki collection-log page is
-  // present (incl. Brutus, kept for log parity though it isn't an unlockable
-  // boss — see consistency.test). Bosses 55, Raids 3, Minigames 22, Other 31;
-  // Clues 11 = the 10 Treasure-Trail tiers + Scroll Cases.
+  // Page structure: Bosses 48 = every entry of the RS3 Boss collection log;
+  // Slayer 11 = the RS3 Slayer collection log's regional sections captured so
+  // far; Clues 6 = shared rewards + the five RS3 clue tiers (Easy..Master, RS3
+  // has no Beginner); Minigames 18 and Other 5 are app-curated RS3 pages.
   it('has the audited page count in each tab', () => {
     const counts = Object.fromEntries(
       Object.entries(COLLECTION_LOG_DATA).map(([k, t]) => [k, Object.keys(t.pages).length])
     );
-    expect(counts).toEqual({ Bosses: 55, Raids: 3, Clues: 11, Minigames: 22, Other: 31 });
+    expect(counts).toEqual({ Bosses: 48, Slayer: 11, Clues: 6, Minigames: 18, Other: 5 });
   });
 });

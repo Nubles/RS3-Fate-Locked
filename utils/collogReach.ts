@@ -6,37 +6,29 @@
  * slot lives on a page named after its source (a boss / minigame / activity),
  * so a slot is obtainable when its source is unlocked.
  *
- * Coverage: the Bosses, Raids and Minigames tabs map their pages cleanly to
+ * Coverage: the Bosses and Minigames tabs map their pages cleanly to
  * BOSSES_LIST / MINIGAMES_LIST unlock state (the same mapping the consistency
- * tests enforce). Clues and Other have no single gating source, so they're
- * counted as a baseline-available bucket and flagged as approximate.
+ * tests enforce). Slayer, Clues and Other have no single gating source (RS3
+ * Slayer log pages are whole regions), so they're counted as a
+ * baseline-available bucket and flagged as approximate.
  */
 
-import { COLLECTION_LOG_DATA } from '../data/collectionLogData';
+import { COLLECTION_LOG_DATA, BOSS_PAGE_ALIASES, COLLOG_ONLY_BOSS_PAGES } from '../data/collectionLogData';
 import { BOSSES_LIST, MINIGAMES_LIST } from '../data/items';
 import { UnlockState } from '../types';
 
-// A few Collection Log boss pages display differently from the unlock table or
-// bundle several bosses; map each page to the BOSSES_LIST entry/entries it needs.
-const BOSS_PAGE_ALIASES: Record<string, string[]> = {
-  'Barrows Chests': ['Barrows Brothers'],
-  'Fight Caves': ['TzHaar Fight Cave'],
-  'The Inferno': ['Inferno'],
-  'Royal Titans': ['The Royal Titans'],
-  'Venenatis and Spindel': ['Venenatis', 'Spindel'],
-  "Vet'ion and Calvar'ion": ["Vet'ion", "Calvar'ion"],
-};
-// Joke/novelty pages with no real unlock gate — treated as baseline-available.
-const BASELINE_BOSS_PAGES = new Set<string>(['Brutus']);
+// Boss log pages for bosses not yet in the unlock table — no gate, so they're
+// treated as baseline-available (see COLLOG_ONLY_BOSS_PAGES).
+const BASELINE_BOSS_PAGES = COLLOG_ONLY_BOSS_PAGES;
 
 /** Tabs whose pages gate on an unlock; the rest are baseline-available. */
-const GATED_TABS = new Set(['Bosses', 'Raids', 'Minigames']);
+const GATED_TABS = new Set(['Bosses', 'Minigames']);
 
 export interface CollogTabReach {
   tab: string;
   obtainable: number;
   total: number;
-  /** True when this tab's slots gate on unlocks (Bosses/Raids/Minigames). */
+  /** True when this tab's slots gate on unlocks (Bosses/Minigames). */
   gated: boolean;
 }
 
@@ -53,24 +45,25 @@ export interface CollogReach {
   obtainable: number;
   total: number;
   pct: number;
-  /** Slots gated by unlocks (Bosses/Raids/Minigames) — the meaningful portion. */
+  /** Slots gated by unlocks (Bosses/Minigames) — the meaningful portion. */
   gatedObtainable: number;
   gatedTotal: number;
   tabs: CollogTabReach[];
   /** Locked pages ranked by how many slots they'd add, top first. */
   suggestions: CollogUnlockSuggestion[];
-  /** True when Clues/Other are counted as baseline — headline % is approximate. */
+  /** True when Slayer/Clues/Other are counted as baseline — headline % is approximate. */
   baselineFlagged: boolean;
 }
 
-/** Resolve whether a Bosses/Raids page's source is unlocked. */
+/** Resolve whether a Bosses page's source is unlocked. */
 const bossPageObtainable = (page: string, bossSet: Set<string>, unlocked: Set<string>):
   { obtainable: boolean; gated: boolean; missing?: string } => {
   if (BASELINE_BOSS_PAGES.has(page)) return { obtainable: true, gated: false };
   const targets = bossSet.has(page) ? [page] : BOSS_PAGE_ALIASES[page];
   if (!targets) return { obtainable: true, gated: false }; // unknown source → don't penalise
   const obtainable = targets.some(t => unlocked.has(t));
-  return { obtainable, gated: true, missing: obtainable ? undefined : page };
+  // Name the unlock-table entry (not the log page) so the suggestion is actionable.
+  return { obtainable, gated: true, missing: obtainable ? undefined : targets[0] };
 };
 
 export function collogReachability(unlocks: UnlockState): CollogReach {
@@ -91,7 +84,7 @@ export function collogReachability(unlocks: UnlockState): CollogReach {
       const n = page.items.length;
       tabTotal += n;
 
-      if (!gated) { tabObtainable += n; continue; } // Clues / Other → baseline
+      if (!gated) { tabObtainable += n; continue; } // Slayer / Clues / Other → baseline
 
       if (tabName === 'Minigames') {
         const ok = !miniSet.has(page.name) || unlockedMinis.has(page.name);

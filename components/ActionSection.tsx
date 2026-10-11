@@ -9,16 +9,16 @@ import { wikiService } from '../services/WikiService';
 import { resolveModeRules } from '../config/gameModes';
 import { getActiveRegionBonuses } from '../config/regionModifiers';
 import { EARN_METHODS, LEVEL_ROLL_MAX } from '../config/economy';
+import { RS3_SLAYER_MASTERS } from '../utils/slayerReach';
 
-// OSRS Wiki Icon URLs
-const WIKI_IMG = 'https://oldschool.runescape.wiki/images/';
-const OSRS_ICONS = {
-  SLAYER: 'https://oldschool.runescape.wiki/images/Slayer_icon.png',
-  STATS: 'https://oldschool.runescape.wiki/images/Stats_icon.png',
-  COLL_LOG: 'https://oldschool.runescape.wiki/images/Collection_log_icon.png',
-  CLUE: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28master%29.png',
-  BOSS: 'https://oldschool.runescape.wiki/images/Combat_icon.png',
-  ACTIVITY: 'https://oldschool.runescape.wiki/images/Minigames.png',
+// RuneScape Wiki (RS3) image URLs — filenames checked against runescape.wiki.
+const WIKI_IMG = 'https://runescape.wiki/images/';
+const RS3_ICONS = {
+  SLAYER: `${WIKI_IMG}Slayer-icon.png`,
+  STATS: `${WIKI_IMG}Skills_icon.png`,
+  CLUE: `${WIKI_IMG}Sealed_clue_scroll_%28master%29.png`,
+  BOSS: `${WIKI_IMG}Attack-icon.png`,
+  ACTIVITY: `${WIKI_IMG}Minigame_map_icon.png`,
 };
 
 // Live min/max of the journal (one-time) faucets, so the "Other Key Sources"
@@ -48,7 +48,7 @@ const WikiIcon = ({ name, fallbackSrc, className }: { name: string, fallbackSrc?
   return <img src={displaySrc} alt={name} className={className} />;
 };
 
-// Unified OSRS Difficulty Tier Styles
+// Unified difficulty tier styles (quest / diary / clue / slayer tiers)
 const TIER_STYLES = {
   STONE: {
     bg: 'bg-[#2a2620]',
@@ -110,8 +110,8 @@ const TIER_STYLE: Record<BossTier, typeof TIER_STYLES.GREEN> = {
   low: TIER_STYLES.GREEN,
 };
 const ACTIVITY_ROLLS = [
-  { name: 'Minigame', subText: 'Pest Control, BA, Castle Wars, Soul Wars…', source: DropSource.ACTIVITY_MINIGAME, image: `${WIKI_IMG}Void_knight_mace.png`, style: TIER_STYLES.STONE },
-  { name: 'Any Pet',  subText: 'Guaranteed key on a pet drop!',            source: DropSource.PET,               image: `${WIKI_IMG}Vorki.png`,           style: TIER_STYLES.GOLD },
+  { name: 'Minigame', subText: 'Pest Control, Castle Wars, Soul Wars, Shattered Worlds…', source: DropSource.ACTIVITY_MINIGAME, image: `${WIKI_IMG}Void_knight_seal_%288%29.png`, style: TIER_STYLES.STONE },
+  { name: 'Any Pet',  subText: 'Guaranteed key on a boss or skilling pet!',               source: DropSource.PET,               image: `${WIKI_IMG}Vitalis_%28pet%29.png`,        style: TIER_STYLES.GOLD },
 ];
 
 type TierStyle = typeof TIER_STYLES.GREEN;
@@ -246,13 +246,12 @@ interface ClueScrollCardProps {
   tier: string;
   displayRate: number;
   bonus: number;
-  itemId: number;
   onClick: (e: React.MouseEvent) => void;
 }
 
-const ClueScrollCard: React.FC<ClueScrollCardProps> = ({ tier, displayRate, bonus, itemId, onClick }) => {
+const ClueScrollCard: React.FC<ClueScrollCardProps> = ({ tier, displayRate, bonus, onClick }) => {
   const style = getTierStyle(tier);
-  const imageUrl = `https://runescape.wiki/w/Special:Filepath/Reward_casket_(${tier.toLowerCase()}).png`;
+  const imageUrl = `${WIKI_IMG}Sealed_clue_scroll_%28${tier.toLowerCase()}%29.png`;
   const { isRolling, triggerRoll } = useRollSuspense(onClick);
   
   return (
@@ -297,18 +296,18 @@ const ClueScrollCard: React.FC<ClueScrollCardProps> = ({ tier, displayRate, bonu
   );
 };
 
-// Using Casket Item IDs for uniform visuals
+// RS3 Treasure Trails tiers (no Beginner tier in RS3); art is the sealed
+// clue scroll of each tier.
 const CLUE_SCROLLS = [
-  { tier: "Beginner", source: DropSource.CLUE_BEGINNER, itemId: 23245 }, // Reward casket (beginner)
-  { tier: "Easy", source: DropSource.CLUE_EASY, itemId: 20546 },     // Reward casket (easy)
-  { tier: "Medium", source: DropSource.CLUE_MEDIUM, itemId: 20545 },   // Reward casket (medium)
-  { tier: "Hard", source: DropSource.CLUE_HARD, itemId: 20544 },     // Reward casket (hard)
-  { tier: "Elite", source: DropSource.CLUE_ELITE, itemId: 20543 },    // Reward casket (elite)
-  { tier: "Master", source: DropSource.CLUE_MASTER, itemId: 19836 },   // Reward casket (master)
+  { tier: "Easy", source: DropSource.CLUE_EASY },
+  { tier: "Medium", source: DropSource.CLUE_MEDIUM },
+  { tier: "Hard", source: DropSource.CLUE_HARD },
+  { tier: "Elite", source: DropSource.CLUE_ELITE },
+  { tier: "Master", source: DropSource.CLUE_MASTER },
 ];
 
 // Compact card for the per-boss list — name + its own rate, no per-boss art so
-// the long (66-entry) list stays scannable. Click rolls at that boss's rate.
+// the long boss list stays scannable. Click rolls at that boss's rate.
 const BossRollCard: React.FC<{ name: string; displayRate: number; bonus: number; style: TierStyle; onClick: (e: React.MouseEvent) => void }>
   = ({ name, displayRate, bonus, style, onClick }) => {
   const { isRolling, triggerRoll } = useRollSuspense(onClick);
@@ -366,89 +365,56 @@ export const ActionSection: React.FC = () => {
     rollForKey(source, chance, e.clientX, e.clientY);
   };
 
+  // RS3 Slayer masters (utils/slayerReach RS3_SLAYER_MASTERS), one card per
+  // DropSource roll. After While Guthix Sleeps, Turael/Mazchna/Duradel are
+  // succeeded by Spria/Achtryn/Lapalok — same assignments, same roll.
   const slayers = useMemo(() => {
-    const isWGSComplete = unlocks.quests.includes('While Guthix Sleeps');
-    const isMM2Complete = unlocks.quests.includes('Monkey Madness II');
-
-    return [
-      {
-        name: isWGSComplete ? "Aya" : "Turael",
-        subText: "Burthorpe (Beginner)",
-        source: DropSource.SLAYER_BEGINNER,
-        image: isWGSComplete ? "https://oldschool.runescape.wiki/images/Aya.png" : "https://oldschool.runescape.wiki/images/Turael.png",
-        style: TIER_STYLES.STONE
-      },
-      {
-        name: "Spria",
-        subText: "Draynor (Beginner)",
-        source: DropSource.SLAYER_BEGINNER,
-        image: "https://oldschool.runescape.wiki/images/Spria.png",
-        style: TIER_STYLES.STONE
-      },
-      {
-        name: "Mazchna",
-        subText: "Canifis (Easy)",
-        source: DropSource.SLAYER_MAZCHNA,
-        image: "https://oldschool.runescape.wiki/images/Mazchna.png",
-        style: TIER_STYLES.GREEN
-      },
-      {
-        name: "Vannaka",
-        subText: "Edgeville (Medium)",
-        source: DropSource.SLAYER_VANNAKA,
-        image: "https://oldschool.runescape.wiki/images/Vannaka.png",
-        style: TIER_STYLES.BLUE
-      },
-      {
-        name: "Chaeldar",
-        subText: "Zanaris (Medium)",
-        source: DropSource.SLAYER_CHAELDAR,
-        image: "https://oldschool.runescape.wiki/images/Chaeldar.png",
-        style: TIER_STYLES.BLUE
-      },
-      {
-        name: "Konar",
-        subText: "Mount Karuulm (Hard)",
-        source: DropSource.SLAYER_KONAR,
-        image: "https://oldschool.runescape.wiki/images/Konar_quo_Maten.png",
-        style: TIER_STYLES.RED
-      },
-      {
-        name: isMM2Complete ? "Steve" : "Nieve",
-        subText: "Gnome Stronghold (Hard)",
-        source: DropSource.SLAYER_NIEVE,
-        image: isMM2Complete ? "https://oldschool.runescape.wiki/images/Steve.png" : "https://oldschool.runescape.wiki/images/Nieve.png",
-        style: TIER_STYLES.RED
-      },
-      {
-        name: "Krystilia",
-        subText: "Wilderness (Elite)",
-        source: DropSource.SLAYER_KRYSTILIA,
-        image: "https://oldschool.runescape.wiki/images/Krystilia.png",
-        style: TIER_STYLES.PURPLE
-      },
-      {
-        name: isWGSComplete ? "Kuradal" : "Duradel",
-        subText: "Shilo Village (Elite)",
-        source: DropSource.SLAYER_DURADEL,
-        image: isWGSComplete ? "https://oldschool.runescape.wiki/images/Kuradal.png" : "https://oldschool.runescape.wiki/images/Duradel.png",
-        style: TIER_STYLES.PURPLE
-      },
-      {
-        name: "Boss Task",
-        subText: "Boss Slayer / Special",
-        source: DropSource.SLAYER_BOSS,
-        image: "https://oldschool.runescape.wiki/images/Purple_slayer_helmet.png",
-        style: TIER_STYLES.AMBER
+    const wgs = unlocks.quests.includes('While Guthix Sleeps');
+    const successor: Record<string, { name: string; image: string }> = wgs ? {
+      Turael: { name: 'Spria', image: 'Spria_chathead.png' },
+      Mazchna: { name: 'Achtryn', image: 'Achtryn_chathead.png' },
+      Duradel: { name: 'Lapalok', image: 'Lapalok_chathead.png' },
+    } : {};
+    const styleFor = (source: DropSource): TierStyle => {
+      switch (source) {
+        case DropSource.SLAYER_BEGINNER: return TIER_STYLES.STONE;
+        case DropSource.SLAYER_VANNAKA:
+        case DropSource.SLAYER_RAPTOR: return TIER_STYLES.GREEN;
+        case DropSource.SLAYER_MAZCHNA:
+        case DropSource.SLAYER_CHAELDAR: return TIER_STYLES.BLUE;
+        case DropSource.SLAYER_SUMONA:
+        case DropSource.SLAYER_DURADEL: return TIER_STYLES.RED;
+        case DropSource.SLAYER_KURADAL:
+        case DropSource.SLAYER_MORVRAN:
+        case DropSource.SLAYER_LANIAKEA: return TIER_STYLES.PURPLE;
+        case DropSource.SLAYER_MANDRITH: return TIER_STYLES.AMBER;
+        default: return TIER_STYLES.GOLD; // Reaper tasks
       }
-    ];
+    };
+
+    return RS3_SLAYER_MASTERS.map(m => {
+      const shown = successor[m.name];
+      const gates = [
+        m.combat > 0 ? `CB ${m.combat}` : null,
+        m.slayer > 0 ? `Slayer ${m.slayer}` : null,
+      ].filter(Boolean).join(', ');
+      return {
+        name: m.source === DropSource.SLAYER_BOSS ? 'Reaper Task' : (shown?.name ?? m.name),
+        subText: m.source === DropSource.SLAYER_BOSS
+          ? `Death (${m.location}) · ${gates}`
+          : `${m.location}${gates ? ` · ${gates}` : ''}`,
+        source: m.source,
+        image: `${WIKI_IMG}${shown?.image ?? m.image}`,
+        style: styleFor(m.source),
+      };
+    });
   }, [unlocks.quests]);
 
   const tabs: { id: FarmSubTab; label: string; icon: string; count: number }[] = [
-    { id: 'SLAYER', label: 'Slayer', icon: OSRS_ICONS.SLAYER, count: slayers.length },
-    { id: 'CLUES', label: 'Clues', icon: OSRS_ICONS.CLUE, count: CLUE_SCROLLS.length },
-    { id: 'BOSSING', label: 'Bossing', icon: OSRS_ICONS.BOSS, count: BOSSES_LIST.length },
-    { id: 'ACTIVITIES', label: 'Activities', icon: OSRS_ICONS.ACTIVITY, count: ACTIVITY_ROLLS.length },
+    { id: 'SLAYER', label: 'Slayer', icon: RS3_ICONS.SLAYER, count: slayers.length },
+    { id: 'CLUES', label: 'Clues', icon: RS3_ICONS.CLUE, count: CLUE_SCROLLS.length },
+    { id: 'BOSSING', label: 'Bossing', icon: RS3_ICONS.BOSS, count: BOSSES_LIST.length },
+    { id: 'ACTIVITIES', label: 'Activities', icon: RS3_ICONS.ACTIVITY, count: ACTIVITY_ROLLS.length },
   ];
 
   return (
@@ -510,7 +476,6 @@ export const ActionSection: React.FC = () => {
                   tier={clue.tier}
                   displayRate={effectiveRate(clue.source)}
                   bonus={regionBonus}
-                  itemId={clue.itemId}
                   onClick={(e) => handleRoll(clue.source, DROP_RATES[clue.source], e)}
                 />
               </div>
@@ -585,7 +550,7 @@ export const ActionSection: React.FC = () => {
         <div className="text-[9px] font-bold text-[#666] uppercase tracking-widest mb-1.5">Other Key Sources</div>
         <div className="flex gap-2 items-stretch">
           <InfoChip
-            icon={<img src={OSRS_ICONS.STATS} alt="" className="w-3.5 h-3.5" />}
+            icon={<img src={RS3_ICONS.STATS} alt="" className="w-3.5 h-3.5" />}
             label="Skill Rolling"
             accent="text-blue-500"
             desc={<>Click unlocked skills in the <span className="text-blue-200">Dashboard</span> to roll.</>}

@@ -5,7 +5,7 @@ import {
   EQUIPMENT_SLOTS, REGION_GROUPS, MISTHALIN_AREAS,
   SLAYER_UNLOCKS_LIST,
 } from './items';
-import { COLLECTION_LOG_DATA } from './collectionLogData';
+import { COLLECTION_LOG_DATA, BOSS_PAGE_ALIASES, COLLOG_ONLY_BOSS_PAGES } from './collectionLogData';
 import { ACTIVITY_REGIONS } from './activityRegions';
 
 /**
@@ -17,23 +17,11 @@ import { ACTIVITY_REGIONS } from './activityRegions';
  * message naming the offending entry.
  */
 
-// Some Collection Log boss pages use a different display name than the unlock
-// table, or cover several bosses at once. Each alias maps a CL page key to the
-// BOSSES_LIST entry/entries it represents. A *new* boss page that isn't in
-// BOSSES_LIST and isn't aliased here will (correctly) fail the test.
-const BOSS_PAGE_ALIASES: Record<string, string[]> = {
-  'Barrows Chests': ['Barrows Brothers'],
-  'Fight Caves': ['TzHaar Fight Cave'],
-  'The Inferno': ['Inferno'],
-  'Royal Titans': ['The Royal Titans'],
-  'Venenatis and Spindel': ['Venenatis', 'Spindel'],
-  "Vet'ion and Calvar'ion": ["Vet'ion", "Calvar'ion"],
-};
-
-// Collection-log pages that exist in the wiki log but are intentionally NOT
-// unlockable bosses in this app (novelty/joke content kept for log parity).
-// These are allowed to have a CL page without a BOSSES_LIST entry.
-const COLLOG_ONLY_BOSS_PAGES = new Set<string>(['Brutus']);
+// Some RS3 Collection Log boss pages use a different display name than the
+// unlock table, or cover several bosses at once (BOSS_PAGE_ALIASES), and a few
+// real log pages are for bosses not yet in BOSSES_LIST (COLLOG_ONLY_BOSS_PAGES).
+// Both live next to the data. A *new* boss page that isn't in BOSSES_LIST and
+// isn't covered by either will (correctly) fail the test.
 
 const NAMED_LISTS: Record<string, string[]> = {
   BOSSES_LIST, MINIGAMES_LIST, GUILDS_LIST, MOBILITY_LIST, ARCANA_LIST,
@@ -120,6 +108,12 @@ describe('collection log pages map to unlock tables', () => {
       .flatMap(([, targets]) => targets)
       .filter(t => !bossSet.has(t));
     expect(badAliases, 'BOSS_PAGE_ALIASES point at non-existent bosses').toEqual([]);
+  });
+
+  it('alias keys and collog-only pages are real Bosses-tab pages', () => {
+    const pages = new Set(Object.keys(COLLECTION_LOG_DATA['Bosses']?.pages ?? {}));
+    const stale = [...Object.keys(BOSS_PAGE_ALIASES), ...COLLOG_ONLY_BOSS_PAGES].filter(p => !pages.has(p));
+    expect(stale, 'alias/collog-only entries with no matching Bosses page').toEqual([]);
   });
 
   it('every Bosses-tab page is unlockable in BOSSES_LIST', () => {

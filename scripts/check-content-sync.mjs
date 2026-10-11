@@ -8,18 +8,26 @@
 // workflow turns "Jagex released a new quest/CA" into a reviewable PR. A human
 // then curates the real entry (skill reqs, prereqs, tier, etc.).
 //
-// Robust signals (no fragile scraping):
-//   • Quests — the wiki's {{Globals|quests}} count variables (rendered via API).
-//   • Combat Achievements — per-tier `data-ca-task-id` rows on each tier page.
+// Robust signals (no fragile scraping), against the RuneScape 3 Wiki:
+//   • Quests — the RS3 wiki's {{Globals|quests}} / quests p2p / quests f2p /
+//     quest points variables (Module:Globals, rendered via the API).
+//   • Combat Achievements — RS3 has no OSRS-style tiered CA task pages (its
+//     combat achievements are boss-grouped entries in the Achievements system),
+//     so there is no wiki count to compare; the app's per-tier counts are
+//     self-audited like diaries. Set RS3_CA_WIKI_PAGES below if a reliable
+//     per-tier source appears.
 //   • Diaries — no clean wiki marker, so the app side is self-audited (diary
 //     content changes extremely rarely; new tasks are flagged on manual review).
 //
 // Run:  npm run content:check    (also part of `npm run content:sync`)
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const API = 'https://oldschool.runescape.wiki/api.php';
-const UA = { 'Api-User-Agent': 'FateLockedUIM/1.0 (content-sync detector)' };
+const API = 'https://runescape.wiki/api.php';
+const UA = { 'Api-User-Agent': 'FateLockedRS3/1.0 (content-sync detector)' };
 const CA_TIERS = ['Easy', 'Medium', 'Hard', 'Elite', 'Master', 'Grandmaster'];
+// tier -> RS3 wiki page whose `data-ca-task-id` rows count that tier's tasks.
+// Empty: the RS3 wiki has no such pages, so the CA wiki comparison is skipped.
+const RS3_CA_WIKI_PAGES = {};
 
 // ---------- wiki fetch helpers --------------------------------------------
 async function api(params) {
@@ -42,9 +50,11 @@ async function wikiQuestCounts() {
 }
 
 async function wikiCaCounts() {
+  if (!Object.keys(RS3_CA_WIKI_PAGES).length) throw new Error('no RS3 per-tier CA source configured');
   const out = {};
   for (const tier of CA_TIERS) {
-    const j = await api({ action: 'parse', page: `Combat Achievements/${tier}`, prop: 'text' });
+    if (!RS3_CA_WIKI_PAGES[tier]) { out[tier] = 0; continue; }
+    const j = await api({ action: 'parse', page: RS3_CA_WIKI_PAGES[tier], prop: 'text' });
     out[tier] = (j.parse.text['*'].match(/data-ca-task-id="/g) || []).length;
   }
   return out;
@@ -132,7 +142,7 @@ async function main() {
   const diaries = { app: appDiaryCounts() };
 
   try { quests.wiki = await wikiQuestCounts(); } catch (e) { console.warn('[content:check] quest counts failed:', e.message); }
-  try { cas.wiki = await wikiCaCounts(); } catch (e) { console.warn('[content:check] CA counts failed:', e.message); }
+  try { cas.wiki = await wikiCaCounts(); } catch (e) { console.warn('[content:check] CA wiki counts skipped:', e.message); }
 
   const { markdown, actions } = buildReport({ quests, cas, diaries });
   writeFileSync(new URL('../docs/SYNC_STATUS.md', import.meta.url), markdown);

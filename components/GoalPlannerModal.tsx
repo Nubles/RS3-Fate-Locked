@@ -64,7 +64,7 @@ const STEP_ICON: Record<PlanStep['kind'], React.ReactNode> = {
   quest: <BookOpen size={12} />,
 };
 
-/** OSRS Wiki article for a step. Quest/skill/region labels map directly; the
+/** RuneScape Wiki article for a step. Quest/skill/region labels map directly; the
  *  QP step links to the Quest points overview. Quest articles surface their
  *  quick-guide link at the top, so this doubles as a "how do I do this" jump. */
 const stepWikiHref = (step: PlanStep): string =>
@@ -94,7 +94,7 @@ const StepRow: React.FC<{ step: PlanStep; index?: number }> = ({ step, index }) 
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
-      title={`Open ${step.label} on the OSRS Wiki`}
+      title={`Open ${step.label} on the RuneScape Wiki`}
       className={`text-[11px] font-semibold truncate flex-1 hover:underline transition-colors ${
         step.done ? 'text-gray-500 line-through hover:text-gray-400' : 'text-gray-200 hover:text-cyan-300'
       }`}

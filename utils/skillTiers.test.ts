@@ -6,7 +6,7 @@ describe('tierForLevel (cap model)', () => {
     expect(tierForLevel(1)).toBe(1);
     expect(tierForLevel(10)).toBe(1);   // tier 1 = up to 10
     expect(tierForLevel(11)).toBe(2);
-    expect(tierForLevel(60)).toBe(6);   // yews → tier 6
+    expect(tierForLevel(60)).toBe(6);   // RS3 mahogany/orikalkum (60) → tier 6
     expect(tierForLevel(61)).toBe(7);
     expect(tierForLevel(90)).toBe(9);
     expect(tierForLevel(91)).toBe(10);
