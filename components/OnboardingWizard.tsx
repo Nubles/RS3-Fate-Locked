@@ -215,7 +215,7 @@ const UnlockVisual: React.FC = () => {
                 <div className="relative">
                     <div className="absolute inset-0 bg-purple-500 blur-xl opacity-50 animate-pulse"></div>
                     <div className="w-12 h-12 bg-[#2a2620] border-2 border-purple-500 rounded flex items-center justify-center relative z-10 animate-float-up">
-                        <img src="https://oldschool.runescape.wiki/images/Head_slot.png" className="w-8 h-8" alt="" />
+                        <img src="https://runescape.wiki/images/Head_slot.png" className="w-8 h-8" alt="" />
                     </div>
                 </div>
                 <span className="text-purple-300 text-[10px] font-bold mt-2 uppercase tracking-widest animate-pulse">Head Slot</span>

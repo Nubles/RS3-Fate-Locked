@@ -57,19 +57,19 @@ interface SpendCardProps {
 }
 
 const OSRS_GACHA_ICONS = {
-  EQUIPMENT: 'https://oldschool.runescape.wiki/images/Equipment_Stats.png',
-  SKILLS: 'https://oldschool.runescape.wiki/images/Stats_icon.png',
-  REGIONS: 'https://oldschool.runescape.wiki/images/World_map_icon.png',
-  MOBILITY: 'https://oldschool.runescape.wiki/images/Graceful_boots.png',
-  ARCANA: 'https://oldschool.runescape.wiki/images/Spellbook_Swap.png',
-  MINIGAMES: 'https://oldschool.runescape.wiki/images/Minigames.png',
-  BOSSES: 'https://oldschool.runescape.wiki/images/Culinaromancer.png',
-  POH: 'https://oldschool.runescape.wiki/images/Portal_%28Player-owned_house%29.png',
-  MERCHANTS: 'https://oldschool.runescape.wiki/images/General_store_icon.png',
-  STORAGE: 'https://oldschool.runescape.wiki/images/Looting_bag.png',
-  GUILDS: 'https://oldschool.runescape.wiki/images/Achievement_Diaries_icon.png',
-  FARMING: 'https://oldschool.runescape.wiki/images/Farming_icon.png',
-  SLAYER_UNLOCKS: 'https://oldschool.runescape.wiki/images/Slayer_icon.png',
+  EQUIPMENT: 'https://runescape.wiki/images/Equipment_Stats.png',
+  SKILLS: 'https://runescape.wiki/images/Stats_icon.png',
+  REGIONS: 'https://runescape.wiki/images/World_map_icon.png',
+  MOBILITY: 'https://runescape.wiki/images/Graceful_boots.png',
+  ARCANA: 'https://runescape.wiki/images/Spellbook_Swap.png',
+  MINIGAMES: 'https://runescape.wiki/images/Minigames.png',
+  BOSSES: 'https://runescape.wiki/images/Culinaromancer.png',
+  POH: 'https://runescape.wiki/images/Portal_%28Player-owned_house%29.png',
+  MERCHANTS: 'https://runescape.wiki/images/General_store_icon.png',
+  STORAGE: 'https://runescape.wiki/images/Looting_bag.png',
+  GUILDS: 'https://runescape.wiki/images/Achievement_Diaries_icon.png',
+  FARMING: 'https://runescape.wiki/images/Farming_icon.png',
+  SLAYER_UNLOCKS: 'https://runescape.wiki/images/Slayer_icon.png',
 };
 
 const SpendCard: React.FC<SpendCardProps> = ({
@@ -159,7 +159,7 @@ export const GachaSection: React.FC = () => {
 
   // Helper to get image (mirrored from App.tsx/gameEngine logic)
   const getUnlockImage = (table: string, item: string) => {
-    const baseUrl = 'https://oldschool.runescape.wiki/images/';
+    const baseUrl = 'https://runescape.wiki/images/';
     return `https://runescape.wiki/w/Special:Filepath/${encodeURIComponent(item.replace(/ /g, '_'))}.png`;
     
     if (table === 'skill') return `${baseUrl}${item}_icon.png`;

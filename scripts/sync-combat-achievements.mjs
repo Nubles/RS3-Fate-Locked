@@ -9,7 +9,7 @@
 // Run:  npm run ca:sync   (also part of `npm run content:sync`)
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const API = 'https://oldschool.runescape.wiki/api.php';
+const API = 'https://runescape.wiki/api.php';
 const UA = { 'Api-User-Agent': 'FateLockedUIM/1.0 (CA sync)' };
 const TIERS = ['Easy', 'Medium', 'Hard', 'Elite', 'Master', 'Grandmaster'];
 const OUT = new URL('../data/caTasks.ts', import.meta.url);

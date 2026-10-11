@@ -94,7 +94,7 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({ skill, curre
   useEffect(() => { if (hasGathering) setTab('gather'); }, [hasGathering]);
 
   const jump = (cx: number, cy: number) => { showChunkOnMap(cx, cy); onClose(); };
-  const iconUrl = `https://oldschool.runescape.wiki/images/${skill}_icon.png`;
+  const iconUrl = `https://runescape.wiki/images/${skill}_icon.png`;
 
   // ── Localised filter: a text search + an "unlocked only" toggle, scoped to
   // the active tab. Filtering happens within the tier grouping so the

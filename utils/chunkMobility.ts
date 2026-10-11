@@ -25,7 +25,7 @@ const MOBILITY_RULES: [RegExp, string][] = [
   [/\beagle\b/i, 'Eagle Transport'],
   // Only the numbered Wilderness teleport obelisks. The elemental "Obelisk of
   // Air/Water/Earth/Fire" are orb-charging (Magic) spots, not transport — see
-  // NOT_MOBILITY below. (oldschool.runescape.wiki/w/Obelisk_of_Water)
+  // NOT_MOBILITY below. (runescape.wiki/w/Obelisk_of_Water)
   [/\bwilderness obelisk\b|^obelisk$/i, 'Wilderness Obelisks'],
   [/mine ?cart|minecart/i, 'Mine Carts'],
   [/charter|sailing ship/i, 'Charter Ships'],

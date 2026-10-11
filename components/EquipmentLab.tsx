@@ -14,7 +14,7 @@ import { SectionGuide } from './SectionGuide';
 import { DpsCalc } from './DpsCalc';
 
 const slotImg = (slot: string) =>
-  `https://oldschool.runescape.wiki/images/${SLOT_CONFIG[slot]?.file ?? 'Globe_icon.png'}`;
+  `https://runescape.wiki/images/${SLOT_CONFIG[slot]?.file ?? 'Globe_icon.png'}`;
 
 interface Props {
   /** Kick off the existing Omni-key upgrade flow (confirm + reveal) for a slot. */

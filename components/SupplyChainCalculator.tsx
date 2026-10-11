@@ -322,7 +322,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
 
   const handleWikiOpen = (e: React.MouseEvent, name: string) => {
       e.stopPropagation();
-      const url = `https://oldschool.runescape.wiki/w/${encodeURIComponent(name.replace(/ /g, '_'))}`;
+      const url = `https://runescape.wiki/w/${encodeURIComponent(name.replace(/ /g, '_'))}`;
       window.open(url, '_blank');
   };
 

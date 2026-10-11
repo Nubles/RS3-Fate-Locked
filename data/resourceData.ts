@@ -2775,7 +2775,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
   ],
 };
 
-// Merge auto-generated SHOP/DROP sources from the OSRS Wiki (see
+// Merge auto-generated SHOP/DROP sources from the RuneScape Wiki (see
 // scripts/buildSourceEnrichment.ts) into the curated map above.
 for (const [item, extra] of Object.entries(ENRICHED_SOURCES)) {
   const target = RESOURCE_MAP[item];

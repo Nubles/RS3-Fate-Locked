@@ -8,7 +8,7 @@ export interface CATask {
   description: string;
 }
 
-// Generated from the OSRS Wiki Combat Achievements pages by
+// Generated from the RuneScape Wiki Combat Achievements pages by
 // `npm run ca:sync` (scripts/sync-combat-achievements.mjs). IDs are the
 // stable in-game task ids — edit the wiki / re-run rather than hand-editing.
 export const ALL_CA_TASKS: CATask[] = [

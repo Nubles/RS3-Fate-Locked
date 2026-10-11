@@ -4,14 +4,14 @@
 //   Game tile X increases east (right).  Image pixel X increases right. Same direction.
 //   Game tile Y increases north (up).    Image pixel Y increases down.  Flipped.
 //
-// A "chunk" here is the 64x64 tile region that the OSRS wiki draws grid
+// A "chunk" here is the 64x64 tile region that the RuneScape Wiki draws grid
 // lines on — the same boundaries as in-game region IDs
 // (regionId = (x >> 6) << 8 | (y >> 6)).
 
 export const CHUNK_TILES = 64;
 
 export const MAP_IMAGE = {
-  // Official OSRS Wiki world map (Old_School_RuneScape_world_map.png), re-encoded
+  // Official RuneScape Wiki world map (Old_School_RuneScape_world_map.png), re-encoded
   // to WebP. Cropped to a whole number of OSRS chunks (see MAP_BOUNDS below),
   // so the chunk grid lines up exactly with the canonical region grid.
   src: `${import.meta.env.BASE_URL}osrs_world_map.webp`,

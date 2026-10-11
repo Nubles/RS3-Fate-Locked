@@ -181,7 +181,7 @@ export const TRAINING_TIPS: Record<string, TrainingTip[]> = {
   ],
 };
 
-/** Map skill name → OSRS wiki Training: page slug */
+/** Map skill name → RuneScape Wiki Training: page slug */
 const WIKI_TRAINING_SLUGS: Record<string, string> = {
   Agility:      'Training:Agility',
   Attack:       'Training:Attack',
@@ -210,7 +210,7 @@ const WIKI_TRAINING_SLUGS: Record<string, string> = {
 };
 
 export function getWikiTrainingUrl(skill: string): string {
-  return `https://oldschool.runescape.wiki/w/${WIKI_TRAINING_SLUGS[skill] ?? `Training:${skill}`}`;
+  return `https://runescape.wiki/w/${WIKI_TRAINING_SLUGS[skill] ?? `Training:${skill}`}`;
 }
 
 /**

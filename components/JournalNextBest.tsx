@@ -33,9 +33,9 @@ const diffRank = (d: DropSource): number => {
 };
 
 const wikiUrl = (a: Action): string => {
-  if (a.kind === 'quest') return `https://oldschool.runescape.wiki/w/${encodeURIComponent(a.name.replace(/ /g, '_'))}`;
+  if (a.kind === 'quest') return `https://runescape.wiki/w/${encodeURIComponent(a.name.replace(/ /g, '_'))}`;
   const area = a.id.replace(/ (Easy|Medium|Hard|Elite)$/, '');
-  return `https://oldschool.runescape.wiki/w/${encodeURIComponent((area + ' Diary').replace(/ /g, '_'))}`;
+  return `https://runescape.wiki/w/${encodeURIComponent((area + ' Diary').replace(/ /g, '_'))}`;
 };
 
 /** A representative chunk to jump to for "start on map", or null. */

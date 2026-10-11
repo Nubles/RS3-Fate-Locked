@@ -58,14 +58,14 @@ const getStarFeedUrl = (): string => {
 };
 interface LiveStar { world: number; calledLocation: string; tier: number; minTime: number; maxTime: number }
 
-// Per-tier clue-scroll item images (OSRS wiki) shown in the marker hover card.
+// Per-tier clue-scroll item images (RuneScape Wiki) shown in the marker hover card.
 const CLUE_SCROLL_IMG: Record<string, string> = {
-  Beginner: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28beginner%29.png',
-  Easy: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28easy%29.png',
-  Medium: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28medium%29.png',
-  Hard: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28hard%29.png',
-  Elite: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28elite%29.png',
-  Master: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28master%29.png',
+  Beginner: 'https://runescape.wiki/images/Clue_scroll_%28beginner%29.png',
+  Easy: 'https://runescape.wiki/images/Clue_scroll_%28easy%29.png',
+  Medium: 'https://runescape.wiki/images/Clue_scroll_%28medium%29.png',
+  Hard: 'https://runescape.wiki/images/Clue_scroll_%28hard%29.png',
+  Elite: 'https://runescape.wiki/images/Clue_scroll_%28elite%29.png',
+  Master: 'https://runescape.wiki/images/Clue_scroll_%28master%29.png',
 };
 const overlayColor = (cat: string) =>
   cat.startsWith(CLUE_PREFIX) ? (CLUE_TIER_COLORS[cat.slice(CLUE_PREFIX.length)] ?? '#e879f9') : (OVERLAY_COLORS[cat] ?? '#38bdf8');

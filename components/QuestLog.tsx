@@ -25,10 +25,10 @@ interface QuestLogProps {
 const getWikiUrl = (name: string) => {
     // Special handling for Recipe for Disaster subquests to avoid broken links
     if (name.startsWith('RFD:')) {
-        return 'https://oldschool.runescape.wiki/w/Recipe_for_Disaster';
+        return 'https://runescape.wiki/w/Recipe_for_Disaster';
     }
-    if (WIKI_OVERRIDES[name]) return `https://oldschool.runescape.wiki/w/${WIKI_OVERRIDES[name]}`;
-    return `https://oldschool.runescape.wiki/w/${encodeURIComponent(name.replace(/ /g, '_'))}`;
+    if (WIKI_OVERRIDES[name]) return `https://runescape.wiki/w/${WIKI_OVERRIDES[name]}`;
+    return `https://runescape.wiki/w/${encodeURIComponent(name.replace(/ /g, '_'))}`;
 };
 
 const getDifficultyColor = (difficulty: DropSource) => {
@@ -268,7 +268,7 @@ const QuestCard: React.FC<QuestCardProps> = ({ quest, unlocks, currentQP, onTogg
                   title={isCompleted ? "Completed" : "Complete & Roll"}
               >
                   <img
-                      src="https://oldschool.runescape.wiki/images/Quests.png"
+                      src="https://runescape.wiki/images/Quests.png"
                       alt="Quest Icon"
                       className={`w-5 h-5 object-contain transition-all ${isCompleted ? '' : 'grayscale opacity-40'}`}
                   />

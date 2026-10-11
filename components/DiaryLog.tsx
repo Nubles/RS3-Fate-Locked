@@ -130,7 +130,7 @@ export const DiaryLog: React.FC<DiaryLogProps> = ({ searchTerm: externalSearch =
         'Wilderness': 'Wilderness_Diary'
     };
     const page = map[region] || 'Achievement_Diary';
-    return `https://oldschool.runescape.wiki/w/${page}#${tier}`;
+    return `https://runescape.wiki/w/${page}#${tier}`;
   };
 
   const diaries = useMemo(() => {
@@ -371,7 +371,7 @@ export const DiaryLog: React.FC<DiaryLogProps> = ({ searchTerm: externalSearch =
                           {missingDiaryQuests.map(q => (
                             <a
                               key={q}
-                              href={`https://oldschool.runescape.wiki/w/${encodeURIComponent(q.replace(/ /g, '_'))}`}
+                              href={`https://runescape.wiki/w/${encodeURIComponent(q.replace(/ /g, '_'))}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={(e) => e.stopPropagation()}

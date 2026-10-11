@@ -94,7 +94,7 @@ const TIER_COLORS = [
 
 const getWikiUrl = wikiUrlFor;
 
-const getSkillIcon = (skillName: string) => `https://oldschool.runescape.wiki/images/${skillName}_icon.png`;
+const getSkillIcon = (skillName: string) => `https://runescape.wiki/images/${skillName}_icon.png`;
 
 // Header control: opens the Rival modal, and when a rival is set shows the live
 // standing (▲ you ahead / ▼ behind) — the ambient "pulse" of the race.
@@ -170,15 +170,15 @@ const UnlockCard: React.FC<UnlockCardProps> = ({
   region,
   req
 }) => {
-  // Image priority: a hand-picked sprite/icon → the item's real OSRS wiki image
+  // Image priority: a hand-picked sprite/icon → the item's real RuneScape Wiki image
   // (fetched + cached via WikiService) → the globe placeholder. Self-heals: if a
   // source 404s it advances to the next, so a stale curated filename still ends
   // up showing the correct artwork rather than a generic globe.
-  const GLOBE = 'https://oldschool.runescape.wiki/images/Globe_icon.png';
+  const GLOBE = 'https://runescape.wiki/images/Globe_icon.png';
   const curated = icon || SPECIAL_ICONS[item];
   const itemId = UTILITY_ITEM_IDS[item];
   const spriteUrl = `https://runescape.wiki/w/Special:Filepath/${encodeURIComponent(item.replace(/ /g, '_'))}.png`;
-  const curatedUrl = curated ? `https://oldschool.runescape.wiki/images/${curated}` : null;
+  const curatedUrl = curated ? `https://runescape.wiki/images/${curated}` : null;
   const [wikiUrl, setWikiUrl] = useState<string | null>(null);
   const [failed, setFailed] = useState<Record<string, true>>({});
 
@@ -412,9 +412,9 @@ export const Dashboard: React.FC = () => {
          const wikiUrl = await wikiService.fetchImage(item);
          if (wikiUrl) imageUrl = wikiUrl;
       } else {
-         if (table === TableType.SKILLS) imageUrl = `https://oldschool.runescape.wiki/images/${item}_icon.png`;
-         else if (table === TableType.EQUIPMENT) imageUrl = SLOT_CONFIG[item] ? `https://oldschool.runescape.wiki/images/${SLOT_CONFIG[item].file}` : undefined;
-         else imageUrl = SPECIAL_ICONS[item] ? `https://oldschool.runescape.wiki/images/${SPECIAL_ICONS[item]}` : undefined;
+         if (table === TableType.SKILLS) imageUrl = `https://runescape.wiki/images/${item}_icon.png`;
+         else if (table === TableType.EQUIPMENT) imageUrl = SLOT_CONFIG[item] ? `https://runescape.wiki/images/${SLOT_CONFIG[item].file}` : undefined;
+         else imageUrl = SPECIAL_ICONS[item] ? `https://runescape.wiki/images/${SPECIAL_ICONS[item]}` : undefined;
       }
       setPendingSpecial({ table, item, image: imageUrl });
   };
@@ -687,7 +687,7 @@ export const Dashboard: React.FC = () => {
                                         <NoteTrigger id={group} title={group} />
                                   </div>
                                   <div className="flex items-center gap-2 mb-2 pr-6">
-                                      <img src={`https://oldschool.runescape.wiki/images/${REGION_ICONS[group] || 'Globe_icon.png'}`} className="w-5 h-5 object-contain" />
+                                      <img src={`https://runescape.wiki/images/${REGION_ICONS[group] || 'Globe_icon.png'}`} className="w-5 h-5 object-contain" />
                                       <span className="font-bold text-sm text-gray-200">{group}</span>
                                       <span className="ml-auto text-xs text-gray-500 font-mono">{unlockedCount}/{areas.length}</span>
                                   </div>

@@ -18,7 +18,7 @@ import { WikiLink } from './WikiLink';
 interface Props { onClose: () => void }
 type Status = 'loading' | 'ready' | 'error';
 
-const monsterImg = (file: string) => `https://oldschool.runescape.wiki/images/${(file || '').replace(/ /g, '_')}`;
+const monsterImg = (file: string) => `https://runescape.wiki/images/${(file || '').replace(/ /g, '_')}`;
 
 const READINESS: Record<Readiness, { label: string; cls: string; dot: string }> = {
   excellent: { label: 'Excellent', cls: 'text-emerald-300', dot: 'bg-emerald-400' },

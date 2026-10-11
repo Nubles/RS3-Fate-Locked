@@ -356,7 +356,7 @@ export const OracleSearch: React.FC<OracleSearchProps> = ({ onClose }) => {
                             rel="noopener noreferrer" 
                             className="text-gray-600 hover:text-osrs-gold transition-colors p-0.5 rounded hover:bg-white/5 shrink-0"
                             onClick={(e) => e.stopPropagation()}
-                            title="Open OSRS Wiki"
+                            title="Open RuneScape Wiki"
                         >
                             <ExternalLink size={12} />
                         </a>

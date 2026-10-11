@@ -10,7 +10,7 @@ interface WikiCacheEntry {
 // (null) cache entries from older logic are discarded.
 const CACHE_KEY = 'fate_uim_wiki_cache_v3';
 const CACHE_TTL = 1000 * 60 * 60 * 24 * 7; // 7 Days
-const BASE_API = 'https://oldschool.runescape.wiki/api.php';
+const BASE_API = 'https://runescape.wiki/api.php';
 
 class WikiService {
   private memoryCache: Map<string, string | null>;
@@ -65,7 +65,7 @@ class WikiService {
   }
 
   /**
-   * OSRS Wiki item articles use sentence case ("Barronite shards"), but the
+   * RuneScape Wiki item articles use sentence case ("Barronite shards"), but the
    * app stores many names in title case ("Barronite Shards"). This produces
    * the sentence-cased variant so we can fall back to it when the title-cased
    * page doesn't exist. Proper-noun pages (e.g. "King_Black_Dragon") are tried

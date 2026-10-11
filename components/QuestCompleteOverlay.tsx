@@ -4,13 +4,13 @@ import { Scroll, X } from 'lucide-react';
 
 /**
  * Quest-complete celebration. Listens for `fate:quest-complete` {name} and
- * shows the OSRS wiki reward scroll for that quest with a gold particle burst —
+ * shows the RuneScape Wiki reward scroll for that quest with a gold particle burst —
  * the iconic "Congratulations! Quest complete!" moment. Auto-dismisses, or
  * click / Esc to close. Quests with no reward scroll on the wiki fall back to a
  * clean generic celebration (the image hides on error).
  */
 const rewardScrollUrl = (name: string) =>
-  `https://oldschool.runescape.wiki/images/${encodeURIComponent(name.replace(/ /g, '_'))}_reward_scroll.png`;
+  `https://runescape.wiki/images/${encodeURIComponent(name.replace(/ /g, '_'))}_reward_scroll.png`;
 
 const PARTICLES = Array.from({ length: 14 }, (_, i) => i);
 

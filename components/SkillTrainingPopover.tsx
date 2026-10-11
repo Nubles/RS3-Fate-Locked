@@ -9,7 +9,7 @@ import { TRAINING_TIPS, getWikiTrainingUrl, xpAtLevel, formatXP } from '../data/
  *  - current vs required level
  *  - approx XP needed
  *  - curated training methods for the player's specific level range
- *  - a link to the full OSRS wiki Training guide
+ *  - a link to the full RuneScape Wiki Training guide
  *
  * Rendered via a portal at document.body so it can't be clipped by
  * overflow:hidden scroll containers in the Journal panels.
@@ -87,7 +87,7 @@ export const SkillTrainingPopover: React.FC<Props> = ({
   const xpNeeded = isQP ? 0 : Math.max(0, xpAtLevel(requiredLevel) - xpAtLevel(currentLevel));
   const levelsNeeded = Math.max(0, requiredLevel - currentLevel);
   const wikiUrl = isQP
-    ? 'https://oldschool.runescape.wiki/w/Quest_points'
+    ? 'https://runescape.wiki/w/Quest_points'
     : getWikiTrainingUrl(skill);
 
   return ReactDOM.createPortal(

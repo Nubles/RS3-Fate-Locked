@@ -523,7 +523,7 @@ export const WIKI_OVERRIDES: Record<string, string> = {
 };
 
 // App-design category names (transport groupings, POH facilities, shop types)
-// that have no single OSRS Wiki article. getWikiUrl routes these to a wiki
+// that have no single RuneScape Wiki article. getWikiUrl routes these to a wiki
 // search instead of producing a dead /w/ link.
 export const NO_WIKI_PAGE = new Set<string>([
   // Mobility

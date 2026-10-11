@@ -21,7 +21,7 @@ const STYLE_META: { id: Style; label: string; Icon: typeof Swords }[] = [
   { id: 'magic', label: 'Magic', Icon: Wand2 },
 ];
 const MELEE_TYPES: AttackType[] = ['stab', 'slash', 'crush'];
-const monsterImg = (file: string) => `https://oldschool.runescape.wiki/images/${(file || '').replace(/ /g, '_')}`;
+const monsterImg = (file: string) => `https://runescape.wiki/images/${(file || '').replace(/ /g, '_')}`;
 
 const Field: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
   <label className="flex flex-col gap-1">

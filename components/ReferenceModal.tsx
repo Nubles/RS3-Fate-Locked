@@ -108,7 +108,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                 
                 {/* Flavor Text at bottom of sidebar */}
                 <div className="mt-auto p-6 text-center opacity-30">
-                    <img src="https://oldschool.runescape.wiki/images/Ironman_chat_badge.png" alt="Ironman" className="w-8 h-8 mx-auto mb-2 grayscale" />
+                    <img src="https://runescape.wiki/images/Ironman_chat_badge.png" alt="Ironman" className="w-8 h-8 mx-auto mb-2 grayscale" />
                     <p className="text-[10px] font-mono text-gray-500">Fate is absolute.</p>
                 </div>
             </div>

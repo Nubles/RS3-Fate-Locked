@@ -9,9 +9,9 @@ import { equipTierColor } from '../utils/equipTiers';
 import { WikiLink } from './WikiLink';
 
 const emptySlotImg = (slot: string) =>
-  `https://oldschool.runescape.wiki/images/${SLOT_CONFIG[slot]?.file ?? 'Globe_icon.png'}`;
+  `https://runescape.wiki/images/${SLOT_CONFIG[slot]?.file ?? 'Globe_icon.png'}`;
 const itemImg = (file: string) =>
-  `https://oldschool.runescape.wiki/images/${(file || '').replace(/ /g, '_')}`;
+  `https://runescape.wiki/images/${(file || '').replace(/ /g, '_')}`;
 
 const MAX_ROWS = 120;
 

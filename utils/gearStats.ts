@@ -31,7 +31,7 @@ export interface GearItem {
   name: string;
   /** One of our 11 EQUIPMENT_SLOTS. */
   slot: string;
-  /** OSRS Wiki image filename (spaces → underscores when building the URL). */
+  /** RuneScape Wiki image filename (spaces → underscores when building the URL). */
   imageFile: string;
   speed: number;
   twoHanded: boolean;

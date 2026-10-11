@@ -10,15 +10,15 @@ import { resolveModeRules } from '../config/gameModes';
 import { getActiveRegionBonuses } from '../config/regionModifiers';
 import { EARN_METHODS, LEVEL_ROLL_MAX } from '../config/economy';
 
-// OSRS Wiki Icon URLs
-const WIKI_IMG = 'https://oldschool.runescape.wiki/images/';
+// RuneScape Wiki Icon URLs
+const WIKI_IMG = 'https://runescape.wiki/images/';
 const OSRS_ICONS = {
-  SLAYER: 'https://oldschool.runescape.wiki/images/Slayer_icon.png',
-  STATS: 'https://oldschool.runescape.wiki/images/Stats_icon.png',
-  COLL_LOG: 'https://oldschool.runescape.wiki/images/Collection_log_icon.png',
-  CLUE: 'https://oldschool.runescape.wiki/images/Clue_scroll_%28master%29.png',
-  BOSS: 'https://oldschool.runescape.wiki/images/Combat_icon.png',
-  ACTIVITY: 'https://oldschool.runescape.wiki/images/Minigames.png',
+  SLAYER: 'https://runescape.wiki/images/Slayer_icon.png',
+  STATS: 'https://runescape.wiki/images/Stats_icon.png',
+  COLL_LOG: 'https://runescape.wiki/images/Collection_log_icon.png',
+  CLUE: 'https://runescape.wiki/images/Clue_scroll_%28master%29.png',
+  BOSS: 'https://runescape.wiki/images/Combat_icon.png',
+  ACTIVITY: 'https://runescape.wiki/images/Minigames.png',
 };
 
 // Live min/max of the journal (one-time) faucets, so the "Other Key Sources"
@@ -375,70 +375,70 @@ export const ActionSection: React.FC = () => {
         name: isWGSComplete ? "Aya" : "Turael",
         subText: "Burthorpe (Beginner)",
         source: DropSource.SLAYER_BEGINNER,
-        image: isWGSComplete ? "https://oldschool.runescape.wiki/images/Aya.png" : "https://oldschool.runescape.wiki/images/Turael.png",
+        image: isWGSComplete ? "https://runescape.wiki/images/Aya.png" : "https://runescape.wiki/images/Turael.png",
         style: TIER_STYLES.STONE
       },
       {
         name: "Spria",
         subText: "Draynor (Beginner)",
         source: DropSource.SLAYER_BEGINNER,
-        image: "https://oldschool.runescape.wiki/images/Spria.png",
+        image: "https://runescape.wiki/images/Spria.png",
         style: TIER_STYLES.STONE
       },
       {
         name: "Mazchna",
         subText: "Canifis (Easy)",
         source: DropSource.SLAYER_MAZCHNA,
-        image: "https://oldschool.runescape.wiki/images/Mazchna.png",
+        image: "https://runescape.wiki/images/Mazchna.png",
         style: TIER_STYLES.GREEN
       },
       {
         name: "Vannaka",
         subText: "Edgeville (Medium)",
         source: DropSource.SLAYER_VANNAKA,
-        image: "https://oldschool.runescape.wiki/images/Vannaka.png",
+        image: "https://runescape.wiki/images/Vannaka.png",
         style: TIER_STYLES.BLUE
       },
       {
         name: "Chaeldar",
         subText: "Zanaris (Medium)",
         source: DropSource.SLAYER_CHAELDAR,
-        image: "https://oldschool.runescape.wiki/images/Chaeldar.png",
+        image: "https://runescape.wiki/images/Chaeldar.png",
         style: TIER_STYLES.BLUE
       },
       {
         name: "Konar",
         subText: "Mount Karuulm (Hard)",
         source: DropSource.SLAYER_KONAR,
-        image: "https://oldschool.runescape.wiki/images/Konar_quo_Maten.png",
+        image: "https://runescape.wiki/images/Konar_quo_Maten.png",
         style: TIER_STYLES.RED
       },
       {
         name: isMM2Complete ? "Steve" : "Nieve",
         subText: "Gnome Stronghold (Hard)",
         source: DropSource.SLAYER_NIEVE,
-        image: isMM2Complete ? "https://oldschool.runescape.wiki/images/Steve.png" : "https://oldschool.runescape.wiki/images/Nieve.png",
+        image: isMM2Complete ? "https://runescape.wiki/images/Steve.png" : "https://runescape.wiki/images/Nieve.png",
         style: TIER_STYLES.RED
       },
       {
         name: "Krystilia",
         subText: "Wilderness (Elite)",
         source: DropSource.SLAYER_KRYSTILIA,
-        image: "https://oldschool.runescape.wiki/images/Krystilia.png",
+        image: "https://runescape.wiki/images/Krystilia.png",
         style: TIER_STYLES.PURPLE
       },
       {
         name: isWGSComplete ? "Kuradal" : "Duradel",
         subText: "Shilo Village (Elite)",
         source: DropSource.SLAYER_DURADEL,
-        image: isWGSComplete ? "https://oldschool.runescape.wiki/images/Kuradal.png" : "https://oldschool.runescape.wiki/images/Duradel.png",
+        image: isWGSComplete ? "https://runescape.wiki/images/Kuradal.png" : "https://runescape.wiki/images/Duradel.png",
         style: TIER_STYLES.PURPLE
       },
       {
         name: "Boss Task",
         subText: "Boss Slayer / Special",
         source: DropSource.SLAYER_BOSS,
-        image: "https://oldschool.runescape.wiki/images/Purple_slayer_helmet.png",
+        image: "https://runescape.wiki/images/Purple_slayer_helmet.png",
         style: TIER_STYLES.AMBER
       }
     ];

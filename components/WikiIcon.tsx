@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 
 /**
- * Renders a real OSRS Wiki image (icon) by filename, falling back to a lucide
+ * Renders a real RuneScape Wiki image (icon) by filename, falling back to a lucide
  * glyph if the image fails to load. Lets us replace generic placeholder icons
  * with their in-game counterparts without risking broken images.
  *
@@ -22,7 +22,7 @@ export const WikiIcon: React.FC<Props> = ({ file, alt, Fallback, size = 14, clas
   if (failed) return <Fallback size={size} className={className} />;
   return (
     <img
-      src={`https://oldschool.runescape.wiki/images/${file}`}
+      src={`https://runescape.wiki/images/${file}`}
       alt={alt}
       width={size}
       height={size}

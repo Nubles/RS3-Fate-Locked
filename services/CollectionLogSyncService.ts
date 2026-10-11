@@ -21,7 +21,7 @@
  */
 import { COLLECTION_LOG_DATA } from '../data/collectionLogData';
 
-const API = 'https://oldschool.runescape.wiki/api.php';
+const API = 'https://runescape.wiki/api.php';
 const DATA_TITLE = 'Module:Collection_log/data.json';
 const LUA_TITLE = 'Module:Collection_log'; // holds the display-override table
 // v2: v1 compared raw data.json names against the app's override-rendered names

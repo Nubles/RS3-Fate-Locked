@@ -3,7 +3,7 @@ import { ExternalLink } from 'lucide-react';
 import { wikiUrlFor } from '../data/assets';
 
 /**
- * The one way to link content out to the OSRS wiki. Wraps wikiUrlFor (which
+ * The one way to link content out to the RuneScape Wiki. Wraps wikiUrlFor (which
  * handles page-name overrides and falls back to wiki search for app-only
  * concepts), stops click propagation so links inside clickable rows don't
  * trigger the row, and opens in a new tab.
@@ -28,7 +28,7 @@ interface Props {
 
 export const WikiLink: React.FC<Props> = ({ name, page, icon, iconOnly, className, children }) => {
   const href = page
-    ? `https://oldschool.runescape.wiki/w/${page}`
+    ? `https://runescape.wiki/w/${page}`
     : wikiUrlFor(name);
   return (
     <a
@@ -36,7 +36,7 @@ export const WikiLink: React.FC<Props> = ({ name, page, icon, iconOnly, classNam
       target="_blank"
       rel="noopener noreferrer"
       onClick={e => e.stopPropagation()}
-      title={`${name} — OSRS Wiki`}
+      title={`${name} — RuneScape Wiki`}
       className={className ?? 'hover:underline decoration-dotted underline-offset-2 hover:text-amber-200 transition-colors'}
     >
       {iconOnly

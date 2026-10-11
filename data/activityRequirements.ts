@@ -4,7 +4,7 @@
 // glance, what gates an activity: the quest(s) and skill level(s) actually
 // required to access/fight it. Recommended (not required) levels are NOT listed
 // here — only hard gates. Newer (2024-2026) bosses were verified against the
-// OSRS Wiki; classic content from well-established requirements.
+// RuneScape Wiki; classic content from well-established requirements.
 //
 // `note` carries gates that aren't a plain skill/quest (Quest Points,
 // Slayer-task-only, item unlocks, kill-count, etc.).

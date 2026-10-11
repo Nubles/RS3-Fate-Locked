@@ -185,11 +185,11 @@ Progression: ${progressPercent}% | Total Level: ${totalLevel}
 
   const getSlotImage = (slot: string) => {
       const config = SLOT_CONFIG[slot];
-      return config ? `https://oldschool.runescape.wiki/images/${config.file}` : '';
+      return config ? `https://runescape.wiki/images/${config.file}` : '';
   };
   
   const getSkillImage = (skill: string) => {
-      return `https://oldschool.runescape.wiki/images/${skill}_icon.png`;
+      return `https://runescape.wiki/images/${skill}_icon.png`;
   };
 
   // Notable feats logic

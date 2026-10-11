@@ -13,9 +13,9 @@ import { WIKI_OVERRIDES } from '../constants';
 interface Props { searchTerm?: string }
 
 const wikiUrl = (name: string) => {
-  if (name.startsWith('RFD:')) return 'https://oldschool.runescape.wiki/w/Recipe_for_Disaster';
-  if (WIKI_OVERRIDES[name]) return `https://oldschool.runescape.wiki/w/${WIKI_OVERRIDES[name]}`;
-  return `https://oldschool.runescape.wiki/w/${name.replace(/ /g, '_')}`;
+  if (name.startsWith('RFD:')) return 'https://runescape.wiki/w/Recipe_for_Disaster';
+  if (WIKI_OVERRIDES[name]) return `https://runescape.wiki/w/${WIKI_OVERRIDES[name]}`;
+  return `https://runescape.wiki/w/${name.replace(/ /g, '_')}`;
 };
 
 const BUCKET_META: Record<DoabilityBucket, { label: string; cls: string; dot: string }> = {

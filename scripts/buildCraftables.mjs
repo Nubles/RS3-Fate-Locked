@@ -8,7 +8,7 @@ import { execFileSync } from 'child_process';
 import { readFileSync, writeFileSync } from 'fs';
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)';
-const API = 'https://oldschool.runescape.wiki/api.php';
+const API = 'https://runescape.wiki/api.php';
 
 const bucketQuery = (skill) =>
   `bucket('recipe').select('production_json').where('uses_skill','${skill}').limit(5000).run()`;

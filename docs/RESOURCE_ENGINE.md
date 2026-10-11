@@ -159,7 +159,7 @@ the data file.
 
 ## 4. Wiki Bucket API conventions
 
-Endpoint: `https://oldschool.runescape.wiki/api.php?action=bucket&format=json&query=…`
+Endpoint: `https://runescape.wiki/api.php?action=bucket&format=json&query=…`
 
 - The `query` is a tiny Lua expression: `bucket('table_name').select('a','b').limit(5000).run()`
 - Bucket names are **lowercase / snake_case** (`dropsline`, not `Dropsline`;

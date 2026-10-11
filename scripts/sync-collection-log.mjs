@@ -18,7 +18,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const FILE = 'data/collectionLogData.ts';
-const API = 'https://oldschool.runescape.wiki/api.php';
+const API = 'https://runescape.wiki/api.php';
 const UA = { 'Api-User-Agent': 'FateLockedUIM/1.0 (collection-log sync)' };
 
 // Page-title differences between the app and the wiki (app title -> wiki title).
