@@ -18,7 +18,7 @@ import {
   GUILDS_LIST, FARMING_PATCH_LIST, SLAYER_UNLOCKS_LIST,
 } from '../data/items';
 
-const WIKI = 'https://oldschool.runescape.wiki/images/';
+const WIKI = 'https://runescape.wiki/images/';
 
 // ── Skill levelling is the one dynamic rate (computed per attempt) ───────────
 export const SKILLS_TIER_CAP = 10;     // tiers per skill (1 Key each)
@@ -104,7 +104,6 @@ export const EARN_METHODS: EarnMethod[] = [
     where: 'Farm Keys → Clue Scrolls — roll a casket card on completion.',
     blurb: 'Cash in completed caskets; rarer tiers pay out far more often.',
     tiers: [
-      { tier: 'Beginner', source: DropSource.CLUE_BEGINNER, rate: DROP_RATES[DropSource.CLUE_BEGINNER] },
       { tier: 'Easy',     source: DropSource.CLUE_EASY,     rate: DROP_RATES[DropSource.CLUE_EASY] },
       { tier: 'Medium',   source: DropSource.CLUE_MEDIUM,   rate: DROP_RATES[DropSource.CLUE_MEDIUM] },
       { tier: 'Hard',     source: DropSource.CLUE_HARD,     rate: DROP_RATES[DropSource.CLUE_HARD] },
@@ -118,15 +117,18 @@ export const EARN_METHODS: EarnMethod[] = [
     where: 'Farm Keys → Slayer Tasks — roll a master card per finished task.',
     blurb: 'Your most repeatable income. Higher masters demand more but pay far better.',
     tiers: [
-      { tier: 'Turael / Spria',     source: DropSource.SLAYER_BEGINNER,  rate: DROP_RATES[DropSource.SLAYER_BEGINNER] },
-      { tier: 'Mazchna',            source: DropSource.SLAYER_MAZCHNA,    rate: DROP_RATES[DropSource.SLAYER_MAZCHNA] },
-      { tier: 'Vannaka',            source: DropSource.SLAYER_VANNAKA,    rate: DROP_RATES[DropSource.SLAYER_VANNAKA] },
-      { tier: 'Chaeldar',           source: DropSource.SLAYER_CHAELDAR,   rate: DROP_RATES[DropSource.SLAYER_CHAELDAR] },
-      { tier: 'Konar',              source: DropSource.SLAYER_KONAR,      rate: DROP_RATES[DropSource.SLAYER_KONAR] },
-      { tier: 'Nieve / Steve',      source: DropSource.SLAYER_NIEVE,      rate: DROP_RATES[DropSource.SLAYER_NIEVE] },
-      { tier: 'Krystilia',          source: DropSource.SLAYER_KRYSTILIA,  rate: DROP_RATES[DropSource.SLAYER_KRYSTILIA] },
-      { tier: 'Duradel / Kuradal',  source: DropSource.SLAYER_DURADEL,    rate: DROP_RATES[DropSource.SLAYER_DURADEL] },
-      { tier: 'Boss Task',          source: DropSource.SLAYER_BOSS,       rate: DROP_RATES[DropSource.SLAYER_BOSS], bonus: 'The single best repeatable roll in the game.' },
+      { tier: 'Turael / Spria / Jacquelyn', source: DropSource.SLAYER_BEGINNER, rate: DROP_RATES[DropSource.SLAYER_BEGINNER] },
+      { tier: 'Vannaka',            source: DropSource.SLAYER_VANNAKA,   rate: DROP_RATES[DropSource.SLAYER_VANNAKA] },
+      { tier: 'The Raptor',         source: DropSource.SLAYER_RAPTOR,    rate: DROP_RATES[DropSource.SLAYER_RAPTOR] },
+      { tier: 'Mazchna / Achtryn',  source: DropSource.SLAYER_MAZCHNA,   rate: DROP_RATES[DropSource.SLAYER_MAZCHNA] },
+      { tier: 'Chaeldar',           source: DropSource.SLAYER_CHAELDAR,  rate: DROP_RATES[DropSource.SLAYER_CHAELDAR] },
+      { tier: 'Sumona',             source: DropSource.SLAYER_SUMONA,    rate: DROP_RATES[DropSource.SLAYER_SUMONA] },
+      { tier: 'Duradel / Lapalok',  source: DropSource.SLAYER_DURADEL,   rate: DROP_RATES[DropSource.SLAYER_DURADEL] },
+      { tier: 'Kuradal',            source: DropSource.SLAYER_KURADAL,   rate: DROP_RATES[DropSource.SLAYER_KURADAL] },
+      { tier: 'Morvran',            source: DropSource.SLAYER_MORVRAN,   rate: DROP_RATES[DropSource.SLAYER_MORVRAN] },
+      { tier: 'Laniakea',           source: DropSource.SLAYER_LANIAKEA,  rate: DROP_RATES[DropSource.SLAYER_LANIAKEA] },
+      { tier: 'Mandrith',           source: DropSource.SLAYER_MANDRITH,  rate: DROP_RATES[DropSource.SLAYER_MANDRITH], bonus: 'Wilderness tasks carry the risk, so they pay like a top master.' },
+      { tier: 'Reaper Task',        source: DropSource.SLAYER_BOSS,      rate: DROP_RATES[DropSource.SLAYER_BOSS], bonus: 'Death’s boss assignments — the single best repeatable roll in the game.' },
     ],
   },
   {
@@ -138,7 +140,7 @@ export const EARN_METHODS: EarnMethod[] = [
       { tier: 'Low boss',  source: DropSource.BOSS_LOW,  rate: DROP_RATES[DropSource.BOSS_LOW] },
       { tier: 'Mid boss',  source: DropSource.BOSS_MID,  rate: DROP_RATES[DropSource.BOSS_MID] },
       { tier: 'High boss', source: DropSource.BOSS_HIGH, rate: DROP_RATES[DropSource.BOSS_HIGH], omni: 10, bonus: 'Top bosses keep elevated Omni odds.' },
-      { tier: 'Raid',      source: DropSource.RAID,      rate: DROP_RATES[DropSource.RAID], omni: 15, bonus: 'CoX / ToB / ToA — the best repeatable odds in the game.' },
+      { tier: 'Raid',      source: DropSource.RAID,      rate: DROP_RATES[DropSource.RAID], omni: 15, bonus: 'Elite Dungeons and Liberation of Mazcab — the best repeatable odds in the game.' },
     ],
   },
   {
@@ -260,14 +262,14 @@ export const SPEND_TABLES: SpendTable[] = [
   { type: TableType.REGIONS,         label: 'Areas',      count: REGIONS_LIST.length,    blurb: 'Open new map regions you’re allowed to enter.' },
   { type: TableType.MOBILITY,        label: 'Mobility',   count: MOBILITY_LIST.length,   blurb: 'Teleports, spirit trees, fairy rings and transport networks.' },
   { type: TableType.ARCANA,          label: 'Arcana',     count: ARCANA_LIST.length,     blurb: 'Spellbooks, prayers and other arcane access.' },
-  { type: TableType.STORAGE,         label: 'Storage',    count: STORAGE_LIST.length,    blurb: 'Looting bag, rune pouch, seed box — and rare bank access.' },
+  { type: TableType.STORAGE,         label: 'Storage',    count: STORAGE_LIST.length,    blurb: 'Tool belt, rune pouch, ore box, bonecrusher and other inventory savers.' },
   { type: TableType.POH,             label: 'Housing',    count: POH_LIST.length,        blurb: 'Player-owned house rooms and facilities.' },
   { type: TableType.MERCHANTS,       label: 'Merchants',  count: MERCHANTS_LIST.length,  blurb: 'Shops and traders you’re permitted to use.' },
-  { type: TableType.MINIGAMES,       label: 'Minigames',  count: MINIGAMES_LIST.length,  blurb: 'Activities, from Pest Control to the Inferno.' },
+  { type: TableType.MINIGAMES,       label: 'Minigames',  count: MINIGAMES_LIST.length,  blurb: 'Activities, from Pest Control to Player-Owned Ports.' },
   { type: TableType.BOSSES,          label: 'Bosses',     count: BOSSES_LIST.length,     blurb: 'Permission to fight each major boss encounter.' },
   { type: TableType.GUILDS,          label: 'Guilds',     count: GUILDS_LIST.length,     blurb: 'Skill guilds and their perks.' },
   { type: TableType.FARMING_LAYERS,  label: 'Farming',    count: FARMING_PATCH_LIST.length, blurb: 'Farming patches across the world.' },
-  { type: TableType.SLAYER_UNLOCKS,  label: 'Slayer',     count: SLAYER_UNLOCKS_LIST.length, blurb: 'Slayer reward unlocks: new tasks, superiors, helmet & more.' },
+  { type: TableType.SLAYER_UNLOCKS,  label: 'Slayer',     count: SLAYER_UNLOCKS_LIST.length, blurb: 'Slayer reward unlocks: new tasks, the helmet, auto-finishers & more.' },
 ];
 
 /** Flat cost, in keys, of a single unlock from any table. */

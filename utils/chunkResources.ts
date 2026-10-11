@@ -99,10 +99,10 @@ const RESOURCE_RULES: [RegExp, ResourceReq][] = [
 
   // ── Runecrafting altars (Prayer altars and travel portals are excluded
   //    below; the basic rune altars are reached via "Mysterious ruins") ─────
-  [/soul altar/i, { skill: 'Runecraft', level: 90 }],
-  [/blood altar/i, { skill: 'Runecraft', level: 77 }],
-  [/astral altar/i, { skill: 'Runecraft', level: 40 }],
-  [/dark altar|mysterious ruins|\brift\b|temple of the eye/i, { skill: 'Runecraft', level: 1 }],
+  [/soul altar/i, { skill: 'Runecrafting', level: 90 }],
+  [/blood altar/i, { skill: 'Runecrafting', level: 77 }],
+  [/astral altar/i, { skill: 'Runecrafting', level: 40 }],
+  [/dark altar|mysterious ruins|\brift\b|temple of the eye/i, { skill: 'Runecrafting', level: 1 }],
   // Agility rooftop courses are classified in utils/skillChunkNodes (their
   // obstacle objects are named "… Rooftop Course", excluded from trees above).
 ];

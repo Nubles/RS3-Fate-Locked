@@ -21,7 +21,7 @@ export const STRATEGY_DATABASE: Record<string, ContentRequirement> = {
     regions: ['Misthalin', 'Kandarin', 'Fremennik', 'Kourend & Kebos'], // Starts Myths Guild but involves many
     skills: { 
       'Magic': 75, 'Smithing': 70, 'Mining': 68, 'Crafting': 62,
-      'Agility': 60, 'Thieving': 60, 'Construction': 50, 'Hitpoints': 50
+      'Agility': 60, 'Thieving': 60, 'Construction': 50, 'Constitution': 50
     },
     quests: ['Legends\' Quest', 'Dream Mentor', 'A Tail of Two Cats', 'Animal Magnetism', 'Ghosts Ahoy', 'Bone Voyage', 'Client of Kourend'],
     description: 'Unlocks Vorkath, Rune Dragons, Myths\' Guild, Ava\'s Assembler.'
@@ -54,7 +54,7 @@ export const STRATEGY_DATABASE: Record<string, ContentRequirement> = {
     regions: ['Kharidian Desert', 'Asgarnia', 'Fremennik', 'Kourend & Kebos', 'Morytania'], // Global
     skills: { 
       'Magic': 75, 'Firemaking': 75, 'Thieving': 70, 'Herblore': 62, 
-      'Runecraft': 60, 'Construction': 60, 'Prayer': 60 
+      'Runecrafting': 60, 'Construction': 60, 'Prayer': 60 
     },
     quests: ['Desert Treasure I', 'Secrets of the North', 'Enakhra\'s Lament', 'Temple of the Eye', 'The Garden of Death', 'Below Ice Mountain'],
     description: 'Unlocks 4 new bosses (Vardorvis, Duke, Whisperer, Leviathan) and Ancient Rings.'
@@ -181,7 +181,7 @@ export const STRATEGY_DATABASE: Record<string, ContentRequirement> = {
     id: 'Fremennik Exiles',
     category: TableType.QUESTS,
     regions: ['Fremennik'],
-    skills: { 'Crafting': 65, 'Slayer': 60, 'Smithing': 60, 'Fishing': 60, 'Runecraft': 55 },
+    skills: { 'Crafting': 65, 'Slayer': 60, 'Smithing': 60, 'Fishing': 60, 'Runecrafting': 55 },
     quests: ['The Fremennik Isles', 'Lunar Diplomacy', 'Mountain Daughter', 'Heroes\' Quest'],
     description: 'Unlocks Basilisk Knights (Jaw) and Neitiznot Faceguard.'
   },
@@ -189,7 +189,7 @@ export const STRATEGY_DATABASE: Record<string, ContentRequirement> = {
     id: 'Slug Menace',
     category: TableType.QUESTS,
     regions: ['Asgarnia', 'Kandarin'], // Witchaven/Falador
-    skills: { 'Crafting': 30, 'Runecraft': 30, 'Slayer': 30, 'Thieving': 30 },
+    skills: { 'Crafting': 30, 'Runecrafting': 30, 'Slayer': 30, 'Thieving': 30 },
     quests: ['Sea Slug', 'Wanted!'],
     description: 'Unlocks Proselyte Armor.'
   },
@@ -1353,7 +1353,7 @@ export const STRATEGY_DATABASE: Record<string, ContentRequirement> = {
     id: 'Boots of Brimstone',
     category: TableType.MINIGAMES,
     regions: ['Kourend & Kebos'], // Drakes/Wyrms (Component)
-    skills: { 'Slayer': 44, 'Runecraft': 44 }, // To create
+    skills: { 'Slayer': 44, 'Runecrafting': 44 }, // To create
     description: 'Best hybrid boots.'
   },
   'Devout Boots': {
@@ -2120,7 +2120,7 @@ export const STRATEGY_DATABASE: Record<string, ContentRequirement> = {
     regions: ['Morytania'], // Darkmeyer
     skills: { 'Mining': 60 },
     quests: ['Sins of the Father'],
-    description: 'AFK Essence mining (50% extra Runecraft XP).'
+    description: 'AFK Essence mining (50% extra Runecrafting XP).'
   },
   'Sand Pit (Yanille)': {
     id: 'Sand Pit (Yanille)',

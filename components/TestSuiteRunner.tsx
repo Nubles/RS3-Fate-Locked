@@ -84,7 +84,7 @@ export const TestSuiteRunner: React.FC<TestSuiteRunnerProps> = ({ onComplete }) 
                 chaosKeys: 0,
                 unlocks: {
                     ...game.unlocks,
-                    skills: { 'Hitpoints': 10 }, // Reset skills
+                    skills: { 'Constitution': 10 }, // Reset skills
                     regions: [],
                     equipment: {}
                 }

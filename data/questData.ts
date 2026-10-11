@@ -608,7 +608,7 @@ export const QUEST_DATA: Record<string, QuestData> = {
   'Devious Minds': {
     id: 'Devious Minds', name: 'Devious Minds',
     regions: ['Misthalin', 'Asgarnia'],
-    skills: { 'Smithing': 65, 'Runecraft': 50, 'Fletching': 50 }, prereqs: ['Wanted!', 'Troll Stronghold', 'Doric\'s Quest'], points: 1, series: 'Mahjarrat',
+    skills: { 'Smithing': 65, 'Runecrafting': 50, 'Fletching': 50 }, prereqs: ['Wanted!', 'Troll Stronghold', 'Doric\'s Quest'], points: 1, series: 'Mahjarrat',
     difficulty: DropSource.QUEST_EXPERIENCED
   },
   'The Hand in the Sand': {
@@ -761,7 +761,7 @@ export const QUEST_DATA: Record<string, QuestData> = {
   'The Slug Menace': {
     id: 'The Slug Menace', name: 'The Slug Menace',
     regions: ['Kandarin'],
-    skills: { 'Crafting': 30, 'Runecraft': 30, 'Slayer': 30, 'Thieving': 30 }, prereqs: ['Sea Slug', 'Wanted!'], points: 1, series: 'Temple Knight',
+    skills: { 'Crafting': 30, 'Runecrafting': 30, 'Slayer': 30, 'Thieving': 30 }, prereqs: ['Sea Slug', 'Wanted!'], points: 1, series: 'Temple Knight',
     difficulty: DropSource.QUEST_INTERMEDIATE
   },
   'Elemental Workshop II': {
@@ -827,7 +827,7 @@ export const QUEST_DATA: Record<string, QuestData> = {
   'What Lies Below': {
     id: 'What Lies Below', name: 'What Lies Below',
     regions: ['Misthalin'],
-    skills: { 'Runecraft': 35 }, prereqs: ['Rune Mysteries'], points: 1,
+    skills: { 'Runecrafting': 35 }, prereqs: ['Rune Mysteries'], points: 1,
     difficulty: DropSource.QUEST_INTERMEDIATE
   },
   'Olaf\'s Quest': {
@@ -899,7 +899,7 @@ export const QUEST_DATA: Record<string, QuestData> = {
   'Dragon Slayer II': {
     id: 'Dragon Slayer II', name: 'Dragon Slayer II',
     regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Fremennik', 'Kourend & Kebos'],
-    skills: { 'Magic': 75, 'Smithing': 70, 'Mining': 68, 'Crafting': 62, 'Agility': 60, 'Thieving': 60, 'Construction': 50, 'Hitpoints': 50, 'Quest Points': 200 }, prereqs: ['Legends\' Quest', 'Dream Mentor', 'A Tail of Two Cats', 'Animal Magnetism', 'Ghosts Ahoy', 'Bone Voyage', 'Client of Kourend'], points: 5, series: 'Dragonkin',
+    skills: { 'Magic': 75, 'Smithing': 70, 'Mining': 68, 'Crafting': 62, 'Agility': 60, 'Thieving': 60, 'Construction': 50, 'Constitution': 50, 'Quest Points': 200 }, prereqs: ['Legends\' Quest', 'Dream Mentor', 'A Tail of Two Cats', 'Animal Magnetism', 'Ghosts Ahoy', 'Bone Voyage', 'Client of Kourend'], points: 5, series: 'Dragonkin',
     difficulty: DropSource.QUEST_GRANDMASTER
   },
   'Tale of the Righteous': {
@@ -941,7 +941,7 @@ export const QUEST_DATA: Record<string, QuestData> = {
   'The Fremennik Exiles': {
     id: 'The Fremennik Exiles', name: 'The Fremennik Exiles',
     regions: ['Fremennik'],
-    skills: { 'Crafting': 65, 'Slayer': 60, 'Smithing': 60, 'Fishing': 60, 'Runecraft': 55 }, prereqs: ['The Fremennik Isles', 'Lunar Diplomacy', 'Mountain Daughter', 'Heroes\' Quest'], points: 2, series: 'Fremennik',
+    skills: { 'Crafting': 65, 'Slayer': 60, 'Smithing': 60, 'Fishing': 60, 'Runecrafting': 55 }, prereqs: ['The Fremennik Isles', 'Lunar Diplomacy', 'Mountain Daughter', 'Heroes\' Quest'], points: 2, series: 'Fremennik',
     difficulty: DropSource.QUEST_MASTER
   },
   'Sins of the Father': {
@@ -983,7 +983,7 @@ export const QUEST_DATA: Record<string, QuestData> = {
   'Temple of the Eye': {
     id: 'Temple of the Eye', name: 'Temple of the Eye',
     regions: ['Kharidian Desert'],
-    skills: { 'Runecraft': 10 }, prereqs: ['Enter the Abyss'], points: 1, series: 'Order of Wizards',
+    skills: { 'Runecrafting': 10 }, prereqs: ['Enter the Abyss'], points: 1, series: 'Order of Wizards',
     difficulty: DropSource.QUEST_INTERMEDIATE
   },
   'Beneath Cursed Sands': {
@@ -1013,7 +1013,7 @@ export const QUEST_DATA: Record<string, QuestData> = {
   'Desert Treasure II': {
     id: 'Desert Treasure II', name: 'Desert Treasure II - The Fallen Empire',
     regions: ['Kharidian Desert', 'Asgarnia', 'Fremennik', 'Kourend & Kebos', 'Morytania'],
-    skills: { 'Magic': 75, 'Firemaking': 75, 'Thieving': 70, 'Herblore': 62, 'Runecraft': 60, 'Construction': 60 }, prereqs: ['Desert Treasure I', 'Secrets of the North', 'Enakhra\'s Lament', 'Temple of the Eye', 'The Garden of Death', 'Below Ice Mountain'], points: 5, series: 'Mahjarrat',
+    skills: { 'Magic': 75, 'Firemaking': 75, 'Thieving': 70, 'Herblore': 62, 'Runecrafting': 60, 'Construction': 60 }, prereqs: ['Desert Treasure I', 'Secrets of the North', 'Enakhra\'s Lament', 'Temple of the Eye', 'The Garden of Death', 'Below Ice Mountain'], points: 5, series: 'Mahjarrat',
     difficulty: DropSource.QUEST_GRANDMASTER
   },
   'The Path of Glouphrie': {
@@ -1049,7 +1049,7 @@ export const QUEST_DATA: Record<string, QuestData> = {
   'Perilous Moons': {
     id: 'Perilous Moons', name: 'Perilous Moons',
     regions: ['Varlamore'],
-    skills: { 'Slayer': 48, 'Hunter': 20, 'Fishing': 20, 'Runecraft': 20, 'Construction': 10 }, prereqs: ['Twilight\'s Promise'], points: 2,
+    skills: { 'Slayer': 48, 'Hunter': 20, 'Fishing': 20, 'Runecrafting': 20, 'Construction': 10 }, prereqs: ['Twilight\'s Promise'], points: 2,
     difficulty: DropSource.QUEST_MASTER
   },
   'The Ribbiting Tale': {
@@ -1202,7 +1202,7 @@ export const QUEST_DATA: Record<string, QuestData> = {
   'The Frozen Door': {
     id: 'The Frozen Door', name: 'The Frozen Door',
     regions: ['Asgarnia'], // God Wars Dungeon
-    skills: { 'Agility': 70, 'Strength': 70, 'Ranged': 70, 'Hitpoints': 70 }, 
+    skills: { 'Agility': 70, 'Strength': 70, 'Ranged': 70, 'Constitution': 70 }, 
     prereqs: ['Desert Treasure I'], // GWD reqs usually imply access
     points: 0,
     difficulty: DropSource.QUEST_MASTER

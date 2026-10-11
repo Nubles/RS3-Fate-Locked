@@ -48,7 +48,7 @@ export const ALL_DIARY_TASKS: DiaryTask[] = [
   { id: 'ard_hard_9', tierId: 'Ardougne Hard', description: 'Smith a Mithril platebody near Ardougne.', skills: { 'Smithing': 68 }, regions: ['West Ardougne'] },
   { id: 'ard_hard_10', tierId: 'Ardougne Hard', description: 'Enter your POH from Yanille.', skills: { 'Construction': 50 }, regions: ['Yanille'] },
   { id: 'ard_hard_11', tierId: 'Ardougne Hard', description: 'Smith a Dragon sq shield in West Ardougne.', skills: { 'Smithing': 60 }, quests: ['Legends\' Quest'], regions: ['West Ardougne'] },
-  { id: 'ard_hard_12', tierId: 'Ardougne Hard', description: 'Craft some Death runes from Essence.', skills: { 'Runecraft': 65 }, quests: ['Mourning\'s End Part II'], regions: ['West Ardougne'] },
+  { id: 'ard_hard_12', tierId: 'Ardougne Hard', description: 'Craft some Death runes from Essence.', skills: { 'Runecrafting': 65 }, quests: ['Mourning\'s End Part II'], regions: ['West Ardougne'] },
   // Elite
   { id: 'ard_elite_1', tierId: 'Ardougne Elite', description: 'Catch a Manta ray in the Fishing Trawler and cook it in Port Khazard.', skills: { 'Fishing': 81, 'Cooking': 91 }, regions: ['Port Khazard'] },
   { id: 'ard_elite_2', tierId: 'Ardougne Elite', description: 'Picklock the door to the basement of Yanille Agility Dungeon.', skills: { 'Thieving': 82 }, regions: ['Yanille'] },
@@ -137,7 +137,7 @@ export const ALL_DIARY_TASKS: DiaryTask[] = [
   { id: 'fal_med_13', tierId: 'Falador Medium', description: 'Craft a fruit basket on the Falador Farm loom.', skills: { 'Crafting': 36 }, regions: ['Port Sarim'] },
   { id: 'fal_med_14', tierId: 'Falador Medium', description: 'Teleport to Falador.', skills: { 'Magic': 37 }, regions: ['Falador'] },
   // Hard
-  { id: 'fal_hard_1', tierId: 'Falador Hard', description: 'Craft 140 Mind runes simultaneously.', skills: { 'Runecraft': 56 }, regions: ['Ice Mountain'] },
+  { id: 'fal_hard_1', tierId: 'Falador Hard', description: 'Craft 140 Mind runes simultaneously.', skills: { 'Runecrafting': 56 }, regions: ['Ice Mountain'] },
   { id: 'fal_hard_2', tierId: 'Falador Hard', description: 'Change your family crest to the Saradomin symbol.', skills: { 'Prayer': 70 }, regions: ['Falador'] },
   { id: 'fal_hard_3', tierId: 'Falador Hard', description: 'Kill the Giant Mole beneath Falador Park.', regions: ['Falador'] },
   { id: 'fal_hard_4', tierId: 'Falador Hard', description: 'Kill a Skeletal Wyvern in the Asgarnia Ice Dungeon.', skills: { 'Slayer': 72 }, regions: ['Asgarnian Ice Dungeon'] },
@@ -149,7 +149,7 @@ export const ALL_DIARY_TASKS: DiaryTask[] = [
   { id: 'fal_hard_10', tierId: 'Falador Hard', description: 'Enter the Warriors\' Guild.', skills: { 'Attack': 65, 'Strength': 65 }, regions: ['Warriors\' Guild'] },
   { id: 'fal_hard_11', tierId: 'Falador Hard', description: 'Equip a dwarven helmet within the dwarven mines.', skills: { 'Defence': 50 }, quests: ['Grim Tales'], regions: ['Dwarven Mine'] },
   // Elite
-  { id: 'fal_elite_1', tierId: 'Falador Elite', description: 'Craft 252 Air Runes simultaneously.', skills: { 'Runecraft': 88 }, regions: ['Port Sarim'] },
+  { id: 'fal_elite_1', tierId: 'Falador Elite', description: 'Craft 252 Air Runes simultaneously.', skills: { 'Runecrafting': 88 }, regions: ['Port Sarim'] },
   { id: 'fal_elite_2', tierId: 'Falador Elite', description: 'Purchase a White 2h Sword from Sir Vyvin.', quests: ['Wanted!'], regions: ['Falador'] },
   { id: 'fal_elite_3', tierId: 'Falador Elite', description: 'Find at least 3 magic roots at once when digging up your magic tree in Falador.', skills: { 'Farming': 91, 'Woodcutting': 75 }, regions: ['Falador'] },
   { id: 'fal_elite_4', tierId: 'Falador Elite', description: 'Perform a skillcape or quest cape emote at the top of Falador Castle.', skills: { 'Agility': 99 }, regions: ['Falador'] },
@@ -192,7 +192,7 @@ export const ALL_DIARY_TASKS: DiaryTask[] = [
   { id: 'frem_hard_9', tierId: 'Fremennik Hard', description: 'Obtain the Blast Furnace Foreman\'s permission to use the Blast Furnace for free.', skills: { 'Smithing': 60 }, quests: ['The Giant Dwarf'], regions: ['Keldagrim'] },
   // Elite
   { id: 'frem_elite_1', tierId: 'Fremennik Elite', description: 'Kill each of the Dagannoth Kings.', regions: ['Waterbirth Island'] },
-  { id: 'frem_elite_2', tierId: 'Fremennik Elite', description: 'Craft 56 astral runes simultaneously.', skills: { 'Runecraft': 82 }, quests: ['Lunar Diplomacy'], regions: ['Lunar Isle'] },
+  { id: 'frem_elite_2', tierId: 'Fremennik Elite', description: 'Craft 56 astral runes simultaneously.', skills: { 'Runecrafting': 82 }, quests: ['Lunar Diplomacy'], regions: ['Lunar Isle'] },
   { id: 'frem_elite_3', tierId: 'Fremennik Elite', description: 'Create a dragonstone amulet in the Neitiznot furnace.', skills: { 'Crafting': 80 }, quests: ['The Fremennik Isles'], regions: ['Neitiznot'] },
   { id: 'frem_elite_4', tierId: 'Fremennik Elite', description: 'Complete a lap of the Rellekka agility course.', skills: { 'Agility': 80 }, regions: ['Rellekka'] },
   { id: 'frem_elite_5', tierId: 'Fremennik Elite', description: 'Kill the generals of Armadyl, Bandos, Saradomin and Zamorak in the God Wars Dungeon.', skills: { 'Agility': 70, 'Strength': 70, 'Ranged': 70 }, quests: ['Troll Stronghold'], regions: ['Burthorpe'] },
@@ -287,7 +287,7 @@ export const ALL_DIARY_TASKS: DiaryTask[] = [
   { id: 'kar_hard_1', tierId: 'Karamja Hard', description: 'Become the Champion of the Fight Pits.', regions: ['Mor Ul Rek (TzHaar City)'] },
   { id: 'kar_hard_2', tierId: 'Karamja Hard', description: 'Kill a Ket-Zek in the Fight Caves.', regions: ['Mor Ul Rek (TzHaar City)'] },
   { id: 'kar_hard_3', tierId: 'Karamja Hard', description: 'Eat an oomlie wrap.', skills: { 'Cooking': 50 }, regions: ['Kharazi Jungle'] },
-  { id: 'kar_hard_4', tierId: 'Karamja Hard', description: 'Craft some nature runes from Essence.', skills: { 'Runecraft': 44 }, regions: ['Tai Bwo Wannai'] },
+  { id: 'kar_hard_4', tierId: 'Karamja Hard', description: 'Craft some nature runes from Essence.', skills: { 'Runecrafting': 44 }, regions: ['Tai Bwo Wannai'] },
   { id: 'kar_hard_5', tierId: 'Karamja Hard', description: 'Cook a karambwan thoroughly.', skills: { 'Cooking': 30 }, quests: ['Tai Bwo Wannai Trio'], regions: ['Tai Bwo Wannai'] },
   { id: 'kar_hard_6', tierId: 'Karamja Hard', description: 'Kill a deathwing in the dungeon under the Kharazi Jungle.', quests: ['Legends\' Quest'], regions: ['Kharazi Jungle'] },
   { id: 'kar_hard_7', tierId: 'Karamja Hard', description: 'Use the crossbow shortcut south of the volcano.', skills: { 'Agility': 53, 'Ranged': 42, 'Strength': 21 }, regions: ['Musa Point'] },
@@ -295,7 +295,7 @@ export const ALL_DIARY_TASKS: DiaryTask[] = [
   { id: 'kar_hard_9', tierId: 'Karamja Hard', description: 'Be assigned a Slayer task by the Slayer Master in Shilo Village.', skills: { 'Slayer': 50 }, quests: ['Shilo Village'], regions: ['Shilo Village'] },
   { id: 'kar_hard_10', tierId: 'Karamja Hard', description: 'Kill a metal dragon in Brimhaven Dungeon.', skills: { 'Woodcutting': 10 }, regions: ['Brimhaven'] },
   // Elite
-  { id: 'kar_elite_1', tierId: 'Karamja Elite', description: 'Craft 56 nature runes simultaneously from Essence without the use of Extracts.', skills: { 'Runecraft': 91 }, regions: ['Tai Bwo Wannai'] },
+  { id: 'kar_elite_1', tierId: 'Karamja Elite', description: 'Craft 56 nature runes simultaneously from Essence without the use of Extracts.', skills: { 'Runecrafting': 91 }, regions: ['Tai Bwo Wannai'] },
   { id: 'kar_elite_2', tierId: 'Karamja Elite', description: 'Check the health of a palm tree in Brimhaven.', skills: { 'Farming': 68 }, regions: ['Brimhaven'] },
   { id: 'kar_elite_3', tierId: 'Karamja Elite', description: 'Create an antifire potion from scratch in the Brimhaven Agility Arena.', skills: { 'Herblore': 69 }, regions: ['Brimhaven'] },
   { id: 'kar_elite_4', tierId: 'Karamja Elite', description: 'Defeat TzTok-Jad in the Fight Caves.', regions: ['Mor Ul Rek (TzHaar City)'] },
@@ -343,7 +343,7 @@ export const ALL_DIARY_TASKS: DiaryTask[] = [
   { id: 'kou_hard_9', tierId: 'Kourend Hard', description: 'Kill a Wyrm in the Karuulm Slayer Dungeon.', skills: { 'Slayer': 62 }, regions: ['Mount Karuulm'] },
   { id: 'kou_hard_10', tierId: 'Kourend Hard', description: 'Cast Monster Examine on a Troll south of Mount Quidamortem.', skills: { 'Magic': 66 }, quests: ['Dream Mentor'], regions: ['Mount Quidamortem'] },
   // Elite
-  { id: 'kou_elite_1', tierId: 'Kourend Elite', description: 'Craft one or more Blood runes from Dark essence.', skills: { 'Runecraft': 77, 'Mining': 38, 'Crafting': 38 }, regions: ['Arceuus'] },
+  { id: 'kou_elite_1', tierId: 'Kourend Elite', description: 'Craft one or more Blood runes from Dark essence.', skills: { 'Runecrafting': 77, 'Mining': 38, 'Crafting': 38 }, regions: ['Arceuus'] },
   { id: 'kou_elite_2', tierId: 'Kourend Elite', description: 'Chop some Redwood logs.', skills: { 'Woodcutting': 90 }, regions: ['Woodcutting Guild'] },
   { id: 'kou_elite_3', tierId: 'Kourend Elite', description: 'Defeat Skotizo in the Catacombs of Kourend.', regions: ['Catacombs of Kourend'] },
   { id: 'kou_elite_4', tierId: 'Kourend Elite', description: 'Catch an Anglerfish and cook it whilst in Great Kourend.', skills: { 'Fishing': 82, 'Cooking': 84 }, regions: ['Piscarilius'] },
@@ -359,7 +359,7 @@ export const ALL_DIARY_TASKS: DiaryTask[] = [
   { id: 'lum_easy_1', tierId: 'Lumbridge Easy', description: 'Complete a lap of the Draynor Village agility course.', skills: { 'Agility': 10 }, regions: ['Draynor Village'] },
   { id: 'lum_easy_2', tierId: 'Lumbridge Easy', description: 'Slay a Cave bug beneath Lumbridge Swamp.', skills: { 'Slayer': 7 }, regions: ['Lumbridge'] },
   { id: 'lum_easy_3', tierId: 'Lumbridge Easy', description: 'Have Sedridor teleport you to the Rune essence mine.', quests: ['Rune Mysteries'], regions: ['Wizards\' Tower'] },
-  { id: 'lum_easy_4', tierId: 'Lumbridge Easy', description: 'Craft some water runes from Essence.', skills: { 'Runecraft': 5 }, regions: ['Lumbridge'] },
+  { id: 'lum_easy_4', tierId: 'Lumbridge Easy', description: 'Craft some water runes from Essence.', skills: { 'Runecrafting': 5 }, regions: ['Lumbridge'] },
   { id: 'lum_easy_5', tierId: 'Lumbridge Easy', description: 'Learn your age from Hans in Lumbridge.', regions: ['Lumbridge'] },
   { id: 'lum_easy_6', tierId: 'Lumbridge Easy', description: 'Pickpocket a man or woman in Lumbridge.', skills: { 'Thieving': 1 }, regions: ['Lumbridge'] },
   { id: 'lum_easy_7', tierId: 'Lumbridge Easy', description: 'Chop and burn some oak logs in Lumbridge.', skills: { 'Woodcutting': 15, 'Firemaking': 15 }, regions: ['Lumbridge'] },
@@ -380,11 +380,11 @@ export const ALL_DIARY_TASKS: DiaryTask[] = [
   { id: 'lum_med_9', tierId: 'Lumbridge Medium', description: 'Pickpocket Martin the Master Gardener.', skills: { 'Thieving': 38 }, regions: ['Draynor Village'] },
   { id: 'lum_med_10', tierId: 'Lumbridge Medium', description: 'Get a slayer task from Chaeldar.', quests: ['Lost City'], regions: ['Zanaris'] },
   { id: 'lum_med_11', tierId: 'Lumbridge Medium', description: 'Catch an Essence or Eclectic impling in Puro-Puro.', skills: { 'Hunter': 42 }, quests: ['Lost City'], regions: ['Zanaris'] },
-  { id: 'lum_med_12', tierId: 'Lumbridge Medium', description: 'Craft some Lava runes at the fire altar in Al Kharid.', skills: { 'Runecraft': 23 }, regions: ['Al Kharid'] },
+  { id: 'lum_med_12', tierId: 'Lumbridge Medium', description: 'Craft some Lava runes at the fire altar in Al Kharid.', skills: { 'Runecrafting': 23 }, regions: ['Al Kharid'] },
   // Hard
   { id: 'lum_hard_1', tierId: 'Lumbridge Hard', description: 'Cast Bones to Peaches in Al Kharid palace.', skills: { 'Magic': 60 }, regions: ['Al Kharid'] },
   { id: 'lum_hard_2', tierId: 'Lumbridge Hard', description: 'Squeeze past the jutting wall on your way to the cosmic altar.', skills: { 'Agility': 46 }, quests: ['Lost City'], regions: ['Zanaris'] },
-  { id: 'lum_hard_3', tierId: 'Lumbridge Hard', description: 'Craft 56 Cosmic runes simultaneously.', skills: { 'Runecraft': 59 }, quests: ['Lost City'], regions: ['Zanaris'] },
+  { id: 'lum_hard_3', tierId: 'Lumbridge Hard', description: 'Craft 56 Cosmic runes simultaneously.', skills: { 'Runecrafting': 59 }, quests: ['Lost City'], regions: ['Zanaris'] },
   { id: 'lum_hard_4', tierId: 'Lumbridge Hard', description: 'Travel from Lumbridge to Edgeville on a Waka Canoe.', skills: { 'Woodcutting': 57 }, regions: ['Lumbridge'] },
   { id: 'lum_hard_5', tierId: 'Lumbridge Hard', description: 'Collect at least 100 Tears of Guthix in one visit.', quests: ['Tears of Guthix'], regions: ['Lumbridge'] },
   { id: 'lum_hard_6', tierId: 'Lumbridge Hard', description: 'Take the train from Dorgesh-Kaan to Keldagrim.', quests: ['Another Slice of H.A.M.'], regions: ['Lumbridge'] },
@@ -398,7 +398,7 @@ export const ALL_DIARY_TASKS: DiaryTask[] = [
   { id: 'lum_elite_2', tierId: 'Lumbridge Elite', description: 'Grapple across a pylon on the Dorgesh-Kaan Agility Course.', skills: { 'Agility': 70, 'Ranged': 70, 'Strength': 70 }, quests: ['Death to the Dorgeshuun'], regions: ['Lumbridge'] },
   { id: 'lum_elite_3', tierId: 'Lumbridge Elite', description: 'Chop some magic logs at the Mage Training Arena.', skills: { 'Woodcutting': 75 }, regions: ['Mage Training Arena'] },
   { id: 'lum_elite_4', tierId: 'Lumbridge Elite', description: 'Smith an Adamant platebody down Draynor sewer.', skills: { 'Smithing': 88 }, regions: ['Draynor Village'] },
-  { id: 'lum_elite_5', tierId: 'Lumbridge Elite', description: 'Craft 140 or more Water runes simultaneously.', skills: { 'Runecraft': 76 }, regions: ['Lumbridge'] },
+  { id: 'lum_elite_5', tierId: 'Lumbridge Elite', description: 'Craft 140 or more Water runes simultaneously.', skills: { 'Runecrafting': 76 }, regions: ['Lumbridge'] },
   { id: 'lum_elite_6', tierId: 'Lumbridge Elite', description: 'Perform the Quest cape emote in the Wise Old Man\'s house.', regions: ['Draynor Village'] },
 
   // ============================================================================
@@ -462,7 +462,7 @@ export const ALL_DIARY_TASKS: DiaryTask[] = [
   { id: 'var_easy_9', tierId: 'Varrock Easy', description: 'Give a dog a bone!', regions: ['Varrock'] },
   { id: 'var_easy_10', tierId: 'Varrock Easy', description: 'Spin a bowl on the pottery wheel and fire it in the oven in Barb Village.', skills: { 'Crafting': 8 }, regions: ['Barbarian Village'] },
   { id: 'var_easy_11', tierId: 'Varrock Easy', description: 'Speak to Haig Halen after obtaining at least 50 Kudos.', regions: ['Varrock'] },
-  { id: 'var_easy_12', tierId: 'Varrock Easy', description: 'Craft some Earth runes from Essence.', skills: { 'Runecraft': 9 }, regions: ['Varrock'] },
+  { id: 'var_easy_12', tierId: 'Varrock Easy', description: 'Craft some Earth runes from Essence.', skills: { 'Runecrafting': 9 }, regions: ['Varrock'] },
   { id: 'var_easy_13', tierId: 'Varrock Easy', description: 'Catch some trout in the River Lum at Barbarian Village.', skills: { 'Fishing': 20 }, regions: ['Barbarian Village'] },
   { id: 'var_easy_14', tierId: 'Varrock Easy', description: 'Steal from the Tea stall in Varrock.', skills: { 'Thieving': 5 }, regions: ['Varrock'] },
   // Medium
@@ -495,7 +495,7 @@ export const ALL_DIARY_TASKS: DiaryTask[] = [
   { id: 'var_elite_2', tierId: 'Varrock Elite', description: 'Use Lunar magic to make 20 mahogany planks at the Lumberyard.', skills: { 'Magic': 86 }, quests: ['Dream Mentor'], regions: ['Varrock'] },
   { id: 'var_elite_3', tierId: 'Varrock Elite', description: 'Bake a summer pie in the Cooking Guild.', skills: { 'Cooking': 95 }, regions: ['Varrock'] },
   { id: 'var_elite_4', tierId: 'Varrock Elite', description: 'Smith and fletch ten rune darts within Varrock.', skills: { 'Smithing': 89, 'Fletching': 81 }, quests: ['The Tourist Trap'], regions: ['Varrock'] },
-  { id: 'var_elite_5', tierId: 'Varrock Elite', description: 'Craft 100 or more earth runes simultaneously.', skills: { 'Runecraft': 78 }, regions: ['Varrock'] },
+  { id: 'var_elite_5', tierId: 'Varrock Elite', description: 'Craft 100 or more earth runes simultaneously.', skills: { 'Runecrafting': 78 }, regions: ['Varrock'] },
 
   // ============================================================================
   // WESTERN PROVINCES

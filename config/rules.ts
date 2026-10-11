@@ -28,23 +28,25 @@ export const DROP_RATES: Record<string, number> = {
   [DropSource.DIARY_HARD]: 65,
   [DropSource.DIARY_ELITE]: 85,
   
-  // Specific Slayer Master Rates
+  // RS3 Slayer masters — rate climbs with the master's combat/Slayer gate.
   [DropSource.SLAYER_BEGINNER]: 5,
-  [DropSource.SLAYER_MAZCHNA]: 10,
-  [DropSource.SLAYER_VANNAKA]: 20,
+  [DropSource.SLAYER_VANNAKA]: 10,
+  [DropSource.SLAYER_RAPTOR]: 15,
+  [DropSource.SLAYER_MAZCHNA]: 15,
   [DropSource.SLAYER_CHAELDAR]: 25,
-  [DropSource.SLAYER_KONAR]: 35,
-  [DropSource.SLAYER_NIEVE]: 45,
-  [DropSource.SLAYER_KRYSTILIA]: 65,
-  [DropSource.SLAYER_DURADEL]: 70,
+  [DropSource.SLAYER_SUMONA]: 30,
+  [DropSource.SLAYER_DURADEL]: 40,
+  [DropSource.SLAYER_KURADAL]: 50,
+  [DropSource.SLAYER_MORVRAN]: 60,
+  [DropSource.SLAYER_LANIAKEA]: 65,
+  [DropSource.SLAYER_MANDRITH]: 70,
   [DropSource.SLAYER_BOSS]: 80,
 
-  [DropSource.CLUE_BEGINNER]: 5,
   [DropSource.CLUE_EASY]: 10,
   [DropSource.CLUE_MEDIUM]: 20,
   [DropSource.CLUE_HARD]: 35,
-  [DropSource.CLUE_ELITE]: 65,
-  [DropSource.CLUE_MASTER]: 80,
+  [DropSource.CLUE_ELITE]: 55,
+  [DropSource.CLUE_MASTER]: 75,
 
   // Repeatable endgame faucets — keep unlocked bosses/raids/activities/pets
   // earning keys long after the one-time sources (quests/diaries/CAs) dry up.

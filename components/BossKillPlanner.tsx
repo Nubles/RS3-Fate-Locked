@@ -69,7 +69,7 @@ export const BossKillPlanner: React.FC<Props> = ({ onClose }) => {
   const player: PlayerCombat = useMemo(() => {
     const L = unlocks.levels || {};
     return {
-      levels: { attack: L.Attack || 1, strength: L.Strength || 1, ranged: L.Ranged || 1, magic: L.Magic || 1, hitpoints: L.Hitpoints || 10 },
+      levels: { attack: L.Attack || 1, strength: L.Strength || 1, ranged: L.Ranged || 1, magic: L.Magic || 1, hitpoints: L.Constitution || 10 },
       gear: { bonuses: gear.bonuses, speedTicks: gear.speedTicks },
       boostsOn,
     };

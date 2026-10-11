@@ -78,10 +78,10 @@ interface GameContextType extends GameState {
 // --- Initial State ---
 const getInitialUnlocks = (): UnlockState => ({
   equipment: EQUIPMENT_SLOTS.reduce((acc, slot) => ({ ...acc, [slot]: 0 }), {} as Record<string, number>),
-  skills: { 'Hitpoints': 1 },
+  skills: { 'Constitution': 1 },
   levels: SKILLS_LIST.reduce((acc, skill) => ({
     ...acc,
-    [skill]: skill === 'Hitpoints' ? 10 : 1
+    [skill]: skill === 'Constitution' ? 10 : 1
   }), {} as Record<string, number>),
   regions: [],
   mobility: [],

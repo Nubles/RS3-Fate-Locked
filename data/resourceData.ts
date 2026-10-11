@@ -683,7 +683,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
     { type: 'DROP', name: 'Moss Giant', regions: ['Any'], notes: 'Common drop' }
   ],
   'Nature Rune': [
-    { type: 'SKILL', name: 'Runecraft Altar', regions: ['Karamja'], skills: { 'Runecraft': 44 }, notes: 'Nature Altar' },
+    { type: 'SKILL', name: 'Runecrafting Altar', regions: ['Karamja'], skills: { 'Runecrafting': 44 }, notes: 'Nature Altar' },
     { type: 'DROP', name: 'Moss Giant', regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Karamja', 'Wilderness', 'Kourend & Kebos', 'Fremennik', 'Varlamore', 'The Open Seas', 'Islands & Others'] },
     { type: 'SHOP', name: 'Mage Arena Shop', regions: ['Wilderness'], notes: 'Lundail' },
     { type: 'SHOP', name: 'Magic Guild Store', regions: ['Kandarin'], skills: {'Magic': 66} },
@@ -691,32 +691,32 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
     { type: 'DROP', name: 'Basilisk', regions: ['Fremennik'], skills: {'Slayer': 40} }
   ],
   'Law Rune': [
-    { type: 'SKILL', name: 'Runecraft Altar', regions: ['Asgarnia'], skills: { 'Runecraft': 54 }, notes: 'Entrana (No weapons allowed)' },
+    { type: 'SKILL', name: 'Runecrafting Altar', regions: ['Asgarnia'], skills: { 'Runecrafting': 54 }, notes: 'Entrana (No weapons allowed)' },
     { type: 'SHOP', name: 'Mage Arena Shop', regions: ['Wilderness'], notes: 'Lundail' },
     { type: 'DROP', name: 'Hill Giant', regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Kourend & Kebos', 'Wilderness', 'Kharidian Desert', 'Varlamore'] },
     { type: 'DROP', name: 'Cockatrice', regions: ['Fremennik'], skills: {'Slayer': 25} }
   ],
   'Cosmic Rune': [
-    { type: 'SKILL', name: 'Runecraft Altar', regions: ['Misthalin'], skills: { 'Runecraft': 27 }, notes: 'Zanaris (Lost City)' },
+    { type: 'SKILL', name: 'Runecrafting Altar', regions: ['Misthalin'], skills: { 'Runecrafting': 27 }, notes: 'Zanaris (Lost City)' },
     { type: 'SHOP', name: 'Mage Arena Shop', regions: ['Wilderness'], notes: 'Lundail' },
     { type: 'SHOP', name: 'Ali\'s Discount Wares', regions: ['Kharidian Desert', 'Misthalin'], quests: ['The Feud'], notes: 'Pollnivneach' }
   ],
   'Blood Rune': [
-    { type: 'SKILL', name: 'True Blood Altar', regions: ['Morytania'], skills: { 'Runecraft': 77 }, quests: ['Sins of the Father'] },
-    { type: 'SKILL', name: 'Runecraft Altar', regions: ['Kourend & Kebos'], skills: { 'Runecraft': 77, 'Mining': 38, 'Crafting': 38 }, notes: 'Arceuus (Zeah)' },
+    { type: 'SKILL', name: 'True Blood Altar', regions: ['Morytania'], skills: { 'Runecrafting': 77 }, quests: ['Sins of the Father'] },
+    { type: 'SKILL', name: 'Runecrafting Altar', regions: ['Kourend & Kebos'], skills: { 'Runecrafting': 77, 'Mining': 38, 'Crafting': 38 }, notes: 'Arceuus (Zeah)' },
     { type: 'SHOP', name: 'Mage Arena Shop', regions: ['Wilderness'], notes: 'Lundail' },
     { type: 'DROP', name: 'Bloodveld', regions: ['Morytania', 'Kandarin', 'Kourend & Kebos'], skills: {'Slayer': 50} },
     { type: 'MINIGAME', name: 'Barrows Chest', regions: ['Morytania'], unlockId: 'Barrows Brothers' }
   ],
   'Soul Rune': [
-    { type: 'SKILL', name: 'Runecraft Altar', regions: ['Kourend & Kebos'], skills: { 'Runecraft': 90 }, notes: 'Arceuus (Zeah)' },
+    { type: 'SKILL', name: 'Runecrafting Altar', regions: ['Kourend & Kebos'], skills: { 'Runecrafting': 90 }, notes: 'Arceuus (Zeah)' },
     { type: 'SHOP', name: 'Mage Arena Shop', regions: ['Wilderness'], notes: 'Lundail' },
     { type: 'DROP', name: 'Spiritual Mage', regions: ['Fremennik', 'Wilderness'], skills: {'Slayer': 83} },
     { type: 'DROP', name: 'Cerberus', regions: ['Asgarnia'], skills: {'Slayer': 91}, unlockId: 'Cerberus' },
     { type: 'DROP', name: 'Vorkath', regions: ['Fremennik'], unlockId: 'Vorkath' }
   ],
   'Death Rune': [
-    { type: 'SKILL', name: 'Runecraft Altar', regions: ['Misthalin', 'Tirannwn'], skills: {'Runecraft': 65}, quests: ['Mourning\'s End Part II'] },
+    { type: 'SKILL', name: 'Runecrafting Altar', regions: ['Misthalin', 'Tirannwn'], skills: {'Runecrafting': 65}, quests: ['Mourning\'s End Part II'] },
     { type: 'SHOP', name: 'Magic Guild Store', regions: ['Kandarin'], skills: {'Magic': 66} },
     { type: 'DROP', name: 'Nechryael', regions: ['Morytania', 'Kourend & Kebos'], skills: {'Slayer': 80} },
     { type: 'DROP', name: 'Ankou', regions: ['Misthalin', 'Kourend & Kebos', 'Wilderness'] },
@@ -724,7 +724,7 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
   ],
   'Astral Rune': [
     { type: 'SHOP', name: 'Baba Yaga', regions: ['Fremennik'], quests: ['Lunar Diplomacy'] },
-    { type: 'SKILL', name: 'Runecraft Altar', regions: ['Fremennik'], skills: {'Runecraft': 40}, quests: ['Lunar Diplomacy'], notes: 'Lunar Isle' }
+    { type: 'SKILL', name: 'Runecrafting Altar', regions: ['Fremennik'], skills: {'Runecrafting': 40}, quests: ['Lunar Diplomacy'], notes: 'Lunar Isle' }
   ],
 
   // --- GEAR & BONES ---
@@ -1055,13 +1055,13 @@ export const RESOURCE_MAP: Record<string, ResourceSource[]> = {
     { type: 'DROP', name: 'Abyssal Sire', regions: ['Wilderness'], unlockId: 'Abyssal Sire' }
   ],
   'Primordial Boots': [
-    { type: 'SKILL', name: 'Runecrafting', regions: ['Asgarnia'], inputs: {'Primordial Crystal': 1, 'Dragon Boots': 1}, skills: {'Runecraft': 60, 'Magic': 60} }
+    { type: 'SKILL', name: 'Runecrafting', regions: ['Asgarnia'], inputs: {'Primordial Crystal': 1, 'Dragon Boots': 1}, skills: {'Runecrafting': 60, 'Magic': 60} }
   ],
   'Pegasian Boots': [
-    { type: 'SKILL', name: 'Runecrafting', regions: ['Asgarnia'], inputs: {'Pegasian Crystal': 1, 'Ranger Boots': 1}, skills: {'Runecraft': 60, 'Magic': 60} }
+    { type: 'SKILL', name: 'Runecrafting', regions: ['Asgarnia'], inputs: {'Pegasian Crystal': 1, 'Ranger Boots': 1}, skills: {'Runecrafting': 60, 'Magic': 60} }
   ],
   'Eternal Boots': [
-    { type: 'SKILL', name: 'Runecrafting', regions: ['Asgarnia'], inputs: {'Eternal Crystal': 1, 'Infinity Boots': 1}, skills: {'Runecraft': 60, 'Magic': 60} }
+    { type: 'SKILL', name: 'Runecrafting', regions: ['Asgarnia'], inputs: {'Eternal Crystal': 1, 'Infinity Boots': 1}, skills: {'Runecrafting': 60, 'Magic': 60} }
   ],
   'Primordial Crystal': [
     { type: 'DROP', name: 'Cerberus', regions: ['Asgarnia'], unlockId: 'Cerberus' }

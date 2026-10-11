@@ -35,7 +35,7 @@ export const POWER_AXES: PowerAxisDef[] = [
   { key: 'melee',   label: 'Melee',   slots: ['Weapon', 'Body', 'Legs', 'Gloves', 'Boots'], skills: ['Attack', 'Strength'] },
   { key: 'ranged',  label: 'Ranged',  slots: ['Weapon', 'Body', 'Legs', 'Ammo', 'Boots'],   skills: ['Ranged'] },
   { key: 'magic',   label: 'Magic',   slots: ['Weapon', 'Body', 'Legs', 'Neck'],             skills: ['Magic'] },
-  { key: 'defence', label: 'Defence', slots: ['Head', 'Body', 'Legs', 'Shield', 'Gloves', 'Boots', 'Cape'], skills: ['Defence', 'Hitpoints'] },
+  { key: 'defence', label: 'Defence', slots: ['Head', 'Body', 'Legs', 'Shield', 'Gloves', 'Boots', 'Cape'], skills: ['Defence', 'Constitution'] },
   { key: 'prayer',  label: 'Prayer',  slots: ['Neck', 'Cape', 'Ring'],                       skills: ['Prayer'] },
 ];
 

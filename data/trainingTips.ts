@@ -93,7 +93,7 @@ export const TRAINING_TIPS: Record<string, TrainingTip[]> = {
     { from: 55, to: 69, method: 'Super attack/strength (profit potions)', note: 'Limited by herb supply' },
     { from: 69, to: 99, method: 'Super restores or prayer potions' },
   ],
-  Hitpoints: [
+  Constitution: [
     { from: 1, to: 99, method: 'Passive from combat training (1/3 of combat XP earnt)', note: 'No direct training method' },
   ],
   Hunter: [
@@ -130,7 +130,7 @@ export const TRAINING_TIPS: Record<string, TrainingTip[]> = {
     { from: 40, to: 70, method: 'Cannon on Slayer tasks', note: 'Expensive in cannonballs' },
     { from: 70, to: 99, method: 'Red chinchompas in MM2 tunnels', note: 'Best xp in game at high level' },
   ],
-  Runecraft: [
+  Runecrafting: [
     { from: 1,  to: 27, method: 'Air/Earth/Fire runes (nearest altar)' },
     { from: 27, to: 44, method: 'Cosmic runes via Abyss' },
     { from: 44, to: 65, method: 'Nature runes via Abyss' },
@@ -194,13 +194,13 @@ const WIKI_TRAINING_SLUGS: Record<string, string> = {
   Fishing:      'Training:Fishing',
   Fletching:    'Training:Fletching',
   Herblore:     'Training:Herblore',
-  Hitpoints:    'Training:Hitpoints',
+  Constitution:    'Training:Constitution',
   Hunter:       'Training:Hunter',
   Magic:        'Training:Magic',
   Mining:       'Training:Mining',
   Prayer:       'Training:Prayer',
   Ranged:       'Training:Ranged',
-  Runecraft:    'Training:Runecrafting',
+  Runecrafting:    'Training:Runecrafting',
   Runecrafting: 'Training:Runecrafting',
   Slayer:       'Training:Slayer',
   Smithing:     'Training:Smithing',

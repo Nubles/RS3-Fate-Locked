@@ -48,7 +48,7 @@ export type LocateFn = (taskName: string) => { cx: number; cy: number; unlocked:
 /** Standard OSRS combat level from the tracked skill levels. */
 export const combatLevel = (levels: Record<string, number>): number => {
   const L = (k: string, d = 1) => Math.max(levels[k] ?? d, d);
-  const base = 0.25 * (L('Defence') + L('Hitpoints', 10) + Math.floor(L('Prayer') / 2));
+  const base = 0.25 * (L('Defence') + L('Constitution', 10) + Math.floor(L('Prayer') / 2));
   const melee = 0.325 * (L('Attack') + L('Strength'));
   const range = 0.325 * Math.floor((3 * L('Ranged')) / 2);
   const mage = 0.325 * Math.floor((3 * L('Magic')) / 2);

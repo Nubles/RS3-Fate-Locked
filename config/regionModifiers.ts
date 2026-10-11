@@ -20,19 +20,19 @@ export interface RegionModifier {
 }
 
 export const REGION_MODIFIERS: RegionModifier[] = [
-  { continent: 'Misthalin',        name: 'Homeland Comfort',   description: '+2% roll success',            successBonus: 2,  omniBonus: 0 },
-  { continent: 'Asgarnia',         name: 'Dwarven Fortune',    description: '+2% roll success',            successBonus: 2,  omniBonus: 0 },
-  { continent: 'Kandarin',         name: "Seer's Insight",     description: '+1% success, +1% Omni',       successBonus: 1,  omniBonus: 1 },
-  { continent: 'Karamja',          name: 'Volcanic Luck',      description: '+3% roll success',            successBonus: 3,  omniBonus: 0 },
-  { continent: 'Kharidian Desert', name: 'Desert Mirage',      description: '+2% Omni chance',             successBonus: 0,  omniBonus: 2 },
-  { continent: 'Morytania',        name: 'Cursed Bargain',     description: '+3% Omni, -1% success',       successBonus: -1, omniBonus: 3 },
-  { continent: 'Fremennik',        name: 'Longhall Resolve',   description: '+2% roll success',            successBonus: 2,  omniBonus: 0 },
-  { continent: 'Tirannwn',         name: 'Elven Precision',    description: '+2% Omni chance',             successBonus: 0,  omniBonus: 2 },
-  { continent: 'Wilderness',       name: "Risk-Taker's Edge",  description: '+2% success, +2% Omni',       successBonus: 2,  omniBonus: 2 },
-  { continent: 'Kourend & Kebos',  name: 'Favour of the Houses', description: '+2% roll success',          successBonus: 2,  omniBonus: 0 },
-  { continent: 'Varlamore',        name: 'Sunlit Fortune',     description: '+1% success, +1% Omni',       successBonus: 1,  omniBonus: 1 },
-  { continent: 'Islands & Others', name: "Explorer's Boon",    description: '+1% roll success',            successBonus: 1,  omniBonus: 0 },
-  { continent: 'The Open Seas',    name: 'Pirate Plunder',     description: '+1% Omni chance',             successBonus: 0,  omniBonus: 1 },
+  { continent: 'Misthalin',        name: 'Homeland Comfort',    description: '+2% roll success',            successBonus: 2,  omniBonus: 0 },
+  { continent: 'Asgarnia',         name: 'White Knight\'s Oath', description: '+2% roll success',            successBonus: 2,  omniBonus: 0 },
+  { continent: 'Kandarin',         name: "Seer's Insight",      description: '+1% success, +1% Omni',       successBonus: 1,  omniBonus: 1 },
+  { continent: 'Karamja',          name: 'Volcanic Luck',       description: '+3% roll success',            successBonus: 3,  omniBonus: 0 },
+  { continent: 'Kharidian Desert', name: "Icthlarin's Blessing", description: '+2% Omni chance',            successBonus: 0,  omniBonus: 2 },
+  { continent: 'Morytania',        name: 'Cursed Bargain',      description: '+3% Omni, -1% success',       successBonus: -1, omniBonus: 3 },
+  { continent: 'Fremennik',        name: 'Longhall Resolve',    description: '+2% roll success',            successBonus: 2,  omniBonus: 0 },
+  { continent: 'Tirannwn',         name: "Seren's Light",       description: '+2% Omni chance',             successBonus: 0,  omniBonus: 2 },
+  { continent: 'Wilderness',       name: "Risk-Taker's Edge",   description: '+2% success, +2% Omni',       successBonus: 2,  omniBonus: 2 },
+  { continent: 'Daemonheim',       name: 'Sinkeep\'s Gamble',    description: '+1% success, +1% Omni',       successBonus: 1,  omniBonus: 1 },
+  { continent: 'Anachronia',       name: 'Primal Vigour',       description: '+2% roll success',            successBonus: 2,  omniBonus: 0 },
+  { continent: 'The Arc',          name: 'Tidal Fortune',       description: '+1% success, +1% Omni',       successBonus: 1,  omniBonus: 1 },
+  { continent: 'Islands & Others', name: "Explorer's Boon",     description: '+1% roll success',            successBonus: 1,  omniBonus: 0 },
 ];
 
 const MODIFIER_BY_CONTINENT: Record<string, RegionModifier> = Object.fromEntries(

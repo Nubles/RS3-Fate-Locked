@@ -21,16 +21,16 @@ import { useGame } from '../context/GameContext';
 const WOM_BASE = 'https://api.wiseoldman.net/v2/players/';
 
 // App skill names in display order. WOM uses lowercase metric keys; the only
-// non-trivial remaps are runecrafting→Runecraft and the already-capitalised rest.
+// non-trivial remaps are runecrafting→Runecrafting and the already-capitalised rest.
 const SKILLS = [
-  'Attack', 'Strength', 'Defence', 'Hitpoints', 'Ranged', 'Prayer', 'Magic',
-  'Runecraft', 'Construction', 'Agility', 'Herblore', 'Thieving', 'Crafting',
+  'Attack', 'Strength', 'Defence', 'Constitution', 'Ranged', 'Prayer', 'Magic',
+  'Runecrafting', 'Construction', 'Agility', 'Herblore', 'Thieving', 'Crafting',
   'Fletching', 'Slayer', 'Hunter', 'Mining', 'Smithing', 'Fishing', 'Cooking',
   'Firemaking', 'Woodcutting', 'Farming',
 ] as const;
 
 const womMetric = (skill: string) =>
-  skill === 'Runecraft' ? 'runecrafting' : skill.toLowerCase();
+  skill === 'Runecrafting' ? 'runecrafting' : skill.toLowerCase();
 
 interface FetchedSkill { skill: string; level: number }
 interface Fetched {

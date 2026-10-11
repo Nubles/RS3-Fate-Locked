@@ -26,11 +26,11 @@ describe('resourceReqFor', () => {
       ['Nickel rocks', 'Mining', 74],
       ['Volcanic sulphur rock', 'Mining', 42],
       ['Lead rocks', 'Mining', 25],
-      ['Blood Altar (Kourend)', 'Runecraft', 77],
-      ['Soul Altar', 'Runecraft', 90],
-      ['Astral Altar', 'Runecraft', 40],
-      ['Dark Altar', 'Runecraft', 1],
-      ['Mysterious ruins', 'Runecraft', 1],
+      ['Blood Altar (Kourend)', 'Runecrafting', 77],
+      ['Soul Altar', 'Runecrafting', 90],
+      ['Astral Altar', 'Runecrafting', 40],
+      ['Dark Altar', 'Runecrafting', 1],
+      ['Mysterious ruins', 'Runecrafting', 1],
     ];
     for (const [name, skill, level] of cases) {
       const req = resourceReqFor(name);

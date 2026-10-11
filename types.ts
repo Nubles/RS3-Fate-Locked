@@ -20,18 +20,21 @@ export enum DropSource {
   DIARY_HARD = 'Diary (Hard)',
   DIARY_ELITE = 'Diary (Elite)',
 
-  // Specific Slayer Tiers
-  SLAYER_BEGINNER = 'Slayer (Turael/Spria)',
-  SLAYER_MAZCHNA = 'Slayer (Mazchna)',
+  // RS3 Slayer masters, ordered by their combat/Slayer requirements.
+  SLAYER_BEGINNER = 'Slayer (Turael/Spria/Jacquelyn)',
   SLAYER_VANNAKA = 'Slayer (Vannaka)',
+  SLAYER_RAPTOR = 'Slayer (The Raptor)',
+  SLAYER_MAZCHNA = 'Slayer (Mazchna/Achtryn)',
   SLAYER_CHAELDAR = 'Slayer (Chaeldar)',
-  SLAYER_KONAR = 'Slayer (Konar)',
-  SLAYER_NIEVE = 'Slayer (Nieve/Steve)',
-  SLAYER_KRYSTILIA = 'Slayer (Krystilia)',
-  SLAYER_DURADEL = 'Slayer (Duradel/Kuradal)',
-  SLAYER_BOSS = 'Slayer (Boss Task)',
+  SLAYER_SUMONA = 'Slayer (Sumona)',
+  SLAYER_DURADEL = 'Slayer (Duradel/Lapalok)',
+  SLAYER_KURADAL = 'Slayer (Kuradal)',
+  SLAYER_MORVRAN = 'Slayer (Morvran)',
+  SLAYER_LANIAKEA = 'Slayer (Laniakea)',
+  SLAYER_MANDRITH = 'Slayer (Mandrith)',
+  SLAYER_BOSS = 'Reaper Task (Death)',
 
-  CLUE_BEGINNER = 'Clue Scroll (Beginner)',
+  // RS3 Treasure Trails have no Beginner tier.
   CLUE_EASY = 'Clue Scroll (Easy)',
   CLUE_MEDIUM = 'Clue Scroll (Medium)',
   CLUE_HARD = 'Clue Scroll (Hard)',
@@ -134,7 +137,7 @@ export interface GameState {
   gameModeLocked?: boolean; // true once a mode has been chosen — permanent for the account
   loadout?: Record<string, number>; // equipment slot -> real item id (Gear mode)
   rival?: RivalState; // Rival Ghost the player is racing (optional)
-  /** OSRS account this run is bound to (Auto-Roll). Set once, then permanent. */
+  /** RS3 account this run is bound to (Auto-Roll). Set once, then permanent. */
   linkedAccount?: string;
 }
 

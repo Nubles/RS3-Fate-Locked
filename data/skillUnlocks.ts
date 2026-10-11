@@ -1,6 +1,6 @@
 
 export const SKILL_UNLOCK_DATA: Record<string, Record<number, string[]>> = {
-  'Hitpoints': {
+  'Constitution': {
     1: [
       'Passive: Each level grants +1 Max Health',
       'Lvl 10: Heal +3 HP with Anglerfish',
@@ -1229,7 +1229,7 @@ export const SKILL_UNLOCK_DATA: Record<string, Record<number, string[]>> = {
       'Lvl 99: Skill Mastery (Ranging Cape)'
     ],
   },
-  'Runecraft': {
+  'Runecrafting': {
     1: [
       'Lvl 1: Air Runes, Mind/Water/Earth/Fire/Body Tiaras',
       'Lvl 1: Ourania Altar (ZMI)',
@@ -1304,7 +1304,7 @@ export const SKILL_UNLOCK_DATA: Record<string, Record<number, string[]>> = {
       'Lvl 92: 3 Body Runes',
       'Lvl 95: Wrath Runes, 2 Law Runes, 6 Water Runes',
       'Lvl 98: 8 Mind Runes, 3 Sunfire Runes',
-      'Lvl 99: Skill Mastery (Runecraft Cape)'
+      'Lvl 99: Skill Mastery (Runecrafting Cape)'
     ],
   },
   'Summoning': {

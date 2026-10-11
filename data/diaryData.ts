@@ -24,7 +24,7 @@ export const DIARY_DATA: Record<string, DiaryTier> = {
   },
   'Ardougne Hard': {
     id: 'Ardougne Hard', region: 'Kandarin', tier: 'Hard', difficulty: DropSource.DIARY_HARD,
-    skills: { 'Agility': 65, 'Construction': 50, 'Crafting': 35, 'Farming': 65, 'Fishing': 53, 'Hunter': 59, 'Magic': 66, 'Mining': 52, 'Prayer': 42, 'Runecraft': 65, 'Smithing': 68, 'Thieving': 72, 'Woodcutting': 50 },
+    skills: { 'Agility': 65, 'Construction': 50, 'Crafting': 35, 'Farming': 65, 'Fishing': 53, 'Hunter': 59, 'Magic': 66, 'Mining': 52, 'Prayer': 42, 'Runecrafting': 65, 'Smithing': 68, 'Thieving': 72, 'Woodcutting': 50 },
     quests: ['Monkey Madness I', 'Legends\' Quest', 'Mourning\'s End Part I', 'Watchtower'], requiredRegions: ['Kandarin', 'Tirannwn', 'Islands & Others']
   },
   'Ardougne Elite': {
@@ -65,12 +65,12 @@ export const DIARY_DATA: Record<string, DiaryTier> = {
   },
   'Falador Hard': {
     id: 'Falador Hard', region: 'Asgarnia', tier: 'Hard', difficulty: DropSource.DIARY_HARD,
-    skills: { 'Agility': 59, 'Construction': 50, 'Crafting': 31, 'Defence': 50, 'Farming': 45, 'Firemaking': 30, 'Herblore': 52, 'Mining': 60, 'Prayer': 70, 'Runecraft': 56, 'Slayer': 72, 'Smithing': 40, 'Thieving': 58, 'Woodcutting': 71 }, 
+    skills: { 'Agility': 59, 'Construction': 50, 'Crafting': 31, 'Defence': 50, 'Farming': 45, 'Firemaking': 30, 'Herblore': 52, 'Mining': 60, 'Prayer': 70, 'Runecrafting': 56, 'Slayer': 72, 'Smithing': 40, 'Thieving': 58, 'Woodcutting': 71 }, 
     quests: ['Heroes\' Quest', 'Grim Tales', 'The Slug Menace'], requiredRegions: ['Asgarnia', 'Kandarin', 'Misthalin']
   },
   'Falador Elite': {
     id: 'Falador Elite', region: 'Asgarnia', tier: 'Elite', difficulty: DropSource.DIARY_ELITE,
-    skills: { 'Agility': 80, 'Farming': 91, 'Herblore': 81, 'Magic': 96, 'Mining': 17, 'Runecraft': 88, 'Smithing': 13, 'Thieving': 13, 'Woodcutting': 75 }, 
+    skills: { 'Agility': 80, 'Farming': 91, 'Herblore': 81, 'Magic': 96, 'Mining': 17, 'Runecrafting': 88, 'Smithing': 13, 'Thieving': 13, 'Woodcutting': 75 }, 
     quests: [], requiredRegions: ['Asgarnia', 'Karamja']
   },
   // --- FREMENNIK ---
@@ -91,7 +91,7 @@ export const DIARY_DATA: Record<string, DiaryTier> = {
   },
   'Fremennik Elite': {
     id: 'Fremennik Elite', region: 'Fremennik', tier: 'Elite', difficulty: DropSource.DIARY_ELITE,
-    skills: { 'Agility': 80, 'Crafting': 80, 'Fletching': 25, 'Hitpoints': 70, 'Magic': 82, 'Prayer': 85, 'Runecraft': 77, 'Slayer': 83, 'Smithing': 90, 'Strength': 70 }, 
+    skills: { 'Agility': 80, 'Crafting': 80, 'Fletching': 25, 'Constitution': 70, 'Magic': 82, 'Prayer': 85, 'Runecrafting': 77, 'Slayer': 83, 'Smithing': 90, 'Strength': 70 }, 
     quests: ['Dragon Slayer II'], requiredRegions: ['Fremennik', 'Misthalin', 'Kandarin']
   },
   // --- KANDARIN ---
@@ -127,12 +127,12 @@ export const DIARY_DATA: Record<string, DiaryTier> = {
   },
   'Karamja Hard': {
     id: 'Karamja Hard', region: 'Karamja', tier: 'Hard', difficulty: DropSource.DIARY_HARD,
-    skills: { 'Agility': 53, 'Cooking': 30, 'Magic': 59, 'Mining': 52, 'Ranged': 42, 'Runecraft': 44, 'Slayer': 50, 'Smithing': 40, 'Strength': 50, 'Thieving': 50, 'Woodcutting': 34 }, 
+    skills: { 'Agility': 53, 'Cooking': 30, 'Magic': 59, 'Mining': 52, 'Ranged': 42, 'Runecrafting': 44, 'Slayer': 50, 'Smithing': 40, 'Strength': 50, 'Thieving': 50, 'Woodcutting': 34 }, 
     quests: ['Legends\' Quest', 'Tai Bwo Wannai Trio', 'Shilo Village'], requiredRegions: ['Karamja', 'Kandarin']
   },
   'Karamja Elite': {
     id: 'Karamja Elite', region: 'Karamja', tier: 'Elite', difficulty: DropSource.DIARY_ELITE,
-    skills: { 'Agility': 15, 'Cooking': 22, 'Farming': 72, 'Herblore': 87, 'Runecraft': 91, 'Slayer': 87 }, 
+    skills: { 'Agility': 15, 'Cooking': 22, 'Farming': 72, 'Herblore': 87, 'Runecrafting': 91, 'Slayer': 87 }, 
     quests: [], requiredRegions: ['Karamja']
   },
   // --- KOUREND ---
@@ -153,28 +153,28 @@ export const DIARY_DATA: Record<string, DiaryTier> = {
   },
   'Kourend Elite': {
     id: 'Kourend Elite', region: 'Kourend & Kebos', tier: 'Elite', difficulty: DropSource.DIARY_ELITE,
-    skills: { 'Cooking': 84, 'Crafting': 38, 'Farming': 85, 'Firemaking': 85, 'Fishing': 82, 'Fletching': 40, 'Herblore': 90, 'Magic': 95, 'Mining': 38, 'Prayer': 85, 'Runecraft': 77, 'Slayer': 95, 'Smithing': 40, 'Woodcutting': 90 }, 
+    skills: { 'Cooking': 84, 'Crafting': 38, 'Farming': 85, 'Firemaking': 85, 'Fishing': 82, 'Fletching': 40, 'Herblore': 90, 'Magic': 95, 'Mining': 38, 'Prayer': 85, 'Runecrafting': 77, 'Slayer': 95, 'Smithing': 40, 'Woodcutting': 90 }, 
     quests: ['Dragon Slayer II', 'A Kingdom Divided'], requiredRegions: ['Kourend & Kebos', 'Misthalin', 'Fremennik']
   },
   // --- LUMBRIDGE ---
   'Lumbridge Easy': {
     id: 'Lumbridge Easy', region: 'Misthalin', tier: 'Easy', difficulty: DropSource.DIARY_EASY,
-    skills: { 'Agility': 10, 'Firemaking': 15, 'Fishing': 15, 'Mining': 15, 'Runecraft': 5, 'Slayer': 7, 'Woodcutting': 15 }, 
+    skills: { 'Agility': 10, 'Firemaking': 15, 'Fishing': 15, 'Mining': 15, 'Runecrafting': 5, 'Slayer': 7, 'Woodcutting': 15 }, 
     quests: ['Cook\'s Assistant', 'Rune Mysteries', 'The Restless Ghost'], requiredRegions: ['Misthalin']
   },
   'Lumbridge Medium': {
     id: 'Lumbridge Medium', region: 'Misthalin', tier: 'Medium', difficulty: DropSource.DIARY_MEDIUM,
-    skills: { 'Agility': 20, 'Crafting': 38, 'Fishing': 30, 'Hunter': 15, 'Magic': 31, 'Prayer': 40, 'Range': 30, 'Runecraft': 23, 'Strength': 30, 'Thieving': 30, 'Woodcutting': 36 }, 
+    skills: { 'Agility': 20, 'Crafting': 38, 'Fishing': 30, 'Hunter': 15, 'Magic': 31, 'Prayer': 40, 'Range': 30, 'Runecrafting': 23, 'Strength': 30, 'Thieving': 30, 'Woodcutting': 36 }, 
     quests: ['Lost City'], requiredRegions: ['Misthalin', 'Islands & Others']
   },
   'Lumbridge Hard': {
     id: 'Lumbridge Hard', region: 'Misthalin', tier: 'Hard', difficulty: DropSource.DIARY_HARD,
-    skills: { 'Agility': 46, 'Crafting': 50, 'Farming': 63, 'Firemaking': 65, 'Magic': 60, 'Prayer': 52, 'Runecraft': 59, 'Woodcutting': 57 }, 
+    skills: { 'Agility': 46, 'Crafting': 50, 'Farming': 63, 'Firemaking': 65, 'Magic': 60, 'Prayer': 52, 'Runecrafting': 59, 'Woodcutting': 57 }, 
     quests: ['Recipe for Disaster', 'Desert Treasure I'], requiredRegions: ['Misthalin', 'Kharidian Desert', 'Asgarnia']
   },
   'Lumbridge Elite': {
     id: 'Lumbridge Elite', region: 'Misthalin', tier: 'Elite', difficulty: DropSource.DIARY_ELITE,
-    skills: { 'Agility': 70, 'Farming': 63, 'Magic': 70, 'Ranged': 70, 'Runecraft': 76, 'Smithing': 88, 'Strength': 70, 'Thieving': 72, 'Woodcutting': 75 }, 
+    skills: { 'Agility': 70, 'Farming': 63, 'Magic': 70, 'Ranged': 70, 'Runecrafting': 76, 'Smithing': 88, 'Strength': 70, 'Thieving': 72, 'Woodcutting': 75 }, 
     quests: ['Quest Point Cape'], requiredRegions: ['Misthalin'] 
   },
   // --- MORYTANIA ---
@@ -201,7 +201,7 @@ export const DIARY_DATA: Record<string, DiaryTier> = {
   // --- VARROCK ---
   'Varrock Easy': {
     id: 'Varrock Easy', region: 'Misthalin', tier: 'Easy', difficulty: DropSource.DIARY_EASY,
-    skills: { 'Agility': 13, 'Crafting': 8, 'Fishing': 20, 'Mining': 15, 'Runecraft': 9, 'Thieving': 5 }, 
+    skills: { 'Agility': 13, 'Crafting': 8, 'Fishing': 20, 'Mining': 15, 'Runecrafting': 9, 'Thieving': 5 }, 
     quests: ['Rune Mysteries'], requiredRegions: ['Misthalin']
   },
   'Varrock Medium': {
@@ -216,7 +216,7 @@ export const DIARY_DATA: Record<string, DiaryTier> = {
   },
   'Varrock Elite': {
     id: 'Varrock Elite', region: 'Misthalin', tier: 'Elite', difficulty: DropSource.DIARY_ELITE,
-    skills: { 'Cooking': 95, 'Fletching': 81, 'Herblore': 90, 'Magic': 86, 'Runecraft': 78, 'Smithing': 89 }, 
+    skills: { 'Cooking': 95, 'Fletching': 81, 'Herblore': 90, 'Magic': 86, 'Runecrafting': 78, 'Smithing': 89 }, 
     quests: ['Dream Mentor', 'Rune Mysteries'], requiredRegions: ['Misthalin', 'Fremennik']
   },
   // --- WESTERN PROVINCES ---

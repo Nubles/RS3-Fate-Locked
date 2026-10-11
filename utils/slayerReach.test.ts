@@ -32,8 +32,8 @@ const statusOf = (r: ReturnType<typeof slayerReachability>, m: string): SlayerSt
 
 describe('slayerReachability', () => {
   it('combat level uses the standard formula', () => {
-    expect(combatLevel({ Attack: 1, Strength: 1, Defence: 1, Hitpoints: 10 })).toBe(3);
-    expect(combatLevel({ Attack: 99, Strength: 99, Defence: 99, Hitpoints: 99, Prayer: 99, Ranged: 99, Magic: 99 })).toBe(126);
+    expect(combatLevel({ Attack: 1, Strength: 1, Defence: 1, Constitution: 10 })).toBe(3);
+    expect(combatLevel({ Attack: 99, Strength: 99, Defence: 99, Constitution: 99, Prayer: 99, Ranged: 99, Magic: 99 })).toBe(126);
   });
 
   it('gates on Slayer skill being unlocked at all', () => {
@@ -43,7 +43,7 @@ describe('slayerReachability', () => {
   });
 
   it('classifies each task by its binding requirement', () => {
-    const u = base({ skills: { Slayer: 5 }, levels: { Slayer: 20, Attack: 40, Strength: 40, Defence: 40, Hitpoints: 40 } });
+    const u = base({ skills: { Slayer: 5 }, levels: { Slayer: 20, Attack: 40, Strength: 40, Defence: 40, Constitution: 40 } });
     const r = slayerReachability(MASTERS, u, locate);
     expect(statusOf(r, 'Crawling')).toBe('ready');         // slayer 5 met, unlocked chunk
     expect(statusOf(r, 'Banshees')).toBe('quest-locked');  // needs Priest in Peril
@@ -57,7 +57,7 @@ describe('slayerReachability', () => {
   });
 
   it('reports ready counts per master', () => {
-    const u = base({ skills: { Slayer: 5 }, levels: { Slayer: 99, Attack: 99, Strength: 99, Defence: 99, Hitpoints: 99 }, quests: ['Priest in Peril'] });
+    const u = base({ skills: { Slayer: 5 }, levels: { Slayer: 99, Attack: 99, Strength: 99, Defence: 99, Constitution: 99 }, quests: ['Priest in Peril'] });
     const r = slayerReachability(MASTERS, u, locate);
     // Crawling + Bigfella ready (unlocked chunks); Banshees area-locked
     expect(r.masters[0].ready).toBe(2);
