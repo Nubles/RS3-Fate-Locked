@@ -1,18 +1,36 @@
 /**
- * Derives an "estimated tier" (1..EQUIPMENT_TIER_MAX) for every real item, per
- * slot, so real gear can be gated by the fate-lock tier the player has unlocked.
+ * RS3 item tier ↔ Fate equipment tier (1..EQUIPMENT_TIER_MAX) ladder, so real
+ * RS3 gear can be gated by the tier the player has unlocked per slot.
  *
- * Not every RS3 item name carries a recognisable tier, so as a fallback we compute a transparent power
- * score from each item's bonuses and split each slot's items into equal-sized
- * quantile buckets. This is automatic (no manual data), monotonic (a stronger
- * item never lands in a lower tier than a weaker one in the same slot), and the
- * weights live here so the mapping can be retuned without touching the UI.
+ * The ladder mirrors the Codex "Equipment Tiers" table (components/
+ * ReferenceModal.tsx): T1 = RS3 tier 1–10 … T9 = tier 92–95+. Items in the
+ * curated dataset (data/rs3Gear.ts) carry their RS3 tier, so their Fate tier is
+ * `fateTierForRs3Tier(tier)` unless the item pins a Codex override. A name-based
+ * classifier (`canonicalTierFromName`) is kept for free-text item names.
  *
  * Pure + tested.
  */
 
-import { GearBonuses } from './gearStats';
 import { EQUIPMENT_TIER_MAX } from '../config/rules';
+
+/** Highest RS3 item tier each Fate tier allows (index = Fate tier; 0 = locked). */
+export const RS3_TIER_CAP: readonly number[] = [0, 10, 30, 50, 65, 75, 80, 88, 90, 100];
+
+/** Human labels for each Fate tier's RS3 band (index = Fate tier). */
+export const RS3_TIER_BAND_LABEL: readonly string[] = [
+  'Locked', 'tier 1–10', 'tier 11–30', 'tier 31–50', 'tier 51–65', 'tier 66–75',
+  'tier 76–80', 'tier 81–88', 'tier 89–90', 'tier 91–95+',
+];
+
+/** Fate equipment tier needed to use an RS3 item of the given item tier. */
+export const fateTierForRs3Tier = (rs3Tier: number): number => {
+  for (let f = 1; f <= EQUIPMENT_TIER_MAX; f++) if (rs3Tier <= RS3_TIER_CAP[f]) return f;
+  return EQUIPMENT_TIER_MAX;
+};
+
+/** Highest RS3 item tier a Fate tier unlocks (0 when the slot is locked). */
+export const maxRs3TierForFate = (fate: number): number =>
+  RS3_TIER_CAP[Math.max(0, Math.min(EQUIPMENT_TIER_MAX, Math.floor(fate)))] ?? 0;
 
 /**
  * Canonical RS3 material → Fate tier, mirroring the Codex's "Equipment Tiers"
@@ -45,11 +63,11 @@ const NAMED_TIERS: [RegExp, number][] = [
   // tier 90 weapons
   [/noxious|drygore|ascension crossbow|bow of the last guardian|cywir|wand of the praesul|imperium core|blade of (nymora|avaryss)|death guard \(tier 90\)|skull lantern \(tier 90\)/, 8],
   // tier 85-88 weapons / off-hands
-  [/superior (statius|vesta|morrigan|zuriel)|abyssal (wand|orb)|abyssal scourge|ripper claw|shadow glaive|camel staff/, 7],
+  [/superior (statius|vesta|morrigan|zuriel)|abyssal scourge|ripper claw|camel staff/, 7],
   // tier 80
   [/chaotic|attuned crystal|zaryte bow|virtus (wand|book)/, 6],
   // tier 70-75
-  [/abyssal whip|dark bow|armadyl battlestaff|(armadyl|bandos|saradomin|zamorak) godsword|saradomin sword|zamorakian spear|staff of light|polypore staff|ganodermic|enhanced excalibur/, 5],
+  [/abyssal (whip|vine whip|wand|orb)|dark bow|armadyl battlestaff|(armadyl|bandos|saradomin|zamorak) godsword|saradomin sword|zamorakian spear|staff of light|polypore staff|ganodermic|enhanced excalibur/, 5],
   // capes
   [/tzkal-zuk|igneous kal|completionist|max cape/, 9],
   [/tokhaar-kal/, 8],
@@ -153,127 +171,3 @@ export const canonicalTierFromName = (name: string): number | null => {
   return materialTier(s);
 };
 
-/** The combat style an item is built for (or 'armour' if it has no offence). */
-export type GearStyle = 'melee' | 'ranged' | 'magic' | 'armour';
-
-export const itemStyle = (b: GearBonuses): GearStyle => {
-  const melee = Math.max(b.stab, b.slash, b.crush) + Math.max(b.meleeStr, 0);
-  const ranged = Math.max(b.ranged, 0) + Math.max(b.rangedStr, 0);
-  const magic = Math.max(b.magic, 0) + 8 * Math.max(b.magicStr, 0);
-  const best = Math.max(melee, ranged, magic);
-  if (best <= 0) return 'armour';
-  if (best === magic) return 'magic';
-  if (best === ranged) return 'ranged';
-  return 'melee';
-};
-
-/** Strength of an item within its own style (offence + a defence contribution). */
-export const stylePower = (b: GearBonuses, style: GearStyle = itemStyle(b)): number => {
-  const defence =
-    b.defStab + b.defSlash + b.defCrush + b.defMagic + b.defRanged + 2 * Math.max(b.prayer, 0);
-  let off = 0;
-  if (style === 'melee') off = Math.max(b.stab, b.slash, b.crush) + Math.max(b.meleeStr, 0);
-  else if (style === 'ranged') off = Math.max(b.ranged, 0) + Math.max(b.rangedStr, 0);
-  else if (style === 'magic') off = Math.max(b.magic, 0) + 12 * Math.max(b.magicStr, 0);
-  return off + 0.5 * Math.max(0, defence);
-};
-
-export interface TierAnchor { tier: number; power: number }
-export type TierAnchors = Record<GearStyle, TierAnchor[]>;
-
-/**
- * Build, per style, a (tier → representative power) curve from the items whose
- * tier we know canonically. Unrecognised items are then placed against these
- * anchors, so the fallback is tied to the real material ladder instead of a
- * free-floating per-slot rank. The curve is forced monotonic in tier.
- */
-export const buildTierAnchors = (
-  known: { tier: number; bonuses: GearBonuses }[],
-): TierAnchors => {
-  const groups: Record<GearStyle, Record<number, number[]>> = {
-    melee: {}, ranged: {}, magic: {}, armour: {},
-  };
-  for (const it of known) {
-    const st = itemStyle(it.bonuses);
-    (groups[st][it.tier] ||= []).push(stylePower(it.bonuses, st));
-  }
-  const out: TierAnchors = { melee: [], ranged: [], magic: [], armour: [] };
-  for (const st of Object.keys(groups) as GearStyle[]) {
-    const anchors = Object.entries(groups[st])
-      .map(([t, arr]) => {
-        // 75th percentile: spans the real strength range of each tier so strong
-        // unrecognised items don't all saturate to the top tier, while staying
-        // robust to a single low outlier (which max would not be).
-        const sorted = [...arr].sort((a, b) => a - b);
-        const idx = Math.min(sorted.length - 1, Math.ceil(0.75 * (sorted.length - 1)));
-        return { tier: Number(t), power: sorted[idx] };
-      })
-      .sort((a, b) => a.tier - b.tier);
-    for (let i = 1; i < anchors.length; i++) {
-      if (anchors[i].power < anchors[i - 1].power) anchors[i].power = anchors[i - 1].power;
-    }
-    out[st] = anchors;
-  }
-  return out;
-};
-
-/** Estimate an item's tier from its stats, anchored to the canonical ladder. */
-export const anchoredTier = (
-  b: GearBonuses,
-  anchors: TierAnchors,
-  tierMax: number = EQUIPMENT_TIER_MAX,
-): number => {
-  const st = itemStyle(b);
-  const list = (anchors[st]?.length ? anchors[st] : anchors.melee.length ? anchors.melee : anchors.armour);
-  if (!list || list.length === 0) return 1;
-  const p = stylePower(b, st);
-  // Below/above the known range → clamp to the end tiers.
-  if (p <= list[0].power) return Math.max(1, list[0].tier);
-  if (p >= list[list.length - 1].power) return Math.min(tierMax, list[list.length - 1].tier);
-  // Otherwise interpolate the tier between the two surrounding anchors, so gaps
-  // in the canonical ladder still produce a strength-appropriate tier.
-  for (let i = 0; i < list.length - 1; i++) {
-    const lo = list[i], hi = list[i + 1];
-    if (p >= lo.power && p < hi.power) {
-      const span = hi.power - lo.power || 1;
-      const tier = Math.round(lo.tier + ((p - lo.power) / span) * (hi.tier - lo.tier));
-      return Math.min(tierMax, Math.max(1, tier));
-    }
-  }
-  return Math.min(tierMax, Math.max(1, list[list.length - 1].tier));
-};
-
-/** Single scalar "power" for an item, from its bonuses. Higher = stronger. */
-export const powerScore = (b: GearBonuses): number => {
-  const offence =
-    Math.max(b.stab, b.slash, b.crush, b.ranged, b.magic) +
-    Math.max(b.meleeStr, 0) +
-    Math.max(b.rangedStr, 0) +
-    8 * Math.max(b.magicStr, 0);
-  const defence =
-    b.defStab + b.defSlash + b.defCrush + b.defMagic + b.defRanged +
-    2 * Math.max(b.prayer, 0);
-  return offence + 0.6 * Math.max(0, defence);
-};
-
-/**
- * Assign tiers 1..EQUIPMENT_TIER_MAX to a slot's items by quantile of score.
- * Returns a Map of item id → tier. Ties are broken by sorted position, so the
- * result is always monotonic in score. With fewer items than tiers the upper
- * tiers simply go unused.
- */
-export const assignTiersForSlot = (
-  items: { id: number; score: number }[],
-  tierMax: number = EQUIPMENT_TIER_MAX,
-): Map<number, number> => {
-  const out = new Map<number, number>();
-  const n = items.length;
-  if (n === 0) return out;
-  const sorted = [...items].sort((a, b) => a.score - b.score);
-  sorted.forEach((item, i) => {
-    // rank fraction in [0,1) → tier in 1..tierMax
-    const tier = Math.min(tierMax, Math.floor((i / n) * tierMax) + 1);
-    out.set(item.id, tier);
-  });
-  return out;
-};

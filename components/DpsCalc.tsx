@@ -1,29 +1,18 @@
-// RS3 MODE: not mounted — this view runs on the OSRS dps-calc dataset, and
-// RS3 has no equivalent. Kept so it can be revived with RS3 data later.
+// Equipment Lab → DPS: RS3 ability-damage / hit-chance calculator against the
+// bundled RS3 boss stat blocks (data/rs3Bosses.ts). Formulas: utils/dps.ts
+// (RuneScape Wiki "Ability damage" + "Hit chance"). No external data is loaded.
 import React, { useState, useEffect, useMemo } from 'react';
-import {
-  Swords, Crosshair, Wand2, X, Search, Loader2, AlertCircle, RefreshCw, Target, Info, Zap, Clock, Crown,
-} from 'lucide-react';
+import { Swords, Crosshair, Wand2, Skull, Target, Info, Zap, Clock, Crown, Shield } from 'lucide-react';
 import { useGame } from '../context/GameContext';
-import { EQUIPMENT_SLOTS } from '../constants';
-import { useEscapeKey } from '../hooks/useEscapeKey';
 import { gearService } from '../services/GearService';
-import { monsterService, MonsterStats } from '../services/MonsterService';
-import { sumBonuses, GearItem, ZERO_BONUSES } from '../utils/gearStats';
-import {
-  computeDps, STANCES, PRAYERS, POTIONS, Style, AttackType, DpsInput,
-} from '../utils/dps';
+import { monsterService } from '../services/MonsterService';
+import { GearItem, styleDamageBonus } from '../utils/gearStats';
+import { computeDps, ROTATIONS, POTIONS, formatDuration, Style } from '../utils/dps';
+import { bestLoadout, weaponSetupOf, STYLE_SKILLS, STYLE_LABEL, KILL_OVERHEAD_S, ARMOUR_SLOTS } from '../utils/bossPlanner';
+import { COMBAT_STYLES } from '../data/rs3Gear';
 import { WikiLink } from './WikiLink';
 
-type Status = 'loading' | 'ready' | 'error';
-
-const STYLE_META: { id: Style; label: string; Icon: typeof Swords }[] = [
-  { id: 'melee', label: 'Melee', Icon: Swords },
-  { id: 'ranged', label: 'Ranged', Icon: Crosshair },
-  { id: 'magic', label: 'Magic', Icon: Wand2 },
-];
-const MELEE_TYPES: AttackType[] = ['stab', 'slash', 'crush'];
-const monsterImg = (file: string) => `https://runescape.wiki/images/${(file || '').replace(/ /g, '_')}`;
+const STYLE_ICON: Record<Style, typeof Swords> = { melee: Swords, ranged: Crosshair, magic: Wand2, necromancy: Skull };
 
 const Field: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
   <label className="flex flex-col gap-1">
@@ -33,184 +22,175 @@ const Field: React.FC<{ label: string; children: React.ReactNode }> = ({ label, 
 );
 const selectCls = 'bg-black/40 border border-white/10 rounded px-2 py-1.5 text-[11px] text-gray-200 focus:outline-none focus:border-red-500/40';
 
+type Source = 'auto' | 'equipped';
+
 export const DpsCalc: React.FC = () => {
   const { unlocks, loadout: rawLoadout } = useGame();
   const loadout = rawLoadout || {};
 
-  const [status, setStatus] = useState<Status>(gearService.ready && monsterService.ready ? 'ready' : 'loading');
-  useEffect(() => {
-    let alive = true;
-    setStatus('loading');
-    Promise.all([gearService.init(), monsterService.init()])
-      .then(() => alive && setStatus('ready'))
-      .catch(() => alive && setStatus('error'));
-    return () => { alive = false; };
-  }, []);
-  const retry = () => { setStatus('loading'); Promise.all([gearService.init(), monsterService.init()]).then(() => setStatus('ready')).catch(() => setStatus('error')); };
+  const combatBosses = useMemo(() => monsterService.all().filter((b) => !b.skilling), []);
+  const unlockedSet = useMemo(() => new Set(unlocks.bosses || []), [unlocks.bosses]);
+  const sortedBosses = useMemo(
+    () => [...combatBosses].sort((a, b) => Number(unlockedSet.has(b.name)) - Number(unlockedSet.has(a.name)) || a.lp - b.lp),
+    [combatBosses, unlockedSet],
+  );
 
-  // ── Config state ──────────────────────────────────────────────────────────
+  const [bossName, setBossName] = useState<string>(() => sortedBosses[0]?.name ?? 'King Black Dragon');
   const [style, setStyle] = useState<Style>('melee');
-  const [meleeType, setMeleeType] = useState<AttackType>('slash');
-  const [stanceId, setStanceId] = useState('aggressive');
-  const [prayerId, setPrayerId] = useState('none');
+  const [source, setSource] = useState<Source>('auto');
+  const [rotationId, setRotationId] = useState('revolution');
   const [potionId, setPotionId] = useState('none');
-  const [baseSpellMax, setBaseSpellMax] = useState(24);
-  const [levels, setLevels] = useState({ attack: 99, strength: 99, ranged: 99, magic: 99 });
-  const [monsterId, setMonsterId] = useState<number | null>(null);
-  const [pickerOpen, setPickerOpen] = useState(false);
+  const [accLevel, setAccLevel] = useState(1);
+  const [dmgLevel, setDmgLevel] = useState(1);
 
-  // Prefill levels from the run once.
+  // Prefill levels from the run for the chosen style.
   useEffect(() => {
     const L = unlocks.levels || {};
-    setLevels({
-      attack: L.Attack || 1, strength: L.Strength || 1, ranged: L.Ranged || 1, magic: L.Magic || 1,
-    });
-  }, [unlocks.levels]);
+    const sk = STYLE_SKILLS[style];
+    setAccLevel(L[sk.accuracy] || 1);
+    setDmgLevel(L[sk.damage] || 1);
+  }, [unlocks.levels, style]);
 
-  // Reset stance/prayer/potion to valid options when style changes.
-  useEffect(() => {
-    setStanceId(STANCES[style][0].id === 'accurate' && style === 'melee' ? 'aggressive' : STANCES[style][0].id);
-    setPrayerId('none'); setPotionId('none');
-  }, [style]);
+  const boss = monsterService.byName(bossName) ?? sortedBosses[0];
 
-  const attackType: AttackType = style === 'melee' ? meleeType : style === 'ranged' ? 'ranged' : 'magic';
-
-  // Equipped gear → summed bonuses + weapon speed.
-  const gear = useMemo(() => {
-    const items = EQUIPMENT_SLOTS.map((s) => gearService.byId(loadout[s])).filter((x): x is GearItem => !!x);
-    const b = items.length ? sumBonuses(items) : { ...ZERO_BONUSES };
-    const weapon = gearService.byId(loadout['Weapon']);
-    const accuracy = attackType === 'stab' ? b.stab : attackType === 'slash' ? b.slash : attackType === 'crush' ? b.crush : attackType === 'ranged' ? b.ranged : b.magic;
-    return { bonuses: b, accuracy, meleeStr: b.meleeStr, rangedStr: b.rangedStr, magicDmgPct: b.magicStr, speedTicks: weapon?.speed || 4, weaponName: weapon?.name, count: items.length };
-  }, [loadout, attackType, status]);
-
-  const monster = monsterService.byId(monsterId ?? undefined);
-
-  const result = useMemo(() => {
-    if (!monster) return null;
-    const defLevel = style === 'magic' ? monster.magicLevel : monster.defLevel;
-    const defBonus = attackType === 'stab' ? monster.def.stab : attackType === 'slash' ? monster.def.slash : attackType === 'crush' ? monster.def.crush : attackType === 'ranged' ? monster.def.ranged : monster.def.magic;
-    const input: DpsInput = {
-      style, attackType, stanceId, prayerId, potionId, baseSpellMax,
-      levels, gear: { accuracy: gear.accuracy, meleeStr: gear.meleeStr, rangedStr: gear.rangedStr, magicDmgPct: gear.magicDmgPct, speedTicks: gear.speedTicks },
-      monster: { defLevel, defBonus, hp: monster.hp },
+  // Loadout: best-in-tier for the style, or what's equipped in the Gear tab.
+  const setup = useMemo(() => {
+    if (source === 'auto') {
+      const l = bestLoadout(unlocks.equipment, style, { ...unlocks.levels, [STYLE_SKILLS[style].damage]: dmgLevel });
+      return { weapon: l.weapon, damageBonus: l.damageBonus, capTier: l.capTier, slots: l.slots, mismatch: false };
+    }
+    const get = (s: string) => gearService.byId(loadout[s]);
+    const main = get('Weapon');
+    const off = get('Shield');
+    const ammo = get('Ammo');
+    const slots: Record<string, GearItem | undefined> = {};
+    for (const s of [...ARMOUR_SLOTS, 'Weapon', 'Shield', 'Ammo']) slots[s] = get(s);
+    const usable = main && main.style === style ? main : undefined;
+    const usableOff = off && off.style === style && off.hand === 'off-hand' ? off : undefined;
+    let capTier: number | undefined;
+    if (style === 'ranged' && usable?.ammo) capTier = ammo && ammo.ammoKind === usable.ammo ? ammo.tier : 0;
+    return {
+      weapon: weaponSetupOf(usable, usableOff),
+      damageBonus: styleDamageBonus(Object.values(slots), style),
+      capTier,
+      slots,
+      mismatch: !!main && main.style !== style,
     };
-    return computeDps(input);
-  }, [monster, style, attackType, stanceId, prayerId, potionId, baseSpellMax, levels, gear]);
+  }, [source, unlocks.equipment, unlocks.levels, style, dmgLevel, loadout]);
 
-  if (status !== 'ready') {
-    return (
-      <div className="flex flex-col items-center justify-center text-center gap-3 py-16 text-gray-500">
-        {status === 'loading' ? <Loader2 size={22} className="animate-spin text-red-400" /> : <AlertCircle size={22} className="text-red-400" />}
-        <p className="text-[12px]">{status === 'loading' ? 'Loading gear + monster data…' : (monsterService.error || gearService.error || 'Could not load data.')}</p>
-        {status === 'error' && <button onClick={retry} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#252525] border border-white/10 hover:bg-[#2d2d2d] text-gray-200 text-[11px] font-bold"><RefreshCw size={12} /> Retry</button>}
-      </div>
-    );
-  }
+  const result = useMemo(() => boss && computeDps({
+    style,
+    levels: { accuracy: accLevel, damage: dmgLevel },
+    weapon: setup.weapon,
+    damageBonus: setup.damageBonus,
+    capTier: setup.capTier,
+    rotationId,
+    potionId,
+    target: { affinity: boss.affinity[style], defence: boss.defence, armour: boss.armour, lp: boss.lp },
+  }), [boss, style, accLevel, dmgLevel, setup, rotationId, potionId]);
 
-  const styleLevels: { key: keyof typeof levels; label: string }[] =
-    style === 'melee' ? [{ key: 'attack', label: 'Attack' }, { key: 'strength', label: 'Strength' }]
-      : style === 'ranged' ? [{ key: 'ranged', label: 'Ranged' }]
-        : [{ key: 'magic', label: 'Magic' }];
+  if (!boss || !result) return null;
+  const kph = isFinite(result.ttk) ? Math.floor(3600 / (result.ttk + KILL_OVERHEAD_S)) : 0;
+  const weaponName = setup.slots.Weapon?.name;
+  const offName = setup.slots.Shield?.hand === 'off-hand' ? setup.slots.Shield?.name : undefined;
+  const sk = STYLE_SKILLS[style];
 
   return (
-    <div className="space-y-4">
-      {/* Style selector */}
-      <div className="flex items-center rounded-lg border border-white/10 bg-[#1f1f1f] p-0.5">
-        {STYLE_META.map(({ id, label, Icon }) => (
-          <button key={id} onClick={() => setStyle(id)}
-            className={`flex-1 flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-md text-[11px] font-bold transition-colors ${style === id ? 'bg-red-950/50 text-red-300' : 'text-gray-500 hover:text-gray-300'}`}>
-            <Icon size={13} /> {label}
-          </button>
-        ))}
+    <div className="flex flex-col gap-4">
+      {/* Target */}
+      <div className="bg-[#151515] border border-white/10 rounded-xl p-3 space-y-3">
+        <Field label="Boss">
+          <select value={boss.name} onChange={(e) => setBossName(e.target.value)} className={selectCls}>
+            {sortedBosses.map((b) => (
+              <option key={b.name} value={b.name}>{unlockedSet.has(b.name) ? '★ ' : ''}{b.name}{b.npc ? ` (${b.npc})` : ''}</option>
+            ))}
+          </select>
+        </Field>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px]">
+          <Info2 label="Life points" value={boss.lp.toLocaleString()} />
+          <Info2 label="Defence / armour" value={`${boss.defence} / ${boss.armour}`} />
+          <Info2 label={`${STYLE_LABEL[style]} affinity`} value={`${boss.affinity[style]}`} />
+          <Info2 label="Weakness" value={boss.weakness ?? 'None'} />
+        </div>
+        <div className="text-[10px] text-gray-500">
+          Recommended: <span className="text-gray-300">{STYLE_LABEL[boss.recStyle]}</span>, RS3 tier {boss.recTier}+ gear, level {boss.recLevel}+
+          {boss.group ? ` · ${boss.group}` : ''}{boss.enrage ? ` · ${boss.enrage}` : ''}
+          {' · '}<WikiLink name={boss.npc ?? boss.name} />
+        </div>
       </div>
 
-      {/* Config */}
-      <div className="grid grid-cols-2 gap-2.5">
-        {style === 'melee' && (
-          <Field label="Attack type">
-            <select value={meleeType} onChange={(e) => setMeleeType(e.target.value as AttackType)} className={selectCls}>
-              {MELEE_TYPES.map((t) => <option key={t} value={t}>{t[0].toUpperCase() + t.slice(1)}</option>)}
+      {/* Setup */}
+      <div className="bg-[#151515] border border-white/10 rounded-xl p-3 space-y-3">
+        <div className="flex gap-1 flex-wrap">
+          {COMBAT_STYLES.map((s) => {
+            const Icon = STYLE_ICON[s];
+            return (
+              <button key={s} onClick={() => setStyle(s)} className={`flex items-center gap-1 px-2.5 py-1 rounded border text-[11px] font-bold ${style === s ? 'border-red-500/40 bg-red-950/30 text-red-200' : 'border-white/10 bg-[#1a1a1a] text-gray-400 hover:text-gray-200'}`}>
+                <Icon size={12} /> {STYLE_LABEL[s]}
+              </button>
+            );
+          })}
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <Field label="Loadout">
+            <select value={source} onChange={(e) => setSource(e.target.value as Source)} className={selectCls}>
+              <option value="auto">Best from unlocked tiers</option>
+              <option value="equipped">Equipped (Gear tab)</option>
             </select>
           </Field>
-        )}
-        <Field label="Stance">
-          <select value={stanceId} onChange={(e) => setStanceId(e.target.value)} className={selectCls}>
-            {STANCES[style].map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
-          </select>
-        </Field>
-        <Field label="Prayer">
-          <select value={prayerId} onChange={(e) => setPrayerId(e.target.value)} className={selectCls}>
-            {PRAYERS[style].map((p) => <option key={p.id} value={p.id}>{p.label}</option>)}
-          </select>
-        </Field>
-        <Field label="Potion">
-          <select value={potionId} onChange={(e) => setPotionId(e.target.value)} className={selectCls}>
-            {POTIONS[style].map((p) => <option key={p.id} value={p.id}>{p.label}</option>)}
-          </select>
-        </Field>
-        {style === 'magic' && (
-          <Field label="Spell base max">
-            <input type="number" value={baseSpellMax} min={0} onChange={(e) => setBaseSpellMax(Math.max(0, +e.target.value || 0))} className={selectCls} />
+          <Field label="Rotation (per 1.8s GCD)">
+            <select value={rotationId} onChange={(e) => setRotationId(e.target.value)} className={selectCls}>
+              {ROTATIONS.map((r) => <option key={r.id} value={r.id}>{r.label} · {r.mult}× AD</option>)}
+            </select>
           </Field>
-        )}
-        {styleLevels.map(({ key, label }) => (
-          <Field key={key} label={`${label} lvl`}>
-            <input type="number" value={levels[key]} min={1} max={99} onChange={(e) => setLevels((l) => ({ ...l, [key]: Math.min(99, Math.max(1, +e.target.value || 1)) }))} className={selectCls} />
+          <Field label="Boost">
+            <select value={potionId} onChange={(e) => setPotionId(e.target.value)} className={selectCls}>
+              {POTIONS.map((p) => <option key={p.id} value={p.id}>{p.label}</option>)}
+            </select>
           </Field>
-        ))}
-      </div>
-
-      {/* Gear summary */}
-      <div className="text-[10px] text-gray-500 flex items-center gap-1.5">
-        <Info size={11} />
-        {gear.count > 0 ? <>Using your equipped gear{gear.weaponName ? ` · ${gear.weaponName}` : ''} ({gear.speedTicks}t)</> : <>No gear equipped — equip items in the <span className="text-fuchsia-300">Gear</span> tab.</>}
-      </div>
-
-      {/* Monster target */}
-      <button onClick={() => setPickerOpen(true)} className="w-full flex items-center gap-3 rounded-xl border border-white/10 bg-[#1a1a1a] px-3 py-2.5 hover:bg-white/5 transition-colors text-left">
-        <div className="w-9 h-9 rounded bg-black/30 flex items-center justify-center shrink-0">
-          {monster ? <img src={monsterImg(monster.imageFile)} alt="" className="w-7 h-7 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.visibility = 'hidden'; }} /> : <Target size={16} className="text-gray-600" />}
+          <Field label={`${sk.accuracy} level`}>
+            <input type="number" min={1} max={120} value={accLevel} onChange={(e) => setAccLevel(Math.max(1, Math.min(120, Number(e.target.value) || 1)))} className={selectCls} />
+          </Field>
+          {sk.damage !== sk.accuracy && (
+            <Field label={`${sk.damage} level`}>
+              <input type="number" min={1} max={120} value={dmgLevel} onChange={(e) => setDmgLevel(Math.max(1, Math.min(120, Number(e.target.value) || 1)))} className={selectCls} />
+            </Field>
+          )}
         </div>
-        <div className="flex-1 min-w-0">
-          {monster ? (
-            <>
-              <div className="text-[12px] font-semibold text-gray-200 truncate"><WikiLink name={monster.name} />{monster.version ? <span className="text-gray-500"> · {monster.version}</span> : ''}</div>
-              <div className="text-[10px] text-gray-500 font-mono">HP {monster.hp} · Def {monster.defLevel} · Mage {monster.magicLevel}</div>
-            </>
-          ) : <div className="text-[12px] text-gray-400">Choose a target monster…</div>}
+        <div className="text-[10px] text-gray-500 flex items-start gap-1.5">
+          <Shield size={11} className="shrink-0 mt-0.5" />
+          <span>
+            {weaponName ? <><span className="text-gray-300">{weaponName}</span>{offName ? <> + <span className="text-gray-300">{offName}</span></> : null}</> : <span className="text-amber-300/80">Unarmed — unlock a Weapon tier</span>}
+            {' · '}damage bonus <span className="text-gray-300">+{setup.damageBonus}</span>
+            {style === 'ranged' && setup.capTier !== undefined && <> · ammo tier cap <span className="text-gray-300">{setup.capTier}</span></>}
+            {setup.mismatch && <span className="text-amber-300"> · equipped weapon is not {STYLE_LABEL[style]}</span>}
+          </span>
         </div>
-        <Search size={14} className="text-gray-600 shrink-0" />
-      </button>
+      </div>
 
       {/* Results */}
-      {result && monster && (
-        <div className="rounded-xl bg-[#1a1a1a] border border-red-500/20 p-4 space-y-3 animate-in fade-in duration-200">
-          <div className="grid grid-cols-2 gap-3">
-            <Stat label="Max hit" value={result.maxHit} accent="text-red-300" Icon={Zap} />
-            <Stat label="Hit chance" value={`${Math.round(result.hitChance * 100)}%`} accent="text-amber-300" Icon={Target} />
-            <Stat label="DPS" value={result.dps.toFixed(2)} accent="text-emerald-300" Icon={Swords} />
-            <Stat label="Time to kill" value={fmtTtk(result.ttk)} accent="text-sky-300" Icon={Clock} />
-          </div>
-          <div className="grid grid-cols-3 gap-2 text-center pt-1 border-t border-white/5">
-            <Mini label="Eff. atk" value={result.effAtk} />
-            <Mini label={style === 'magic' ? 'Spell' : 'Eff. str'} value={style === 'magic' ? result.maxHit : result.effStr} />
-            <Mini label="Interval" value={`${result.attackInterval.toFixed(1)}s`} />
-          </div>
-          <p className="text-[9px] text-gray-600 leading-relaxed flex items-start gap-1.5">
-            <Crown size={11} className="shrink-0 mt-0.5" />
-            Baseline DPS for a standard setup. Special attacks and item passives (Twisted bow, Salve, Slayer helm, Void, crystal…) aren't modelled; Magic uses your spell's base max hit.
-          </p>
-        </div>
-      )}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <Stat label="Hit chance" value={`${Math.round(result.hitChance * 100)}%`} accent="text-amber-300" Icon={Crosshair} />
+        <Stat label="Ability dmg" value={result.abilityDamage.toLocaleString()} accent="text-red-300" Icon={Zap} />
+        <Stat label="DPS" value={Math.round(result.dps).toLocaleString()} accent="text-emerald-300" Icon={Target} />
+        <Stat label="Time to kill" value={formatDuration(result.ttk)} accent="text-sky-300" Icon={Clock} />
+      </div>
+      <div className="grid grid-cols-3 gap-2 text-[10px]">
+        <Info2 label="Accuracy" value={result.accuracy.toLocaleString()} />
+        <Info2 label="Armour rating" value={result.armourRating.toLocaleString()} />
+        <Info2 label="Kills / hr" value={kph ? `~${kph}` : '—'} Icon={Crown} />
+      </div>
 
-      {pickerOpen && (
-        <MonsterPicker
-          currentId={monsterId}
-          onClose={() => setPickerOpen(false)}
-          onPick={(id) => { setMonsterId(id); setPickerOpen(false); }}
-        />
-      )}
+      <p className="text-[9px] text-gray-600 leading-relaxed flex items-start gap-1.5">
+        <Info size={11} className="shrink-0 mt-0.5" />
+        <span>
+          Ability damage and hit chance use the RuneScape Wiki formulas (weapon tier capped by Strength / spell tier / ammo tier;
+          H = affinity × accuracy ÷ armour rating). DPS assumes every 1.8s GCD deals the rotation's average multiple of ability
+          damage ({ROTATIONS.find((r) => r.id === rotationId)?.blurb}), with crits, bleeds, prayers, perks and boss damage
+          reduction folded in — a planning estimate, not a parse. Kills/hr adds ~{KILL_OVERHEAD_S}s between kills; enrage, phases
+          and mechanics will lengthen real kills.
+        </span>
+      </p>
     </div>
   );
 };
@@ -221,50 +201,10 @@ const Stat: React.FC<{ label: string; value: React.ReactNode; accent: string; Ic
     <div className={`text-xl font-black leading-none ${accent}`}>{value}</div>
   </div>
 );
-const Mini: React.FC<{ label: string; value: React.ReactNode }> = ({ label, value }) => (
-  <div><div className="text-[8px] uppercase tracking-widest text-gray-600">{label}</div><div className="text-[12px] font-bold text-gray-300 font-mono">{value}</div></div>
+
+const Info2: React.FC<{ label: string; value: React.ReactNode; Icon?: typeof Zap }> = ({ label, value, Icon }) => (
+  <div className="rounded bg-[#1a1a1a] border border-white/5 px-2 py-1 min-w-0">
+    <div className="text-[8px] uppercase tracking-widest text-gray-600 flex items-center gap-1">{Icon && <Icon size={9} />}{label}</div>
+    <div className="text-[11px] font-bold text-gray-200 truncate" title={String(value)}>{value}</div>
+  </div>
 );
-
-const fmtTtk = (s: number): string => {
-  if (!isFinite(s) || s <= 0) return '—';
-  if (s < 60) return `${s.toFixed(1)}s`;
-  return `${Math.floor(s / 60)}m ${Math.round(s % 60)}s`;
-};
-
-// ── Monster picker popover ────────────────────────────────────────────────────
-const MonsterPicker: React.FC<{ currentId: number | null; onClose: () => void; onPick: (id: number) => void }> = ({ currentId, onClose, onPick }) => {
-  useEscapeKey(onClose, true);
-  const [query, setQuery] = useState('');
-  const results = useMemo(() => monsterService.search(query, 80), [query]);
-
-  return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-150" onClick={onClose} role="dialog" aria-modal="true" aria-label="Choose monster">
-      <div className="bg-[#161616] border border-white/10 rounded-xl shadow-2xl w-full max-w-md h-[70vh] flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center gap-3 p-3 border-b border-white/10 bg-[#1b1b1b] shrink-0">
-          <Target size={16} className="text-red-400" />
-          <h3 className="flex-1 text-sm font-bold text-white">Choose target</h3>
-          <button onClick={onClose} className="p-1.5 rounded hover:bg-white/10 text-gray-400 hover:text-white" aria-label="Close"><X size={16} /></button>
-        </div>
-        <div className="p-2 border-b border-white/5 shrink-0">
-          <div className="relative">
-            <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-600" />
-            <input autoFocus value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search monsters…" className="w-full pl-8 pr-3 py-2 rounded-lg bg-black/40 border border-white/10 text-[12px] text-gray-200 focus:outline-none focus:border-red-500/40 placeholder:text-gray-700" />
-          </div>
-        </div>
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-1.5 space-y-1">
-          {results.length === 0 && <div className="text-center text-[11px] text-gray-600 py-10">No monsters match.</div>}
-          {results.map((m) => (
-            <button key={`${m.id}-${m.version}`} onClick={() => onPick(m.id)}
-              className={`w-full flex items-center gap-2.5 rounded-lg px-2 py-1.5 border text-left transition-colors ${m.id === currentId ? 'border-red-500/40 bg-red-950/30' : 'border-transparent hover:bg-white/5'}`}>
-              <img src={monsterImg(m.imageFile)} alt="" className="w-7 h-7 object-contain shrink-0" onError={(e) => { (e.target as HTMLImageElement).style.visibility = 'hidden'; }} />
-              <div className="min-w-0 flex-1">
-                <div className="text-[12px] font-semibold text-gray-200 truncate">{m.name}{m.version ? <span className="text-gray-500"> · {m.version}</span> : ''}</div>
-                <div className="text-[9px] text-gray-500 font-mono truncate">Lvl {m.level} · HP {m.hp} · Def {m.defLevel}</div>
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};

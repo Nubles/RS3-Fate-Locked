@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { summariseQuestPlaces, refineQuestRegion, chunkQuestName, rs3QuestName } from './questLocations';
+import { summariseQuestPlaces, refineQuestRegion, regionQuestPlaces, questLocations } from './questLocations';
 import { QUEST_DATA } from '../data/questData';
 import type { EntityLocation } from '../services/ChunkContentService';
 import { UnlockState } from '../types';
@@ -72,27 +72,36 @@ describe('refineQuestRegion', () => {
   });
 });
 
-describe('chunkQuestName (RS3 title → OSRS-derived chunk dataset title)', () => {
-  it('passes shared titles through unchanged', () => {
-    expect(chunkQuestName('Cook\'s Assistant')).toBe('Cook\'s Assistant');
+describe('regionQuestPlaces (authored-region fallback)', () => {
+  it('places each authored region, the first as the start', () => {
+    const info = regionQuestPlaces(['Asgarnia', 'Kandarin'], unlocksWith([]));
+    expect(info.source).toBe('regions');
+    expect(info.hasData).toBe(false); // never counts as chunk evidence
+    expect(info.places.map(p => p.label).sort()).toEqual(['Asgarnia', 'Kandarin']);
+    expect(info.startPlaces.map(p => p.label)).toEqual(['Asgarnia']);
+    expect(info.lockedPlaces).toHaveLength(2);
   });
-  it('maps renamed quests to the dataset title', () => {
-    expect(chunkQuestName('Dragon Slayer')).toBe('Dragon Slayer I');
-    expect(chunkQuestName('A Fairy Tale I - Growing Pains')).toBe('Fairytale I - Growing Pains');
+
+  it('tags Misthalin as unlocked (free) and never loosens the region gate', () => {
+    const info = regionQuestPlaces(['Misthalin'], unlocksWith([]));
+    expect(info.places[0].unlocked).toBe(true);
+    expect(refineQuestRegion(false, info)).toEqual({ met: false, via: 'locked' });
   });
-  it('folds every Recipe for Disaster subquest onto the parent entry', () => {
-    expect(chunkQuestName('Recipe for Disaster: Freeing Pirate Pete')).toBe('Recipe for Disaster');
+
+  it('skips regions that are not on the map', () => {
+    expect(regionQuestPlaces(['Nowhere'], unlocksWith([])).source).toBe('none');
   });
-  it('refuses chunk data for a same-titled but different OSRS quest', () => {
-    expect(chunkQuestName('Sins of the Father')).toBeNull();
+});
+
+describe('questLocations', () => {
+  it('falls back to the quest\'s authored RS3 regions when the dataset has no quest steps', () => {
+    const q = Object.values(QUEST_DATA).find(x => x.regions.includes('Asgarnia'))!;
+    const info = questLocations(q.name, unlocksWith([]));
+    expect(info.source).toBe('regions');
+    expect(info.places.some(p => p.label === 'Asgarnia')).toBe(true);
   });
-  it('reverse-maps dataset titles back to RS3', () => {
-    expect(rs3QuestName('Desert Treasure I')).toBe('Desert Treasure');
-    expect(rs3QuestName('Waterfall Quest')).toBe('Waterfall Quest');
-  });
-  it('every aliased RS3 title is a real quest', () => {
-    for (const rs3 of ['Dragon Slayer', 'Desert Treasure', 'Monkey Madness', 'Rat Catchers', 'Bar Crawl', 'Sins of the Father']) {
-      expect(QUEST_DATA[rs3], rs3).toBeDefined();
-    }
+
+  it('reports nothing for an unknown quest', () => {
+    expect(questLocations('Not A Quest', unlocksWith([])).source).toBe('none');
   });
 });

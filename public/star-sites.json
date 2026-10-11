@@ -1,1 +1,416 @@
-{"Rimmington mine":{"x":2974,"y":3241},"Crafting guild":{"x":2940,"y":3280},"West Falador mine":{"x":2906,"y":3355},"East Falador bank":{"x":3030,"y":3348},"North Dwarven Mine entrance":{"x":3018,"y":3443},"Taverley house portal":{"x":2882,"y":3474},"Brimhaven northwest gold mine":{"x":2736,"y":3221},"Southwest of Brimhaven Poh":{"x":2742,"y":3143},"Nature Altar mine north of Shilo":{"x":2845,"y":3037},"Shilo Village gem mine":{"x":2827,"y":2999},"North Crandor":{"x":2835,"y":3296},"South Crandor":{"x":2822,"y":3238},"Corsair Cove bank":{"x":2567,"y":2858},"Corsair Resource Area":{"x":2483,"y":2886},"Myths' Guild":{"x":2468,"y":2842},"Feldip Hills (aks fairy ring)":{"x":2571,"y":2964},"Rantz cave":{"x":2630,"y":2993},"Soul Wars south mine":{"x":2200,"y":2792},"Fossil Island Volcanic Mine entrance":{"x":3818,"y":3801},"Fossil Island rune rocks":{"x":3774,"y":3814},"Mos Le'Harmless west bank":{"x":3686,"y":2969},"Keldagrim entrance mine":{"x":2727,"y":3683},"Rellekka mine":{"x":2683,"y":3699},"Jatizso mine entrance":{"x":2393,"y":3814},"Neitiznot south of rune rock":{"x":2375,"y":3832},"Miscellania mine (cip fairy ring)":{"x":2528,"y":3887},"Lunar Isle mine entrance":{"x":2139,"y":3938},"Hosidius mine":{"x":1778,"y":3493},"Port Piscarilius mine in Kourend":{"x":1769,"y":3709},"Shayzien mine south of Kourend Castle":{"x":1597,"y":3648},"South Lovakengj bank":{"x":1534,"y":3747},"Lovakite mine":{"x":1437,"y":3840},"Arceuus dense essence mine":{"x":1760,"y":3853},"Yanille bank":{"x":2602,"y":3086},"Port Khazard mine":{"x":2624,"y":3141},"Ardougne Monastery":{"x":2608,"y":3233},"South of Legends' Guild":{"x":2705,"y":3333},"Catherby bank":{"x":2804,"y":3434},"Coal Trucks west of Seers'":{"x":2589,"y":3478},"Mount Karuulm bank":{"x":1322,"y":3816},"Mount Karuulm mine":{"x":1279,"y":3817},"Kebos Swamp mine":{"x":1210,"y":3651},"Chambers of Xeric bank":{"x":1258,"y":3564},"North of Al Kharid PvP Arena":{"x":3351,"y":3281},"Al Kharid mine":{"x":3296,"y":3298},"Al Kharid bank":{"x":3276,"y":3164},"Nw of Uzer (Eagle's Eyrie)":{"x":3424,"y":3160},"Nardah bank":{"x":3434,"y":2889},"Agility Pyramid mine":{"x":3316,"y":2867},"Desert Quarry mine":{"x":3171,"y":2910},"Varrock east bank":{"x":3258,"y":3408},"Southeast Varrock mine":{"x":3290,"y":3353},"Champions' Guild mine":{"x":3175,"y":3362},"Draynor Village":{"x":3094,"y":3235},"West Lumbridge Swamp mine":{"x":3153,"y":3150},"East Lumbridge Swamp mine":{"x":3230,"y":3155},"Darkmeyer ess. mine entrance":{"x":3635,"y":3340},"Theatre of Blood bank":{"x":3650,"y":3214},"Canifis bank":{"x":3505,"y":3485},"Burgh de Rott bank":{"x":3500,"y":3219},"Abandoned Mine west of Burgh":{"x":3451,"y":3233},"West of Grand Tree":{"x":2444,"y":3490},"Gnome Stronghold spirit tree":{"x":2448,"y":3436},"Piscatoris (akq fairy ring)":{"x":2341,"y":3635},"Lletya":{"x":2329,"y":3163},"Isafdar runite rocks":{"x":2269,"y":3158},"Prifddinas Zalcano entrance":{"x":2253,"y":3299},"Arandar mine north of Lletya":{"x":2318,"y":3269},"Mynydd nw of Prifddinas":{"x":2173,"y":3409},"Mage of Zamorak mine (lvl 7 Wildy)":{"x":3108,"y":3569},"Skeleton mine (lvl 10 Wildy)":{"x":3018,"y":3593},"Hobgoblin mine (lvl 30 Wildy)":{"x":3093,"y":3756},"Lava maze runite mine (lvl 46 Wildy)":{"x":3057,"y":3887},"Pirates' Hideout (lvl 53 Wildy)":{"x":3049,"y":3940},"Mage Arena bank (lvl 56 Wildy)":{"x":3091,"y":3962},"Wilderness Resource Area":{"x":3188,"y":3932},"Varlamore South East mine":{"x":1742,"y":2954},"Mine north-west of hunter guild":{"x":1486,"y":3089},"Varlamore colosseum entrance bank":{"x":1771,"y":3102},"Salvager Overlook":{"x":1625,"y":3275},"Aldarin mine":{"x":1422,"y":2873},"Custodia Mountains":{"x":1287,"y":3413}}
+{
+ "_about": "RS3 shooting star landing regions and sites for the Fate Locked world map. Telescopes (and the in-game Star Finder) announce a REGION and a time window, never the exact site: the star lands on one of that region's sites, so check each. Region and site names follow the RuneScape Wiki 'Shooting Star' page (runescape.wiki/w/Shooting_Star). Coordinates are RS3 game tiles placed on the RS3 world map (RuneScape Wiki maps project / mejrs tiles); sites without x/y couldn't be placed (Ashdale and Havenhythe aren't drawn on the map tiles, Anachronia's sites are listed without exact spots) and are shown in the list only. Menaphos sites aren't listed yet — see the wiki.",
+ "regions": [
+  {
+   "region": "Asgarnia",
+   "f2p": true,
+   "centre": {
+    "x": 2960,
+    "y": 3330
+   },
+   "sites": [
+    {
+     "name": "Crafting Guild cow pen (40 Crafting)",
+     "x": 2931,
+     "y": 3292
+    },
+    {
+     "name": "North of the Artisans' Workshop, south-east Falador",
+     "x": 3045,
+     "y": 3348
+    },
+    {
+     "name": "Ewean's grove, north of the Taverley stone circle",
+     "x": 2924,
+     "y": 3496
+    },
+    {
+     "name": "Rimmington mine",
+     "x": 2975,
+     "y": 3240
+    },
+    {
+     "name": "Falador west mine, north of the Makeover Mage",
+     "x": 2908,
+     "y": 3355
+    },
+    {
+     "name": "Peninsula of Lake Crystalmere"
+    }
+   ]
+  },
+  {
+   "region": "Ashdale",
+   "f2p": true,
+   "centre": {
+    "x": 2470,
+    "y": 2700
+   },
+   "sites": [
+    {
+     "name": "Central Ashdale, south of the furnace"
+    },
+    {
+     "name": "North-western Ashdale, north-west of the lodestone"
+    }
+   ]
+  },
+  {
+   "region": "Crandor or Karamja",
+   "f2p": false,
+   "centre": {
+    "x": 2800,
+    "y": 3120
+   },
+   "sites": [
+    {
+     "name": "Southern Crandor mine (F2P, Dragon Slayer)",
+     "x": 2822,
+     "y": 3238
+    },
+    {
+     "name": "Karamja north-west mine, north-west of Brimhaven",
+     "x": 2736,
+     "y": 3221
+    },
+    {
+     "name": "Outside the Brimhaven Dungeon entrance",
+     "x": 2743,
+     "y": 3153
+    },
+    {
+     "name": "Tai Bwo Wannai mine, north-west of the Nature Altar",
+     "x": 2845,
+     "y": 3037
+    },
+    {
+     "name": "Shilo Village mine",
+     "x": 2827,
+     "y": 2999
+    }
+   ]
+  },
+  {
+   "region": "Daemonheim peninsula",
+   "f2p": true,
+   "centre": {
+    "x": 3450,
+    "y": 3710
+   },
+   "sites": [
+    {
+     "name": "Near the Zephyrium mine, western coast",
+     "x": 3408,
+     "y": 3722
+    },
+    {
+     "name": "South-east, west of the Daemonheim Peninsula Island entrance",
+     "x": 3470,
+     "y": 3660
+    }
+   ]
+  },
+  {
+   "region": "Feldip Hills",
+   "f2p": false,
+   "centre": {
+    "x": 2450,
+    "y": 2905
+   },
+   "sites": [
+    {
+     "name": "Western Feldip Hills, near the jungle strykewyrms",
+     "x": 2450,
+     "y": 2905
+    }
+   ]
+  },
+  {
+   "region": "Fremennik lands or Lunar Isle",
+   "f2p": false,
+   "centre": {
+    "x": 2550,
+    "y": 3800
+   },
+   "sites": [
+    {
+     "name": "Keldagrim entrance mine",
+     "x": 2727,
+     "y": 3683
+    },
+    {
+     "name": "Rellekka mine (The Fremennik Trials)",
+     "x": 2683,
+     "y": 3699
+    },
+    {
+     "name": "Lunar Isle mine (Lunar Diplomacy, partial)",
+     "x": 2139,
+     "y": 3938
+    },
+    {
+     "name": "Jatizso mine, west of the entrance (The Fremennik Isles, partial)",
+     "x": 2393,
+     "y": 3814
+    },
+    {
+     "name": "South of the Fremennik Isles (Neitiznot) mine",
+     "x": 2375,
+     "y": 3832
+    },
+    {
+     "name": "South of the Miscellania mine (The Fremennik Trials)",
+     "x": 2528,
+     "y": 3887
+    }
+   ]
+  },
+  {
+   "region": "Kandarin",
+   "f2p": false,
+   "centre": {
+    "x": 2650,
+    "y": 3300
+   },
+   "sites": [
+    {
+     "name": "Legends' Guild south-west mine",
+     "x": 2702,
+     "y": 3331
+    },
+    {
+     "name": "Ardougne south-east (Monastery) mine",
+     "x": 2602,
+     "y": 3233
+    },
+    {
+     "name": "Coal truck mine",
+     "x": 2582,
+     "y": 3482
+    },
+    {
+     "name": "Yanille, between the bank and the Wizards' Guild",
+     "x": 2601,
+     "y": 3091
+    },
+    {
+     "name": "Fight Arena south-east mine",
+     "x": 2629,
+     "y": 3142
+    },
+    {
+     "name": "Catherby, south of the lodestone",
+     "x": 2830,
+     "y": 3440
+    }
+   ]
+  },
+  {
+   "region": "Kharidian Desert",
+   "f2p": false,
+   "centre": {
+    "x": 3330,
+    "y": 3000
+   },
+   "sites": [
+    {
+     "name": "Outside the Al Kharid bank",
+     "x": 3276,
+     "y": 3164
+    },
+    {
+     "name": "Al Kharid (scorpion) mine, north of Al Kharid",
+     "x": 3296,
+     "y": 3298
+    },
+    {
+     "name": "Emir's Arena (Duel Arena)",
+     "x": 3341,
+     "y": 3267
+    },
+    {
+     "name": "Uzer (desert clay) mine",
+     "x": 3424,
+     "y": 3160
+    },
+    {
+     "name": "Nardah bank",
+     "x": 3434,
+     "y": 2890
+    },
+    {
+     "name": "Nardah (vulture) mine",
+     "x": 3320,
+     "y": 2870
+    },
+    {
+     "name": "Western desert quarry (granite & sandstone)",
+     "x": 3170,
+     "y": 2910
+    }
+   ]
+  },
+  {
+   "region": "Menaphos",
+   "f2p": false,
+   "centre": {
+    "x": 3170,
+    "y": 2720
+   },
+   "sites": []
+  },
+  {
+   "region": "Misthalin",
+   "f2p": true,
+   "centre": {
+    "x": 3230,
+    "y": 3280
+   },
+   "sites": [
+    {
+     "name": "Lumbridge Swamp mine, by the fishing spot",
+     "x": 3230,
+     "y": 3150
+    },
+    {
+     "name": "South-east Varrock mine",
+     "x": 3288,
+     "y": 3362
+    },
+    {
+     "name": "South-west Varrock (Champions' Guild) mine",
+     "x": 3176,
+     "y": 3362
+    },
+    {
+     "name": "Varrock east bank, north-east of Aubury's shop",
+     "x": 3258,
+     "y": 3408
+    }
+   ]
+  },
+  {
+   "region": "Morytania or Mos Le'Harmless",
+   "f2p": false,
+   "centre": {
+    "x": 3560,
+    "y": 3250
+   },
+   "sites": [
+    {
+     "name": "Canifis bank",
+     "x": 3510,
+     "y": 3480
+    },
+    {
+     "name": "Burgh de Rott bank",
+     "x": 3500,
+     "y": 3219
+    },
+    {
+     "name": "South of the Mos Le'Harmless bank",
+     "x": 3686,
+     "y": 2969
+    }
+   ]
+  },
+  {
+   "region": "Piscatoris, Gnome Stronghold or Tirannwn",
+   "f2p": false,
+   "centre": {
+    "x": 2380,
+    "y": 3400
+   },
+   "sites": [
+    {
+     "name": "Piscatoris mine",
+     "x": 2341,
+     "y": 3635
+    },
+    {
+     "name": "North of the Gnome Stronghold bank",
+     "x": 2460,
+     "y": 3438
+    },
+    {
+     "name": "Lletya, behind the archery store",
+     "x": 2329,
+     "y": 3163
+    }
+   ]
+  },
+  {
+   "region": "Wilderness",
+   "f2p": true,
+   "centre": {
+    "x": 3100,
+    "y": 3760
+   },
+   "sites": [
+    {
+     "name": "North Edgeville mine (level 7)",
+     "x": 3108,
+     "y": 3569
+    },
+    {
+     "name": "Southern Wilderness (skeleton) mine (level 9)",
+     "x": 3018,
+     "y": 3593
+    },
+    {
+     "name": "Wilderness Volcano, east side (level 22)",
+     "x": 3189,
+     "y": 3698
+    },
+    {
+     "name": "Hobgoblin mine (level 35)",
+     "x": 3093,
+     "y": 3756
+    },
+    {
+     "name": "Lava Maze runite mine (level 46)",
+     "x": 3060,
+     "y": 3884
+    },
+    {
+     "name": "Pirates' Hideout mine (level 53)",
+     "x": 3059,
+     "y": 3940
+    },
+    {
+     "name": "North of the Mage Arena bank (level 56)",
+     "x": 3091,
+     "y": 3962
+    }
+   ]
+  },
+  {
+   "region": "Anachronia",
+   "f2p": false,
+   "centre": {
+    "x": 5480,
+    "y": 2300
+   },
+   "sites": [
+    {
+     "name": "West of the spirit grove, by the Rex Matriarchs"
+    },
+    {
+     "name": "Beach south of the south-west mine"
+    },
+    {
+     "name": "Swamp mine, near the dark animica rocks"
+    }
+   ]
+  },
+  {
+   "region": "Amberfell (Havenhythe)",
+   "f2p": false,
+   "sites": [
+    {
+     "name": "North-west of Amberfell, on the hill with a wolf"
+    }
+   ]
+  }
+ ]
+}

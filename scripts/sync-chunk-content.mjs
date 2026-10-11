@@ -1,436 +1,514 @@
 #!/usr/bin/env node
 /**
- * sync-chunk-content.mjs — regenerate public/chunk-content.json
+ * sync-chunk-content.mjs — regenerate public/chunk-content.json from RuneScape 3
+ * cache data.
  *
- * Extracts the factual per-chunk content of Gielinor (monsters, NPCs, objects,
- * shops, quest starts/steps, diary refs, clue steps, item spawns) from the One
- * Chunk Man Chunk Picker's data export:
- *   https://github.com/source-chunk/chunk-picker-v2  (gh-pages branch,
- *   chunkpicker-chunkinfo-export.json — credit: source-chunk / whitecatblack)
- * and re-expresses it in our own compact format keyed by canonical OSRS region
- * id (regionId = regionX * 256 + regionY, i.e. our map's cx,cy).
+ * Source: the RuneScape Wiki maps project's RS3 cache dumps by mejrs
+ *   https://github.com/mejrs/data_rs3  (served from raw.githubusercontent.com)
+ *     npc_name_collection.json        name → [npc ids]
+ *     npcids/npcid=<id>.json          every spawn of that npc (x, y, p + config)
+ *     object_name_collection.json     name → [location (object) ids]
+ *     location_configs/<id>.json      object config (name, actions)
+ *     locations/<id>.json             every placement (map square i,j + local x,y)
+ * plus the RuneScape Wiki "Shortcuts" list (Agility levels) re-expressed below.
  *
- * The app lazy-loads the JSON in ChunkContentService to power the map's
- * "what can I do with my unlocked chunks?" panel.
+ * Output keeps the compact shape ChunkContentService decodes, keyed by map
+ * square id (cx * 256 + cy, cx = x >> 6, cy = y >> 6 — our map's chunk grid):
+ *   m  monsters  [name, spawnCount, slayerLevel?]   (NPCs with Attack + combat > 0)
+ *   p  NPCs      names                              (non-combat, incl. fishing spots, wisps)
+ *   o  objects   [name, count]                      (gathering nodes, stations, transport)
+ *   s  shops     shop names                         (NPCs with a Trade option)
+ * Planes are merged into their map square. Old-style dungeons that sit 6400
+ * tiles north of the surface (map squares y 136..169) are folded onto the
+ * surface square above them, like the world map does; other instanced areas
+ * (The Arc, Zanaris, the Abyss, …) keep their own square.
  *
- * Usage:  node scripts/sync-chunk-content.mjs [--local path/to/export.json]
+ * Fetch strategy (targeted, cached): every id of every name the app cares
+ * about (Resource Engine sources, bosses, skilling/shop/transport NPCs and
+ * objects), plus the first three ids of every other NPC name — when one of them is
+ * a monster with spawns, the rest of that name's ids are fetched too. Responses are
+ * cached on disk (--cache <dir>, default $TMPDIR/rs3-chunk-content-cache) so a
+ * re-run is offline.
+ *
+ * Usage:  node scripts/sync-chunk-content.mjs [--cache dir] [--concurrency 32]
  */
-import { writeFileSync, readFileSync } from 'node:fs';
-import { resolve, dirname } from 'node:path';
+import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'node:fs';
+import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { tmpdir } from 'node:os';
+import { build } from 'esbuild';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = resolve(ROOT, 'public', 'chunk-content.json');
-const SOURCE_URL =
-  'https://raw.githubusercontent.com/source-chunk/chunk-picker-v2/gh-pages/chunkpicker-chunkinfo-export.json';
+const DATA = 'https://raw.githubusercontent.com/mejrs/data_rs3/refs/heads/master';
+const arg = (flag, dflt) => { const i = process.argv.indexOf(flag); return i !== -1 && process.argv[i + 1] ? process.argv[i + 1] : dflt; };
+const CACHE = resolve(arg('--cache', join(tmpdir(), 'rs3-chunk-content-cache')));
+const CONCURRENCY = +arg('--concurrency', 32);
+mkdirSync(CACHE, { recursive: true });
 
-async function loadExport() {
-  const localFlag = process.argv.indexOf('--local');
-  if (localFlag !== -1 && process.argv[localFlag + 1]) {
-    return JSON.parse(readFileSync(resolve(process.argv[localFlag + 1]), 'utf8'));
-  }
-  for (let attempt = 1; attempt <= 4; attempt++) {
+// ── Cached fetching ─────────────────────────────────────────────────────────
+const cacheFile = (path) => join(CACHE, path.replace(/[\/=]/g, '_'));
+async function getJson(path) {
+  const file = cacheFile(path);
+  if (existsSync(file)) { const t = readFileSync(file, 'utf8'); return t === '404' ? null : JSON.parse(t); }
+  for (let attempt = 1; attempt <= 5; attempt++) {
     try {
-      const res = await fetch(SOURCE_URL, { headers: { 'User-Agent': 'fate-locked-ironman content sync' } });
-      if (res.ok) return await res.json();
-      console.warn(`attempt ${attempt}: HTTP ${res.status}`);
+      const res = await fetch(`${DATA}/${path}`, { headers: { 'User-Agent': 'fate-locked rs3 chunk content sync' } });
+      if (res.status === 404) { writeFileSync(file, '404'); return null; }
+      if (res.ok) { const t = await res.text(); writeFileSync(file, t); return JSON.parse(t); }
+      console.warn(`  ${path}: HTTP ${res.status} (attempt ${attempt})`);
     } catch (err) {
-      console.warn(`attempt ${attempt}: ${err.message}`);
+      console.warn(`  ${path}: ${err.message} (attempt ${attempt})`);
     }
-    await new Promise(r => setTimeout(r, 1500 * attempt));
+    await new Promise(r => setTimeout(r, 1000 * attempt));
   }
-  throw new Error('could not download the chunk picker export');
+  throw new Error(`could not download ${path}`);
 }
-
-/** "Goblin#Drop table 1" → "Goblin" (the # suffix is a data-variant marker). */
-const cleanName = (s) => s.split('#')[0].trim();
-
-/** Strip the picker's ~|wiki link|~ markup: "~|Priest in Peril|~ ..." → "Priest in Peril ...". */
-const stripWiki = (s) => String(s).replace(/~\|/g, '').replace(/\|~/g, '').trim();
-
-/** Merge a content blob (chunk top level OR one section) into the record. */
-function mergeBlob(rec, blob, slayerReq) {
-  if (blob.Monster) {
-    for (const [raw, count] of Object.entries(blob.Monster)) {
-      const name = cleanName(raw);
-      const req = slayerReq.get(raw) ?? slayerReq.get(name);
-      const cur = rec.monsters.get(name);
-      if (cur) {
-        cur.count += count;
-        if (req != null) cur.slayer = cur.slayer == null ? req : Math.min(cur.slayer, req);
-      } else {
-        rec.monsters.set(name, { count, slayer: req ?? null });
-      }
+async function pool(items, fn) {
+  const out = new Array(items.length);
+  let next = 0, done = 0;
+  const worker = async () => {
+    while (next < items.length) {
+      const i = next++;
+      out[i] = await fn(items[i]);
+      if (++done % 1000 === 0) console.log(`    ${done}/${items.length}`);
     }
-  }
-  if (blob.NPC) for (const raw of Object.keys(blob.NPC)) rec.npcs.add(cleanName(raw));
-  if (blob.Object) {
-    for (const [raw, count] of Object.entries(blob.Object)) {
-      const name = cleanName(raw);
-      rec.objects.set(name, (rec.objects.get(name) ?? 0) + count);
-    }
-  }
-  if (blob.Shop) for (const s of Object.keys(blob.Shop)) rec.shops.add(s.replace(/\.$/, ''));
-  if (blob.Quest) {
-    for (const [q, kind] of Object.entries(blob.Quest)) {
-      // "first" (quest starts here) wins over "step".
-      const base = cleanName(q.split('/')[0]); // "Recipe for Disaster/Dwarf" → "Recipe for Disaster"
-      if (kind === 'first' || !rec.quests.has(base)) rec.quests.set(base, kind === 'first' ? 'first' : 'step');
-    }
-  }
-  if (blob.Diary) for (const [area, refs] of Object.entries(blob.Diary)) {
-    rec.diaries.set(area, rec.diaries.has(area) ? `${rec.diaries.get(area)}, ${refs}` : String(refs));
-  }
-  if (blob.Clue) for (const [tier, n] of Object.entries(blob.Clue)) {
-    rec.clues.set(tier, (rec.clues.get(tier) ?? 0) + n);
-  }
-  if (blob.Spawn) for (const raw of Object.keys(blob.Spawn)) rec.spawns.add(cleanName(raw));
-}
-
-/**
- * The chunk transport graph: links that bypass walking (boats, teleports,
- * stairs, agility shortcuts). Built undirected over *all* chunks — many links
- * route a walkable chunk through a non-walkable connector (ocean/dungeon), so
- * restricting to walkable chunks alone loses them. The app contracts those
- * connectors when it computes reachability.
- */
-function buildConnect(data) {
-  const adj = new Map();
-  const link = (a, b) => {
-    if (a === b) return;
-    if (!adj.has(a)) adj.set(a, new Set());
-    if (!adj.has(b)) adj.set(b, new Set());
-    adj.get(a).add(b); adj.get(b).add(a);
   };
-  const eat = (id, blob) => { if (blob.Connect) for (const t of Object.keys(blob.Connect)) link(String(id), String(t)); };
-  for (const [id, chunk] of Object.entries(data.chunks)) {
-    eat(id, chunk);
-    if (chunk.Sections) for (const sec of Object.values(chunk.Sections)) eat(id, sec);
-  }
-  const out = {};
-  for (const [id, set] of adj) out[id] = [...set].sort();
+  await Promise.all(Array.from({ length: Math.min(CONCURRENCY, items.length) }, worker));
   return out;
 }
 
-/** Re-express the Slayer master → assignable monster tables (facts only). */
-function buildSlayerMasters(data) {
-  const out = {};
-  for (const [master, tasks] of Object.entries(data.slayerMasterTasks ?? {})) {
-    const m = {};
-    for (const [monster, info] of Object.entries(tasks)) {
-      const entry = { weight: info.Weight ?? 1 };
-      if (info.CombatLevel != null) entry.combat = info.CombatLevel;
-      if (info.Level != null) entry.slayer = info.Level;          // Slayer level to be assigned
-      // Unlock requirements live under Tasks as "~|Quest|~ Complete the quest".
-      const reqs = Object.keys(info.Tasks ?? {}).map(stripWiki);
-      if (reqs.length) entry.req = reqs;
-      m[cleanName(monster)] = entry;
+// ── Repo data (names the app references) ───────────────────────────────────
+async function loadRepoNames() {
+  const r = await build({
+    stdin: {
+      contents: `export { RESOURCE_MAP } from './data/resourceData'; export { BOSSES_LIST, REGION_GROUPS, MISTHALIN_AREAS } from './data/items';`,
+      resolveDir: ROOT, loader: 'ts',
+    },
+    bundle: true, format: 'esm', write: false, platform: 'node', logLevel: 'error',
+  });
+  const m = await import('data:text/javascript;base64,' + Buffer.from(r.outputFiles[0].text).toString('base64'));
+  const names = new Set();
+  const slayer = new Map();
+  for (const sources of Object.values(m.RESOURCE_MAP)) {
+    for (const s of sources) {
+      if (!['DROP', 'PICKPOCKET', 'SHOP', 'MERCHANT', 'QUEST', 'SKILL'].includes(s.type)) continue;
+      names.add(s.name.toLowerCase());
+      if (s.type === 'DROP' && s.skills?.Slayer) slayer.set(s.name.toLowerCase(), s.skills.Slayer);
     }
-    out[master] = m;
   }
-  return out;
+  for (const b of m.BOSSES_LIST) names.add(String(b).toLowerCase());
+  const continentOf = (place) => (m.MISTHALIN_AREAS.includes(place) ? 'Misthalin'
+    : Object.keys(m.REGION_GROUPS).find(k => m.REGION_GROUPS[k].includes(place)) ?? null);
+  return { names, slayer, continentOf };
 }
+
+// ── Coordinates ─────────────────────────────────────────────────────────────
+/** Map square → our chunk: fold old-style dungeons (squares y 136..169) onto the surface. */
+const chunkOf = (sx, sy) => [sx, sy >= 136 && sy < 170 ? sy - 100 : sy];
+const idOf = (cx, cy) => String(cx * 256 + cy);
+
+// ── RS3 facts ───────────────────────────────────────────────────────────────
+/** RS3 Slayer level to damage/be assigned (runescape.wiki "Slayer"). */
+const SLAYER_LEVELS = {
+  'crawling hand': 5, 'cave bug': 7, 'cave crawler': 10, 'banshee': 15, 'mighty banshee': 15, 'cave slime': 17,
+  'rockslug': 20, 'desert lizard': 22, 'cockatrice': 25, 'pyrefiend': 30, 'mogre': 32, 'harpie bug swarm': 33,
+  'wall beast': 35, 'killerwatt': 37, 'molanisk': 39, 'basilisk': 40, 'terror dog': 40, 'fever spider': 42,
+  'infernal mage': 45, 'brine rat': 47, 'bloodveld': 50, 'mutated bloodveld': 50, 'jelly': 52, 'turoth': 55,
+  'mutated zygomite': 57, 'cave horror': 58, 'aberrant spectre': 60, 'spiritual ranger': 63, 'dust devil': 65,
+  'spiritual warrior': 68, 'kurask': 70, 'skeletal wyvern': 72, 'jungle strykewyrm': 73, 'gargoyle': 75,
+  'desert strykewyrm': 77, 'aquanite': 78, 'nechryael': 80, 'mutated jadinko baby': 80, 'spiritual mage': 83,
+  'abyssal demon': 85, 'mutated jadinko guard': 86, 'dark beast': 90, 'mutated jadinko male': 91,
+  'ice strykewyrm': 93, 'ganodermic flyer': 95, 'ganodermic beast': 95, 'grotworm': 1,
+};
+
+/** NPC names that are worth every id (beyond the Resource Engine's sources). */
+const NPC_KEEP = new RegExp([
+  '^fishing spot$', '^banker$', 'banker$', '^shopkeeper', '^shop (assistant|keeper)', 'general store',
+  '^(pale|flickering|bright|glowing|sparkling|gleaming|vibrant|lustrous|elder|brilliant|radiant|luminous|incandescent) wisp$',
+  '^(turael|spria|jacquelyn|vannaka|the raptor|mazchna|achtryn|chaeldar|sumona|duradel|lapalok|kuradal|morvran|laniakea|mandrith)$',
+  'kebbit$', 'salamander$', 'chinchompa$', 'skillchompa$', 'impling$', 'larupia$', 'graahk$', 'kyatt$', '^pawya$', '^grenwall$', 'tortle$', 'jadinko$',
+  '^(crimson swift|golden warbler|copper longtail|cerulean twitch|tropical wagtail|ruby harvest|sapphire glacialis|snowy knight|black warlock)$',
+  '^(man|woman|farmer|master farmer|guard|knight of ardougne|paladin|hero|watchman|gnome|rogue|cave goblin|menaphite thug|desert bandit|bandit|h\\.a\\.m\\. member)$',
+  ' worker$', '^gnome pilot$', 'captain', '^charter', 'sailor', '^tanner$', '^sawmill operator$', 'gem trader', '^ellis$',
+].join('|'), 'i');
 
 /**
- * Agility (and other) shortcuts from the challenge tables: name + level + the
- * object you interact with (so the app can locate it via the object index).
+ * Well-known RS3 shop owners → shop name (runescape.wiki). Generic shopkeepers
+ * run general stores; any other trader is listed under its own name.
  */
-function buildShortcuts(data) {
-  const out = [];
-  for (const [skill, challenges] of Object.entries(data.challenges ?? {})) {
-    for (const [name, info] of Object.entries(challenges)) {
-      if (!(info.Category ?? []).includes('Shortcut')) continue;
-      out.push({
-        name: stripWiki(name),
-        skill,
-        level: info.Level ?? 1,
-        objects: (info.Objects ?? []).map(cleanName),
-        chunks: info.Chunks ?? [],
-      });
-    }
-  }
-  return out;
-}
-
-/** Monster → sorted unique drop item names (names only, to keep the file small). */
-function buildDrops(data) {
-  const out = {};
-  for (const [monster, table] of Object.entries(data.drops ?? {})) {
-    const items = [...new Set(Object.keys(table).map(cleanName))].sort();
-    if (items.length) out[cleanName(monster)] = items;
-  }
-  return out;
-}
-
-/**
- * Tidy one raw requirement string: strip wiki markup and the trailing
- * "Complete the quest" / quest-step code (e.g. "5b2") so it reads "Dragon
- * Slayer I", not "Dragon Slayer I 5b2".
- */
-function tidyReq(s) {
-  return stripWiki(s)
-    .replace(/\s+/g, ' ')
-    .replace(/\s+Complete the quest$/i, '')
-    .replace(/\s+\d[a-z0-9]*$/i, '') // trailing quest-step code (5, 5b2, …)
-    .trim();
-}
-
-/** [{ "~|req|~ text": type }, …] → deduped, tidied requirement strings. */
-function cleanReqs(arr) {
-  const out = new Set();
-  for (const reqObj of arr) {
-    for (const reqKey of Object.keys(reqObj)) {
-      const clean = tidyReq(reqKey);
-      if (clean) out.add(clean);
-    }
-  }
-  return [...out];
-}
+const SHOP_NAMES = {
+  'Aubury': "Aubury's Rune Shop", 'Bob': "Bob's Brilliant Axes", 'Lowe': "Lowe's Archery Emporium",
+  'Horvik': "Horvik's Armour Shop", 'Zaff': "Zaff's Superior Staves", 'Thessalia': "Thessalia's Fine Clothes",
+  'Gerrant': "Gerrant's Fishy Business", 'Wydin': "Wydin's Food Store", 'Betty': "Betty's Magic Emporium",
+  'Brian': "Brian's Battleaxe Bazaar", 'Wayne': "Wayne's Chains", 'Peksa': "Peksa's Helmet Shop",
+  'Cassie': "Cassie's Shield Shop", 'Flynn': "Flynn's Mace Market", 'Herquin': "Herquin's Gems",
+  'Gaius': "Gaius' Two-Handed Shop", 'Zeke': "Zeke's Superior Scimitars", 'Louie Legs': "Louie's Armoured Legs Bazaar",
+  'Ranael': "Ranael's Super Skirt Store", 'Dommik': "Dommik's Crafting Store", 'Harry': "Harry's Fishing Shop",
+  'Hickton': "Hickton's Archery Emporium", 'Rommik': "Rommik's Crafty Supplies", 'Grum': "Grum's Gold Exchange",
+  'Jiminua': "Jiminua's Jungle Store", 'Obli': "Obli's General Store", 'Fernahei': "Fernahei's Fishing Hut",
+  'Davon': "Davon's Amulet Store", 'Zambo': 'Karamja Wines, Spirits, and Beers', 'Valaine': "Valaine's Shop of Champions",
+  'Scavvo': "Scavvo's Rune Store", 'Baraek': "Baraek's Fur Stall", 'Gem merchant': 'Gem Stall',
+  'Gem trader': 'Gem Trader', 'Ali Morrisane': "Ali's Discount Wares", 'Dodgy Mike': 'Dodgy Mike\'s Second-hand Clothing',
+  'Pikkupstix': "Pikkupstix's Summoning Supplies", 'Rasolo': "Rasolo's Rune & Archery Shop", 'Tutab': "Tutab's Magical Market",
+  'Fat Tony': "Fat Tony's Pizza", 'Jatix': "Jatix's Herblore Shop", 'Frenita': "Frenita's Cookery Shop",
+  'Candle maker': "Candle Maker's Shop", 'Arhein': "Arhein's Store", 'Hura': "Hura's Crossbow Shop",
+  'Nurmof': "Nurmof's Pickaxe Shop", 'Drogo dwarf': "Drogo's Mining Emporium", 'Tea seller': 'Tea Stall',
+  'Silk merchant': 'Silk Stall', 'Spice seller': 'Spice Stall', 'Fur trader': 'Fur Trader', 'Silver merchant': 'Silver Stall',
+  'Baker': 'Bakery Stall', 'Karim': "Karim's Kebab Shop", 'Ranging Guild Doorman': 'Ranging Guild',
+  'Aemad': "Aemad's Adventuring Supplies", 'Kortan': "Kortan's Adventuring Supplies", 'Alice': "Alice's Farming Shop",
+  'Sarah': "Sarah's Farming Shop", 'Vanessa': "Vanessa's Farming Shop", 'Richard': "Richard's Farming Shop",
+  'Sigmund the Merchant': 'Sigmund the Merchant', 'Jukat': "Jukat's Sword Shop", 'Ellis': 'Tannery',
+  'Sawmill operator': 'Sawmill', 'Bartender': 'Bar', 'Barmaid': 'Bar', 'Barman': 'Bar',
+  'Martin Thwait': "Martin Thwait's Lost and Found", 'Diango': "Diango's Toy Store", 'Ore seller': 'Ore Seller',
+};
+const SLAYER_MASTER = /^(turael|spria|jacquelyn|vannaka|the raptor|mazchna|achtryn|chaeldar|sumona|duradel|lapalok|kuradal|morvran|laniakea|mandrith)$/i;
+const shopNameFor = (npc) => {
+  if (/[<>]/.test(npc)) return null; // colour-tagged placeholder names
+  if (SHOP_NAMES[npc]) return SHOP_NAMES[npc];
+  if (SLAYER_MASTER.test(npc)) return `Slayer Equipment (${npc})`;
+  if (/^(shopkeeper|shop keeper|shop assistant|general store merchant)/i.test(npc)) return 'General Store';
+  if (/banker/i.test(npc)) return null;
+  return `${npc} (shop)`;
+};
 
 /**
- * Per-chunk ENTRY requirements — the quest(s) you need to set foot in a chunk
- * at all (the picker's questSections table). Keyed by chunk; sub-area suffixes
- * ("-1") collapse onto the base chunk; non-numeric keys are dropped. This is the
- * gating the bare `connect` graph lacks, so the app can mark a chunk truly
- * unreachable until its quest is done.
+ * Objects worth placing: exact names (case-insensitive) → canonical display
+ * name. Placements count only when the object has an option at all, and
+ * gathering nodes need their skilling option (filters out decorative copies). Value: [display, requiredActionRegex | null].
  *
- * Shape: chunkId → [requirement strings].
+ * Not recoverable from these dumps: objects placed as varbit-driven parents
+ * whose named children carry no placements of their own — notably Elder
+ * trees, lodestones and most farming patches. Lodestones are added from
+ * LODESTONES below instead.
  */
-function buildQuestSections(data) {
-  const src = data.questSections ?? {};
-  const raw = {};
-  for (const [loc, val] of Object.entries(src)) {
-    const base = String(loc).split('-')[0];
-    if (!/^\d+$/.test(base)) continue;
-    const list = Array.isArray(val) ? val : [];
-    const reqs = list.map(r => (typeof r === 'string' ? tidyReq(r) : '')).filter(Boolean);
-    if (reqs.length) raw[base] = [...new Set([...(raw[base] ?? []), ...reqs])].sort();
-  }
-  // Drop bad source entries: a single quest blanketing an implausible number of
-  // chunks (e.g. "Pandemonium" on ~800 far-west/ocean chunks) is junk — the
-  // largest legitimate region gate is well under 100 chunks.
-  const MAX_CHUNKS_PER_REQ = 150;
-  const count = {};
-  for (const reqs of Object.values(raw)) for (const r of reqs) count[r] = (count[r] ?? 0) + 1;
-  const out = {};
-  for (const [id, reqs] of Object.entries(raw)) {
-    const kept = reqs.filter(r => count[r] <= MAX_CHUNKS_PER_REQ);
-    if (kept.length) out[id] = kept;
-  }
-  return out;
+const OBJECTS = {};
+const obj = (names, display, action = null) => { for (const n of names) OBJECTS[n.toLowerCase()] = [display ?? n, action]; };
+const CHOP = /^(chop|cut)/i, MINE = /^mine/i, STEAL = /^steal/i;
+// Woodcutting (RS3 tree names)
+obj(['Tree', 'tree'], 'Tree', CHOP);
+obj(['Dead tree'], 'Dead tree', CHOP);
+obj(['Evergreen'], 'Evergreen tree', CHOP);
+obj(['Jungle Tree'], 'Jungle tree', CHOP);
+obj(['Achey tree', 'Achey Tree'], 'Achey tree', CHOP);
+obj(['Oak', 'Oak tree', 'Oak Tree'], 'Oak tree', CHOP);
+obj(['Willow', 'Willow tree', 'Willow Tree'], 'Willow tree', CHOP);
+obj(['Teak'], 'Teak tree', CHOP);
+obj(['Maple tree', 'Maple Tree'], 'Maple tree', CHOP);
+obj(['Hollow tree'], 'Hollow tree', CHOP);
+obj(['Acadia tree'], 'Acadia tree', CHOP);
+obj(['Arctic Pine'], 'Arctic pine', CHOP);
+obj(['Eucalyptus tree'], 'Eucalyptus tree', CHOP);
+obj(['Mahogany'], 'Mahogany tree', CHOP);
+obj(['Yew', 'Yew tree'], 'Yew tree', CHOP);
+obj(['Ivy'], 'Ivy', CHOP);
+obj(['Blisterwood Tree'], 'Blisterwood tree', CHOP);
+obj(['Magic tree', 'Magic Tree'], 'Magic tree', CHOP);
+obj(['Elder tree'], 'Elder tree', CHOP);
+obj(['Crystal tree'], 'Crystal tree', CHOP);
+obj(['Eternal magic tree'], 'Eternal magic tree', CHOP);
+obj(['Golden Bamboo'], 'Golden bamboo', CHOP);
+obj(['Bamboo'], 'Bamboo', CHOP);
+// Mining (RS3 post-2018 rocks)
+for (const ore of ['Copper', 'Tin', 'Clay', 'Iron', 'Coal', 'Silver', 'Mithril', 'Adamantite', 'Luminite', 'Gold',
+  'Runite', 'Orichalcite', 'Drakolith', 'Necrite', 'Phasmatite', 'Banite', 'Light animica', 'Dark animica',
+  'Granite', 'Sandstone', 'Limestone', 'Blurite', 'Soft clay', 'Gem', 'Common gem', 'Uncommon gem', 'Precious gem',
+  'Prifddinas gem', 'Platinum', 'Havensilver']) {
+  obj([`${ore} rock`, `${ore} rocks`], `${ore} rock`, MINE);
 }
+obj(['Seren stone', 'Seren Stone'], 'Seren stone', MINE);
+obj(['Corrupted Seren Stone'], 'Corrupted Seren stone', MINE);
+// Runecrafting
+for (const r of ['Air', 'Mind', 'Water', 'Earth', 'Fire', 'Body', 'Cosmic', 'Chaos', 'Astral', 'Nature', 'Law', 'Death', 'Blood', 'Soul', 'Time']) {
+  obj([`${r} altar`], `${r} altar`);
+  obj([`${r} ruins`], `${r} ruins`);
+}
+obj(['Runecrafting altar'], 'Runecrafting altar');
+obj(['Mysterious ruins'], 'Mysterious ruins');
+// Thieving stalls
+for (const s of ["Baker's stall", 'Bakery stall', 'Silk stall', 'Fur stall', 'Silver stall', 'Spice stall', 'Gem stall',
+  'Seed stall', 'Fish stall', 'Tea stall', 'Crafting stall', 'Food stall', 'General stall', 'Magic stall', 'Scimitar stall',
+  'Veg stall', 'Wine stall', 'Crossbow stall']) obj([s], s.charAt(0) + s.slice(1).toLowerCase(), STEAL);
+// Stations
+obj(['Anvil'], 'Anvil');
+obj(['Furnace', 'Lava Furnace'], 'Furnace');
+obj(['Range', 'Cooking range'], 'Cooking range');
+obj(['Spinning wheel'], 'Spinning wheel');
+obj(['Loom'], 'Loom');
+obj(["Potter's wheel", "Potter's Wheel", 'Pottery wheel'], "Potter's wheel");
+obj(['Pottery oven', 'Pottery Oven'], 'Pottery oven');
+obj(['Sawmill'], 'Sawmill');
+obj(['Altar'], 'Altar', /^pray/i);
+obj(['Chaos altar'], 'Chaos altar (Prayer)', /^pray/i);
+obj(['Altar of Guthix'], 'Altar of Guthix');
+obj(['Bank booth', 'Bank Booth'], 'Bank booth', /^bank$/i);
+obj(['Bank chest'], 'Bank chest', /^(use|bank)/i);
+obj(['Bank deposit box', 'Deposit box', 'Deposit Box'], 'Bank deposit box');
+// Farming patches
+for (const p of ['Herb patch', 'Flower patch', 'Flower Patch', 'Allotment', 'Hops Patch', 'Bush Patch', 'Tree patch',
+  'Fruit tree patch', 'Fruit Tree Patch', 'Cactus patch', 'Mushroom patch', 'Calquat patch', 'Spirit Tree Patch',
+  'Elder tree patch', 'Crystal tree patch', 'Bloodwood tree patch', 'Belladonna patch', 'Jade vine patch']) {
+  obj([p], p.charAt(0) + p.slice(1).toLowerCase());
+}
+// Transport
+obj(['Spirit tree', 'Spirit Tree'], 'Spirit tree');
+obj(['Fairy ring'], 'Fairy ring');
+obj(['Canoe station', 'Canoe Station'], 'Canoe station');
+obj(['Obelisk'], 'Obelisk');
+obj(['Fort Forinthry lodestone'], 'Fort Forinthry lodestone');
+obj(['Obelisk of Air'], 'Obelisk of Air'); obj(['Obelisk of Water'], 'Obelisk of Water');
+obj(['Obelisk of Earth'], 'Obelisk of Earth'); obj(['Obelisk of Fire'], 'Obelisk of Fire');
 
 /**
- * Access/use requirements per entity, KEYED BY CHUNK so a generic entity (a
- * "Man", a "Banker") only carries the requirement in the chunk it actually
- * applies to. The picker keys these by location: numeric region ids
- * (regionId = cx*256+cy, optionally with a "-subarea" suffix) which ARE our
- * chunk coords, or named areas ("Stronghold Slayer Cave") which we can't map to
- * a chunk and therefore drop. Items have no location (a global wield/use
- * requirement) and are stored under "*".
- *
- * Shape: category → entity name → { chunkId | "*": [requirement strings] }.
+ * RS3 lodestones (Lodestone Network) by the tile they stand on. Their placed
+ * objects are varbit parents the dumps can't name, so their positions are
+ * listed here at map-square precision.
  */
-function buildTaskUnlocks(data) {
-  const src = data.taskUnlocks ?? {};
-  const out = {};
-  for (const [cat, entries] of Object.entries(src)) {
-    const m = {};
-    for (const [rawName, val] of Object.entries(entries)) {
-      const name = cleanName(rawName);
-      const byChunk = m[name] ?? {};
-      if (Array.isArray(val)) {
-        // Items: a flat, location-less requirement → global.
-        const reqs = cleanReqs(val);
-        if (reqs.length) byChunk['*'] = [...new Set([...(byChunk['*'] ?? []), ...reqs])].sort();
-      } else {
-        for (const [loc, arr] of Object.entries(val)) {
-          if (!Array.isArray(arr)) continue;
-          const base = String(loc).split('-')[0]; // "9772-1" → "9772"
-          if (!/^\d+$/.test(base)) continue;       // skip named-area keys (unmappable)
-          const reqs = cleanReqs(arr);
-          if (reqs.length) byChunk[base] = [...new Set([...(byChunk[base] ?? []), ...reqs])].sort();
-        }
+const LODESTONES = {
+  'Lumbridge': [3233, 3221], 'Varrock': [3214, 3376], 'Edgeville': [3067, 3505], 'Falador': [2967, 3403],
+  'Port Sarim': [3011, 3215], 'Draynor Village': [3105, 3298], 'Al Kharid': [3297, 3184], 'Burthorpe': [2899, 3544],
+  'Taverley': [2878, 3442], 'Catherby': [2811, 3449], "Seers' Village": [2689, 3482], 'Ardougne': [2634, 3348],
+  'Yanille': [2529, 3094], "Eagles' Peak": [2366, 3479], 'Tirannwn': [2254, 3149], "Oo'glog": [2532, 2871],
+  'Karamja': [2761, 3147], 'Canifis': [3517, 3515], 'Fremennik Province': [2712, 3677], 'Lunar Isle': [2085, 3914],
+  'Bandit Camp': [3214, 2954], 'Wilderness Crater': [3143, 3635], 'Ashdale': [2474, 2708], 'Prifddinas': [2208, 3360],
+  'Menaphos': [3216, 2716], 'Anachronia': [5431, 2338], 'City of Um': [1084, 1768],
+};
+
+/**
+ * RS3 Agility shortcuts (runescape.wiki "Shortcuts", list of current
+ * shortcuts) → level + the place(s) on our map they sit in. Located by place
+ * name (chunkForPlace) because the obstacle objects have generic names.
+ */
+const SHORTCUTS = [
+  [5, 'Crumbling wall', 'Falador', ['Falador']],
+  [10, 'Ropeswing', 'Moss Giant Island', ['Brimhaven']],
+  [12, 'Stepping stone', 'Brimhaven Dungeon', ['Brimhaven']],
+  [13, 'Fence jump', 'South Varrock', ['Varrock']],
+  [14, 'Log balance', 'Wendlewick river', ['Wendlewick']],
+  [15, 'Stepping stone', 'Edgeville Dungeon', ['Edgeville']],
+  [16, 'Underwall tunnel', 'Yanille', ['Yanille']],
+  [19, 'Rock scramble', 'Grand Tree', ['Tree Gnome Stronghold']],
+  [20, 'Log balance', 'Coal truck mine', ["Seers' Village"]],
+  [21, 'Underwall tunnel', 'Grand Exchange', ['Varrock', 'Edgeville']],
+  [22, 'Pipe', 'Brimhaven Dungeon entrance', ['Brimhaven']],
+  [25, 'Rocks', "Eagles' Peak", ["Eagles' Peak"]],
+  [26, 'Underwall tunnel', 'Falador south wall', ['Falador']],
+  [27, 'Stepping stones', 'South Wendlewick', ['Wendlewick']],
+  [28, 'Broken railing', 'Draynor Manor', ['Draynor Village']],
+  [29, 'Rock passage', "Oo'glog", ["Oo'glog"]],
+  [30, 'Stepping stones', 'South-east Karamja', ['Tai Bwo Wannai', 'Shilo Village']],
+  [32, 'Stepping stone', 'Shilo Village', ['Shilo Village']],
+  [32, 'Planks', 'Highweald Forest', ['Highweald Forest']],
+  [33, 'Log balance', 'East Ardougne', ['East Ardougne']],
+  [34, 'Pipe', 'Brimhaven Dungeon', ['Brimhaven']],
+  [35, 'Log balance', 'Upper Highweald Forest waterfall', ['Highweald Forest']],
+  [37, 'Tree', 'Tree Gnome Stronghold', ['Tree Gnome Stronghold']],
+  [38, 'Cliffside scramble', 'Al Kharid mine', ['Al Kharid']],
+  [40, 'Rope', 'Agility Pyramid', ['Agility Pyramid']],
+  [41, 'Cliffside (easy)', 'Trollheim', ['Trollheim']],
+  [42, 'Crevice', 'Dwarven Mines', ['Dwarven Mine']],
+  [43, 'Crevice', 'Fremennik Slayer Dungeon', ['Rellekka']],
+  [43, 'Cliffside (medium)', 'Trollheim', ['Trollheim']],
+  [44, 'Cliffside (advanced)', 'Trollheim', ['Trollheim']],
+  [45, 'Log balance', 'Tirannwn', ['Isafdar', 'Arandar']],
+  [46, 'Jutting wall', 'Zanaris, cosmic altar', ['Zanaris']],
+  [47, 'Cliffside (hard)', 'Trollheim', ['Trollheim']],
+  [48, 'Log balance', 'North of Camelot', ['Camelot']],
+  [49, 'Obstacle pipe', 'Yanille Agility Dungeon', ['Yanille']],
+  [51, 'Pipe', 'Edgeville Dungeon / Varrock Sewers', ['Edgeville', 'Varrock']],
+  [52, 'Stepping stone', 'Taverley Dungeon', ['Taverley']],
+  [54, 'Lava moat', 'Red Dragon Isle', ['Lava Dragon Isle']],
+  [55, 'Tunnel', 'Kalphite Hive entrance', ['Kalphite Lair']],
+  [58, 'Weathered wall', 'Port Phasmatys to Ectofuntus', ['Port Phasmatys']],
+  [60, 'Boulder', 'God Wars Dungeon surface', ['God Wars Dungeon', 'Trollheim']],
+  [60, 'Rocky handholds', 'God Wars Dungeon / Wilderness', ['God Wars Dungeon']],
+  [61, 'Stile', 'Tree Gnome Stronghold', ['Tree Gnome Stronghold']],
+  [61, 'Chasm jump', 'Fremennik Slayer Dungeon', ['Rellekka']],
+  [63, 'Crumbling wall', 'The Islands That Once Were Turtles', ['Islands That Once Were Turtles']],
+  [64, 'Cliffside', 'Trollheim, Wilderness route', ['Trollheim']],
+  [64, 'Plant', 'Observatory', ['Observatory']],
+  [65, 'Broken Saradomin statue', 'Paterdomus, River Salve', ['Paterdomus']],
+  [66, 'Jutting wall (advanced)', 'Zanaris, cosmic altar', ['Zanaris']],
+  [67, 'Pile of rubble', 'Yanille Agility Dungeon', ['Yanille']],
+  [70, 'Rocky wall', 'God Wars Dungeon, Saradomin encampment', ['God Wars Dungeon']],
+  [70, 'Obstacle pipe', 'Taverley Dungeon', ['Taverley']],
+  [71, 'Plank', 'Slayer Tower', ['Slayer Tower']],
+  [72, 'Crumbling wall', 'Asgarnian Ice Dungeon', ['Asgarnian Ice Dungeon']],
+  [72, 'Stepping stones', 'Berylbrook', ['Berylbrook']],
+  [74, 'Tunnel', 'Shilo Village northern wall', ['Shilo Village']],
+  [75, 'Rock', 'Poison Waste island', ['Poison Waste']],
+  [79, 'Tunnel', 'Kalphite Hive, to Guardians and Queen', ['Kalphite Lair']],
+  [79, 'Rotten log', 'Fenmoor fairy ring', ['Fenmoor']],
+  [80, 'Pylon', 'Dorgesh-Kaan Agility Course', ['Dorgesh-Kaan']],
+  [80, 'Strange floor', 'Taverley Dungeon', ['Taverley']],
+  [81, 'Stepping stones', 'Fenmoor', ['Fenmoor']],
+  [83, 'Rotten log', 'South Fenmoor', ['Fenmoor']],
+  [86, 'Low wall', "Kuradal's Dungeon", ['Ancient Cavern']],
+  [90, 'Gap', "Kuradal's Dungeon", ['Ancient Cavern']],
+  [92, 'Low wall', 'Port Phasmatys', ['Port Phasmatys']],
+].map(([level, what, where, chunks]) => ({ name: `${what} (${where})`, skill: 'Agility', level, objects: [], chunks }));
+
+// ── Build ───────────────────────────────────────────────────────────────────
+const newRec = () => ({ monsters: new Map(), npcs: new Set(), objects: new Map(), shops: new Set() });
+
+async function main() {
+  console.log(`cache: ${CACHE}`);
+  const { names: repoNames, slayer: repoSlayer, continentOf } = await loadRepoNames();
+  // Each shortcut also falls back to its continent when the sub-area isn't painted.
+  const shortcuts = SHORTCUTS.map(sc => {
+    const cont = continentOf(sc.chunks[0]);
+    return cont && !sc.chunks.includes(cont) ? { ...sc, chunks: [...sc.chunks, cont] } : sc;
+  });
+  const npcNames = await getJson('npc_name_collection.json');
+  const objNames = await getJson('object_name_collection.json');
+
+  // --- NPCs ---
+  const wanted = (name) => repoNames.has(name.toLowerCase()) || NPC_KEEP.test(name);
+  const full = new Set(), probe = new Map(); // id sets
+  for (const [name, ids] of Object.entries(npcNames)) {
+    if (!name || name === 'null' || name.startsWith('"')) continue;
+    if (wanted(name)) ids.forEach(id => full.add(id));
+    else probe.set(name, ids);
+  }
+  console.log(`npcs: ${full.size} targeted ids; probing ${probe.size} other names`);
+  const spawnsById = new Map();
+  const fetchNpc = async (id) => { const d = await getJson(`npcids/npcid=${id}.json`); if (d) spawnsById.set(id, d); };
+  await pool([...full], fetchNpc);
+  const PROBE = 3; // first few ids of every other name: later ids are mostly variants
+  const firstIds = [...probe.values()].flatMap(ids => ids.slice(0, PROBE));
+  await pool(firstIds, fetchNpc);
+  const isMonsterSpawn = (s) => (s.combat ?? 0) > 0 && (s.actions ?? []).includes('Attack');
+  const followUp = [];
+  for (const ids of probe.values()) {
+    if (ids.slice(0, PROBE).some(id => spawnsById.get(id)?.some(isMonsterSpawn))) followUp.push(...ids.slice(PROBE));
+  }
+  console.log(`  follow-up ids for probed monsters: ${followUp.length}`);
+  await pool(followUp, fetchNpc);
+
+  const chunks = new Map();
+  const rec = (cx, cy) => { const k = idOf(cx, cy); let r = chunks.get(k); if (!r) chunks.set(k, r = newRec()); return r; };
+  const banks = new Set();
+  let npcSpawns = 0;
+  for (const spawns of spawnsById.values()) {
+    for (const s of spawns) {
+      const name = String(s.name ?? '').trim();
+      if (!name || name === 'null' || /[<>]/.test(name)) continue;
+      const [cx, cy] = chunkOf(s.x >> 6, s.y >> 6);
+      const r = rec(cx, cy);
+      const actions = (s.actions ?? []).filter(Boolean);
+      npcSpawns++;
+      if (isMonsterSpawn(s)) {
+        const lvl = SLAYER_LEVELS[name.toLowerCase()] ?? repoSlayer.get(name.toLowerCase()) ?? null;
+        const cur = r.monsters.get(name);
+        if (cur) cur.count++; else r.monsters.set(name, { count: 1, slayer: lvl });
+        continue;
       }
-      if (Object.keys(byChunk).length) m[name] = byChunk;
-    }
-    if (Object.keys(m).length) out[cat] = m;
-  }
-  return out;
-}
-
-/**
- * Map marker overlays (shooting stars, impling spawns, crop circles, organized
- * crime, clue steps) keyed by category. Each point carries its world (x,y) plus
- * the chunk (cx,cy) it falls in (regionId = floor(x/64)*256 + floor(y/64)), so
- * the app can both place a precise marker and ask "is this in an owned chunk?".
- */
-function buildOverlays(data) {
-  const out = {};
-  for (const [rawCat, points] of Object.entries(data.mapOverlays ?? {})) {
-    if (!Array.isArray(points) || !points.length) continue;
-    const cat = rawCat.split('|')[0].trim(); // "Puro-Puro Entrances|Crop circle" → "Puro-Puro Entrances"
-    out[cat] = points.map((p) => {
-      const o = { x: p.x, y: p.y, cx: Math.floor(p.x / 64), cy: Math.floor(p.y / 64) };
-      if (p.type) o.t = p.type;          // clue tier (Hard/Elite/…)
-      if (p.text) o.h = stripWiki(p.text); // clue hint text
-      return o;
-    });
-  }
-  return out;
-}
-
-/**
- * Per-skill gathering/processing yields: skill → method/node name → [item, rate].
- * e.g. skillItems.Mining["Gem rocks"] = [["Uncut diamond","4/128"], …]. Method
- * names line up with the object/NPC index, so the app can say "training here
- * (Gem rocks) yields …". Drop-rate stages are de-duped and joined.
- */
-function buildSkillItems(data) {
-  const out = {};
-  for (const [skill, methods] of Object.entries(data.skillItems ?? {})) {
-    const m = {};
-    for (const [method, items] of Object.entries(methods)) {
-      const list = [];
-      for (const [item, stages] of Object.entries(items)) {
-        const rates = [...new Set(Object.values(stages))];
-        list.push([cleanName(item), rates.join(', ')]);
+      if (name === 'Fishing spot') {
+        r.npcs.add(actions.length ? `Fishing spot (${actions.map(a => a.toLowerCase()).join(', ')})` : 'Fishing spot');
+        continue;
       }
-      if (list.length) m[cleanName(stripWiki(method))] = list;
+      r.npcs.add(name);
+      if (actions.includes('Bank')) banks.add(idOf(cx, cy));
+      if (actions.includes('Trade')) { const shop = shopNameFor(name); if (shop) r.shops.add(shop); }
     }
-    if (Object.keys(m).length) out[stripWiki(skill)] = m;
   }
-  return out;
-}
 
-/** Chunks that contain a bank (from the picker's rollingChunks.bank set). */
-function buildBanks(data) {
-  const set = new Set();
-  for (const id of (data.rollingChunks?.bank ?? [])) {
-    const base = String(id).split('-')[0];
-    if (/^\d+$/.test(base)) set.add(base);
-  }
-  return [...set].sort((a, b) => +a - +b);
-}
-
-/**
- * Faceted category → the chunks that contain it, PRE-RESOLVED at build time so
- * the app just highlights a chunk set. Built from the picker's searchTerms
- * (tag|Type → entity names). Entity types resolve straight to their chunks;
- * Items resolve to the chunks that sell them (shops) or drop them (monsters).
- * e.g. tags.boss = every chunk with a boss, tags.food = every chunk you can get
- * food in.
- */
-function buildTags(data, chunkRecs, shopItems, drops) {
-  const add = (map, name, id) => { let s = map.get(name); if (!s) { s = new Set(); map.set(name, s); } s.add(id); };
-  const Monsters = new Map(), NPCs = new Map(), Objects = new Map(), itemChunks = new Map();
-  for (const [id, e] of Object.entries(chunkRecs)) {
-    if (e.m) for (const mm of e.m) { add(Monsters, mm[0], id); for (const it of (drops[mm[0]] ?? [])) add(itemChunks, it, id); }
-    if (e.p) for (const n of e.p) add(NPCs, n, id);
-    if (e.o) for (const oo of e.o) add(Objects, oo[0], id);
-    if (e.s) for (const sh of e.s) for (const it of (shopItems[sh] ?? [])) add(itemChunks, it, id);
-  }
-  const byType = { Items: itemChunks, Monsters, NPCs, Objects };
-  const out = {};
-  for (const [key, names] of Object.entries(data.searchTerms ?? {})) {
-    const [tag, type] = key.split('|');
-    const map = byType[type];
-    if (!tag || !map) continue;
-    const chunks = out[tag] ?? new Set();
-    for (const rawName of Object.keys(names)) {
-      const hit = map.get(cleanName(rawName));
-      if (hit) for (const id of hit) chunks.add(id);
+  // --- Objects ---
+  const objIds = [];
+  for (const [name, ids] of Object.entries(objNames)) if (OBJECTS[name.toLowerCase()]) objIds.push(...ids);
+  console.log(`objects: ${objIds.length} ids`);
+  let objSpawns = 0;
+  await pool(objIds, async (id) => {
+    const locs = await getJson(`locations/${id}.json`);
+    if (!locs || !locs.length) return;
+    const cfg = await getJson(`location_configs/${id}.json`);
+    if (!cfg?.name) return;
+    const [display, action] = OBJECTS[cfg.name.toLowerCase()] ?? [];
+    if (!display) return;
+    // Every kept object must be interactive (decorative/instanced template
+    // copies have no options); gathering nodes need their skilling option.
+    // Members-only options live in member_actions.
+    const need = action ?? /\S/;
+    if (![...(cfg.actions ?? []), ...(cfg.member_actions ?? [])].some(a => a && need.test(a))) return;
+    for (const l of locs) {
+      const [cx, cy] = chunkOf(l.i, l.j);
+      const r = rec(cx, cy);
+      r.objects.set(display, (r.objects.get(display) ?? 0) + 1);
+      if (display === 'Bank booth' || display === 'Bank chest') banks.add(idOf(cx, cy));
+      objSpawns++;
     }
-    if (chunks.size) out[tag] = chunks;
-  }
-  const ser = {};
-  for (const [tag, set] of Object.entries(out)) ser[tag] = [...set].sort((a, b) => +a - +b);
-  return ser;
-}
+  });
 
-/** Shop → sorted stock list (what each named shop sells). */
-function buildShopItems(data) {
+  for (const [place, [x, y]] of Object.entries(LODESTONES)) {
+    const r = rec(x >> 6, y >> 6);
+    r.objects.set(`${place} lodestone`, 1);
+  }
+
+  // --- Serialise chunks ---
   const out = {};
-  for (const [shop, items] of Object.entries(data.shopItems ?? {})) {
-    const name = shop.replace(/\.$/, '');
-    out[name] = Object.keys(items).map(cleanName).sort();
-  }
-  return out;
-}
-
-function main(data) {
-  const walkable = new Set(data.walkableChunks.map(String));
-  // slayer requirement lookup (raw and cleaned names)
-  const slayerReq = new Map(Object.entries(data.slayerMonsters));
-
-  const out = {};
-  let withContent = 0;
-  for (const id of walkable) {
-    const chunk = data.chunks[id];
-    if (!chunk) continue;
-    const rec = {
-      monsters: new Map(), npcs: new Set(), objects: new Map(), shops: new Set(),
-      quests: new Map(), diaries: new Map(), clues: new Map(), spawns: new Set(),
-    };
-    mergeBlob(rec, chunk, slayerReq);
-    if (chunk.Sections) for (const sec of Object.values(chunk.Sections)) mergeBlob(rec, sec, slayerReq);
-
-    const entry = {};
-    const nick = chunk.Nickname ?? chunk.Name;
-    if (nick && nick !== 'Ocean Chunk') entry.n = nick;
-    if (rec.monsters.size) entry.m = [...rec.monsters.entries()]
-      .sort((a, b) => b[1].count - a[1].count)
-      .map(([name, v]) => (v.slayer != null ? [name, v.count, v.slayer] : [name, v.count]));
-    if (rec.npcs.size) entry.p = [...rec.npcs].sort();
-    if (rec.objects.size) entry.o = [...rec.objects.entries()].sort((a, b) => b[1] - a[1]);
-    if (rec.shops.size) entry.s = [...rec.shops].sort();
-    if (rec.quests.size) entry.q = Object.fromEntries([...rec.quests.entries()].sort());
-    if (rec.diaries.size) entry.d = Object.fromEntries(rec.diaries);
-    if (rec.clues.size) entry.c = Object.fromEntries(rec.clues);
-    if (rec.spawns.size) entry.i = [...rec.spawns].sort();
-
-    if (Object.keys(entry).length) { out[id] = entry; withContent++; }
+  for (const [id, r] of [...chunks.entries()].sort((a, b) => +a[0] - +b[0])) {
+    const e = {};
+    if (r.monsters.size) e.m = [...r.monsters.entries()].sort((a, b) => b[1].count - a[1].count || a[0].localeCompare(b[0]))
+      .map(([n, v]) => (v.slayer != null ? [n, v.count, v.slayer] : [n, v.count]));
+    if (r.npcs.size) e.p = [...r.npcs].sort();
+    if (r.objects.size) e.o = [...r.objects.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    if (r.shops.size) e.s = [...r.shops].sort();
+    if (Object.keys(e).length) out[id] = e;
   }
 
-  const connect = buildConnect(data);
-  const slayerMasters = buildSlayerMasters(data);
-  const shortcuts = buildShortcuts(data);
-  const shopItems = buildShopItems(data);
-  const drops = buildDrops(data);
-  const overlays = buildOverlays(data);
-  const skillItems = buildSkillItems(data);
-  const taskUnlocks = buildTaskUnlocks(data);
-  const questSections = buildQuestSections(data);
-  const banks = buildBanks(data);
-  const tags = buildTags(data, out, shopItems, drops);
+  // --- Transport graph: each network's nodes linked through one hub (the
+  //     links carry no unlock requirement, as before — reachability errs
+  //     toward "reachable"). ---
+  const adj = new Map();
+  const link = (a, b) => { if (a === b) return; for (const [x, y] of [[a, b], [b, a]]) { if (!adj.has(x)) adj.set(x, new Set()); adj.get(x).add(y); } };
+  const networks = { lodestone: /lodestone$/, 'fairy ring': /^Fairy ring$/, 'spirit tree': /^Spirit tree$/, canoe: /^Canoe station$/, obelisk: /^Obelisk$/ };
+  for (const re of Object.values(networks)) {
+    const ids = Object.entries(out).filter(([, e]) => (e.o ?? []).some(([n]) => re.test(n))).map(([id]) => id);
+    for (const id of ids.slice(1)) link(ids[0], id);
+  }
+  const connect = {};
+  for (const [id, set] of [...adj.entries()].sort((a, b) => +a[0] - +b[0])) connect[id] = [...set].sort();
+
+  // --- Tags (faceted categories → chunks) ---
+  const tagRules = {
+    furnace: /^Furnace$/, anvil: /^Anvil$/, range: /^Cooking range$/, altar: /^Altar$|\(Prayer\)|^Altar of Guthix$/,
+    lodestone: /lodestone$/, 'fairy ring': /^Fairy ring$/, 'farming patch': /patch$|^Allotment$/, 'deposit box': /^Bank deposit box$/,
+  };
+  const tags = {};
+  for (const [tag, re] of Object.entries(tagRules)) {
+    const ids = Object.entries(out).filter(([, e]) => (e.o ?? []).some(([n]) => re.test(n))).map(([id]) => id);
+    if (ids.length) tags[tag] = ids;
+  }
+  const fishing = Object.entries(out).filter(([, e]) => (e.p ?? []).some(n => n.startsWith('Fishing spot'))).map(([id]) => id);
+  if (fishing.length) tags['fishing spot'] = fishing;
+  const shopsTag = Object.entries(out).filter(([, e]) => e.s?.length).map(([id]) => id);
+  if (shopsTag.length) tags.shop = shopsTag;
 
   const doc = {
-    version: 8,
-    source: 'source-chunk/chunk-picker-v2 (chunkpicker-chunkinfo-export.json, gh-pages)',
+    version: 9,
+    game: 'rs3',
+    source: 'RuneScape 3 cache data by mejrs / RuneScape Wiki maps project (github.com/mejrs/data_rs3: npcids, locations, location_configs); Agility shortcuts from runescape.wiki/w/Shortcuts',
+    generated: new Date().toISOString().slice(0, 10),
+    notes: 'Map squares (cx*256+cy). Old-style dungeons (squares y 136-169) folded onto the surface square above. No RS3 data source for quest steps, diaries, clue steps, item spawns, shop stock, drop tables, slayer master tables or quest-gated chunks: those fields are empty.',
     chunks: out,
     connect,
-    slayerMasters,
+    slayerMasters: {},
     shortcuts,
-    shopItems,
-    drops,
-    overlays,
-    skillItems,
-    taskUnlocks,
-    questSections,
-    banks,
+    shopItems: {},
+    drops: {},
+    overlays: {},
+    skillItems: {},
+    taskUnlocks: {},
+    questSections: {},
+    banks: [...banks].sort((a, b) => +a - +b),
     tags,
   };
-  console.log(`  connect: ${Object.keys(connect).length} chunks with links`);
-  console.log(`  slayerMasters: ${Object.keys(slayerMasters).length} | shortcuts: ${shortcuts.length} | shops: ${Object.keys(shopItems).length} | drop tables: ${Object.keys(drops).length}`);
-  const overlayCounts = Object.entries(overlays).map(([k, v]) => `${k}:${v.length}`).join(', ');
-  console.log(`  overlays: ${overlayCounts}`);
-  console.log(`  skillItems: ${Object.keys(skillItems).length} skills, ${Object.values(skillItems).reduce((n, m) => n + Object.keys(m).length, 0)} methods`);
-  console.log(`  taskUnlocks: ${Object.entries(taskUnlocks).map(([k, v]) => `${k}:${Object.keys(v).length}`).join(', ')}`);
-  console.log(`  questSections: ${Object.keys(questSections).length} gated chunks`);
-  console.log(`  banks: ${banks.length} | tags: ${Object.keys(tags).length} (${Object.keys(tags).slice(0, 8).join(', ')}…)`);
-  writeFileSync(OUT, JSON.stringify(doc));
-  const kb = Math.round(JSON.stringify(doc).length / 1024);
-  console.log(`wrote public/chunk-content.json — ${withContent} chunks with content, ~${kb} KB`);
+  const json = JSON.stringify(doc);
+  writeFileSync(OUT, json);
+  const monsterNames = new Set(Object.values(out).flatMap(e => (e.m ?? []).map(m => m[0])));
+  console.log(`  npc spawns: ${npcSpawns} (${spawnsById.size} ids) | object placements: ${objSpawns}`);
+  console.log(`  monsters: ${monsterNames.size} names | banks: ${doc.banks.length} | connect nodes: ${Object.keys(connect).length} | tags: ${Object.keys(tags).join(', ')}`);
+  console.log(`wrote public/chunk-content.json — ${Object.keys(out).length} chunks with content, ~${Math.round(json.length / 1024)} KB`);
 }
 
-main(await loadExport());
+await main();

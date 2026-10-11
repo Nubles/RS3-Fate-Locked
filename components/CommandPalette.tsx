@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import {
   Search, CornerDownLeft, ArrowUp, ArrowDown, User, Globe, Swords, BookOpen,
   Library, Coins, ShoppingBag, ScrollText, Route, Trophy, Sparkles, Skull,
-  BarChart3, Map, Wand2, Share2, RefreshCw, Settings2, Gauge, Film, Zap, Compass,
+  BarChart3, Map, Wand2, Share2, RefreshCw, Settings2, Gauge, Zap, Compass,
   type LucideIcon,
 } from 'lucide-react';
 import { useGame } from '../context/GameContext';
@@ -55,6 +55,7 @@ export const CommandPalette: React.FC = () => {
       // Plan
       { id: 'open-goal', title: 'Goal Planner', subtitle: 'Route to any unlock', group: 'Plan', icon: Route, keywords: 'goal planner plan route target path', run: go('open:goal') },
       { id: 'open-forecast', title: 'Fate Forecast', subtitle: 'Odds & time-to-unlock', group: 'Plan', icon: Sparkles, keywords: 'forecast odds probability chance predict', run: go('open:forecast') },
+      { id: 'open-kill', title: 'Boss Kill Planner', subtitle: 'Readiness & time-to-kill vs your RS3 bosses', group: 'Plan', icon: Skull, keywords: 'boss kill planner dps ttk readiness pvm', run: go('open:killplanner') },
       { id: 'open-supply', title: 'Resource Engine', subtitle: 'Supplies a goal needs', group: 'Plan', icon: Gauge, keywords: 'resource engine supply chain materials cost', run: go('open:supply') },
       { id: 'open-strategy', title: 'Strategy Guide', subtitle: 'How to approach each unlock', group: 'Plan', icon: Map, keywords: 'strategy guide advice tips order', run: go('open:strategy') },
       // Track
@@ -68,7 +69,6 @@ export const CommandPalette: React.FC = () => {
       { id: 'open-sync', title: 'Sync Code', subtitle: 'Back up / move your run', group: 'Account', icon: RefreshCw, keywords: 'sync code backup export import transfer', run: go('open:sync') },
       { id: 'open-ref', title: 'Reference / Codex', subtitle: 'Rules & equipment tiers', group: 'Account', icon: BookOpen, keywords: 'reference codex rules help tiers how', run: go('open:reference') },
       { id: 'open-mode', title: 'Game Mode', subtitle: 'Vanilla, Hardcore, Custom…', group: 'Account', icon: Settings2, keywords: 'game mode ruleset difficulty hardcore custom', run: go('open:gamemode') },
-      { id: 'open-gallery', title: '3D Model Gallery', subtitle: 'Review every boss 3D model', group: 'Account', icon: Film, keywords: '3d model gallery review bosses preview', run: go('open:gallery') },
       { id: 'open-oracle', title: 'Search all content…', subtitle: 'Find any unlockable via the Oracle', group: 'Navigate', icon: Search, keywords: 'oracle search content items find anything lookup', run: go('open:oracle') },
       // Actions
       { id: 'act-tour', title: 'Take the guided tour', subtitle: 'A 60-second walkthrough of the app', group: 'Action', icon: Compass, keywords: 'tour guide walkthrough help onboarding learn how', run: () => { setOpen(false); setTimeout(() => window.dispatchEvent(new CustomEvent('fate:start-tour')), 60); } },

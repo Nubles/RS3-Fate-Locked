@@ -11,10 +11,9 @@
  * exports as fan content. With no model file for an unlock, everything falls
  * back to the existing 2D sprites.
  *
- * RS3 note: the files currently in /public/models were exported for the old
- * (OSRS) boss roster. Only RS3 bosses that share a creature with one of those
- * files resolve to it (by slug, or via MODEL_REGISTRY below); the rest of the
- * RS3 roster shows its wiki sprite until an RS3 model is added.
+ * RS3 note: the OSRS-cache exports this fork shipped with were removed — they
+ * showed OSRS art. No RS3 models are bundled, so every boss shows its RS3 wiki
+ * sprite until RS3 model files are added to /public/models.
  */
 import { MODEL_FILES } from './modelManifest';
 
@@ -35,10 +34,6 @@ export const PLACEHOLDER_MODEL = asset('models/placeholder.glb');
  * slugify to its file name, or to point at an external/placeholder URL.
  */
 export const MODEL_REGISTRY: Record<string, string> = {
-  // RS3 bosses whose unlock name doesn't slugify to the matching model file.
-  'Nex: Angel of Death': asset('models/nex.gltf'),
-  'Zemouregal & Vorkath': asset('models/vorkath.gltf'),
-  'Exiled Kalphite Queen': asset('models/kalphite-queen.gltf'),
 };
 
 /** name → file slug, matching how /public/models files are named. */

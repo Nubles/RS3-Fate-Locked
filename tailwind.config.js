@@ -13,7 +13,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        osrs: {
+        rs3: {
           bg: '#0a1128',
           panel: '#121a36',
           border: '#1d2d5c',

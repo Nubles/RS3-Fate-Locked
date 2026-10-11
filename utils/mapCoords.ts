@@ -1,48 +1,47 @@
 // Game-tile / pixel / chunk coordinate utilities for the world map.
 //
-// The base image is the wiki's Gielinor world map from the OSRS fork (file
-// names kept). The mainland and its tile/region grid are shared by RS3 and
-// OSRS; RS3-only areas (Daemonheim, Anachronia, the Arc, Menaphos, …) aren't
-// on it and are handled as list-only regions by components/RegionMap.tsx.
+// The base image is the RS3 world map, stitched from the cache-rendered map
+// squares of the RuneScape Wiki maps project (mejrs/layers_rs3, zoom 2,
+// plane 0) by scripts/build-rs3-map.py. It covers the Gielinor mainland
+// (incl. Prifddinas, Menaphos, Fort Forinthry, the Wilderness and the
+// Daemonheim peninsula) and Anachronia. The Arc (far north) and Havenhythe
+// (not in the tile set yet) are list-only regions in components/RegionMap.tsx.
 //
 // Axes:
 //   Game tile X increases east (right).  Image pixel X increases right. Same direction.
 //   Game tile Y increases north (up).    Image pixel Y increases down.  Flipped.
 //
-// A "chunk" here is the 64x64 tile region that the RuneScape Wiki draws grid
-// lines on — the same boundaries as in-game region IDs
+// A "chunk" here is the 64x64-tile map square that the RuneScape Wiki draws
+// grid lines on — the same boundaries as in-game region IDs
 // (regionId = (x >> 6) << 8 | (y >> 6)).
 
 export const CHUNK_TILES = 64;
 
 export const MAP_IMAGE = {
-  // Wiki world map image (originally Old_School_RuneScape_world_map.png),
-  // re-encoded to WebP. Cropped to a whole number of chunks (see MAP_BOUNDS below),
-  // so the chunk grid lines up exactly with the canonical region grid.
-  src: `${import.meta.env.BASE_URL}osrs_world_map.webp`,
-  /** Tiny (~90 KB) low-res placeholder shown instantly while `src` streams in. */
-  srcLo: `${import.meta.env.BASE_URL}osrs_world_map_lo.webp`,
-  width: 9216,
+  // RS3 world map (mejrs/layers_rs3 tiles, see scripts/build-rs3-map.py),
+  // WebP. Cropped to a whole number of map squares (see MAP_BOUNDS below), so
+  // the chunk grid lines up exactly with the canonical region grid.
+  src: `${import.meta.env.BASE_URL}rs3_world_map.webp`,
+  /** Tiny (~25 KB) low-res placeholder shown instantly while `src` streams in. */
+  srcLo: `${import.meta.env.BASE_URL}rs3_world_map_lo.webp`,
+  width: 12672,
   height: 6528,
 } as const;
 
 // tileMinX/tileMinY = game tile at the image's BOTTOM-LEFT pixel;
 // tileMaxX/tileMaxY = game tile at the TOP-RIGHT pixel.
 //
-// Calibrated to the canonical region grid. The image is the wiki world map
-// cropped to a whole number of 64x64-tile chunks — 48 columns x 34 rows =
-// 3072x2176 tiles, at 192 px/chunk = a clean 3.0 px/tile on the 9216x6528 image.
-// So every bound lands on a chunk boundary (a multiple of 64):
-//   X: tiles 960..4032  (chunks 15..62)    Y: tiles 2048..4224  (chunks 32..65)
-// These match the Chunk Picker (source-chunk.github.io/chunk-picker-v2), whose
-// own code clamps the identical 9216x6528 crop to x in [960,4031], y in
-// [2048,4223]. Result: our chunk coords equal canonical region coords
-// (regionX = x >> 6, regionY = y >> 6) and align 1:1 with the picker.
+// The image is map squares X 26..91, Y 31..64 — 66 columns x 34 rows =
+// 4224x2176 tiles, at 192 px/square = a clean 3.0 px/tile on 12672x6528.
+// Every bound lands on a square boundary (a multiple of 64):
+//   X: tiles 1664..5888 (squares 26..91)    Y: tiles 1984..4160 (squares 31..64)
+// So chunk coords equal canonical region coords (cx = x >> 6, cy = y >> 6),
+// which is what public/chunk-content.json and data/regionChunks.ts are keyed by.
 export const MAP_BOUNDS = {
-  tileMinX: 960,
-  tileMinY: 2048,
-  tileMaxX: 4032,
-  tileMaxY: 4224,
+  tileMinX: 1664,
+  tileMinY: 1984,
+  tileMaxX: 5888,
+  tileMaxY: 4160,
 } as const;
 
 const TILE_WIDTH = MAP_BOUNDS.tileMaxX - MAP_BOUNDS.tileMinX;

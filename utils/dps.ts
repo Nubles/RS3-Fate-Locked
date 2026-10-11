@@ -1,191 +1,170 @@
 /**
- * OSRS combat / DPS engine.
- * RS3 MODE: legacy from the OSRS fork. RS3 combat is ability/tier-based and has
- * no equivalent public dataset, so the Gear and DPS views that used this are
- * not mounted (components/EquipmentLab.tsx). Kept compiling + tested because
- * components/BossKillPlanner still imports it.
+ * RS3 combat / DPS engine (ability-based). Pure + side-effect free.
  *
+ * Formulas from the RuneScape Wiki (checked 2026-10):
  *
- * Standard Old School RuneScape formulas: effective levels (with stance, prayer
- * and potion boosts) feed max hit and the attack/defence rolls, which give hit
- * chance, then DPS and time-to-kill. Pure + side-effect free so every piece is
- * unit-testable.
+ *  Ability damage (https://runescape.wiki/w/Ability_damage, scaling as of the
+ *  2 March 2026 update), with L = relevant level incl. boosts, t = weapon tier,
+ *  b = style damage bonus from armour/jewellery, cap = Strength level (melee),
+ *  spell tier (magic), ammo tier (ranged) or none (Necromancy):
+ *    g(L)  = 145 · ln(1 + 0.6·L/145) / ln(1.6)
+ *    2h:   ⌊2.5·g⌋ + ⌊1.25·g⌋ + ⌊14.4·min(t, cap) + 1.5·b⌋
+ *    MH:   ⌊2.5·g⌋ + ⌊9.6·min(t, cap) + b⌋
+ *    OH:   ⌊0.5·(⌊2.5·g⌋ + ⌊9.6·min(t, cap) + b⌋)⌋        (dual wield = MH + OH)
  *
- * Out of scope (v1): special attacks, item passives/scaling (Twisted bow, Salve,
- * Slayer helm, Void, crystal, Dharok's…), on-task multipliers, a per-spell magic
- * DB (a base-max-hit input is used instead), and target protection prayers.
+ *  Hit chance (https://runescape.wiki/w/Hit_chance):
+ *    f(x)  = x³/1250 + 4x + 40
+ *    accuracy a = ⌊f(level)⌋ + round(2.5·f(weapon tier))  (rounding matches the wiki's listed T92/T95 values)
+ *    armour rating d = ⌊armour + f(target Defence)⌋
+ *    H = min(1, affinity/100 · a/d)
+ *
+ * DPS model (an assumption — RS3 has no single "DPS" number): every 1.8s global
+ * cooldown deals on average `rotation.mult` × ability damage, times hit chance.
+ * Presets: basic-only 1.0×, Revolution bar 1.5×, an advanced manual rotation
+ * (thresholds/ultimates/adrenaline management) 2.4×. Crits, bleeds, perks,
+ * prayers and boss damage reduction are folded into that multiplier rather than
+ * modelled individually.
  */
 
-export type Style = 'melee' | 'ranged' | 'magic';
-export type AttackType = 'stab' | 'slash' | 'crush' | 'ranged' | 'magic';
+import type { CombatStyle } from '../data/rs3Gear';
+import { accuracyFn, weaponAccuracy } from './gearStats';
 
-// ── Stances ──────────────────────────────────────────────────────────────────
-export interface Stance {
-  id: string;
-  label: string;
-  /** Bonus added to the effective attack/accuracy level. */
-  atk: number;
-  /** Bonus added to the effective strength level (for max hit). */
-  str: number;
-  /** Attack-speed change in ticks (rapid = −1, i.e. faster). */
-  speedDelta: number;
-}
+export type Style = CombatStyle;
 
-export const STANCES: Record<Style, Stance[]> = {
-  melee: [
-    { id: 'accurate', label: 'Accurate', atk: 3, str: 0, speedDelta: 0 },
-    { id: 'aggressive', label: 'Aggressive', atk: 0, str: 3, speedDelta: 0 },
-    { id: 'controlled', label: 'Controlled', atk: 1, str: 1, speedDelta: 0 },
-  ],
-  ranged: [
-    { id: 'accurate', label: 'Accurate', atk: 3, str: 3, speedDelta: 0 },
-    { id: 'rapid', label: 'Rapid', atk: 0, str: 0, speedDelta: -1 },
-  ],
-  magic: [
-    { id: 'standard', label: 'Standard', atk: 0, str: 0, speedDelta: 0 },
-    { id: 'accurate', label: 'Accurate', atk: 3, str: 0, speedDelta: 0 },
-  ],
+/** Seconds per global cooldown (3 ticks). */
+export const GCD_SECONDS = 1.8;
+
+// ── Ability damage ───────────────────────────────────────────────────────────
+
+/** The wiki's level-scaling term g(L) for ability damage. */
+export const damageLevelFn = (level: number): number =>
+  level <= 0 ? 0 : (145 * Math.log(1 + (0.6 * level) / 145)) / Math.log(1.6);
+
+const capped = (tier: number, cap: number): number => Math.min(tier, cap);
+
+export const abilityDamage2h = (level: number, tier: number, cap: number, bonus: number): number => {
+  const g = damageLevelFn(level);
+  return Math.floor(2.5 * g) + Math.floor(1.25 * g) + Math.floor(14.4 * capped(tier, cap) + 1.5 * bonus);
 };
 
-// ── Prayers (multiplicative on the relevant level) ───────────────────────────
-export interface Prayer { id: string; label: string; atkMult: number; strMult: number }
-
-export const PRAYERS: Record<Style, Prayer[]> = {
-  melee: [
-    { id: 'none', label: 'No prayer', atkMult: 1, strMult: 1 },
-    { id: 'clarity', label: 'Improved Reflexes / Burst', atkMult: 1.1, strMult: 1.1 },
-    { id: 'chivalry', label: 'Chivalry', atkMult: 1.15, strMult: 1.18 },
-    { id: 'piety', label: 'Piety', atkMult: 1.2, strMult: 1.23 },
-  ],
-  ranged: [
-    { id: 'none', label: 'No prayer', atkMult: 1, strMult: 1 },
-    { id: 'eagle', label: 'Eagle Eye', atkMult: 1.15, strMult: 1.15 },
-    { id: 'rigour', label: 'Rigour', atkMult: 1.2, strMult: 1.23 },
-  ],
-  magic: [
-    { id: 'none', label: 'No prayer', atkMult: 1, strMult: 1 },
-    { id: 'mystic', label: 'Mystic Might', atkMult: 1.15, strMult: 1 },
-    { id: 'augury', label: 'Augury', atkMult: 1.25, strMult: 1 },
-  ],
+export const abilityDamageMain = (level: number, tier: number, cap: number, bonus: number): number => {
+  const g = damageLevelFn(level);
+  return Math.floor(2.5 * g) + Math.floor(9.6 * capped(tier, cap) + bonus);
 };
 
-// ── Potions (flat + percent of base level) ───────────────────────────────────
+export const abilityDamageOff = (level: number, tier: number, cap: number, bonus: number): number =>
+  Math.floor(0.5 * abilityDamageMain(level, tier, cap, bonus));
+
+export type WeaponSetup =
+  | { kind: 'two-hand'; tier: number; accTier?: number }
+  | { kind: 'dual'; mainTier: number; mainAccTier?: number; offTier: number }
+  | { kind: 'main-hand'; tier: number; accTier?: number }
+  | { kind: 'none' };
+
+/** Total ability damage (AD) for a weapon setup. */
+export const abilityDamage = (setup: WeaponSetup, level: number, cap: number, bonus: number): number => {
+  switch (setup.kind) {
+    case 'two-hand': return abilityDamage2h(level, setup.tier, cap, bonus);
+    case 'dual': return abilityDamageMain(level, setup.mainTier, cap, bonus) + abilityDamageOff(level, setup.offTier, cap, bonus);
+    case 'main-hand': return abilityDamageMain(level, setup.tier, cap, bonus);
+    default: return abilityDamageMain(level, 0, cap, bonus); // unarmed: level term only
+  }
+};
+
+const setupAccTier = (s: WeaponSetup): number =>
+  s.kind === 'two-hand' || s.kind === 'main-hand' ? s.accTier ?? s.tier : s.kind === 'dual' ? s.mainAccTier ?? s.mainTier : 0;
+
+// ── Hit chance ───────────────────────────────────────────────────────────────
+
+export const playerAccuracy = (level: number, weaponAccTier: number): number =>
+  Math.floor(accuracyFn(level)) + weaponAccuracy(weaponAccTier);
+
+export const armourRating = (defence: number, armour: number): number =>
+  Math.floor(armour + accuracyFn(defence));
+
+export const hitChance = (affinity: number, accuracy: number, rating: number, modifier = 0): number => {
+  if (rating <= 0) return 1;
+  return Math.max(0, Math.min(1, (affinity / 100) * (accuracy / rating) + modifier));
+};
+
+// ── Presets ──────────────────────────────────────────────────────────────────
+
+export interface Rotation { id: string; label: string; mult: number; blurb: string }
+export const ROTATIONS: Rotation[] = [
+  { id: 'basic', label: 'Basic', mult: 1.0, blurb: 'Basics + auto-attacks only (~100% AD per GCD)' },
+  { id: 'revolution', label: 'Revolution', mult: 1.5, blurb: 'Revolution bar with thresholds (~150% AD per GCD)' },
+  { id: 'advanced', label: 'Advanced', mult: 2.4, blurb: 'Manual rotation, ultimates & adrenaline (~240% AD per GCD)' },
+];
+
+/** Level boosts: flat + pct of base level. RS3 overloads: 3+15%, elder overloads: 5+17%. */
 export interface Potion { id: string; label: string; flat: number; pct: number }
+export const POTIONS: Potion[] = [
+  { id: 'none', label: 'No boost', flat: 0, pct: 0 },
+  { id: 'overload', label: 'Overload', flat: 3, pct: 0.15 },
+  { id: 'elder', label: 'Elder overload', flat: 5, pct: 0.17 },
+];
 
-export const POTIONS: Record<Style, Potion[]> = {
-  melee: [
-    { id: 'none', label: 'No potion', flat: 0, pct: 0 },
-    { id: 'combat', label: 'Combat potion', flat: 3, pct: 0.1 },
-    { id: 'super', label: 'Super combat', flat: 5, pct: 0.15 },
-  ],
-  ranged: [
-    { id: 'none', label: 'No potion', flat: 0, pct: 0 },
-    { id: 'ranging', label: 'Ranging potion', flat: 4, pct: 0.1 },
-    { id: 'bastion', label: 'Bastion potion', flat: 4, pct: 0.1 },
-  ],
-  magic: [
-    { id: 'none', label: 'No potion', flat: 0, pct: 0 },
-    { id: 'magic', label: 'Magic potion', flat: 4, pct: 0 },
-    { id: 'imbued', label: 'Imbued heart', flat: 1, pct: 0.1 },
-  ],
+export const boostedLevel = (base: number, potionId: string): number => {
+  const p = POTIONS.find((x) => x.id === potionId) ?? POTIONS[0];
+  return base + p.flat + Math.floor(p.pct * base);
 };
 
 const pick = <T extends { id: string }>(list: T[], id: string): T => list.find((x) => x.id === id) ?? list[0];
 
-// ── Core formulas ─────────────────────────────────────────────────────────────
+// ── Full calculation ─────────────────────────────────────────────────────────
 
-/** Potion boost = flat + floor(pct * base level). */
-export const potionBoost = (baseLevel: number, p: Potion): number =>
-  p.flat + Math.floor(p.pct * baseLevel);
-
-/** OSRS effective level: floor((base + boost) * prayerMult) + stance + 8. */
-export const effectiveLevel = (base: number, prayerMult: number, boost: number, stance: number): number =>
-  Math.floor((base + boost) * prayerMult) + stance + 8;
-
-/** Melee/ranged max hit from effective strength + gear strength bonus. */
-export const maxHitFromStr = (effStr: number, strBonus: number): number =>
-  Math.floor(0.5 + (effStr * (strBonus + 64)) / 640);
-
-/** Magic max hit ≈ base spell max scaled by magic-damage %. */
-export const maxHitMagic = (baseSpellMax: number, magicDmgPct: number): number =>
-  Math.floor(baseSpellMax * (1 + magicDmgPct / 100));
-
-export const attackRoll = (effAtk: number, gearAccuracy: number): number =>
-  effAtk * (gearAccuracy + 64);
-
-export const defenceRoll = (defLevel: number, defBonus: number): number =>
-  (defLevel + 9) * (defBonus + 64);
-
-/** Probability a hit lands, from the attack vs defence rolls. */
-export const hitChance = (atk: number, def: number): number =>
-  atk > def ? 1 - (def + 2) / (2 * (atk + 1)) : atk / (2 * (def + 1));
-
-// ── Inputs / result ───────────────────────────────────────────────────────────
 export interface DpsInput {
   style: Style;
-  attackType: AttackType;
-  stanceId: string;
-  prayerId: string;
+  /** Base levels (unboosted). accuracy = Attack for melee, else the style skill; damage = Strength for melee. */
+  levels: { accuracy: number; damage: number };
+  weapon: WeaponSetup;
+  /** Style damage bonus (b) from armour. */
+  damageBonus: number;
+  /** Ranged: tier of equipped ammo (undefined = no ammo cap, e.g. chargebow/thrown). Magic: spell tier. */
+  capTier?: number;
+  rotationId: string;
   potionId: string;
-  baseSpellMax: number;
-  levels: { attack: number; strength: number; ranged: number; magic: number };
-  gear: {
-    /** Accuracy bonus for the chosen attack type (stab/slash/crush/ranged/magic). */
-    accuracy: number;
-    meleeStr: number;
-    rangedStr: number;
-    magicDmgPct: number;
-    /** Weapon attack speed in ticks. */
-    speedTicks: number;
-  };
-  monster: {
-    /** Defence level the relevant roll uses (magic uses the monster's magic level). */
-    defLevel: number;
-    /** Defensive bonus for the chosen attack type. */
-    defBonus: number;
-    hp: number;
-  };
+  target: { affinity: number; defence: number; armour: number; lp: number };
 }
 
 export interface DpsResult {
-  maxHit: number;
-  hitChance: number; // 0..1
+  abilityDamage: number;
+  accuracy: number;
+  armourRating: number;
+  hitChance: number;
+  /** Expected damage per second. */
   dps: number;
-  ttk: number; // seconds
-  effAtk: number;
-  effStr: number;
-  attackRoll: number;
-  defenceRoll: number;
-  attackInterval: number; // seconds
+  /** Seconds to kill (Infinity if no damage). */
+  ttk: number;
+  /** Effective weapon-tier cap actually applied. */
+  cap: number;
+  accLevel: number;
+  dmgLevel: number;
 }
 
 export const computeDps = (input: DpsInput): DpsResult => {
-  const { style, levels, gear, monster } = input;
-  const stance = pick(STANCES[style], input.stanceId);
-  const prayer = pick(PRAYERS[style], input.prayerId);
-  const potion = pick(POTIONS[style], input.potionId);
+  const accLevel = boostedLevel(input.levels.accuracy, input.potionId);
+  const dmgLevel = boostedLevel(input.levels.damage, input.potionId);
 
-  // Base levels by style: melee uses attack+strength, ranged uses ranged for
-  // both rolls, magic uses magic for the attack roll.
-  const atkBase = style === 'melee' ? levels.attack : style === 'ranged' ? levels.ranged : levels.magic;
-  const strBase = style === 'melee' ? levels.strength : style === 'ranged' ? levels.ranged : levels.magic;
+  let cap = Infinity;
+  if (input.style === 'melee') cap = dmgLevel;
+  else if (input.style === 'magic') cap = input.capTier ?? dmgLevel;
+  else if (input.style === 'ranged') cap = input.capTier ?? Infinity;
 
-  const boost = potionBoost(Math.max(atkBase, strBase), potion);
-  const effAtk = effectiveLevel(atkBase, prayer.atkMult, boost, stance.atk);
-  const effStr = effectiveLevel(strBase, prayer.strMult, boost, stance.str);
+  const ad = abilityDamage(input.weapon, dmgLevel, cap, input.damageBonus);
+  const acc = playerAccuracy(accLevel, setupAccTier(input.weapon));
+  const rating = armourRating(input.target.defence, input.target.armour);
+  const hc = hitChance(input.target.affinity, acc, rating);
+  const rot = pick(ROTATIONS, input.rotationId);
+  const dps = (ad * hc * rot.mult) / GCD_SECONDS;
+  const ttk = dps > 0 && input.target.lp > 0 ? input.target.lp / dps : Infinity;
+  return { abilityDamage: ad, accuracy: acc, armourRating: rating, hitChance: hc, dps, ttk, cap, accLevel, dmgLevel };
+};
 
-  const maxHit = style === 'magic'
-    ? maxHitMagic(input.baseSpellMax, gear.magicDmgPct)
-    : maxHitFromStr(effStr, style === 'ranged' ? gear.rangedStr : gear.meleeStr);
-
-  const aRoll = attackRoll(effAtk, gear.accuracy);
-  const dRoll = defenceRoll(monster.defLevel, monster.defBonus);
-  const chance = hitChance(aRoll, dRoll);
-
-  const speedTicks = Math.max(1, gear.speedTicks + stance.speedDelta);
-  const attackInterval = speedTicks * 0.6;
-  const dps = (chance * (maxHit / 2)) / attackInterval;
-  const ttk = dps > 0 ? monster.hp / dps : Infinity;
-
-  return { maxHit, hitChance: chance, dps, ttk, effAtk, effStr, attackRoll: aRoll, defenceRoll: dRoll, attackInterval };
+/** "m:ss" / "h:mm:ss" formatting for TTK. */
+export const formatDuration = (s: number): string => {
+  if (!isFinite(s)) return '—';
+  const t = Math.round(s);
+  const h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), sec = t % 60;
+  return h > 0 ? `${h}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}` : `${m}:${String(sec).padStart(2, '0')}`;
 };

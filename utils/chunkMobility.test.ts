@@ -3,8 +3,10 @@ import { mobilityFor } from './chunkMobility';
 import { MOBILITY_LIST } from '../constants';
 
 describe('mobilityFor', () => {
-  it('maps real chunk transport objects to a MOBILITY_LIST network', () => {
+  it('maps RS3 chunk transport objects to a MOBILITY_LIST network', () => {
     const cases: [string, string][] = [
+      ['Varrock lodestone', 'Lodestone Network'],
+      ['Canoe station', 'Canoes'],
       ['Spirit tree', 'Spirit Trees'],
       ['Fairy ring', 'Fairy Rings'],
       ['Crashed glider', 'Gnome Gliders'],
@@ -41,7 +43,7 @@ describe('mobilityFor', () => {
     }
   });
 
-  it('has no OSRS-only networks (mushtrees, quetzals)', () => {
+  it('does not invent networks for non-RS3 transport (mushtrees, quetzals)', () => {
     expect(mobilityFor('Magic Mushtree')).toBeNull();
     expect(mobilityFor('Quetzal')).toBeNull();
   });

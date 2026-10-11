@@ -56,13 +56,13 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
 
   return (
     <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Game reference" tabIndex={-1} className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-in fade-in duration-200">
-      <div className="bg-[#121212] border border-osrs-border w-full max-w-5xl rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col h-[85vh]">
+      <div className="bg-[#121212] border border-rs3-border w-full max-w-5xl rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col h-[85vh]">
         
         {/* Header */}
-        <div className="bg-[#1a1a1a] p-4 border-b border-osrs-border flex justify-between items-center shrink-0">
+        <div className="bg-[#1a1a1a] p-4 border-b border-rs3-border flex justify-between items-center shrink-0">
           <div className="flex items-center gap-3">
-             <div className="bg-osrs-gold/10 p-2 rounded-lg border border-osrs-gold/20">
-                <HelpCircle className="w-5 h-5 text-osrs-gold" />
+             <div className="bg-rs3-gold/10 p-2 rounded-lg border border-rs3-gold/20">
+                <HelpCircle className="w-5 h-5 text-rs3-gold" />
              </div>
             <h2 className="text-xl font-bold text-gray-100 tracking-wide">Fate-Locked Ironman: Codex</h2>
             <span
@@ -83,7 +83,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
         {/* Main Content Layout */}
         <div className="flex flex-1 overflow-hidden">
             {/* Sidebar Navigation */}
-            <div className="w-64 bg-[#161616] border-r border-osrs-border flex flex-col overflow-y-auto custom-scrollbar shrink-0">
+            <div className="w-64 bg-[#161616] border-r border-rs3-border flex flex-col overflow-y-auto custom-scrollbar shrink-0">
                 <div className="p-3 space-y-1">
                     {tabs.map(tab => {
                         const Icon = tab.icon;
@@ -95,11 +95,11 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 className={`
                                     w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold transition-all duration-200
                                     ${isActive 
-                                        ? 'bg-[#252525] text-osrs-gold border border-osrs-gold/20 shadow-md translate-x-1' 
+                                        ? 'bg-[#252525] text-rs3-gold border border-rs3-gold/20 shadow-md translate-x-1' 
                                         : 'text-gray-400 hover:bg-[#202020] hover:text-gray-200 border border-transparent'}
                                 `}
                             >
-                                <Icon size={18} className={isActive ? 'text-osrs-gold' : 'text-gray-500'} />
+                                <Icon size={18} className={isActive ? 'text-rs3-gold' : 'text-gray-500'} />
                                 {tab.label}
                             </button>
                         );
@@ -126,7 +126,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
 
                             {/* The Concept */}
                             <div className="bg-[#222] p-6 rounded-xl border border-white/5">
-                                 <h3 className="text-osrs-gold font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
+                                 <h3 className="text-rs3-gold font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
                                     <Skull size={18} /> The Concept
                                 </h3>
                                 <p className="text-gray-300 leading-relaxed text-sm">
@@ -164,7 +164,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                         </div>
                                     </div>
                                      <div className="flex gap-4">
-                                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-osrs-gold/20 text-osrs-gold flex items-center justify-center font-bold border border-osrs-gold/20">3</div>
+                                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-rs3-gold/20 text-rs3-gold flex items-center justify-center font-bold border border-rs3-gold/20">3</div>
                                         <div>
                                             <h4 className="font-bold text-gray-200">The Unlock</h4>
                                             <p className="text-sm text-gray-400 mt-1">
@@ -178,7 +178,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                             {/* The Progression */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="bg-[#222] p-4 rounded-xl border border-white/5">
-                                    <h4 className="font-bold text-gray-200 mb-2 flex items-center gap-2"><Shield size={16} className="text-osrs-pity"/> Fate Points</h4>
+                                    <h4 className="font-bold text-gray-200 mb-2 flex items-center gap-2"><Shield size={16} className="text-rs3-pity"/> Fate Points</h4>
                                     <p className="text-xs text-gray-400">
                                         Bad luck protection. Each failed roll adds 1 Fate Point.
                                         <br/><br/>
@@ -216,7 +216,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                     <ArrowUp className="rotate-90 text-gray-600 shrink-0" size={14} />
                                     <span className="px-3 py-2 rounded-lg bg-blue-900/30 text-blue-300 border border-blue-500/20">Roll for a Key</span>
                                     <ArrowUp className="rotate-90 text-gray-600 shrink-0" size={14} />
-                                    <span className="px-3 py-2 rounded-lg bg-osrs-gold/15 text-osrs-gold border border-osrs-gold/20">Spend on a table</span>
+                                    <span className="px-3 py-2 rounded-lg bg-rs3-gold/15 text-rs3-gold border border-rs3-gold/20">Spend on a table</span>
                                     <ArrowUp className="rotate-90 text-gray-600 shrink-0" size={14} />
                                     <span className="px-3 py-2 rounded-lg bg-purple-900/30 text-purple-300 border border-purple-500/20">Unlock content</span>
                                     <ArrowUp className="rotate-90 text-gray-600 shrink-0" size={14} />
@@ -227,7 +227,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
 
                             {/* The three keys */}
                             <div>
-                                <h3 className="text-osrs-gold font-bold uppercase tracking-widest mb-4 flex items-center gap-2"><Key size={18}/> The Three Keys</h3>
+                                <h3 className="text-rs3-gold font-bold uppercase tracking-widest mb-4 flex items-center gap-2"><Key size={18}/> The Three Keys</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     {KEY_TYPES.map(k => (
                                         <div key={k.id} className="bg-[#222] rounded-xl border border-white/5 p-5 flex flex-col">
@@ -258,7 +258,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                     <li><b className="text-white">1.</b> You finish <b>Desert Treasure</b> — a <b className="text-purple-400">Master</b> quest — and tick it off in the Journal.</li>
                                     <li><b className="text-white">2.</b> The app rolls <span className="font-mono">1–100</span> against its <b className="text-purple-400">95%</b> threshold. You roll <span className="font-mono text-green-400">42</span> → a Key!</li>
                                     <li><b className="text-white">3.</b> Every success then rolls for an upgrade. In {activeMode.name} mode that's a <b className="text-purple-400">{rules.omniChanceBase}%</b> Omni chance (up to 20% on this very quest). Miss it and you bank a Standard Key; hit it and you <i>also</i> pocket an <b className="text-purple-400">Omni-Key</b>.</li>
-                                    <li><b className="text-white">4.</b> Take the Key to <b className="text-osrs-gold">Spend Keys</b>, choose the <b>Skills</b> table, and unlock a random skill tier — say Slayer. Those new Slayer levels open fresh tasks to roll on.</li>
+                                    <li><b className="text-white">4.</b> Take the Key to <b className="text-rs3-gold">Spend Keys</b>, choose the <b>Skills</b> table, and unlock a random skill tier — say Slayer. Those new Slayer levels open fresh tasks to roll on.</li>
                                     <li className="text-gray-500 text-xs pt-1">Roll <span className="font-mono">96–100</span> instead and you'd get no Key — but you'd gain a Fate Point{rules.pityEnabled ? <>, inching toward a guaranteed Key at <b>{rules.pityThreshold}</b></> : ''}.</li>
                                 </ol>
                             </div>
@@ -266,7 +266,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                             {/* Fate + altar quick ref */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="bg-[#222] p-5 rounded-xl border border-white/5">
-                                    <h4 className="font-bold text-gray-200 mb-2 flex items-center gap-2"><Shield size={16} className="text-osrs-pity"/> Fate Points</h4>
+                                    <h4 className="font-bold text-gray-200 mb-2 flex items-center gap-2"><Shield size={16} className="text-rs3-pity"/> Fate Points</h4>
                                     <p className="text-xs text-gray-400 leading-relaxed">
                                         Earned <b>+1 per failed roll</b>, reset to 0 the moment you get any Key.
                                         {rules.pityEnabled
@@ -290,7 +290,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                             </div>
 
                             <p className="text-xs text-gray-500">
-                                Standard Keys cash in across <b className="text-gray-300">{SPEND_TABLES.length} tables</b> — {SPEND_TABLES.map(t => t.label).join(', ')} — at a flat <b className="text-osrs-gold">{UNLOCK_KEY_COST} Key</b> each. The Unlock Systems tab breaks down what every table does.
+                                Standard Keys cash in across <b className="text-gray-300">{SPEND_TABLES.length} tables</b> — {SPEND_TABLES.map(t => t.label).join(', ')} — at a flat <b className="text-rs3-gold">{UNLOCK_KEY_COST} Key</b> each. The Unlock Systems tab breaks down what every table does.
                             </p>
 
                             {/* Smart play */}
@@ -619,12 +619,12 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
 
                             {/* Every spend table */}
                             <div>
-                                <h3 className="text-osrs-gold font-bold uppercase tracking-widest mb-3 flex items-center gap-2"><Coins size={16}/> Every Spend Table</h3>
+                                <h3 className="text-rs3-gold font-bold uppercase tracking-widest mb-3 flex items-center gap-2"><Coins size={16}/> Every Spend Table</h3>
                                 <p className="text-xs text-gray-500 mb-4">A Standard Key cashes in on whichever table you choose, for a random entry from it. Equipment and Skills are tiered — repeat unlocks deepen them (slots × tiers); the rest are one-and-done.</p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                     {SPEND_TABLES.map(t => (
                                         <div key={t.label} className="bg-[#222] rounded-lg border border-white/5 p-3 flex items-start gap-3">
-                                            <div className="text-[11px] font-mono font-bold text-osrs-gold bg-black/30 rounded px-2 py-1 shrink-0 mt-0.5" title={t.tiers ? `${t.count} entries × ${t.tiers} tiers` : `${t.count} entries`}>
+                                            <div className="text-[11px] font-mono font-bold text-rs3-gold bg-black/30 rounded px-2 py-1 shrink-0 mt-0.5" title={t.tiers ? `${t.count} entries × ${t.tiers} tiers` : `${t.count} entries`}>
                                                 {t.count}{t.tiers ? `×${t.tiers}` : ''}
                                             </div>
                                             <div className="min-w-0">

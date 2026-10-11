@@ -6,30 +6,46 @@ const u = (skills: Record<string, number>, levels: Record<string, number>): Unlo
   ({ skills, levels } as unknown as UnlockState);
 
 describe('resourceReqFor', () => {
-  it('maps real chunk-object names to the right skill + level', () => {
-    // RS3 requirements (post-2018 Mining rework; runescape.wiki).
+  it('maps RS3 chunk-object names to the right skill + level', () => {
+    // Names as they appear in the RS3 cache dataset; RS3 requirements
+    // (post-2018 Mining rework; runescape.wiki).
     const cases: [string, string | null, number][] = [
+      ['Tree', 'Woodcutting', 1],
       ['Oak tree', 'Woodcutting', 10],
       ['Willow tree', 'Woodcutting', 20],
       ['Teak tree', 'Woodcutting', 30],
       ['Maple tree', 'Woodcutting', 40],
+      ['Acadia tree', 'Woodcutting', 50],
+      ['Ivy', 'Woodcutting', 68],
       ['Yew tree', 'Woodcutting', 70],
       ['Magic tree', 'Woodcutting', 80],
-      ['Evergreen tree', 'Woodcutting', 1],
+      ['Elder tree', 'Woodcutting', 90],
       ['Dead tree', 'Woodcutting', 1],
-      ['Iron rocks', 'Mining', 10],
-      ['Coal rocks', 'Mining', 20],
-      ['Mithril rocks', 'Mining', 30],
-      ['Adamantite rocks', 'Mining', 40],
-      ['Runite rocks', 'Mining', 50],
-      ['Fishing spot (small net, bait)', 'Fishing', 1],
-      ['Fishing spot (barbarian)', 'Fishing', 48],
-      ['Fishing spot (karambwan)', 'Fishing', 65],
+      ['Copper rock', 'Mining', 1],
+      ['Iron rock', 'Mining', 10],
+      ['Coal rock', 'Mining', 20],
+      ['Mithril rock', 'Mining', 30],
+      ['Luminite rock', 'Mining', 40],
+      ['Runite rock', 'Mining', 50],
+      ['Drakolith rock', 'Mining', 60],
+      ['Necrite rock', 'Mining', 70],
+      ['Phasmatite rock', 'Mining', 70],
+      ['Banite rock', 'Mining', 80],
+      ['Seren stone', 'Mining', 89],
+      ['Light animica rock', 'Mining', 90],
+      ['Dark animica rock', 'Mining', 90],
+      ['Fishing spot (net, bait)', 'Fishing', 1],
+      ['Fishing spot (lure, bait)', 'Fishing', 20],
+      ['Fishing spot (net, harpoon)', 'Fishing', 16],
+      ['Fishing spot (cage, harpoon)', 'Fishing', 35],
+      ['Fishing spot (cage)', 'Fishing', 40],
       ['Silk stall', 'Thieving', 20],
       ['Gem stall', 'Thieving', 75],
-      ['Soul Altar', 'Runecrafting', 90],
-      ['Astral Altar', 'Runecrafting', 40],
-      ['Mysterious ruins', 'Runecrafting', 1],
+      ['Air altar', 'Runecrafting', 1],
+      ['Nature altar', 'Runecrafting', 44],
+      ['Soul altar', 'Runecrafting', 90],
+      ['Astral altar', 'Runecrafting', 40],
+      ['Nature ruins', 'Runecrafting', 1],
     ];
     for (const [name, skill, level] of cases) {
       const req = resourceReqFor(name);
@@ -38,29 +54,21 @@ describe('resourceReqFor', () => {
     }
   });
 
-  it('leaves Old School-only nodes from the chunk data ungated', () => {
-    for (const name of ['Amethyst crystals', 'Nickel rocks', 'Lovakite rocks', 'Volcanic sulphur rock',
-      'Lead rocks', 'Redwood tree', 'Camphor tree', 'Fishing spot (anglerfish)', 'Fishing spot (dark crab)',
-      'Fishing spot (minnow)', 'Blood Altar (Kourend)', 'Dark Altar']) {
-      expect(resourceReqFor(name), name).toBeNull();
-    }
-  });
-
   it('excludes Prayer altars and travel portals from Runecrafting', () => {
-    for (const name of ['Chaos altar (Prayer)', 'Altar of Guthix', 'Altar of Zamorak', 'Exposed altar', 'Saradomin Portal', 'Portal of Cadarn']) {
+    for (const name of ['Chaos altar (Prayer)', 'Altar of Guthix', 'Altar of Zamorak', 'Saradomin Portal', 'Portal of Cadarn']) {
       expect(resourceReqFor(name), name).toBeNull();
     }
   });
 
   it('leaves inert scenery, stations and transport nodes ungated', () => {
     for (const name of ['Bank booth', 'Anvil', 'Furnace', 'Cooking range', 'Altar',
-      'Rocks', 'Rock', 'Loose rocks', 'Rocky handholds', 'Spirit tree', 'Magic Mushtree']) {
+      'Rocks', 'Rock', 'Loose rocks', 'Rocky handholds', 'Spirit tree', 'Lumbridge lodestone', 'Runecrafting altar']) {
       expect(resourceReqFor(name), name).toBeNull();
     }
   });
 
   it('most-specific rule wins (ore before bare rock, magic before tree)', () => {
-    expect(resourceReqFor('Coal rocks')!.level).toBe(20);
+    expect(resourceReqFor('Coal rock')!.level).toBe(20);
     expect(resourceReqFor('Magic tree')!.level).toBe(80);
   });
 });

@@ -1,9 +1,10 @@
 /**
  * Agility/travel shortcut reachability.
  *
- * Each shortcut (from the picker's challenge tables) has a skill level and the
- * object you interact with. A shortcut is usable when you have the level (under
- * the tier cap model) and the object sits in an unlocked chunk.
+ * Each shortcut (RS3 Agility shortcuts, runescape.wiki "Shortcuts" list, in
+ * the chunk-content dataset) has a level and is located by its interactable
+ * object(s) or the place(s) it sits in. A shortcut is usable when you have the
+ * level (under the tier cap model) and its location is in an unlocked chunk.
  */
 
 import { UnlockState } from '../types';

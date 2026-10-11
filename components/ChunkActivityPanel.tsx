@@ -14,7 +14,8 @@ import type { ChunkCoord } from '../utils/mapCoords';
 import { WikiLink } from './WikiLink';
 
 /**
- * What gathering a resource node yields, from the picker's per-skill item tables.
+ * What gathering a resource node yields, from the dataset's per-skill item
+ * tables (empty in the RS3 cache-derived dataset, so this returns null).
  * Matches the chunk's node name (e.g. "Gem rocks", "Yew tree") against the
  * skill's method keys: exact first, then a tolerant substring match. Returns
  * [item, rate] pairs, or null when the dataset has nothing for this node.
@@ -105,7 +106,8 @@ const classifyVia = (via: string | null): string => {
  * shops via their merchant category, farming patches / guilds / minigames
  * via their own unlock tables — and rendered green (usable) or red with a
  * strike-through (locked). A collapsible Can-do / Locked overview tops the
- * panel. Content data: ChunkContentService (credit: source-chunk/chunk-picker-v2).
+ * panel. Content data: ChunkContentService (RS3 cache NPC/object spawns —
+ * mejrs / RuneScape Wiki maps project).
  */
 
 interface Props {
@@ -356,6 +358,13 @@ export const ChunkActivityPanel: React.FC<Props> = ({ chunk, region, subArea, re
         objects.push([name, count]);
       }
     }
+    // RS3 fishing spots are NPCs: gate them like the object resources.
+    const npcs: string[] = [];
+    for (const name of content.npcs) {
+      const req = /^fishing spot/i.test(name) ? resourceReqFor(name) : null;
+      if (req) resources.push({ name, count: 1, skill: req.skill, level: req.level, usable: resourceUsable(req, unlocks) });
+      else npcs.push(name);
+    }
     // Group like nodes within a skill first, then by required level.
     resources.sort((a, b) => a.skill.localeCompare(b.skill) || a.level - b.level || a.name.localeCompare(b.name));
 
@@ -377,7 +386,7 @@ export const ChunkActivityPanel: React.FC<Props> = ({ chunk, region, subArea, re
     const minigames = matchListInText(MINIGAMES_LIST, haystack)
       .map(name => ({ name, usable: unlocks.minigames.includes(name) }));
 
-    return { shops, bosses, monsters, transport, farming, resources, objects, guilds, minigames, diaries };
+    return { shops, bosses, monsters, transport, farming, resources, objects, npcs, guilds, minigames, diaries };
   }, [content, subArea, unlocks]);
 
   // ── Can-do / Locked overview ───────────────────────────────────────────────
@@ -767,10 +776,10 @@ export const ChunkActivityPanel: React.FC<Props> = ({ chunk, region, subArea, re
               </>
             )}
 
-            {content.npcs.length > 0 && (
+            {derived.npcs.length > 0 && (
               <>
-                <SectionHead icon={<Users size={11} />} label="NPCs" count={content.npcs.length} />
-                <CappedList cap={6} items={content.npcs.map(n => (
+                <SectionHead icon={<Users size={11} />} label="NPCs" count={derived.npcs.length} />
+                <CappedList cap={6} items={derived.npcs.map(n => (
                   <div key={n} className="text-gray-400 py-px truncate"><WikiLink name={n} /></div>
                 ))} />
               </>

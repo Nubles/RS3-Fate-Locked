@@ -41,6 +41,13 @@ describe('sub-area chunk assignments', () => {
     expect(orphans).toEqual([]);
   });
 
+  it('places RS3-only sub-areas now on the map', () => {
+    for (const name of ['Menaphos', 'Prifddinas', 'Fort Forinthry', 'Daemonheim Peninsula', 'Anachronia Base Camp']) {
+      expect(SUB_AREA_CHUNKS[name]?.length, name).toBeGreaterThan(0);
+    }
+    expect(SUB_AREA_CHUNKS['Fort Forinthry']).toContainEqual({ cx: 51, cy: 55 });
+  });
+
   it('covers the flagship example — Falador is a multi-chunk group', () => {
     expect(SUB_AREA_CHUNKS['Falador']?.length).toBeGreaterThanOrEqual(4);
   });

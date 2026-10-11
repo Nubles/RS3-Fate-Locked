@@ -58,7 +58,7 @@ export const TransmutationEffect: React.FC<TransmutationEffectProps> = ({ onComp
                     }}
                 >
                     <div className="relative">
-                        <Key className="w-16 h-16 text-osrs-gold drop-shadow-[0_0_15px_rgba(251,191,36,0.8)]" />
+                        <Key className="w-16 h-16 text-rs3-gold drop-shadow-[0_0_15px_rgba(251,191,36,0.8)]" />
                         {/* Trailing effect */}
                         <div className="absolute inset-0 bg-yellow-500/30 blur-lg rounded-full animate-pulse"></div>
                     </div>

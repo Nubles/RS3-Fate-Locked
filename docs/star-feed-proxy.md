@@ -1,55 +1,34 @@
-# Live shooting-star feed proxy
+# Live shooting-star feed (optional)
 
-The map's **Live stars** toggle (World tab → Overlays panel) glows the sites that
-currently have an active shooting star, with world / size / landing-time on
-hover. The data is crowdsourced by [starminers](https://map.starminers.site),
-whose `/data2` endpoint sends **no CORS header**, so a browser on
-`*.github.io` can't read it directly.
+RS3 telescopes announce the **region** a star will land in, not the exact site,
+so the map's **Star sites** layer (World tab → Overlays) shows every RS3 landing
+site from `public/star-sites.json` and highlights the sites of a region you pick.
 
-A default proxy is **already shipped** (`DEFAULT_STAR_FEED` in
-`components/RegionMap.tsx`), so Live stars works for everyone with no setup. The
-rest of this doc is only needed if you want to run **your own** proxy (e.g. to
-not depend on the default Worker). A free Cloudflare Worker is ~12 lines:
+There is no public RS3 live-star feed, so none is built in. If you run or find
+one, point the app at it with the layer's *feed* button (saved in
+`localStorage` as `fate_star_feed`) or `VITE_STAR_FEED` at build time. The URL
+must send a CORS header and return JSON shaped like:
 
-## Cloudflare Worker
+```json
+[
+  { "world": 14, "region": "Crandor or Karamja", "size": 7, "earliest": 1760212800, "latest": 1760214000, "site": "Karamja gold mine" }
+]
+```
 
-1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Worker**.
-2. Replace the code with:
+- `world` (number) and `region` (an RS3 telescope region name, as in
+  `star-sites.json`) are required.
+- `size` (1–10), `earliest` / `latest` (unix seconds) and `site` (a site name
+  from `star-sites.json`, if known) are optional.
+
+If the source you use has no CORS header, a tiny Cloudflare Worker can proxy it:
 
 ```js
 export default {
   async fetch() {
-    const upstream = 'https://map.starminers.site/data2?timestamp=' + Date.now();
-    const r = await fetch(upstream, { headers: { 'User-Agent': 'fate-locked star proxy' }, cf: { cacheTtl: 30 } });
+    const r = await fetch('https://example.com/your-rs3-star-source');
     return new Response(r.body, {
-      status: r.status,
-      headers: {
-        'content-type': 'application/json; charset=utf-8',
-        'access-control-allow-origin': '*',
-        'cache-control': 'public, max-age=30',
-      },
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
     });
   },
 };
 ```
-
-3. **Deploy**. You'll get a URL like `https://star-proxy.<you>.workers.dev`.
-
-## Point the app at it
-
-Either is fine:
-
-- **Per browser (no rebuild):** open the app, World tab → Overlays → **Live
-  stars**. On first enable it prompts for the URL; paste your Worker URL. It's
-  saved in `localStorage` (`fate_star_feed`).
-- **Baked into the build:** set `VITE_STAR_FEED=https://star-proxy.<you>.workers.dev`
-  in the deploy environment before `vite build`.
-
-The app appends a cache-busting query param and polls every 60s while the layer
-is on. Use the **world** box to narrow to a single world (e.g. your home world) —
-then typically only the star(s) on that world glow.
-
-> This depends on a third-party crowdsourced feed; if starminers changes its
-> endpoint or format, the layer degrades gracefully (shows a feed-error note and
-> the rest of the map keeps working). The static site→coordinate map lives in
-> `public/star-sites.json`.

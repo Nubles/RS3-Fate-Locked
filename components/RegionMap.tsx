@@ -41,22 +41,40 @@ const CLUE_TIER_COLORS: Record<string, string> = {
 const HIDDEN_TAGS = new Set(['boss', 'food', 'boost']);
 const CLUE_PREFIX = 'Clue: ';
 
-// ── Live shooting-star feed ────────────────────────────────────────────────
-// Crowdsourced active-star data (starminers) sends no CORS header, so the app
-// reads it through a user-hosted proxy (a tiny Cloudflare Worker — see
-// docs). The URL comes from a Vite env var or a localStorage
-// override so it can be set without rebuilding.
-// Default proxy shipped for everyone (a Cloudflare Worker that re-serves the
-// starminers feed with CORS). A per-browser localStorage override or a build-time
-// VITE_STAR_FEED still take precedence.
-const DEFAULT_STAR_FEED = 'https://star-proxy.alexanderhaynes18.workers.dev/';
+// ── Shooting stars (RS3) ───────────────────────────────────────────────────
+// RS3 telescopes (and the in-game star finder) announce a star's REGION, size
+// estimate and time window — never the exact site. So the map shows the static
+// landing sites of every region (public/star-sites.json, names per the RuneScape
+// Wiki "Shooting Star" page) and highlights a chosen / announced region's sites:
+// the star will be on one of them.
+//
+// Optional live feed: RS3 has no public live-star API (calls are crowdsourced in
+// friends chats / Discord), so there is NO default feed. Anyone running one can
+// point the app at it with a localStorage override (`fate_star_feed`) or a
+// build-time VITE_STAR_FEED. Expected JSON (CORS-enabled), one entry per call:
+//   [{ "world": 84, "region": "Kandarin", "size": 7,
+//      "earliest": 1760000000, "latest": 1760000540, "site": "Coal truck mine" }]
+// `region` must match a star-sites.json region name (case/punctuation-
+// insensitive, prefix match allowed); `size`, the unix-second window and the
+// exact `site` (once found) are optional. See docs for the shape.
 const getStarFeedUrl = (): string => {
   const env = (import.meta as any).env?.VITE_STAR_FEED as string | undefined;
   let ls = '';
   try { ls = localStorage.getItem('fate_star_feed') || ''; } catch { /* ignore */ }
-  return (ls || env || DEFAULT_STAR_FEED || '').trim();
+  return (ls || env || '').trim();
 };
-interface LiveStar { world: number; calledLocation: string; tier: number; minTime: number; maxTime: number }
+interface StarSite { name: string; x?: number; y?: number }
+interface StarRegion { region: string; f2p: boolean; centre?: { x: number; y: number }; sites: StarSite[] }
+interface LiveStar { world: number; region: string; size: number; earliest: number; latest: number; site?: string }
+interface LiveRegionInfo { worlds: number[]; size: number; landIn: number | null; sites: string[] }
+const normStarName = (s: string) => s.toLowerCase().replace(/[^a-z]/g, '');
+/** Feed region → star-sites.json region (exact, then prefix either way). */
+const matchStarRegion = (name: string, regions: StarRegion[]): StarRegion | undefined => {
+  const n = normStarName(name);
+  if (!n) return undefined;
+  return regions.find(r => normStarName(r.region) === n)
+    ?? regions.find(r => { const m = normStarName(r.region); return m.startsWith(n) || n.startsWith(m); });
+};
 
 // Per-tier clue-scroll item images (RuneScape Wiki) shown in the marker hover card.
 const CLUE_SCROLL_IMG: Record<string, string> = {
@@ -82,23 +100,31 @@ import {
   tileToPixel,
   pixelToTile,
   tileToChunk,
+  tileToPercent,
 } from '../utils/mapCoords';
 
-const REGION_COORDS: Record<string, { x: number; y: number }> = {
-  'Misthalin': { x: 73.41, y: 41.69 },
-  'Asgarnia': { x: 65.97, y: 37.47 },
-  'Kandarin': { x: 52.67, y: 39.47 },
-  'Karamja': { x: 61.7, y: 53.5 },
-  'Kharidian Desert': { x: 76.55, y: 59.68 },
-  'Morytania': { x: 84.39, y: 36.65 },
-  'Fremennik': { x: 55.96, y: 26.73 },
-  'Tirannwn': { x: 41.69, y: 44.33 },
-  'Wilderness': { x: 71.13, y: 20.58 },
-  'Islands & Others': { x: 78, y: 25 },
+// Continent marker positions, as game tiles (converted to % of the map image
+// so they follow the calibration in utils/mapCoords.ts).
+const REGION_LABEL_TILES: Record<string, TileCoord> = {
+  'Misthalin': { tx: 3215, ty: 3317 },
+  'Asgarnia': { tx: 2987, ty: 3409 },
+  'Kandarin': { tx: 2578, ty: 3365 },
+  'Karamja': { tx: 2855, ty: 3060 },
+  'Kharidian Desert': { tx: 3312, ty: 2925 },
+  'Morytania': { tx: 3552, ty: 3426 },
+  'Fremennik': { tx: 2679, ty: 3642 },
+  'Tirannwn': { tx: 2241, ty: 3259 },
+  'Wilderness': { tx: 3145, ty: 3776 },
+  'Daemonheim': { tx: 3460, ty: 3700 },
+  'Anachronia': { tx: 5480, ty: 2300 },
+  'Islands & Others': { tx: 2770, ty: 2750 }, // Ape Atoll
 };
+const REGION_COORDS: Record<string, { x: number; y: number }> = Object.fromEntries(
+  Object.entries(REGION_LABEL_TILES).map(([r, t]) => [r, tileToPercent(t)]),
+);
 
-// RS3-only continents (Daemonheim, Anachronia, The Arc) aren't on the shared
-// mainland map image, so they have no chunks and no marker. They're listed in
+// Continents with no chunks on the RS3 map image (The Arc, far north;
+// Havenhythe, not in the map tile set yet) have no marker. They're listed in
 // an "Off the map" panel instead (see MapContent).
 const OFF_MAP_CONTINENTS: string[] = Object.keys(REGION_GROUPS).filter(
   c => !REGION_COORDS[c] && !(REGION_CHUNKS[c]?.length),
@@ -294,7 +320,7 @@ const ProgressiveMapImage: React.FC = () => {
     <>
       <img
         src={MAP_IMAGE.srcLo}
-        alt="RuneScape 3 world map (Gielinor mainland)"
+        alt="RuneScape 3 world map (Gielinor and Anachronia)"
         className="w-full h-full object-fill pointer-events-none opacity-60 grayscale-[0.2]"
         draggable={false}
       />
@@ -496,67 +522,98 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
   const [overlayOwnedOnly, setOverlayOwnedOnly] = useState(false);
   const [overlayCollapsed, setOverlayCollapsed] = useState(false);
   // Marker hover tooltip + the manually-flagged "active" shooting star.
-  const [hoverMarker, setHoverMarker] = useState<{ x: number; y: number; cat: string; tier?: string; hint?: string; star?: { site: string; worlds: number; worldList: number[]; tier: number; landIn: number } } | null>(null);
+  const [hoverMarker, setHoverMarker] = useState<{ x: number; y: number; cat: string; tier?: string; hint?: string; star?: { site: string; region: string; f2p: boolean; live?: LiveRegionInfo } } | null>(null);
   const [activeStarKey, setActiveStarKey] = useState<string | null>(null);
-  // Live active-star feed: site name → coords (static) + currently-active list.
-  const [liveStarsOn, setLiveStarsOn] = useState(false);
-  const [starSites, setStarSites] = useState<Record<string, { x: number; y: number }> | null>(null);
+  // Shooting-star layer: static RS3 landing sites (+ optional live feed).
+  const [starsOn, setStarsOn] = useState(false);
+  const [starData, setStarData] = useState<StarRegion[] | null>(null);
+  const [starRegion, setStarRegion] = useState<string>(''); // announced region ('' = all)
   const [liveStars, setLiveStars] = useState<LiveStar[]>([]);
   const [liveStarErr, setLiveStarErr] = useState<string | null>(null);
   const [starWorld, setStarWorld] = useState<string>(''); // optional world filter
+  const [starFeedUrl, setStarFeedUrl] = useState<string>(() => getStarFeedUrl());
 
   const refreshLiveStars = useCallback(async () => {
-    const url = getStarFeedUrl();
-    if (!url) { setLiveStarErr('no-feed'); return; }
+    const url = starFeedUrl;
+    if (!url) return;
     try {
       const res = await fetch(`${url}${url.includes('?') ? '&' : '?'}t=${Date.now()}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       const arr: LiveStar[] = (Array.isArray(data) ? data : []).map((s: any) => ({
-        world: +s.world, calledLocation: String(s.calledLocation ?? ''), tier: +s.tier || 0,
-        minTime: +s.minTime || 0, maxTime: +s.maxTime || 0,
-      })).filter(s => s.calledLocation);
+        world: +s.world || 0, region: String(s.region ?? ''), size: +s.size || 0,
+        earliest: +s.earliest || 0, latest: +s.latest || 0,
+        site: typeof s.site === 'string' && s.site ? s.site : undefined,
+      })).filter(s => s.region && s.world);
       setLiveStars(arr);
       setLiveStarErr(null);
     } catch (e: any) {
       setLiveStarErr(e?.message ?? 'fetch failed');
     }
-  }, []);
+  }, [starFeedUrl]);
 
-  // Lazy-load the static site→coords map and poll the feed while enabled.
+  // Lazy-load the static landing sites; poll the live feed (if any) while on.
   useEffect(() => {
-    if (!liveStarsOn) return;
+    if (!starsOn) return;
     let alive = true;
-    if (!starSites) {
+    if (!starData) {
       const base = (import.meta as any).env?.BASE_URL ?? '/';
-      fetch(`${base}star-sites.json`).then(r => r.json()).then(d => { if (alive) setStarSites(d); }).catch(() => {});
+      fetch(`${base}star-sites.json`).then(r => r.json())
+        .then(d => { if (alive && Array.isArray(d?.regions)) setStarData(d.regions); })
+        .catch(() => {});
     }
+    if (!starFeedUrl) { setLiveStars([]); setLiveStarErr(null); return () => { alive = false; }; }
     refreshLiveStars();
     const id = window.setInterval(refreshLiveStars, 60000);
     return () => { alive = false; window.clearInterval(id); };
-  }, [liveStarsOn, starSites, refreshLiveStars]);
+  }, [starsOn, starData, starFeedUrl, refreshLiveStars]);
 
-  // Aggregate active stars by site (one gold marker per site, with details).
-  const liveStarMarkers = useMemo(() => {
-    if (!liveStarsOn || !starSites) return [];
+  // Live calls aggregated per star-sites region (world filter applied).
+  const liveByRegion = useMemo(() => {
+    const out = new Map<string, LiveRegionInfo>();
+    if (!starsOn || !starData) return out;
     const wf = starWorld.trim();
-    const bySite = new Map<string, { worlds: Set<number>; tier: number; soonest: number }>();
+    const now = Date.now() / 1000;
     for (const s of liveStars) {
       if (wf && String(s.world) !== wf) continue;
-      const cur = bySite.get(s.calledLocation);
-      if (cur) { cur.worlds.add(s.world); cur.tier = Math.max(cur.tier, s.tier); cur.soonest = Math.min(cur.soonest, s.minTime); }
-      else bySite.set(s.calledLocation, { worlds: new Set([s.world]), tier: s.tier, soonest: s.minTime });
+      const r = matchStarRegion(s.region, starData);
+      if (!r) continue;
+      const cur = out.get(r.region) ?? { worlds: [], size: 0, landIn: null, sites: [] };
+      if (!cur.worlds.includes(s.world)) cur.worlds.push(s.world);
+      cur.size = Math.max(cur.size, s.size);
+      if (s.earliest) {
+        const m = Math.round((s.earliest - now) / 60);
+        cur.landIn = cur.landIn === null ? m : Math.min(cur.landIn, m);
+      }
+      if (s.site && !cur.sites.includes(s.site)) cur.sites.push(s.site);
+      out.set(r.region, cur);
     }
-    const out: { key: string; x: number; y: number; site: string; worlds: number; worldList: number[]; tier: number; landIn: number }[] = [];
-    for (const [site, info] of bySite) {
-      const pos = starSites[site];
-      if (!pos) continue;
-      const { px, py } = tileToPixel({ tx: pos.x, ty: pos.y });
-      const worldList = [...info.worlds].sort((a, b) => a - b);
-      out.push({ key: `star:${site}`, x: px, y: py, site, worlds: worldList.length, worldList, tier: info.tier, landIn: Math.round((info.soonest - Date.now() / 1000) / 60) });
+    for (const v of out.values()) v.worlds.sort((a, b) => a - b);
+    return out;
+  }, [starsOn, starData, liveStars, starWorld]);
+
+  // One marker per placeable landing site; `hot` = the announced region's
+  // sites (or any region with a live call) — the star is on one of those.
+  const starSiteMarkers = useMemo(() => {
+    if (!starsOn || !starData) return [];
+    const out: { key: string; x: number; y: number; site: string; region: string; f2p: boolean; hot: boolean; found: boolean; live?: LiveRegionInfo }[] = [];
+    for (const r of starData) {
+      const live = liveByRegion.get(r.region);
+      const hot = starRegion ? r.region === starRegion : !!live;
+      if (starRegion && !hot && !live) continue;
+      for (const site of r.sites) {
+        if (typeof site.x !== 'number' || typeof site.y !== 'number') continue;
+        const { px, py } = tileToPixel({ tx: site.x, ty: site.y });
+        const found = !!live?.sites.some(n => normStarName(n) === normStarName(site.name));
+        out.push({ key: `star:${r.region}:${site.name}`, x: px, y: py, site: site.name, region: r.region, f2p: r.f2p, hot: hot || !!live, found, live });
+      }
     }
     return out;
-  }, [liveStarsOn, starSites, liveStars, starWorld]);
+  }, [starsOn, starData, starRegion, liveByRegion]);
+  const selectedStarRegion = useMemo(
+    () => (starData && starRegion ? starData.find(r => r.region === starRegion) ?? null : null),
+    [starData, starRegion],
+  );
   // Effective overlay layers: pass non-clue categories through, but split the
   // single "Clues" layer into one toggleable layer per clue tier (Easy…Master).
   const overlaysData = useMemo(() => {
@@ -1354,7 +1411,7 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
       )}
 
       {/* ── Map overlay layers ─────────────────────────────────────────────── */}
-      {!authoring && overlayCategories.length > 0 && (
+      {!authoring && (
         <div className="absolute bottom-2 left-2 z-30 w-56 max-w-[70%]">
           <div className="bg-[#101010]/95 border border-white/15 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden">
             <div className={`flex items-center gap-1.5 px-2 py-1.5 ${overlayCollapsed ? '' : 'border-b border-white/5'}`}>
@@ -1371,7 +1428,7 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
                 </label>
               )}
             </div>
-            {!overlayCollapsed && (
+            {!overlayCollapsed && overlayCategories.length > 0 && (
             <div className="p-1.5 flex flex-wrap gap-1">
               {overlayCategories.map(cat => {
                 const on = overlayCats.has(cat);
@@ -1393,39 +1450,71 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
               })}
             </div>
             )}
-            {/* Live active shooting stars (crowdsourced feed via a user proxy). */}
+            {/* RS3 shooting stars: landing sites per region + optional live feed. */}
             {!overlayCollapsed && (
               <div className="px-1.5 pb-1.5 pt-1 border-t border-white/5 space-y-1">
                 <div className="flex items-center gap-1.5">
                   <button
-                    onClick={() => {
-                      if (!liveStarsOn && !getStarFeedUrl()) {
-                        const v = window.prompt('Live star feed URL (your Cloudflare Worker proxying starminers /data2):', '');
-                        if (v && v.trim()) { try { localStorage.setItem('fate_star_feed', v.trim()); } catch { /* ignore */ } } else { return; }
-                      }
-                      setLiveStarsOn(v => !v);
-                    }}
-                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] border transition-colors ${liveStarsOn ? 'border-amber-400/50 bg-amber-500/15 text-amber-200' : 'border-white/10 text-gray-400 hover:bg-white/5'}`}
-                    title="Show live active shooting stars from the crowdsourced feed"
+                    onClick={() => setStarsOn(v => !v)}
+                    className={`flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] border transition-colors ${starsOn ? 'border-amber-400/50 bg-amber-500/15 text-amber-200' : 'border-white/10 text-gray-400 hover:bg-white/5'}`}
+                    title="Show RS3 shooting star landing sites"
                   >
-                    <span style={{ color: '#facc15' }}>★</span> Live stars
+                    <span style={{ color: '#facc15' }}>★</span> Star sites
                   </button>
-                  {liveStarsOn && (
-                    <input
-                      value={starWorld}
-                      onChange={(e) => setStarWorld(e.target.value.replace(/[^0-9]/g, ''))}
-                      placeholder="world"
-                      className="w-14 bg-black/40 border border-white/10 rounded px-1.5 py-0.5 text-[10px] text-gray-200 placeholder:text-gray-600 focus:outline-none focus:border-amber-400/50"
-                    />
+                  {starsOn && starData && (
+                    <select
+                      value={starRegion}
+                      onChange={(e) => setStarRegion(e.target.value)}
+                      className="flex-1 min-w-0 bg-black/40 border border-white/10 rounded px-1 py-0.5 text-[10px] text-gray-200 focus:outline-none focus:border-amber-400/50"
+                      title="Region announced by your telescope / star call"
+                    >
+                      <option value="">All regions</option>
+                      {starData.map(r => <option key={r.region} value={r.region}>{r.region}{r.f2p ? ' (F2P)' : ''}</option>)}
+                    </select>
                   )}
                 </div>
-                {liveStarsOn && (
-                  <div className="text-[9px] text-gray-500">
-                    {liveStarErr === 'no-feed'
-                      ? 'No feed URL set — toggle off/on to enter your proxy.'
-                      : liveStarErr
-                        ? <span className="text-red-400">feed error: {liveStarErr}</span>
-                        : `${liveStarMarkers.length} site${liveStarMarkers.length === 1 ? '' : 's'} active${starWorld ? ` on world ${starWorld}` : ' (all worlds)'}`}
+                {starsOn && (
+                  <div className="text-[9px] text-gray-500 leading-snug space-y-1">
+                    <div>Telescopes announce a region and time window, not a site: the star lands on one of that region's sites{starRegion ? ' (gold)' : ' — pick the announced region'}.</div>
+                    {selectedStarRegion && selectedStarRegion.sites.some(si => typeof si.x !== 'number') && (
+                      <div className="text-gray-400">
+                        Not on the map: {selectedStarRegion.sites.filter(si => typeof si.x !== 'number').map(si => si.name).join('; ')}
+                      </div>
+                    )}
+                    {selectedStarRegion && selectedStarRegion.sites.length === 0 && (
+                      <div className="text-gray-400">No site list here yet — see the RuneScape Wiki's Shooting Star page.</div>
+                    )}
+                    <div className="flex items-center gap-1">
+                      {starFeedUrl ? (
+                        <span className="flex-1 min-w-0 truncate">
+                          {liveStarErr
+                            ? <span className="text-red-400">live feed error: {liveStarErr}</span>
+                            : `Live: ${liveByRegion.size} region${liveByRegion.size === 1 ? '' : 's'} called${starWorld ? ` on w${starWorld}` : ''}`}
+                        </span>
+                      ) : (
+                        <span className="flex-1 min-w-0">No live feed (RS3 has no public one).</span>
+                      )}
+                      {starFeedUrl && (
+                        <input
+                          value={starWorld}
+                          onChange={(e) => setStarWorld(e.target.value.replace(/[^0-9]/g, ''))}
+                          placeholder="world"
+                          className="w-12 bg-black/40 border border-white/10 rounded px-1 py-0.5 text-[10px] text-gray-200 placeholder:text-gray-600 focus:outline-none focus:border-amber-400/50"
+                        />
+                      )}
+                      <button
+                        onClick={() => {
+                          const v = window.prompt('Live RS3 star feed URL (JSON array of { world, region, size?, earliest?, latest?, site? }). Leave empty to remove.', starFeedUrl);
+                          if (v === null) return;
+                          try { if (v.trim()) localStorage.setItem('fate_star_feed', v.trim()); else localStorage.removeItem('fate_star_feed'); } catch { /* ignore */ }
+                          setStarFeedUrl(v.trim() || getStarFeedUrl());
+                        }}
+                        className="shrink-0 px-1 rounded border border-white/10 text-gray-400 hover:bg-white/5"
+                        title="Set a live star feed URL"
+                      >
+                        feed
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -1446,17 +1535,27 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
           {hoverMarker.star ? (
             <div className="text-[10px] text-gray-300 leading-snug">
               <div className="text-[11px] font-semibold text-amber-300 flex items-center gap-1">★ {hoverMarker.star.site}</div>
-              <div>Size <span className="text-gray-100 font-mono">T{hoverMarker.star.tier}</span> · {hoverMarker.star.worlds} world{hoverMarker.star.worlds === 1 ? '' : 's'}</div>
-              <div className="text-gray-400">{hoverMarker.star.landIn > 0 ? `lands in ~${hoverMarker.star.landIn} min` : 'landing now / active'}</div>
-              <div className="mt-1 pt-1 border-t border-white/10 text-gray-500 uppercase tracking-wide text-[8px]">Worlds</div>
-              <div className="flex flex-wrap gap-0.5 mt-0.5 max-w-[200px]">
-                {hoverMarker.star.worldList.slice(0, 24).map(w => (
-                  <span key={w} className="font-mono text-[9px] px-1 rounded bg-amber-500/15 text-amber-200">{w}</span>
-                ))}
-                {hoverMarker.star.worldList.length > 24 && (
-                  <span className="font-mono text-[9px] text-gray-500">+{hoverMarker.star.worldList.length - 24}</span>
-                )}
-              </div>
+              <div className="text-gray-400">{hoverMarker.star.region}{hoverMarker.star.f2p ? ' · F2P region' : ''}</div>
+              {hoverMarker.star.live ? (
+                <>
+                  <div>
+                    Called{hoverMarker.star.live.size ? <> · size <span className="text-gray-100 font-mono">{hoverMarker.star.live.size}</span></> : null}
+                    {hoverMarker.star.live.landIn !== null && (hoverMarker.star.live.landIn > 0 ? ` · lands in ~${hoverMarker.star.live.landIn} min` : ' · landing now / landed')}
+                  </div>
+                  {hoverMarker.star.live.sites.length > 0 && <div className="text-emerald-300">Found at: {hoverMarker.star.live.sites.join(', ')}</div>}
+                  <div className="mt-1 pt-1 border-t border-white/10 text-gray-500 uppercase tracking-wide text-[8px]">Worlds</div>
+                  <div className="flex flex-wrap gap-0.5 mt-0.5 max-w-[200px]">
+                    {hoverMarker.star.live.worlds.slice(0, 24).map(w => (
+                      <span key={w} className="font-mono text-[9px] px-1 rounded bg-amber-500/15 text-amber-200">{w}</span>
+                    ))}
+                    {hoverMarker.star.live.worlds.length > 24 && (
+                      <span className="font-mono text-[9px] text-gray-500">+{hoverMarker.star.live.worlds.length - 24}</span>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="text-gray-500">Possible landing site for this region.</div>
+              )}
             </div>
           ) : hoverMarker.tier ? (
             <div className="flex items-start gap-2">
@@ -1585,22 +1684,20 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
             </svg>
           )}
 
-          {/* Live active shooting stars (from the crowdsourced feed) — gold
-              pulsing rings at sites that currently have a star, hoverable for
-              world / tier / landing-time details. */}
-          {liveStarMarkers.length > 0 && (
+          {/* Shooting-star landing sites — small amber dots; the announced
+              (or live-called) region's sites get a pulsing gold ring, and a
+              site reported as found gets a solid ring. Hover for details. */}
+          {starSiteMarkers.length > 0 && (
             <svg
               className="absolute inset-0 pointer-events-none"
               width={MAP_IMAGE.width}
               height={MAP_IMAGE.height}
               viewBox={`0 0 ${MAP_IMAGE.width} ${MAP_IMAGE.height}`}
             >
-              {liveStarMarkers.map(s => {
-                const onEnter = (e: React.MouseEvent) => setHoverMarker({ x: e.clientX, y: e.clientY, cat: 'live-star', star: { site: s.site, worlds: s.worlds, worldList: s.worldList, tier: s.tier, landIn: s.landIn } });
+              {starSiteMarkers.map(s => {
+                const onEnter = (e: React.MouseEvent) => setHoverMarker({ x: e.clientX, y: e.clientY, cat: 'star-site', star: { site: s.site, region: s.region, f2p: s.f2p, live: s.live } });
                 return (
                 <g key={s.key}>
-                  {/* Transparent hit area covering the whole glow, so hovering the
-                      ring (not just the centre dot) shows the world list. */}
                   <circle
                     cx={s.x} cy={s.y}
                     style={{ r: 'calc(var(--marker-r, 30px) * 2.4)', pointerEvents: 'all', cursor: 'help' }}
@@ -1609,16 +1706,18 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
                     onMouseMove={(e) => setHoverMarker(h => (h ? { ...h, x: e.clientX, y: e.clientY } : h))}
                     onMouseLeave={() => setHoverMarker(null)}
                   />
+                  {s.hot && (
+                    <circle
+                      cx={s.x} cy={s.y}
+                      style={{ r: 'calc(var(--marker-r, 30px) * 2.4)', pointerEvents: 'none' }}
+                      fill="none" stroke={s.found ? '#34d399' : '#facc15'} strokeWidth={3} strokeOpacity={0.85}
+                      vectorEffect="non-scaling-stroke" className={s.found ? undefined : 'lens-pulse'}
+                    />
+                  )}
                   <circle
                     cx={s.x} cy={s.y}
-                    style={{ r: 'calc(var(--marker-r, 30px) * 2.4)', pointerEvents: 'none' }}
-                    fill="none" stroke="#facc15" strokeWidth={3} strokeOpacity={0.85}
-                    vectorEffect="non-scaling-stroke" className="lens-pulse"
-                  />
-                  <circle
-                    cx={s.x} cy={s.y}
-                    style={{ r: 'var(--marker-r, 30px)', pointerEvents: 'none' }}
-                    fill="#facc15" fillOpacity={0.95} stroke="#000" strokeOpacity={0.6} strokeWidth={1.5}
+                    style={{ r: s.hot ? 'var(--marker-r, 30px)' : 'calc(var(--marker-r, 30px) * 0.7)', pointerEvents: 'none' }}
+                    fill={s.hot ? '#facc15' : '#fbbf24'} fillOpacity={s.hot ? 0.95 : 0.55} stroke="#000" strokeOpacity={0.6} strokeWidth={1.5}
                     vectorEffect="non-scaling-stroke"
                   />
                 </g>
@@ -1663,7 +1762,7 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
           {authoring ? 'Authoring ON' : 'Authoring OFF'}
         </button>
 
-        {/* RS3-only regions that aren't on the map image (list-only). */}
+        {/* Continents that aren't on the map image (list-only). */}
         {!authoring && OFF_MAP_CONTINENTS.length > 0 && (
           <div className="bg-black/85 border border-white/15 rounded-md shadow-lg p-2 w-[220px] max-w-[60vw] flex flex-col gap-1.5">
             <div className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Off the map</div>
@@ -1680,7 +1779,7 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
               );
             })}
             <p className="text-[9px] text-gray-500 leading-snug">
-              RS3-only areas (these continents, plus places like Menaphos, Prifddinas and Everlight) aren't drawn on this mainland map image — track them in the region list.
+              Not drawn on this map: The Arc is far north of Gielinor and Havenhythe isn't in the map data yet. Instanced places (Daemonheim floors, Zanaris, Puro-Puro, Mazcab, Everlight, …) aren't either — track them in the region list.
             </p>
           </div>
         )}

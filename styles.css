@@ -27,7 +27,7 @@ body {
    A consistent, visible focus ring for keyboard users only (focus-visible),
    so mouse clicks stay clean but tabbing is always legible. */
 :focus-visible {
-  outline: 2px solid rgba(251, 191, 36, 0.7); /* osrs-gold */
+  outline: 2px solid rgba(251, 191, 36, 0.7); /* rs3-gold */
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -102,7 +102,7 @@ a:focus:not(:focus-visible),
   to { transform: translateY(0); }
 }
 
-/* --- Loot beam (OSRS-style pillar of light fired on an unlock/roll) --- */
+/* --- Loot beam (pillar of light fired on an unlock/roll) --- */
 @keyframes loot-beam {
   0%   { opacity: 0; transform: scaleY(0.35); }
   18%  { opacity: 1; transform: scaleY(1.04); }

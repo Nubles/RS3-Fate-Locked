@@ -6,7 +6,6 @@
   "homepage": "https://nubles.github.io/RS3-Fate-Locked",
   "scripts": {
     "models:manifest": "node scripts/gen-model-manifest.mjs",
-    "models:export": "node scripts/export-models.mjs",
     "clog:sync": "node scripts/sync-collection-log.mjs",
     "ca:sync": "node scripts/sync-combat-achievements.mjs",
     "content:check": "node scripts/check-content-sync.mjs",

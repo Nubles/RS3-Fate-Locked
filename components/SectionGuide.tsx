@@ -66,7 +66,7 @@ export const GUIDES: Record<string, Guide> = {
     bullets: [
       'Each of the 13 RS3 slots (incl. Pocket and Aura) has its own tier, from Bronze/Iron (T1) to tier 92-95 gear (T9).',
       'Click a slot for its tier ladder, or Plan a target loadout and see its Omni-key cost.',
-      'RS3 combat is ability-based, so there is no item-stat / DPS calculator — gear is gated by tier only.',
+      'Gear: equip real RS3 items your tiers allow · DPS: RS3 ability-damage calculator against every boss.',
     ],
   },
 
@@ -201,8 +201,8 @@ export const GUIDES: Record<string, Guide> = {
     title: 'Boss Kill Planner',
     blurb: 'Score your DPS and readiness against every boss you’ve unlocked.',
     bullets: [
-      'Bosses are ranked by readiness, using your equipped gear and levels.',
-      'See best DPS, time-to-kill, kills/hour, danger and a gear-gap %.',
+      'Bosses are ranked by readiness: gear tier and levels vs recommended, plus requirements.',
+      'See the best style, time-to-kill and kills/hour; toggle the rotation preset and overloads.',
       'Toggle prayers + potions to compare boosted vs unboosted.',
     ],
   },

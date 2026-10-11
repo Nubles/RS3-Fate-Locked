@@ -73,21 +73,21 @@ const SEA_SPOTS = ['Kandarin', 'Karamja', 'Fremennik'];
 type HerbRow = [string, number, ResourceSource[]];
 const HERBS: HerbRow[] = [
   ['Clean Guam', 9, [
-    { type: 'DROP', name: 'Chaos Druid', regions: ['Misthalin', 'Kandarin', 'Morytania', 'Wilderness'], notes: 'Edgeville Dungeon / Yanille / Wilderness' },
-    { type: 'DROP', name: 'Hill Giant', regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Kharidian Desert', 'Wilderness'] },
+    { type: 'DROP', name: 'Chaos Druid', regions: ['Misthalin', 'Kandarin', 'Morytania', 'Wilderness', 'Asgarnia'], notes: 'Edgeville Dungeon / Yanille / Wilderness' },
+    { type: 'DROP', name: 'Hill Giant', regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Wilderness'] },
   ]],
   ['Clean Marrentill', 14, [
-    { type: 'DROP', name: 'Chaos Druid', regions: ['Misthalin', 'Kandarin', 'Morytania', 'Wilderness'] },
+    { type: 'DROP', name: 'Chaos Druid', regions: ['Misthalin', 'Kandarin', 'Morytania', 'Wilderness', 'Asgarnia'] },
   ]],
   ['Clean Tarromin', 19, [
-    { type: 'DROP', name: 'Chaos Druid', regions: ['Misthalin', 'Kandarin', 'Morytania', 'Wilderness'] },
-    { type: 'DROP', name: 'Hill Giant', regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Kharidian Desert', 'Wilderness'] },
+    { type: 'DROP', name: 'Chaos Druid', regions: ['Misthalin', 'Kandarin', 'Morytania', 'Wilderness', 'Asgarnia'] },
+    { type: 'DROP', name: 'Hill Giant', regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Wilderness'] },
   ]],
   ['Clean Harralander', 26, [
-    { type: 'DROP', name: 'Chaos Druid', regions: ['Misthalin', 'Kandarin', 'Morytania', 'Wilderness'] },
+    { type: 'DROP', name: 'Chaos Druid', regions: ['Misthalin', 'Kandarin', 'Morytania', 'Wilderness', 'Asgarnia'] },
   ]],
   ['Clean Ranarr', 32, [
-    { type: 'DROP', name: 'Chaos Druid', regions: ['Misthalin', 'Kandarin', 'Morytania', 'Wilderness'] },
+    { type: 'DROP', name: 'Chaos Druid', regions: ['Misthalin', 'Kandarin', 'Morytania', 'Wilderness', 'Asgarnia'] },
     { type: 'DROP', name: 'Aberrant Spectre', regions: ['Morytania'], skills: { 'Slayer': 60 }, notes: 'Slayer Tower' },
   ]],
   ['Clean Toadflax', 38, [
@@ -99,7 +99,7 @@ const HERBS: HerbRow[] = [
   ]],
   ['Clean Wergali', 46, []],
   ['Clean Avantoe', 50, [
-    { type: 'DROP', name: 'Turoth', regions: ['Fremennik'], skills: { 'Slayer': 55 }, notes: 'Fremennik Slayer Dungeon' },
+    { type: 'DROP', name: 'Turoth', regions: ['Fremennik', 'Kandarin'], skills: { 'Slayer': 55 }, notes: 'Fremennik Slayer Dungeon' },
   ]],
   ['Clean Kwuarm', 56, [
     { type: 'DROP', name: 'Aberrant Spectre', regions: ['Morytania'], skills: { 'Slayer': 60 } },
@@ -109,14 +109,14 @@ const HERBS: HerbRow[] = [
     { type: 'DROP', name: 'Nechryael', regions: ['Morytania'], skills: { 'Slayer': 80 }, notes: 'Slayer Tower' },
   ]],
   ['Clean Cadantine', 67, [
-    { type: 'DROP', name: 'Gargoyle', regions: ['Morytania'], skills: { 'Slayer': 75 } },
+    { type: 'DROP', name: 'Gargoyle', regions: ['Morytania', 'Wilderness'], skills: { 'Slayer': 75 } },
   ]],
   ['Clean Lantadyme', 73, [
-    { type: 'DROP', name: 'Steel Dragon', regions: ['Karamja'], notes: 'Brimhaven Dungeon' },
+    { type: 'DROP', name: 'Steel Dragon', regions: ['Karamja', 'Fremennik'], notes: 'Brimhaven Dungeon / Ghorrock' },
   ]],
   ['Clean Arbuck', 77, []],
   ['Clean Dwarf Weed', 79, [
-    { type: 'DROP', name: 'Kurask', regions: ['Fremennik'], skills: { 'Slayer': 70 } },
+    { type: 'DROP', name: 'Kurask', regions: ['Fremennik', 'Kandarin'], skills: { 'Slayer': 70 } },
   ]],
   ['Clean Torstol', 85, [
     { type: 'DROP', name: 'Commander Zilyana', regions: ['Fremennik'], unlockId: 'Commander Zilyana', notes: 'God Wars Dungeon' },
@@ -156,7 +156,7 @@ section('Secondaries', {
   ],
   'Limpwurt Root': [
     { type: 'SKILL', name: 'Flower Patch', regions: ALLOTMENTS, skills: { 'Farming': 26 }, unlockId: 'Flower', outputYield: 3 },
-    { type: 'DROP', name: 'Hill Giant', regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Kharidian Desert', 'Wilderness'], rarity: 'Always' },
+    { type: 'DROP', name: 'Hill Giant', regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Wilderness'], rarity: 'Always' },
   ],
   'Unicorn Horn': [
     { type: 'DROP', name: 'Unicorn', regions: ['Misthalin', 'Asgarnia', 'Kandarin'], rarity: 'Always' },
@@ -197,7 +197,7 @@ section('Secondaries', {
     { type: 'SKILL', name: 'Pestle and Mortar', regions: ANY, inputs: { 'Kebbit Teeth': 1, 'Pestle and Mortar': 0 } },
   ],
   'Blue Dragon Scale': [
-    { type: 'DROP', name: 'Blue Dragon', regions: ['Asgarnia', 'Kandarin'], notes: 'Taverley Dungeon / Ogre Enclave', rarity: 'Always' },
+    { type: 'DROP', name: 'Blue Dragon', regions: ['Asgarnia', 'Kandarin', 'Wilderness'], notes: 'Taverley Dungeon / Ogre Enclave', rarity: 'Always' },
   ],
   'Dragon Scale Dust': [
     { type: 'SKILL', name: 'Pestle and Mortar', regions: ANY, inputs: { 'Blue Dragon Scale': 1, 'Pestle and Mortar': 0 } },
@@ -503,7 +503,7 @@ section('Crafting & Processing', {
 
 section('Tanning & Textiles', {
   'Cowhide': [
-    { type: 'DROP', name: 'Cow', regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Tirannwn'], rarity: 'Always' },
+    { type: 'DROP', name: 'Cow', regions: ['Misthalin', 'Asgarnia', 'Kandarin'], rarity: 'Always' },
   ],
   'Leather': [
     { type: 'MERCHANT', name: 'Tanner', regions: ['Kharidian Desert', 'Misthalin'], inputs: { 'Cowhide': 1, 'Coins': 1 }, notes: 'Ellis (Al Kharid) / Tanner in Varrock' },
@@ -515,13 +515,13 @@ section('Tanning & Textiles', {
     { type: 'DROP', name: 'Green Dragon', regions: ['Wilderness'], rarity: 'Always' },
   ],
   'Blue Dragonhide': [
-    { type: 'DROP', name: 'Blue Dragon', regions: ['Asgarnia', 'Kandarin'], notes: 'Taverley Dungeon / Ogre Enclave', rarity: 'Always' },
+    { type: 'DROP', name: 'Blue Dragon', regions: ['Asgarnia', 'Kandarin', 'Wilderness'], notes: 'Taverley Dungeon / Ogre Enclave', rarity: 'Always' },
   ],
   'Red Dragonhide': [
-    { type: 'DROP', name: 'Red Dragon', regions: ['Karamja'], notes: 'Brimhaven Dungeon', rarity: 'Always' },
+    { type: 'DROP', name: 'Red Dragon', regions: ['Karamja', 'Wilderness'], notes: 'Brimhaven Dungeon', rarity: 'Always' },
   ],
   'Black Dragonhide': [
-    { type: 'DROP', name: 'Black Dragon', regions: ['Asgarnia', 'Tirannwn'], notes: 'Taverley Dungeon', rarity: 'Always' },
+    { type: 'DROP', name: 'Black Dragon', regions: ['Asgarnia', 'Tirannwn', 'Wilderness'], notes: 'Taverley Dungeon', rarity: 'Always' },
     { type: 'DROP', name: 'King Black Dragon', regions: ['Wilderness'], unlockId: 'King Black Dragon', rarity: 'Always' },
   ],
   'Green Dragon Leather': [
@@ -843,12 +843,12 @@ section('Jewellery', jewellery);
 // =============================================================================
 section('Bones & Ashes', {
   'Bones': [{ type: 'DROP', name: 'Man', regions: ANY, rarity: 'Always', notes: 'Most humanoids and animals' }],
-  'Big Bones': [{ type: 'DROP', name: 'Hill Giant', regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Kharidian Desert', 'Wilderness'], rarity: 'Always' }],
+  'Big Bones': [{ type: 'DROP', name: 'Hill Giant', regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Wilderness'], rarity: 'Always' }],
   'Baby Dragon Bones': [{ type: 'DROP', name: 'Baby Blue Dragon', regions: ['Asgarnia'], notes: 'Taverley Dungeon', rarity: 'Always' }],
   'Wyvern Bones': [{ type: 'DROP', name: 'Skeletal Wyvern', regions: ['Asgarnia'], skills: { 'Slayer': 72 }, notes: 'Asgarnian Ice Dungeon', rarity: 'Always' }],
   'Dragon Bones': [
     { type: 'DROP', name: 'Green Dragon', regions: ['Wilderness'], rarity: 'Always' },
-    { type: 'DROP', name: 'Blue Dragon', regions: ['Asgarnia', 'Kandarin'], rarity: 'Always' },
+    { type: 'DROP', name: 'Blue Dragon', regions: ['Asgarnia', 'Kandarin', 'Wilderness'], rarity: 'Always' },
     { type: 'DROP', name: 'King Black Dragon', regions: ['Wilderness'], unlockId: 'King Black Dragon', rarity: 'Always' },
   ],
   'Dagannoth Bones': [
@@ -858,10 +858,10 @@ section('Bones & Ashes', {
     { type: 'DROP', name: 'Frost Dragon', regions: ['Daemonheim'], skills: { 'Dungeoneering': 85 }, notes: 'Daemonheim peninsula frost dragon dungeon', rarity: 'Always' },
   ],
   'Impious Ashes': [{ type: 'DROP', name: 'Imp', regions: ANY, rarity: 'Always', notes: 'Lesser demon-kin' }],
-  'Accursed Ashes': [{ type: 'DROP', name: 'Lesser Demon', regions: ['Misthalin', 'Asgarnia', 'Karamja', 'Wilderness'], rarity: 'Always' }],
+  'Accursed Ashes': [{ type: 'DROP', name: 'Lesser Demon', regions: ['Misthalin', 'Asgarnia', 'Karamja', 'Wilderness', 'Kandarin'], rarity: 'Always' }],
   'Infernal Ashes': [
-    { type: 'DROP', name: 'Greater Demon', regions: ['Karamja', 'Wilderness'], rarity: 'Always' },
-    { type: 'DROP', name: 'Abyssal Demon', regions: ['Morytania'], skills: { 'Slayer': 85 }, rarity: 'Always' },
+    { type: 'DROP', name: 'Greater Demon', regions: ['Karamja', 'Wilderness', 'Kandarin', 'Asgarnia'], rarity: 'Always' },
+    { type: 'DROP', name: 'Abyssal Demon', regions: ['Morytania', 'Wilderness'], skills: { 'Slayer': 85 }, rarity: 'Always' },
   ],
 });
 
@@ -959,18 +959,18 @@ section('Seeds', {
 // GEAR, BOSS & SLAYER UNIQUES
 // =============================================================================
 section('Slayer & Monster Drops', {
-  'Abyssal Whip': [{ type: 'DROP', name: 'Abyssal Demon', regions: ['Morytania'], skills: { 'Slayer': 85 }, notes: 'Slayer Tower top floor', rarity: '1/512' }],
-  'Dark Bow': [{ type: 'DROP', name: 'Dark Beast', regions: ['Kandarin'], skills: { 'Slayer': 90 }, quests: ["Mourning's End Part II"], notes: 'Mourner Tunnels (West Ardougne)', rarity: '1/512' }],
-  'Granite Maul': [{ type: 'DROP', name: 'Gargoyle', regions: ['Morytania'], skills: { 'Slayer': 75 }, notes: 'Slayer Tower', rarity: 'Rare' }],
+  'Abyssal Whip': [{ type: 'DROP', name: 'Abyssal Demon', regions: ['Morytania', 'Wilderness'], skills: { 'Slayer': 85 }, notes: 'Slayer Tower top floor', rarity: '1/512' }],
+  'Dark Bow': [{ type: 'DROP', name: 'Dark Beast', regions: ['Kandarin', 'Wilderness'], skills: { 'Slayer': 90 }, quests: ["Mourning's End Part II"], notes: 'Mourner Tunnels (West Ardougne)', rarity: '1/512' }],
+  'Granite Maul': [{ type: 'DROP', name: 'Gargoyle', regions: ['Morytania', 'Wilderness'], skills: { 'Slayer': 75 }, notes: 'Slayer Tower', rarity: 'Rare' }],
   'Leaf-Bladed Sword': [
-    { type: 'DROP', name: 'Turoth', regions: ['Fremennik'], skills: { 'Slayer': 55 }, notes: 'Fremennik Slayer Dungeon' },
-    { type: 'DROP', name: 'Kurask', regions: ['Fremennik'], skills: { 'Slayer': 70 } },
+    { type: 'DROP', name: 'Turoth', regions: ['Fremennik', 'Kandarin'], skills: { 'Slayer': 55 }, notes: 'Fremennik Slayer Dungeon' },
+    { type: 'DROP', name: 'Kurask', regions: ['Fremennik', 'Kandarin'], skills: { 'Slayer': 70 } },
   ],
   'Black Mask': [{ type: 'DROP', name: 'Cave Horror', regions: ['Morytania'], skills: { 'Slayer': 58 }, quests: ['Cabin Fever'], rarity: '1/512' }],
   'Dragon Boots': [{ type: 'DROP', name: 'Spiritual Mage', regions: ['Fremennik'], skills: { 'Slayer': 83 }, notes: 'God Wars Dungeon', rarity: '1/128' }],
   'Draconic Visage': [
     { type: 'DROP', name: 'King Black Dragon', regions: ['Wilderness'], unlockId: 'King Black Dragon', rarity: 'Very rare' },
-    { type: 'DROP', name: 'Black Dragon', regions: ['Asgarnia', 'Tirannwn'], rarity: '1/10,000' },
+    { type: 'DROP', name: 'Black Dragon', regions: ['Asgarnia', 'Tirannwn', 'Wilderness'], rarity: '1/10,000' },
   ],
   'Anti-dragon Shield': [{ type: 'QUEST', name: 'Duke Horacio', regions: ['Lumbridge'], quests: ['Dragon Slayer'], notes: 'Free from the Duke of Lumbridge' }],
   'Dragonfire Shield': [

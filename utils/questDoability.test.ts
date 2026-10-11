@@ -51,12 +51,9 @@ describe('entryBlockedGate', () => {
     const gate = entryBlockedGate(qs, new Set(['Necromancy!', 'Dragon Slayer']), known);
     expect(gate('100')).toBe(false);
   });
-  it('translates Old School requirement titles to their RS3 quest', () => {
-    // The chunk picker data is OSRS-derived: "Dragon Slayer I" is RS3's "Dragon Slayer".
+  it('matches requirements by exact RS3 title only', () => {
     const gate = entryBlockedGate({ '400': ['Dragon Slayer I'] }, new Set<string>(), known);
-    expect(gate('400')).toBe(true);
-    const done = entryBlockedGate({ '400': ['Dragon Slayer I'] }, new Set(['Dragon Slayer']), known);
-    expect(done('400')).toBe(false);
+    expect(gate('400')).toBe(false); // not an RS3 title → ignored
   });
   it('ignores non-quest / unknown requirements (errs toward reachable)', () => {
     const gate = entryBlockedGate(qs, new Set<string>(), known);
