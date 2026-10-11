@@ -3,7 +3,8 @@ import { describe, it, expect } from 'vitest';
 import { buildReport } from './check-content-sync.mjs';
 
 const base = {
-  quests: { app: 205, wiki: { total: 180, p2p: 156, f2p: 24, questPoints: 335 } },
+  // RS3-shaped numbers (wiki {{Globals}}: 277 quests, 476 quest points).
+  quests: { app: 300, wiki: { total: 277, p2p: 250, f2p: 27, questPoints: 476 } },
   diaries: { app: { 'Ardougne Easy': 10, 'Ardougne Medium': 12 } },
 };
 
@@ -30,7 +31,7 @@ describe('content-sync report builder', () => {
 
   it('degrades gracefully when wiki counts are unavailable', () => {
     const { markdown } = buildReport({
-      quests: { app: 205, wiki: null },
+      quests: { app: 300, wiki: null },
       cas: { app: { Easy: 41 }, wiki: null },
       diaries: base.diaries,
     });
@@ -45,7 +46,7 @@ describe('content-sync report builder', () => {
 
   it('surfaces the quest watch line', () => {
     const { markdown } = buildReport({ ...base, cas: { app: {}, wiki: {} } });
-    expect(markdown).toMatch(/Wiki: \*\*180\*\* quests/);
+    expect(markdown).toMatch(/Wiki: \*\*277\*\* quests/);
     expect(markdown).toMatch(/new quest was released/);
   });
 });

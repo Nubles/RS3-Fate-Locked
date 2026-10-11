@@ -4,6 +4,10 @@
  * `GearItem` is our normalised shape for an equippable OSRS item (built by
  * GearService from the weirdgloop dps-calc dataset). `GearBonuses` mirrors the
  * standard equipment-stats groups shown in the OSRS DPS tool. Pure + tested.
+ * RS3 MODE: legacy from the OSRS fork. RS3 combat is ability/tier-based and has
+ * no equivalent public dataset, so the Gear and DPS views that used this are
+ * not mounted (components/EquipmentLab.tsx). Kept compiling + tested because
+ * components/BossKillPlanner still imports it.
  */
 
 export interface GearBonuses {

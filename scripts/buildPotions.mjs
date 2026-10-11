@@ -1,10 +1,17 @@
-// One-off authoring tool: pulls Herblore recipes from the OSRS Wiki `recipe`
-// bucket and emits curated RESOURCE_MAP potion entries for the Resource Engine.
-// Output is spliced into resourceData.ts; not shipped or imported at runtime.
+// One-off authoring tool: pulls Herblore recipes from the RuneScape Wiki
+// (RS3, runescape.wiki) `recipe` bucket and
+//   1. reports curated potions in RESOURCE_MAP whose Herblore level or
+//      ingredients disagree with the wiki, and
+//   2. writes paste-ready entries for standard potions the catalogue doesn't
+//      have yet to scripts/_potions.generated.txt (for the 'Potions' section).
+// It never edits data files. Not shipped or imported at runtime.
 //
-// Run:  node scripts/buildPotions.mjs
+// Run:  node scripts/buildPotions.mjs        (needs network + npx tsx)
+//
+// Assumes the RS3 wiki exposes the same `recipe` bucket shape as the Weird
+// Gloop wikis (`production_json`, `uses_skill`); throws otherwise.
 import { execFileSync } from 'child_process';
-import { readFileSync, writeFileSync } from 'fs';
+import { writeFileSync } from 'fs';
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)';
 const API = 'https://runescape.wiki/api.php';
@@ -14,164 +21,100 @@ const fetchRecipes = (skill) => {
   const url = `${API}?action=bucket&format=json&query=${encodeURIComponent(query)}`;
   const body = execFileSync('curl', ['-s', '-A', UA, url], { encoding: 'utf8', maxBuffer: 5e7 });
   const json = JSON.parse(body);
-  if (!json.bucket) throw new Error(`No bucket for ${skill}`);
+  if (!json.bucket) throw new Error(`No bucket for ${skill}: ${body.slice(0, 200)}`);
   return json.bucket.map((r) => JSON.parse(r.production_json));
 };
 
+const loadCatalogue = () => JSON.parse(execFileSync('npx', ['tsx', '-e',
+  "import('./data/resourceData.ts').then(m => process.stdout.write(JSON.stringify(m.RESOURCE_MAP)))"],
+  { encoding: 'utf8', maxBuffer: 1e8, cwd: new URL('..', import.meta.url) }));
+
 // --- name helpers -----------------------------------------------------------
 const CONNECTORS = new Set(['of', 'the', 'a', 'an', 'and', 'to', 'on', 'from']);
-const toAppCase = (raw) =>
-  raw.trim().split(' ').map((w, i) => {
-    const lower = w.toLowerCase();
-    if (i > 0 && CONNECTORS.has(lower)) return lower;
-    return w.charAt(0).toUpperCase() + w.slice(1);
-  }).join(' ');
+const toAppCase = (raw) => raw.trim().split(' ').map((w, i) => {
+  const lower = w.toLowerCase();
+  if (i > 0 && CONNECTORS.has(lower)) return lower;
+  return w.charAt(0).toUpperCase() + w.slice(1);
+}).join(' ');
 
-const isUnf = (name) => /\(unf\)/i.test(name);
-const stripDose = (name) =>
-  name
-    .replace(/\s*\(\s*\d\s*\)\s*$/i, '')   // trailing dose "(3)"
-    .replace(/\s*\(\s*\+\s*\)/g, '+')       // wiki "(+)" -> "+"
-    .replace(/\s*\(\s*-\s*\)/g, '-')        // wiki "(-)" -> "-"
-    .trim();
+const isUnf = (name) => /\(unf\)|\(unfinished\)/i.test(name);
+const stripDose = (name) => name.replace(/\s*\(\s*\d\s*\)\s*$/i, '').trim();
 
-// Mastering Mixology potions are brewed in the minigame from a "water-filled
-// gourd vial" and special herbs (golpar, noxifer, buchu leaf, cicely, etc.).
-// They need a minigame unlock and have awkward +/- naming, so we exclude them
-// from the standard-potion import. Every MM potion uses the gourd vial.
-const isMixologyMaterial = (name) =>
-  /gourd vial/i.test(name) ||
-  /\b(mox|aga|lye)\b/i.test(name) ||
-  /(paste|resin)/i.test(name) ||
-  /\b(noxifer|golpar|buchu leaf|cicely|stinkhorn|endarkened|aldarium)\b/i.test(name);
+// RS3 wiki names → app keys. Dose-stripped potion names are otherwise used
+// as-is in Title Case ("Super attack (3)" → "Super Attack").
+const ALIAS = {
+  'Prayer': 'Prayer Potion', 'Attack': 'Attack Potion', 'Strength': 'Strength Potion',
+  'Defence': 'Defence Potion', 'Ranging': 'Ranging Potion', 'Necromancy': 'Necromancy Potion',
+  'Restore': 'Restore Potion', 'Energy': 'Energy Potion', 'Agility': 'Agility Potion',
+  'Combat': 'Combat Potion', 'Fishing': 'Fishing Potion', 'Hunter': 'Hunter Potion',
+  'Super Ranging': 'Super Ranging Potion', 'Super Magic': 'Super Magic Potion',
+  'Antipoison+': 'Antipoison+', 'Super Antipoison': 'Superantipoison',
+};
+const norm = (n) => { const c = toAppCase(stripDose(n)); return ALIAS[c] || c; };
 
-// Materials that should match existing RESOURCE_MAP keys.
-const INPUT_ALIAS = { 'Runite Bar': 'Rune Bar' };
+// Out of scope: juju / perfect juju (Herblore Habitat), combination
+// "mix" potions (Barbarian Training), flasks / salves / bombs, and the
+// Herblore Habitat god potions — they need extra unlock modelling.
+const OUT_OF_SCOPE = /juju|\bmix\b|flask|salve|bomb|blessing|gift|favour|aggroverload|holy |searing/i;
 
-// --- existing RESOURCE_MAP keys (skip collisions) ---------------------------
-const dataPath = new URL('../data/resourceData.ts', import.meta.url);
-let src = readFileSync(dataPath, 'utf8');
-if (src.includes('POTIONS (generated by')) {
-  throw new Error('resourceData.ts already contains a generated potions block.');
-}
-const EOL = src.includes('\r\n') ? '\r\n' : '\n';
-const mapBody = src.slice(src.indexOf('RESOURCE_MAP'), src.indexOf('// --- CATEGORY GROUPING'));
-const existing = new Set(
-  [...mapBody.matchAll(/^\s{2}'((?:[^'\\]|\\.)*)':\s*\[/gm)].map((m) =>
-    m[1].replace(/\\'/g, "'").toLowerCase(),
-  ),
-);
-
-// --- gather recipes ---------------------------------------------------------
 const recipes = fetchRecipes('Herblore');
 
-// unfinished-potion recipes: output "X potion (unf)" -> [herb, vial]
+// unfinished-potion recipes: "X potion (unf)" -> [herb, vial]
 const unfMap = {};
 for (const r of recipes) {
   const out = r.output?.name;
-  if (out && isUnf(out)) {
-    unfMap[out] = (r.materials || []).map((m) => ({
-      name: m.name,
-      qty: Number(m.quantity) || 1,
-    }));
-  }
+  if (out && isUnf(out)) unfMap[out] = (r.materials || []).map((m) => ({ name: m.name, qty: Number(m.quantity) || 1 }));
 }
 
-const norm = (n) => {
-  const cased = toAppCase(stripDose(n));
-  return INPUT_ALIAS[cased] || cased;
-};
-
-const items = new Map();
-let skippedExisting = 0;
+const catalogue = loadCatalogue();
+const report = [];
+const fresh = new Map();
 
 for (const r of recipes) {
   const out = r.output?.name;
-  if (!out || isUnf(out)) continue;
-  if (!/\(\s*\d\s*\)\s*$/.test(out)) continue;      // potions are dosed
-  if (/\bmix\(\d\)/i.test(out)) continue;            // skip Barbarian potion mixes
-
-  const base = stripDose(out);
-  if (isUnf(base) || /^Mixture\b/i.test(base)) continue;        // quest/unf junk
-  if (/[()]/.test(base)) continue;                              // leftover odd naming
-  if ((r.materials || []).some((m) => isMixologyMaterial(m.name))) continue;
-
+  if (!out || isUnf(out) || !/\(\s*\d\s*\)\s*$/.test(out)) continue; // potions are dosed
+  if (OUT_OF_SCOPE.test(out)) continue;
   const skill = r.skills?.find((s) => s.name === 'Herblore');
   if (!skill) continue;
+  const key = norm(out);
 
-  // Build inputs, expanding any unfinished-potion material into herb + vial.
+  // Inputs, expanding any unfinished potion into herb + vial of water.
   const inputs = {};
   let isDecant = false;
   for (const m of r.materials || []) {
-    if (isUnf(m.name)) {
-      for (const sub of unfMap[m.name] || []) {
-        inputs[norm(sub.name)] = (inputs[norm(sub.name)] || 0) + sub.qty;
-      }
-    } else {
-      const key = norm(m.name);
-      if (key === toAppCase(base)) isDecant = true; // decant: same potion as material
-      inputs[key] = (inputs[key] || 0) + (Number(m.quantity) || 1);
+    const parts = isUnf(m.name) ? (unfMap[m.name] || []) : [{ name: m.name, qty: Number(m.quantity) || 1 }];
+    for (const p of parts) {
+      const k = norm(p.name);
+      if (k === key) isDecant = true;
+      inputs[k] = (inputs[k] || 0) + p.qty;
     }
   }
-  if (isDecant || Object.keys(inputs).length === 0) continue;
+  if (isDecant || !Object.keys(inputs).length) continue;
+  const level = Number(skill.level) || 1;
 
-  const key = toAppCase(base);
-  if (existing.has(key.toLowerCase())) { skippedExisting++; continue; }
-
-  const source = {
-    type: 'SKILL',
-    name: 'Herblore',
-    skills: { Herblore: Number(skill.level) || 1 },
-    inputs,
-  };
-  const sig = JSON.stringify(source);
-  if (!items.has(key)) items.set(key, []);
-  if (!items.get(key).some((s) => JSON.stringify(s) === sig)) items.get(key).push(source);
-}
-
-// Collapse multi-dose recipe rows: the wiki lists e.g. Super antifire once per
-// dose, identical apart from one scaling ingredient quantity. Keep a single
-// representative (the lowest-quantity row) per skill-level + ingredient set.
-for (const [key, list] of items) {
-  const groups = new Map();
-  for (const s of list) {
-    const g = `${s.name}|${JSON.stringify(s.skills)}|${Object.keys(s.inputs).sort().join(',')}`;
-    const sum = Object.values(s.inputs).reduce((a, b) => a + b, 0);
-    const cur = groups.get(g);
-    if (!cur || sum < cur.sum) groups.set(g, { source: s, sum });
+  const existing = catalogue[key];
+  if (existing) {
+    const recipe = existing.find((s) => s.inputs && s.skills?.Herblore !== undefined);
+    if (recipe && recipe.skills.Herblore !== level) {
+      report.push(`${key}: Herblore ${recipe.skills.Herblore} (app) vs ${level} (wiki)`);
+    }
+    continue;
   }
-  items.set(key, [...groups.values()].map((v) => v.source));
+  // Keep the lowest-quantity row when the wiki lists one recipe per dose.
+  const sum = Object.values(inputs).reduce((a, b) => a + b, 0);
+  const cur = fresh.get(key);
+  if (!cur || sum < cur.sum) fresh.set(key, { level, inputs, sum });
 }
 
-// --- emit TS ----------------------------------------------------------------
 const esc = (s) => s.replace(/'/g, "\\'");
-const fmt = (s) =>
-  `{ type: 'SKILL', name: 'Herblore', regions: ['Any'], ` +
-  `skills: { 'Herblore': ${s.skills.Herblore} }, ` +
-  `inputs: { ${Object.entries(s.inputs).map(([k, v]) => `'${esc(k)}': ${v}`).join(', ')} } }`;
-
-const keys = [...items.keys()].sort();
-let ts = '';
-for (const key of keys) {
-  ts += `  '${esc(key)}': [${EOL}`;
-  ts += items.get(key).map((s) => `    ${fmt(s)}`).join(`,${EOL}`) + EOL;
-  ts += `  ],${EOL}`;
+let ts = "// Paste into the 'Potions' section of data/resourceData.ts after review.\n";
+for (const key of [...fresh.keys()].sort()) {
+  const { level, inputs } = fresh.get(key);
+  ts += `  '${esc(key)}': [{ type: 'SKILL', name: 'Herblore', regions: ANY, skills: { 'Herblore': ${level} }, ` +
+    `inputs: { ${Object.entries(inputs).map(([k, v]) => `'${esc(k)}': ${v}`).join(', ')} } }],\n`;
 }
+writeFileSync(new URL('./_potions.generated.txt', import.meta.url), ts);
 
-// --- splice into resourceData.ts -------------------------------------------
-const mapAnchor = `  ],${EOL}};${EOL}${EOL}// --- CATEGORY GROUPING`;
-if (!src.includes(mapAnchor)) throw new Error('RESOURCE_MAP anchor not found.');
-src = src.replace(
-  mapAnchor,
-  `  ],${EOL}${EOL}  // --- POTIONS (generated by scripts/buildPotions.mjs) ---${EOL}${ts}};${EOL}${EOL}// --- CATEGORY GROUPING`,
-);
-
-// Append the new potion names into the existing 'Potions' category array.
-const catAnchor = `'Super Energy(4)',${EOL}  ],`;
-if (!src.includes(catAnchor)) throw new Error("'Potions' category anchor not found.");
-const catLines = keys.map((k) => `    '${esc(k)}',`).join(EOL);
-src = src.replace(catAnchor, `'Super Energy(4)',${EOL}${catLines}${EOL}  ],`);
-
-writeFileSync(dataPath, src);
-console.log(`Spliced ${keys.length} potions into data/resourceData.ts (skipped ${skippedExisting} existing).`);
-console.log(keys.join(', '));
+console.log(`${fresh.size} wiki potions not yet in RESOURCE_MAP → scripts/_potions.generated.txt`);
+console.log(`${report.length} Herblore level mismatches in curated potions:`);
+for (const line of report) console.log(`  ${line}`);

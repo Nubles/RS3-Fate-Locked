@@ -9,8 +9,8 @@ import { wikiUrlFor } from '../data/assets';
  * trigger the row, and opens in a new tab.
  *
  *   <WikiLink name="Abyssal whip" />                      → linked name text
- *   <WikiLink name="Zulrah" icon />                       → name + ↗ icon
- *   <WikiLink name="Zulrah" iconOnly />                   → just the ↗ icon
+ *   <WikiLink name="Vorago" icon />                         → name + ↗ icon
+ *   <WikiLink name="Vorago" iconOnly />                     → just the ↗ icon
  *   <WikiLink name="Ardougne Diary" page="Ardougne_Diary#Hard">…</WikiLink>
  */
 interface Props {

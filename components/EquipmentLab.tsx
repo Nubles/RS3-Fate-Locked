@@ -9,12 +9,10 @@ import { NoteTrigger } from './NoteTrigger';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { TIER_LABELS } from '../utils/combatPower';
 import { EQUIP_TIER_COLORS, equipTierColor } from '../utils/equipTiers';
-import { GearView } from './GearView';
 import { SectionGuide } from './SectionGuide';
-import { DpsCalc } from './DpsCalc';
 
 const slotImg = (slot: string) =>
-  `https://runescape.wiki/images/${SLOT_CONFIG[slot]?.file ?? 'Globe_icon.png'}`;
+  `https://runescape.wiki/images/${SLOT_CONFIG[slot]?.file ?? 'Lodestone_map_icon.png'}`;
 
 interface Props {
   /** Kick off the existing Omni-key upgrade flow (confirm + reveal) for a slot. */
@@ -25,7 +23,11 @@ export const EquipmentLab: React.FC<Props> = ({ onUpgrade }) => {
   const { unlocks, specialKeys } = useGame();
   const equipment = unlocks.equipment;
 
-  const [mode, setMode] = useState<'tiers' | 'gear' | 'dps'>('tiers');
+  // RS3 mode: only the slot-tier view. The OSRS fork's "Gear" (real item
+  // stats) and "DPS" tabs ran on the OSRS DPS-calculator dataset; RS3 combat
+  // is ability/tier-based and has no equivalent public dataset, so those
+  // views (GearView / DpsCalc) are not mounted.
+  const mode = 'tiers' as const;
   const [selected, setSelected] = useState<string | null>(null);
   const [planMode, setPlanMode] = useState(false);
   const [targets, setTargets] = useState<Record<string, number>>({});
@@ -69,20 +71,6 @@ export const EquipmentLab: React.FC<Props> = ({ onUpgrade }) => {
       <div className="flex justify-between items-center bg-[#151515] p-2 rounded border border-white/5 mb-4 shrink-0">
         <div className="flex items-center gap-3">
           <h3 className="text-gray-300 font-bold text-sm flex items-center gap-1.5">Equipment Lab <SectionGuide id="EQUIPMENT_LAB" /></h3>
-          {/* Tiers / Gear mode toggle */}
-          <div className="flex items-center rounded-lg border border-white/10 bg-[#1f1f1f] p-0.5">
-            {(['tiers', 'gear', 'dps'] as const).map((m) => (
-              <button
-                key={m}
-                onClick={() => setMode(m)}
-                className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wide transition-colors ${
-                  mode === m ? 'bg-[#322a1e] text-amber-300' : 'text-gray-500 hover:text-gray-300'
-                }`}
-              >
-                {m === 'tiers' ? 'Tiers' : m === 'gear' ? 'Gear' : 'DPS'}
-              </button>
-            ))}
-          </div>
         </div>
         <div className="flex items-center gap-2">
           {mode === 'tiers' && (
@@ -103,10 +91,6 @@ export const EquipmentLab: React.FC<Props> = ({ onUpgrade }) => {
           )}
         </div>
       </div>
-
-      {mode === 'gear' && <GearView />}
-
-      {mode === 'dps' && <DpsCalc />}
 
       {mode === 'tiers' && (
       <>

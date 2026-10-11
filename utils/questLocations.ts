@@ -17,6 +17,11 @@
  * available that the player can't actually reach.
  *
  * Content data: ChunkContentService (credit: source-chunk/chunk-picker-v2).
+ * That dataset was built from the Old School map, so it only knows the quests
+ * RS3 shares with OSRS (the mainland chunk grid is the same in both games).
+ * RS3 titles that differ are translated via CHUNK_QUEST_ALIASES; RS3-only
+ * quests (Necromancy, Elder God Wars, Fort Forinthry, Menaphos, Anachronia…)
+ * simply have no chunk data and fall back to their authored continent.
  */
 import { chunkContentService, EntityLocation } from '../services/ChunkContentService';
 import { placeOf, chunkUnlocked, ChunkPlace } from './chunkLocations';
@@ -73,9 +78,48 @@ export function summariseQuestPlaces(
   return { hasData: true, places, startPlaces, lockedPlaces, allUnlocked: lockedPlaces.length === 0 };
 }
 
+/**
+ * RS3 quest title → the title the (OSRS-derived) chunk dataset uses for the
+ * same quest. `null` marks an RS3 quest whose title collides with a DIFFERENT
+ * OSRS quest, so its chunk data must not be used.
+ */
+export const CHUNK_QUEST_ALIASES: Record<string, string | null> = {
+  'Dragon Slayer': 'Dragon Slayer I',
+  'Desert Treasure': 'Desert Treasure I',
+  'Monkey Madness': 'Monkey Madness I',
+  'A Fairy Tale I - Growing Pains': 'Fairytale I - Growing Pains',
+  'A Fairy Tale II - Cure a Queen': 'Fairytale II - Cure a Queen',
+  'Rag and Bone Man': 'Rag and Bone Man I',
+  'Rat Catchers': 'Ratcatchers',
+  'The Darkness of Hallowvale': 'Darkness of Hallowvale',
+  'Bar Crawl': 'Alfred Grimhand\'s Barcrawl',
+  // RS3's Sins of the Father (Elder God Wars, Anachronia) is not OSRS's
+  // Darkmeyer quest of the same name.
+  'Sins of the Father': null,
+};
+
+/** The chunk-dataset title for an RS3 quest (null = no usable chunk data). */
+export function chunkQuestName(questName: string): string | null {
+  if (questName in CHUNK_QUEST_ALIASES) return CHUNK_QUEST_ALIASES[questName];
+  // Every RS3 RFD subquest lives under the single OSRS "Recipe for Disaster" entry.
+  if (questName.startsWith('Recipe for Disaster: ')) return 'Recipe for Disaster';
+  return questName;
+}
+
+/** Reverse lookup: chunk-dataset (OSRS) quest title → RS3 quest title. */
+const RS3_BY_CHUNK_NAME: Record<string, string> = Object.fromEntries(
+  Object.entries(CHUNK_QUEST_ALIASES)
+    .filter((e): e is [string, string] => e[1] !== null)
+    .map(([rs3, chunk]) => [chunk, rs3]),
+);
+export function rs3QuestName(chunkName: string): string {
+  return RS3_BY_CHUNK_NAME[chunkName] ?? chunkName;
+}
+
 /** Look the quest up in the (already-initialised) chunk index, then summarise. */
 export function questLocations(questName: string, unlocks: UnlockState): QuestLocationInfo {
-  const hit = chunkContentService.entityLocations(questName, ['quest']);
+  const lookup = chunkQuestName(questName);
+  const hit = lookup ? chunkContentService.entityLocations(lookup, ['quest']) : null;
   return summariseQuestPlaces(hit?.locations ?? [], unlocks);
 }
 

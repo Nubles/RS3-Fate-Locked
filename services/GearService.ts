@@ -5,6 +5,10 @@
  * localStorage. Lazy: only fetched when the player first opens Gear mode.
  *
  * Mirrors the fetch/cache pattern of services/PriceService.ts.
+ * RS3 MODE: legacy from the OSRS fork. RS3 combat is ability/tier-based and has
+ * no equivalent public dataset, so the Gear and DPS views that used this are
+ * not mounted (components/EquipmentLab.tsx). Kept compiling + tested because
+ * components/BossKillPlanner still imports it.
  */
 
 import { GearItem, GearBonuses, hasNoBonuses } from '../utils/gearStats';

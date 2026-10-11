@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
-import { QUEST_DATA, QuestData } from '../data/questData';
+import { QUEST_DATA, QuestData, questWikiUrl } from '../data/questData';
 import { MISTHALIN_AREAS, WIKI_OVERRIDES } from '../constants';
 import { CheckCircle2, Lock, Map, BookOpen, Sparkles, Scroll, Bookmark, Layers, List, ExternalLink, ArrowUpRight, TrendingUp, MapPin } from 'lucide-react';
 import { chunkContentService } from '../services/ChunkContentService';
@@ -23,12 +23,10 @@ interface QuestLogProps {
 
 // Helpers
 const getWikiUrl = (name: string) => {
-    // Special handling for Recipe for Disaster subquests to avoid broken links
-    if (name.startsWith('RFD:')) {
-        return 'https://runescape.wiki/w/Recipe_for_Disaster';
-    }
+    // RS3 wiki titles: Recipe for Disaster subquests have their own pages
+    // ("Recipe for Disaster: Freeing …"); miniquests carry a "(miniquest)" suffix.
     if (WIKI_OVERRIDES[name]) return `https://runescape.wiki/w/${WIKI_OVERRIDES[name]}`;
-    return `https://runescape.wiki/w/${encodeURIComponent(name.replace(/ /g, '_'))}`;
+    return questWikiUrl(name);
 };
 
 const getDifficultyColor = (difficulty: DropSource) => {
@@ -446,8 +444,10 @@ export const QuestLog: React.FC<QuestLogProps> = ({ searchTerm: externalSearch =
     [showAdvisorStrip, unlocks],
   );
 
-  const mainQuests = filteredQuests.filter(q => q.points > 0);
-  const miniquests = filteredQuests.filter(q => q.points === 0);
+  // RS3 has full quests that award 0 QP (e.g. Aftermath, Eye of Het I), so
+  // miniquests are identified by their flag, not by points.
+  const mainQuests = filteredQuests.filter(q => !q.miniquest);
+  const miniquests = filteredQuests.filter(q => q.miniquest);
 
   const seriesGroups = useMemo(() => {
       if (!groupBySeries) return [];
@@ -478,10 +478,10 @@ export const QuestLog: React.FC<QuestLogProps> = ({ searchTerm: externalSearch =
       rollForKey(quest.difficulty, rate, e.clientX, e.clientY);
   };
 
-  const totalQuests = Object.values(QUEST_DATA).filter(q => q.points > 0).length;
-  const totalMinis = Object.values(QUEST_DATA).filter(q => q.points === 0).length;
-  const completedMain = unlocks.quests.filter(id => (QUEST_DATA[id]?.points || 0) > 0).length;
-  const completedMinis = unlocks.quests.filter(id => (QUEST_DATA[id]?.points || 0) === 0).length;
+  const totalQuests = Object.values(QUEST_DATA).filter(q => !q.miniquest).length;
+  const totalMinis = Object.values(QUEST_DATA).filter(q => q.miniquest).length;
+  const completedMain = unlocks.quests.filter(id => QUEST_DATA[id] && !QUEST_DATA[id].miniquest).length;
+  const completedMinis = unlocks.quests.filter(id => QUEST_DATA[id]?.miniquest).length;
   const currentQP = unlocks.quests.reduce((acc, qid) => acc + (QUEST_DATA[qid]?.points || 0), 0);
 
   return (

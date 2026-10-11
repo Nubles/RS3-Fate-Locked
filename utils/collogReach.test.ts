@@ -12,7 +12,7 @@ const base = (over: Partial<UnlockState> = {}): UnlockState => ({
 });
 
 describe('collogReachability', () => {
-  it('with nothing unlocked, only baseline (Clues/Other) + unknown pages are obtainable', () => {
+  it('with nothing unlocked, only baseline (Slayer/Clues/Other) + unknown pages are obtainable', () => {
     const r = collogReachability(base());
     expect(r.obtainable).toBeGreaterThan(0);
     expect(r.obtainable).toBeLessThan(r.total);
@@ -45,10 +45,10 @@ describe('collogReachability', () => {
     }
   });
 
-  it('gated tabs are Bosses/Raids/Minigames; Clues/Other are baseline', () => {
+  it('gated tabs are Bosses/Minigames; Slayer/Clues/Other are baseline', () => {
     const r = collogReachability(base());
     const gated = r.tabs.filter(t => t.gated).map(t => t.tab).sort();
-    expect(gated).toEqual(['Bosses', 'Minigames', 'Raids']);
+    expect(gated).toEqual(['Bosses', 'Minigames']);
     for (const t of r.tabs.filter(t => !t.gated)) expect(t.obtainable).toBe(t.total);
   });
 });

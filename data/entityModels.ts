@@ -7,10 +7,14 @@
  * code changes — the manifest (data/modelManifest.ts) is regenerated before
  * dev/build, and any unlock whose slug is present resolves automatically.
  *
- * IP: OSRS models are Jagex's intellectual property — this repo does NOT bundle
- * them. You supply your own exports (e.g. via RuneMonk / RuneApps) as fan
- * content; nothing here ships a game asset. Ships DORMANT (no model files →
- * everything falls back to the existing 2D sprites).
+ * IP: RuneScape models are Jagex's intellectual property — supply your own
+ * exports as fan content. With no model file for an unlock, everything falls
+ * back to the existing 2D sprites.
+ *
+ * RS3 note: the files currently in /public/models were exported for the old
+ * (OSRS) boss roster. Only RS3 bosses that share a creature with one of those
+ * files resolve to it (by slug, or via MODEL_REGISTRY below); the rest of the
+ * RS3 roster shows its wiki sprite until an RS3 model is added.
  */
 import { MODEL_FILES } from './modelManifest';
 
@@ -31,7 +35,10 @@ export const PLACEHOLDER_MODEL = asset('models/placeholder.glb');
  * slugify to its file name, or to point at an external/placeholder URL.
  */
 export const MODEL_REGISTRY: Record<string, string> = {
-  // e.g.  'K\'ril Tsutsaroth': '/models/kril-tsutsaroth.glb',
+  // RS3 bosses whose unlock name doesn't slugify to the matching model file.
+  'Nex: Angel of Death': asset('models/nex.gltf'),
+  'Zemouregal & Vorkath': asset('models/vorkath.gltf'),
+  'Exiled Kalphite Queen': asset('models/kalphite-queen.gltf'),
 };
 
 /** name → file slug, matching how /public/models files are named. */
@@ -56,7 +63,7 @@ export const modelUrlBySlug = (slug: string): string | undefined => {
 };
 
 /**
- * Per-model render rotation ("roll pitch yaw"), keyed by slug. A few OSRS NPC
+ * Per-model render rotation ("roll pitch yaw"), keyed by slug. A few NPC
  * models are authored standing on end (their long axis is the vertical Y), so
  * they render nose-up. <model-viewer>'s `orientation` re-poses them at view time
  * — non-destructive, the exported .gltf is untouched. Pitch -90° lays the long

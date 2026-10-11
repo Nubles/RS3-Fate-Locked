@@ -2,7 +2,7 @@
  * Derives an "estimated tier" (1..EQUIPMENT_TIER_MAX) for every real item, per
  * slot, so real gear can be gated by the fate-lock tier the player has unlocked.
  *
- * There's no canonical item→tier map in OSRS, so we compute a transparent power
+ * Not every RS3 item name carries a recognisable tier, so as a fallback we compute a transparent power
  * score from each item's bonuses and split each slot's items into equal-sized
  * quantile buckets. This is automatic (no manual data), monotonic (a stronger
  * item never lands in a lower tier than a weaker one in the same slot), and the
@@ -15,93 +15,63 @@ import { GearBonuses } from './gearStats';
 import { EQUIPMENT_TIER_MAX } from '../config/rules';
 
 /**
- * Canonical material → tier, mirroring the Codex's "Equipment Tiers" table so
- * the two views agree (Rune = T5, Dragon = T6, Barrows = T7, …). Matches by item
- * name. Returns null for items whose material we can't recognise (uniques,
- * cosmetics, quest items) — the caller then falls back to the power-score
- * quantile estimate. Rules are ordered most-specific / highest-tier first so
- * ambiguous words resolve correctly (e.g. "Black d'hide" → T7 before plain
- * "Black" metal → T2; "Dragon hunter" → T9 before plain "Dragon" → T6).
+ * Canonical RS3 material → Fate tier, mirroring the Codex's "Equipment Tiers"
+ * table so the two views agree. Matches by item name. Returns null for items
+ * whose material we can't recognise (uniques, cosmetics, quest items) — the
+ * caller then falls back to the power-score estimate. Rules are ordered
+ * most-specific / highest-tier first so ambiguous words resolve correctly
+ * (e.g. "Black dragonhide" → T4 before plain "Black" metal → T2; "Elite
+ * tectonic" → T9 before "Tectonic" → T8; "Elder rune +5" → T8 before plain
+ * "Elder rune" → T6 before plain "Rune" → T3).
  *
- * Codex reference (keep in sync with components/ReferenceModal.tsx):
- *   T1 Bronze/Iron/Leather  T2 Steel/Black/Studded  T3 Mithril/Initiate
- *   T4 Adamant/Green d'hide  T5 Rune/Blue d'hide  T6 Dragon/Red d'hide/Magic bow
- *   T7 Barrows/Black d'hide/Obsidian  T8 God Wars/Zenyte/Trident  T9 Raids/Endgame
+ * Codex reference (keep in sync with components/ReferenceModal.tsx), by RS3
+ * item tier (the level needed to wield/wear):
+ *   T1 Bronze/Iron (1-10)             T2 Steel/Black/Mithril (20-30)
+ *   T3 Adamant/Rune (40-50)           T4 Granite/Orikalkum/Dragon (55-65)
+ *   T5 Necronium/Barrows/GWD1 (70-75) T6 Bane/Torva/Pernix/Virtus/Elder rune (80)
+ *   T7 Tier 85-88 (Tetsu, Death Lotus, Seasinger's, refined anima core)
+ *   T8 Tier 90 (Malevolent/Sirenic/Tectonic, Masterwork, Noxious, Drygore)
+ *   T9 Tier 92-95+ (Trimmed masterwork, Elite Sirenic/Tectonic/Dracolich,
+ *      Vestments of havoc, Zaros godsword, Eldritch crossbow, FSoA)
  */
 /**
  * Iconic non-material items pinned to a tier so famous gear reads correctly even
  * though its name carries no material word. Checked before the material ladder,
- * ordered most-specific first (e.g. "(i)" / "elite" variants before the base).
+ * ordered most-specific first.
  */
 const NAMED_TIERS: [RegExp, number][] = [
-  // weapons whose power comes from mechanics (speed/specs), not raw bonuses
-  [/abyssal tentacle|abyssal bludgeon/, 8],
-  [/abyssal whip|abyssal dagger/, 7],
-  [/(toxic )?blowpipe/, 8],
-  [/dark bow/, 6],
-  [/zamorakian (hasta|spear)/, 7],
-  [/ghrazi rapier|inquisitor's mace/, 9],
-  [/granite maul/, 6],
-  [/(light|heavy) ballista/, 8],
-  [/craw's bow|webweaver|crystal bow/, 8],
-  // modern / Colosseum / Varlamore sets whose strength is a set effect or
-  // mechanic, not raw bonuses (so a set isn't scattered across tiers).
-  [/elite calamity/, 9],
-  [/calamity/, 8],
-  [/sunfire fanatic/, 8],
-  [/echo boots/, 8],
-  [/radiant oathplate/, 9],
-  [/oathplate/, 8],
-  [/(blood|blue|eclipse) moon/, 7],
-  [/eclipse atlatl/, 7],
-  [/dual macuahuitl/, 7],
-  [/hueycoatl hide/, 7],
-  // prestige / mid items the stat fallback over-rates (high raw defence/accuracy
-  // that doesn't reflect real strength), pinned to sensible tiers
-  [/3rd age/, 8],
-  [/staff of (light|balance)/, 7],
-  [/purging staff/, 8],
-  // junk Tourist Trap arrows with bogus dataset bonuses (really unusable)
-  [/(barbed|blunt|bullet|field) arrow/, 1],
+  // tier 92-95+ weapons
+  [/zaros godsword|eldritch crossbow|fractured staff of armadyl|staff of sliske|seren godbow|omni guard|soulbound lantern|roar of awakening|ode to deceit/, 9],
+  // tier 90 weapons
+  [/noxious|drygore|ascension crossbow|bow of the last guardian|cywir|wand of the praesul|imperium core|blade of (nymora|avaryss)|death guard \(tier 90\)|skull lantern \(tier 90\)/, 8],
+  // tier 85-88 weapons / off-hands
+  [/superior (statius|vesta|morrigan|zuriel)|abyssal (wand|orb)|abyssal scourge|ripper claw|shadow glaive|camel staff/, 7],
+  // tier 80
+  [/chaotic|attuned crystal|zaryte bow|virtus (wand|book)/, 6],
+  // tier 70-75
+  [/abyssal whip|dark bow|armadyl battlestaff|(armadyl|bandos|saradomin|zamorak) godsword|saradomin sword|zamorakian spear|staff of light|polypore staff|ganodermic|enhanced excalibur/, 5],
   // capes
-  [/infernal cape|tzhaar.?ket.?om/, 9],
-  [/fire (max )?cape/, 8],
-  [/imbued .*cape|(saradomin|guthix|zamorak) cape|god cape/, 8],
-  [/(ardougne cloak|mythical cape|cape of accomplishment)/, 6],
-  // hands
-  [/barrows gloves/, 7],
-  [/ferocious gloves/, 9],
-  [/dragon gloves/, 6],
-  [/rune gloves/, 5],
-  // boots
-  [/(primordial|pegasian|eternal) boots/, 9],
-  [/guardian boots/, 8],
-  [/dragon boots/, 6],
-  // rings
-  [/(berserker|archers?|seers|warrior|treasonous|tyrannical) ring \(i\)/, 8],
-  [/(berserker|archers?|seers|warrior|treasonous|tyrannical) ring/, 7],
-  // neck
-  [/amulet of fury|berserker necklace/, 7],
-  [/amulet of glory/, 4],
-  [/amulet of (strength|power|defence)/, 3],
-  // shields / off-hand
-  [/avernic defender/, 9],
-  [/elysian|arcane spirit/, 9],
-  [/spectral spirit|dragonfire (shield|ward)/, 8],
-  [/twisted buckler|crystal shield/, 8],
-  [/dragon defender/, 7],
-  [/blessed spirit shield|toktz-ket-xil/, 7],
-  [/rune defender/, 5],
+  [/tzkal-zuk|igneous kal|completionist|max cape/, 9],
+  [/tokhaar-kal/, 8],
+  [/fire cape|tzhaar-kal/, 5],
+  // hands / boots / jewellery
+  [/(razorback|kerapac's wrist|cinderbane) gauntlets|kerapac's wrist wraps/, 8],
+  [/(glacor|steadfast|ragefire|blood) boots|nightmare gauntlets|goliath gloves|swift gloves|spellcaster gloves/, 7],
+  [/amulet of souls|essence of finality|reaper necklace|conjurer's raising/, 8],
+  [/brawler|berserker ring|archers' ring|seers' ring|warrior ring|onyx ring|amulet of fury/, 5],
+  [/amulet of glory/, 3],
+  [/amulet of (strength|power|defence|accuracy)/, 2],
+  [/barrows gloves|culinaromancer's gloves 10/, 5],
+  // shields / defenders
+  [/(arcane|divine|elysian|spectral) spirit shield/, 6],
+  [/dragon defender|dragonfire shield/, 4],
+  [/rune defender/, 3],
   // head / body uniques
-  [/neitiznot faceguard/, 9],
-  [/serpentine helm|magma helm|tanzanite helm/, 8],
-  [/helm of neitiznot|fighter torso|justiciar faceguard/, 7],
-  [/elite void/, 8],
-  [/void (knight|melee|ranger|mage|seal)/, 7],
-  [/slayer helmet \(i\)|black mask \(i\)/, 7],
-  [/slayer helmet|black mask/, 6],
-  [/proselyte/, 5],
-  [/gilded/, 5], // gilded armour = rune stats
+  [/slayer helmet|full slayer helmet/, 3],
+  [/void knight|elite void/, 3],
+  [/helm of neitiznot|fighter torso/, 3],
+  [/3rd age|third age/, 5],
+  [/gilded/, 3], // gilded armour = rune stats
 ];
 
 /** God-name / decorative prefixes used by clue-scroll cosmetics. */
@@ -110,35 +80,35 @@ const COSMETIC_PREFIX = /(armadyl|bandos|saradomin|zamorak|guthix|ancient|gilded
 /**
  * Tier purely from a base material word (metal / dragonhide / bow wood / robe),
  * or null. Used both for the main ladder and to re-tier god-themed clue
- * cosmetics by what they actually are (e.g. "Armadyl d'hide" → standard d'hide,
- * not God Wars). Dragonhide without a colour (blessed / gilded sets) → T5.
+ * cosmetics by what they actually are (e.g. "Armadyl d'hide" → blessed d'hide,
+ * not God Wars). RS3 dragonhide tiers: green 40, blue 50, red 55, black 60,
+ * royal 65; uncoloured (blessed/god) d'hide → T3.
  */
 const materialTier = (s: string): number | null => {
   const dh = '(d.?hide|dragonhide|dragon\\s*leather)';
-  const bow = '(short|long|comp(osite)?)?\\s*bow';
-  // dragonhide by colour; uncoloured (blessed/god/gilded) → standard T5
-  if (new RegExp(`black\\s*${dh}`).test(s)) return 7;
-  if (new RegExp(`red\\s*${dh}`).test(s)) return 6;
-  if (new RegExp(`blue\\s*${dh}`).test(s)) return 5;
-  if (new RegExp(`green\\s*${dh}`).test(s)) return 4;
-  if (new RegExp(dh).test(s)) return 5;
-  // bows by wood
-  if (new RegExp(`magic\\s*${bow}`).test(s)) return 6;
-  if (new RegExp(`yew\\s*${bow}`).test(s)) return 5;
-  if (new RegExp(`maple\\s*${bow}`).test(s)) return 4;
-  if (new RegExp(`willow\\s*${bow}`).test(s)) return 3;
-  if (new RegExp(`oak\\s*${bow}`).test(s)) return 2;
+  const bow = '(short|long|shield|comp(osite)?)?\\s*bow';
+  // dragonhide by colour
+  if (new RegExp(`(royal|black|red)\\s*${dh}`).test(s)) return 4;
+  if (new RegExp(`(blue|green)\\s*${dh}`).test(s)) return 3;
+  if (new RegExp(dh).test(s)) return 3;
+  // bows by wood (magic 50, yew 40, maple 30, willow 20, oak 10)
+  if (new RegExp(`(magic|yew)\\s*${bow}`).test(s)) return 3;
+  if (new RegExp(`(maple|willow)\\s*${bow}`).test(s)) return 2;
+  if (new RegExp(`oak\\s*${bow}`).test(s)) return 1;
   // robes / staves
-  if (/ancient staff/.test(s)) return 6;
-  if (/iban/.test(s)) return 5;
-  if (/mystic/.test(s)) return 4;
-  if (/xerician/.test(s)) return 3;
-  if (/initiate/.test(s)) return 3;
-  // metals
-  if (/\bdragon\b/.test(s)) return 6;
-  if (/\brun(e|ite)\b/.test(s)) return 5;
-  if (/adamant(ite)?/.test(s)) return 4;
-  if (/mithril/.test(s)) return 3;
+  if (/mystic/.test(s)) return 3;
+  if (/batwing|splitbark|battlestaff/.test(s)) return 2;
+  if (/wizard|spider silk|carapace/.test(s)) return 1;
+  // metals (RS3 metal ladder)
+  if (/elder rune.*\+\s*[45]/.test(s)) return 8;
+  if (/elder rune/.test(s)) return 6;
+  if (/\bbane\b/.test(s)) return 6;
+  if (/necronium/.test(s)) return 5;
+  if (/orikalkum|\bgranite\b/.test(s)) return 4;
+  if (/\bdragon\b/.test(s)) return 4;
+  if (/\brun(e|ite)\b/.test(s)) return 3;
+  if (/adamant(ite)?/.test(s)) return 3;
+  if (/mithril/.test(s)) return 2;
   if (/steel/.test(s)) return 2;
   if (/\bblack\b/.test(s)) return 2;
   if (/studded/.test(s)) return 2;
@@ -152,23 +122,32 @@ export const canonicalTierFromName = (name: string): number | null => {
   // Named uniques first (so e.g. "Dragon defender" beats the generic "Dragon").
   for (const [re, tier] of NAMED_TIERS) if (re.test(s)) return tier;
 
-  // God-themed / decorative clue-scroll cosmetics (e.g. "Armadyl rune helmet",
-  // "Bandos d'hide body") reskin a base material set — tier by the material, not
-  // the god, so they read as normal gear instead of God Wars (T8). Real GWD
-  // armour ("Bandos chestplate") has no material word, so it falls through.
+  // God-themed / decorative clue-scroll cosmetics (e.g. "Armadyl rune helm",
+  // "Bandos d'hide body") reskin a base material set — tier by the material,
+  // not the god. Real GWD armour ("Bandos chestplate") has no material word,
+  // so it falls through to the God Wars rule below.
   if (COSMETIC_PREFIX.test(s)) {
     const m = materialTier(s);
     if (m != null) return m;
   }
 
-  // T9 — raids / endgame
-  if (/(ancestral|torva|masori|twisted bow|scythe of vitur|sanguinesti|tumeken|justiciar|avernic|primordial|pegasian|eternal boot|dragon hunter|inquisitor|harmonised|volatile|eldritch|nightmare staff|venator|ultor|magus|bellator|lightbearer|elidinis|osmumten|virtus|zaryte)/.test(s)) return 9;
+  // T9 — tier 92-95+ (elite / trimmed / T95 Necromancy)
+  if (/(trimmed masterwork|elite (sirenic|tectonic|dracolich)|vestments of havoc|tumeken's resplendence|first necromancer)/.test(s)) return 9;
 
-  // T8 — God Wars / Zenyte / high-end
-  if (/(bandos|armadyl|saradomin sword|saradomin's blessed|zamorakian|godsword|zenyte|amulet of anguish|necklace of anguish|amulet of torture|ring of suffering|tormented bracelet|occult|trident|staff of the dead|toxic staff|dragonfire|dragon warhammer|dragon claws|crystal (helm|body|legs|armour|bow|shield|halberd)|faerdhinen|brimstone ring)/.test(s)) return 8;
+  // T8 — tier 90
+  if (/(malevolent|sirenic|tectonic|masterwork|dracolich|deathwarden|deathdealer|teralith|tempest|primeval|cryptbloom)/.test(s)) return 8;
 
-  // T7 — Barrows / Obsidian
-  if (/(ahrim|karil|dharok|guthan|torag|verac|obsidian|tzhaar|toktz|tztok)/.test(s)) return 7;
+  // T7 — tier 85-88
+  if (/(tetsu|death lotus|seasinger|refined anima core|superior (statius|vesta|morrigan|zuriel))/.test(s)) return 7;
+
+  // T8 also: Elder rune +4/+5 (tier 90 after upgrading)
+  if (/elder rune.*\+\s*[45]/.test(s)) return 8;
+
+  // T6 — tier 80
+  if (/(torva|pernix|virtus|anima core|elder rune)/.test(s)) return 6;
+
+  // T5 — tier 70-75: Barrows, God Wars 1 armour, Necronium
+  if (/(ahrim|karil|dharok|guthan|torag|verac|akrisae|linza|bandos|armadyl|subjugation|statius|vesta|morrigan|zuriel)/.test(s)) return 5;
 
   // Everything else by base material (metal / dragonhide / bow / robe).
   return materialTier(s);

@@ -34,8 +34,10 @@ const diffRank = (d: DropSource): number => {
 
 const wikiUrl = (a: Action): string => {
   if (a.kind === 'quest') return `https://runescape.wiki/w/${encodeURIComponent(a.name.replace(/ /g, '_'))}`;
-  const area = a.id.replace(/ (Easy|Medium|Hard|Elite)$/, '');
-  return `https://runescape.wiki/w/${encodeURIComponent((area + ' Diary').replace(/ /g, '_'))}`;
+  // RS3 diary tiers each have their own page: "<Tier> <Area> achievements".
+  const m = a.id.match(/^(.*) (Beginner|Easy|Medium|Hard|Elite)$/);
+  if (!m) return 'https://runescape.wiki/w/Achievement_Diary';
+  return `https://runescape.wiki/w/${encodeURIComponent(`${m[2]} ${m[1]} achievements`.replace(/ /g, '_'))}`;
 };
 
 /** A representative chunk to jump to for "start on map", or null. */

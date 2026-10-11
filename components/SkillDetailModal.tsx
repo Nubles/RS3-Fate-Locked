@@ -94,7 +94,8 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({ skill, curre
   useEffect(() => { if (hasGathering) setTab('gather'); }, [hasGathering]);
 
   const jump = (cx: number, cy: number) => { showChunkOnMap(cx, cy); onClose(); };
-  const iconUrl = `https://runescape.wiki/images/${skill}_icon.png`;
+  // RS3 wiki skill icons are named "<Skill>-icon.png" (e.g. Attack-icon.png).
+  const iconUrl = `https://runescape.wiki/images/${skill}-icon.png`;
 
   // ── Localised filter: a text search + an "unlocked only" toggle, scoped to
   // the active tab. Filtering happens within the tier grouping so the
@@ -182,7 +183,7 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({ skill, curre
                 <input
                   value={query}
                   onChange={e => setQuery(e.target.value)}
-                  placeholder={tab === 'gather' ? 'Filter resources… (e.g. yew, lobster)' : 'Filter unlocks…'}
+                  placeholder={tab === 'gather' ? 'Filter resources… (e.g. yew, necrite)' : 'Filter unlocks…'}
                   className="w-full bg-black/40 border border-white/10 rounded pl-7 pr-7 py-1.5 text-xs text-gray-200 placeholder-gray-600 focus:outline-none focus:border-cyan-400/40"
                   aria-label="Filter skill progression"
                 />

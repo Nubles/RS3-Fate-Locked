@@ -59,6 +59,7 @@ export const BOSS_TIERS: Record<string, BossTier> = {
   'Hermod': 'mid',
   'Zemouregal & Vorkath': 'mid',
   'Rex Matriarchs': 'mid',
+  'Flesh-hatcher Mhekarnahz': 'mid',
 
   // ── Low (entry bosses, skilling bosses, the Fight Cave) ─────────────────────
   'Kalphite Queen': 'low',
@@ -71,6 +72,8 @@ export const BOSS_TIERS: Record<string, BossTier> = {
   'Skeletal Horror': 'low',
   'Croesus': 'low',
   'Gate of Elidinis': 'low',
+  'Ivar, King of Bones': 'low',
+  'Silverquill, the Dreadhog': 'low',
 };
 
 export const TIER_SOURCE: Record<BossTier, DropSource> = {

@@ -31,7 +31,15 @@ describe('classifyShop', () => {
       ['Soul Wars Reward Shop', 'Reward Shops'],
       ["Ian's Wilderness Cape Shop", 'Reward Shops'],
       ['Stonecutter Supplies', 'Stonemasons'],
-      ['Razmire Builders Merchants', 'Real Estate Agents'],
+      ['Razmire Builders Merchants', 'Estate Agents'],
+      // ── RS3 skill-supply categories ──
+      ['Dungeoneering rewards shop', 'Dungeoneering Rewards'],
+      ["Pikkupstix's Summoning Supplies", 'Summoning Shops'],
+      ['Invention Guild shop', 'Invention Supplies'],
+      ['Archaeology Guild shop', 'Archaeology Supplies'],
+      ['Necromancy supplies', 'Necromancy Supplies'],
+      ['Divination energy shop', 'Divination Supplies'],
+      ['Ordan', 'Ore Merchants'],
       ["Ranael's Super Skirt Store", 'Plateskirt Shops'],
       ['Garden Centre', 'Farming Shops'],
       ["Rufus' Meat Emporium", 'Food Shops'],
@@ -52,7 +60,9 @@ describe('classifyShop', () => {
       'Kebab Shop', 'Silk Stall', 'Silver Stall', 'Jewellery Shop', 'Amulet Shop',
       'Crossbow Shop', 'Staff Shop', 'Mace Shop', 'Shield Shop', 'Helmet Shop',
       'Platebody Shop', 'Platelegs Shop', 'Plateskirt Shop', 'Chainbody Shop',
-      'Scimitar Shop', 'The Rusty Anchor Inn', 'Dye Trader',
+      'Scimitar Shop', 'The Rusty Anchor Inn', 'Dye Trader', 'Razmire Builders Merchants',
+      'Dungeoneering rewards', 'Summoning shop', 'Invention shop', 'Archaeology shop',
+      'Necromancy shop', 'Divination shop', 'Ore seller',
     ];
     for (const p of probes) {
       const got = classifyShop(p);

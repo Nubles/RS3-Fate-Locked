@@ -5,7 +5,7 @@ import { CA_DATA } from './caData';
 import { DIARY_DATA } from './diaryData';
 import { QUEST_DATA } from './questData';
 import {
-  SKILLS_LIST, REGION_GROUPS, MISTHALIN_AREAS,
+  SKILLS_LIST, REGION_GROUPS, MISTHALIN_AREAS, BOSSES_LIST,
 } from './items';
 
 /**
@@ -54,9 +54,34 @@ describe('CA task list references resolve', () => {
     for (const t of ALL_CA_TASKS) { if (seen.has(t.id)) dups.push(t.id); else seen.add(t.id); }
     expect(dups, 'duplicate CA task ids').toEqual([]);
   });
+
+  it('every CA task monster is a BOSSES_LIST boss', () => {
+    // RS3 sub-bosses are filed under their boss/dungeon (Seiryu → Temple of
+    // Aminishi, Araxxi → Araxxor, TzTok-Jad → TzHaar Fight Cave, …).
+    const bosses = new Set(BOSSES_LIST);
+    const bad = ALL_CA_TASKS.filter((t) => !bosses.has(t.monster)).map((t) => `${t.id} -> "${t.monster}"`);
+    expect(bad, 'CA tasks whose monster is not in BOSSES_LIST').toEqual([]);
+  });
+
+  it('every CA tier has tasks', () => {
+    const empty = Object.keys(CA_DATA).filter((tier) => !ALL_CA_TASKS.some((t) => t.tierId === tier));
+    expect(empty, 'CA tiers with no tasks').toEqual([]);
+  });
 });
 
 describe('Diary task list references resolve', () => {
+  it('every DIARY_DATA tier has tasks', () => {
+    const empty = Object.keys(DIARY_DATA).filter((id) => !(ALL_DIARY_TASKS as any[]).some((t) => t.tierId === id));
+    expect(empty, 'diary tiers with no tasks').toEqual([]);
+  });
+
+  it('every diary task id is unique', () => {
+    const seen = new Set<string>();
+    const dups: string[] = [];
+    for (const t of ALL_DIARY_TASKS) { if (seen.has(t.id)) dups.push(t.id); else seen.add(t.id); }
+    expect(dups, 'duplicate diary task ids').toEqual([]);
+  });
+
   it('every diary task tierId matches DIARY_DATA', () => {
     const bad = (ALL_DIARY_TASKS as any[]).filter((t) => !VALID_DIARY_TIER.has(t.tierId))
       .map((t) => `${t.id} -> "${t.tierId}"`);

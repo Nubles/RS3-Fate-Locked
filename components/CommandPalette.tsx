@@ -54,7 +54,6 @@ export const CommandPalette: React.FC = () => {
       { id: 'ctrl-log', title: 'History', subtitle: 'Your full run log', group: 'Earn & Spend', icon: ScrollText, keywords: 'history log timeline events', run: go('ctrl:LOG') },
       // Plan
       { id: 'open-goal', title: 'Goal Planner', subtitle: 'Route to any unlock', group: 'Plan', icon: Route, keywords: 'goal planner plan route target path', run: go('open:goal') },
-      { id: 'open-kill', title: 'Boss Kill Planner', subtitle: 'DPS & readiness vs your bosses', group: 'Plan', icon: Skull, keywords: 'boss kill planner dps ttk readiness', run: go('open:killplanner') },
       { id: 'open-forecast', title: 'Fate Forecast', subtitle: 'Odds & time-to-unlock', group: 'Plan', icon: Sparkles, keywords: 'forecast odds probability chance predict', run: go('open:forecast') },
       { id: 'open-supply', title: 'Resource Engine', subtitle: 'Supplies a goal needs', group: 'Plan', icon: Gauge, keywords: 'resource engine supply chain materials cost', run: go('open:supply') },
       { id: 'open-strategy', title: 'Strategy Guide', subtitle: 'How to approach each unlock', group: 'Plan', icon: Map, keywords: 'strategy guide advice tips order', run: go('open:strategy') },

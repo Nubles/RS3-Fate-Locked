@@ -84,7 +84,7 @@ export const SkillTrainingPopover: React.FC<Props> = ({
     .slice(0, 5);
 
   const isQP = skill === 'Quest Points';
-  const xpNeeded = isQP ? 0 : Math.max(0, xpAtLevel(requiredLevel) - xpAtLevel(currentLevel));
+  const xpNeeded = isQP ? 0 : Math.max(0, xpAtLevel(requiredLevel, skill) - xpAtLevel(currentLevel, skill));
   const levelsNeeded = Math.max(0, requiredLevel - currentLevel);
   const wikiUrl = isQP
     ? 'https://runescape.wiki/w/Quest_points'

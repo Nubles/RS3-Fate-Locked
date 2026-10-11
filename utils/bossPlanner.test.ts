@@ -50,7 +50,10 @@ describe('boss kill planner', () => {
     expect(planBoss(strong, monster()).gearGapPct).toBe(100);
   });
 
-  it('exposes boss-name aliases', () => {
-    expect(BOSS_ALIASES['Tormented Demons']).toBe('Tormented Demon');
+  it('exposes RS3 boss-name aliases', () => {
+    expect(BOSS_ALIASES['Dagannoth Kings']).toBe('Dagannoth Rex');
+    expect(BOSS_ALIASES['Nex: Angel of Death']).toBe('Nex');
+    // no OSRS-only bosses remain
+    expect(BOSS_ALIASES['Tormented Demons']).toBeUndefined();
   });
 });

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { CheckCircle2, Lock, Route, MapPin, ChevronDown, ChevronRight, ExternalLink, AlertTriangle, HelpCircle } from 'lucide-react';
 import { useGame } from '../context/GameContext';
-import { QUEST_DATA } from '../data/questData';
+import { QUEST_DATA, questWikiUrl } from '../data/questData';
 import { chunkContentService } from '../services/ChunkContentService';
 import { chunkReachability } from '../utils/chunkReach';
 import { chunkForPlace, chunkUnlocked, placeOf, showChunkOnMap } from '../utils/chunkLocations';
@@ -13,9 +13,8 @@ import { WIKI_OVERRIDES } from '../constants';
 interface Props { searchTerm?: string }
 
 const wikiUrl = (name: string) => {
-  if (name.startsWith('RFD:')) return 'https://runescape.wiki/w/Recipe_for_Disaster';
   if (WIKI_OVERRIDES[name]) return `https://runescape.wiki/w/${WIKI_OVERRIDES[name]}`;
-  return `https://runescape.wiki/w/${name.replace(/ /g, '_')}`;
+  return questWikiUrl(name);
 };
 
 const BUCKET_META: Record<DoabilityBucket, { label: string; cls: string; dot: string }> = {

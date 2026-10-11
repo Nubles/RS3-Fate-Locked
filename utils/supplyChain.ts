@@ -40,7 +40,7 @@ const MERCHANT_BY_NORM_NAME: Map<string, string> = new Map(
 /**
  * Precomputed view of the game state for fast availability checks.
  * Arrays from GameState are turned into Sets so the inner-loop `.includes`
- * calls (~10 per source check × 754 items) become O(1) lookups instead of
+ * calls (~10 per source check × ~700 items) become O(1) lookups instead of
  * O(n) array scans.
  */
 export interface AvailabilityContext {
@@ -181,7 +181,7 @@ export const isItemAvailable = (itemName: string, gameState: GameState): boolean
 
 /**
  * Batch-friendly variant: caller builds the context once and reuses it across
- * many item checks (e.g. the Resource Engine's availability map over all 750+
+ * many item checks (e.g. the Resource Engine's availability map over all ~700
  * items). Avoids rebuilding the Sets per item.
  */
 export const isItemAvailableWithCtx = (itemName: string, ctx: AvailabilityContext): boolean => {
@@ -254,7 +254,7 @@ const compareGateCost = (a: GateCost, b: GateCost): number =>
 /**
  * Batch-friendly: caller builds the context once and reuses it across all
  * items (the "next achievable items" recommendation walks every RESOURCE_MAP
- * entry and would otherwise rebuild the Sets ~750 times).
+ * entry and would otherwise rebuild the Sets ~700 times).
  */
 export const findEasiestPathWithCtx = (itemName: string, ctx: AvailabilityContext): EasiestPath | null => {
   const sources = RESOURCE_MAP[itemName];

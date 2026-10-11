@@ -48,13 +48,23 @@ describe('RESOURCE_MAP sources are well-formed', () => {
   });
 });
 
+// A source sits in continent `r` when it lists 'Any', `r` itself, or one of
+// r's sub-areas (e.g. 'God Wars Dungeon' inside 'Fremennik', 'Wizards' Tower'
+// inside Misthalin) — sources are tagged with the most specific area so the
+// sub-area unlock gates them.
+const inRegion = (listed: string[], r: string): boolean => {
+  if (listed.includes('Any') || listed.includes(r)) return true;
+  const children = r === 'Misthalin' ? MISTHALIN_AREAS : REGION_GROUPS[r];
+  return !!children && listed.some(l => children.includes(l));
+};
+
 describe('boss-drop regions agree with ACTIVITY_REGIONS', () => {
   it('every unlock-gated source sits in the activity\'s region', () => {
     const mismatches: string[] = [];
     for (const [item, sources] of Object.entries(RESOURCE_MAP)) {
       for (const s of sources) {
         const expected = s.unlockId ? ACTIVITY_REGIONS[s.unlockId] : undefined;
-        if (expected && !s.regions.includes(expected) && !s.regions.includes('Any')) {
+        if (expected && !inRegion(s.regions, expected)) {
           mismatches.push(`${item} / ${s.name}: [${s.regions}] != "${expected}"`);
         }
       }
@@ -64,20 +74,11 @@ describe('boss-drop regions agree with ACTIVITY_REGIONS', () => {
 });
 
 // Recipe ingredients that intentionally aren't full RESOURCE_MAP items yet
-// (Mastering Mixology potions, Sailing-era ingredients, quest-only steps).
-// New unmatched inputs that aren't in this list indicate a typo or a recipe
-// pointing at the wrong item name — the kind of bug we want CI to catch.
-const INTENTIONAL_INPUT_LEAVES = new Set([
-  'Caviar', 'Chitin', 'Corrupted Dust', 'Cotton Yarn',
-  'Crystal Dust (Arch-Glacor)', 'Cup of Hot Water', 'Demonic Tallow',
-  'Haddock Eye', 'Haemostatic Poultice',
-  'Herb Tea Mix (2 Guams and Harralander)',
-  'Herb Tea Mix (2 Guams and Marrentill)',
-  'Herb Tea Mix (harralander, Marrentill and Guam)',
-  'Marlin Scales', 'Mixture - Step 2', 'Pharmakos Berries', 'Pillar Coral',
-  'Pre-nature Amulet', 'Silver Dust', 'Snakeweed Mixture', 'Unfinished Potion',
-  "Unfinished Potion (Rogue's Purse)", 'Yellow Fin',
-]);
+// (quest-only intermediate steps and the like). Empty after the RS3 rewrite:
+// every input in the catalogue resolves. New unmatched inputs indicate a typo
+// or a recipe pointing at the wrong item name — the kind of bug we want CI to
+// catch — so prefer adding the item over adding to this list.
+const INTENTIONAL_INPUT_LEAVES = new Set<string>([]);
 
 describe('every input references something real', () => {
   it('all inputs resolve to a RESOURCE_MAP key, "Coins", or the intentional-leaves allowlist', () => {
@@ -168,8 +169,8 @@ describe('findEasiestPath surfaces the closest unlock route', () => {
   } as any;
 
   it('returns null when the item is already obtainable', () => {
-    // Logs are 'Any' region with Woodcutting 1 — available out of the box.
-    expect(findEasiestPath('Logs', emptyState)).toBeNull();
+    // Cowhide drops from cows in (always-free) Misthalin with no requirements.
+    expect(findEasiestPath('Cowhide', emptyState)).toBeNull();
   });
 
   it('returns null for an unknown item', () => {
@@ -253,15 +254,15 @@ describe('calculateEngineItemProgress mirrors the GoalProgress shape', () => {
   });
 
   it('returns 100% for an already-obtainable item', () => {
-    // Logs are 'Any' region with Woodcutting 1 — obtainable on a fresh state.
-    const p = calculateEngineItemProgress('Logs', emptyState)!;
+    // Cowhide drops from cows in Misthalin — obtainable on a fresh state.
+    const p = calculateEngineItemProgress('Cowhide', emptyState)!;
     expect(p.percentage).toBe(100);
     expect(p.missing).toEqual([]);
   });
 
   it('clamps to 99% when anything is missing', () => {
-    // Twisted Bow's CoX route is fully locked on an empty state.
-    const p = calculateEngineItemProgress('Twisted Bow', emptyState)!;
+    // Seismic Wand (Vorago) is fully locked on an empty state.
+    const p = calculateEngineItemProgress('Seismic Wand', emptyState)!;
     expect(p.missing.length).toBeGreaterThan(0);
     expect(p.percentage).toBeLessThan(100);
     expect(p.totalSteps).toBeGreaterThanOrEqual(p.completedSteps);

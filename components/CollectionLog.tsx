@@ -121,7 +121,12 @@ export const CollectionLog: React.FC<CollectionLogProps> = ({ searchTerm = '' })
   // Init Prices and Calculate Wealth
   useEffect(() => {
     const calcWealth = async () => {
-        await priceService.init();
+        // Only price what's actually logged — the RS3 GE API is queried by name.
+        const names = Object.values(COLLECTION_LOG_DATA).flatMap(tab =>
+            Object.values(tab.pages).flatMap(page => page.items
+                .filter(item => (unlocks.collectionLog[item.id] || 0) > 0)
+                .map(item => item.name)));
+        await priceService.init(names);
         let total = 0;
         let maxItem = { name: '', value: 0 };
 
@@ -331,7 +336,7 @@ export const CollectionLog: React.FC<CollectionLogProps> = ({ searchTerm = '' })
             </div>
           )}
           <div className="text-[9px] text-[#7a6f5e] mt-1.5 italic">
-            Based on boss/minigame unlocks. Clues &amp; Other slots are counted as always-available (no single gating source), so this % is approximate.
+            Based on boss/minigame unlocks. Slayer, Clues &amp; Other slots are counted as always-available (no single gating source), so this % is approximate.
           </div>
         </div>
       )}

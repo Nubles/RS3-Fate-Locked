@@ -37,12 +37,13 @@ describe('expandQuestChain', () => {
         expect(chain.indexOf(p), `${p} should precede ${chain[i]}`).toBeLessThan(i);
       }
     }
-    // transitivity: Legends' requires Shilo Village somewhere upstream
-    expect(chain).toContain('Shilo Village');
+    // transitivity: a prerequisite of a prerequisite is pulled in too
+    const grand = QUEST_DATA[QUEST_DATA["Legends' Quest"].prereqs[0]].prereqs[0];
+    expect(chain).toContain(grand);
   });
 
   it('dedupes shared prerequisites', () => {
-    const chain = expandQuestChain(['Desert Treasure I', "Legends' Quest"]);
+    const chain = expandQuestChain(['Desert Treasure', "Legends' Quest"]);
     const unique = new Set(chain);
     expect(unique.size).toBe(chain.length);
   });
@@ -57,8 +58,10 @@ describe('buildGoalRoute — strategy goal (Recipe for Disaster ≈ Barrows Glov
     // transitive quest chain, far deeper than the 4 direct prereqs
     expect(route.quests.length).toBeGreaterThan(10);
     const names = route.quests.map(q => q.name);
-    expect(names).toContain('Desert Treasure I');
-    expect(names).toContain('Shilo Village'); // via Legends' Quest
+    expect(names).toContain('Desert Treasure');
+    // transitive: a grand-prerequisite of Legends' Quest is on the route too
+    const legends = QUEST_DATA["Legends' Quest"];
+    expect(names).toContain(QUEST_DATA[legends.prereqs[0]].prereqs[0]);
     expect(route.quests.every(q => !q.met)).toBe(true);
 
     // aggregated skills include chain demands, with tier mapping
@@ -83,12 +86,12 @@ describe('buildGoalRoute — strategy goal (Recipe for Disaster ≈ Barrows Glov
 
   it('marks met requirements as the run progresses', () => {
     const route = buildGoalRoute('Recipe for Disaster', stateWith({
-      quests: ['Desert Treasure I'],
+      quests: ['Desert Treasure'],
       regions: ['Al Kharid'],
       skills: { Cooking: 7 },
       levels: { Cooking: 70 },
     }))!;
-    expect(route.quests.find(q => q.name === 'Desert Treasure I')!.met).toBe(true);
+    expect(route.quests.find(q => q.name === 'Desert Treasure')!.met).toBe(true);
     expect(route.regions.find(r => r.name === 'Kharidian Desert')!.met).toBe(true);
     expect(route.skills.find(s => s.skill === 'Cooking')!.met).toBe(true);
     // an unlocked region is no longer "needed" by any table suggestion
@@ -98,10 +101,10 @@ describe('buildGoalRoute — strategy goal (Recipe for Disaster ≈ Barrows Glov
 
 describe('buildGoalRoute — quest and engine-item goals', () => {
   it('includes the quest itself at the end of its own chain', () => {
-    // Dragon Slayer I has a strategy entry AND is a quest — the chain should
+    // Dragon Slayer has a strategy entry AND is a quest — the chain should
     // still end with the goal quest itself.
-    const route = buildGoalRoute('Dragon Slayer I', stateWith())!;
-    expect(route.quests[route.quests.length - 1].name).toBe('Dragon Slayer I');
+    const route = buildGoalRoute('Dragon Slayer', stateWith())!;
+    expect(route.quests[route.quests.length - 1].name).toBe('Dragon Slayer');
     // a pure quest goal (no strategy entry) resolves as kind 'quest'
     const pureQuest = buildGoalRoute("Cook's Assistant", stateWith())!;
     expect(pureQuest.kind === 'quest' || pureQuest.kind === 'strategy').toBe(true);
@@ -109,7 +112,7 @@ describe('buildGoalRoute — quest and engine-item goals', () => {
   });
 
   it('routes Resource Engine items through their sources', () => {
-    const route = buildGoalRoute('Ranarr Weed', stateWith())!;
+    const route = buildGoalRoute('Clean Ranarr', stateWith())!;
     expect(route.kind).toBe('engine-item');
     expect(route.sources.length).toBeGreaterThan(0);
     expect(route.sources.some(s => s.name === 'Chaos Druid')).toBe(true);

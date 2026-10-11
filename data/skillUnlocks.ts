@@ -1,1785 +1,1772 @@
-
+/**
+ * RS3 skill unlocks, keyed by skill (exactly as in SKILLS_LIST) → tier → notes.
+ *
+ * Tier N opens the +10 level band (tier 1 = levels 1–10 … tier 9 = 81–90,
+ * tier 10 = 91–99). Each entry is a notable RuneScape 3 unlock at that level,
+ * sourced from the RS3 wiki "<Skill>/Level up table" pages. Levels above 99
+ * (to 110/120) are out of scope for tiers; tier 10 covers 99 and implies the
+ * post-99 content too.
+ */
 export const SKILL_UNLOCK_DATA: Record<string, Record<number, string[]>> = {
-  'Constitution': {
-    1: [
-      'Passive: Each level grants +1 Max Health',
-      'Lvl 10: Heal +3 HP with Anglerfish',
-      'Lvl 10: Heal +3 HP with Saradomin Brew'
-    ],
-    2: [
-      'Lvl 14: Heal +4 HP with Saradomin Brew',
-      'Lvl 20: Heal +4 HP with Anglerfish',
-      'Lvl 20: Heal +5 HP with Saradomin Brew'
-    ],
-    3: [
-      'Lvl 25: Heal +6 HP with Anglerfish',
-      'Lvl 27: Heal +6 HP with Saradomin Brew',
-      'Lvl 30: Heal +7 HP with Anglerfish'
-    ],
-    4: [
-      'Lvl 34: Heal +7 HP with Saradomin Brew',
-      'Lvl 40: Heal +8 HP with Anglerfish',
-      'Lvl 40: Heal +8 HP with Saradomin Brew'
-    ],
-    5: [
-      'Lvl 42: Equip Void Knight Armour',
-      'Lvl 47: Heal +9 HP with Saradomin Brew',
-      'Lvl 50: Heal +11 HP with Anglerfish',
-      'Lvl 50: Wield Nightmare Staffs (All Variants)'
-    ],
-    6: [
-      'Lvl 54: Heal +10 HP with Saradomin Brew',
-      'Lvl 60: Heal +11 HP with Saradomin Brew',
-      'Lvl 60: Heal +12 HP with Anglerfish'
-    ],
-    7: [
-      'Lvl 67: Heal +12 HP with Saradomin Brew',
-      'Lvl 70: Access Zamorak\'s Fortress (GWD)',
-      'Lvl 70: Heal +13 HP with Anglerfish'
-    ],
-    8: [
-      'Lvl 74: Heal +13 HP with Saradomin Brew',
-      'Lvl 75: Wear Enchanted Zenyte Jewellery',
-      'Lvl 80: Heal +14 HP with Saradomin Brew',
-      'Lvl 80: Heal +16 HP with Anglerfish'
-    ],
-    9: [
-      'Lvl 87: Heal +15 HP with Saradomin Brew',
-      'Lvl 90: Heal +17 HP with Anglerfish',
-      'Lvl 90: Wear Amulet of Rancour',
-      'Lvl 90: Wear Confliction Gauntlets'
-    ],
-    10: [
-      'Lvl 93: Heal +22 HP with Anglerfish',
-      'Lvl 94: Heal +16 HP with Saradomin Brew',
-      'Lvl 99: Skill Mastery (Skill Cape)'
-    ],
-  },
-  'Agility': {
-    1: [
-      'Passive: Run Energy restores 15%/min',
-      'Lvl 1: Draynor Village Rooftop Course',
-      'Lvl 1: Gnome Stronghold Agility Course',
-      'Lvl 1: Shayzien Basic Course',
-      'Lvl 1: Shortcuts: Lumbridge Swamp, Brimhaven Dungeon',
-      'Lvl 5: Falador Crumbling Wall & Yanille Rocks Shortcuts',
-      'Lvl 10: Corsair Cove Rocks & Brimhaven Ropeswing'
-    ],
-    2: [
-      'Lvl 12: Western Brimhaven Stepping Stones',
-      'Lvl 15: Catch Leaping Trout (Barbarian Fishing)',
-      'Lvl 15: Edgeville Monkeybars & Corsair Cove Pillar',
-      'Lvl 16: Yanille Underwall Tunnel',
-      'Lvl 18: Slayer Tower Broken Window Shortcut',
-      'Lvl 20: Al Kharid Rooftop Course',
-      'Lvl 20: Coal Trucks Log Balance'
-    ],
-    3: [
-      'Lvl 21: Grand Exchange Underwall Tunnel',
-      'Lvl 25: Werewolf Skullball & Eagles\' Peak Rocks',
-      'Lvl 26: Falador Underwall Tunnel',
-      'Lvl 29: Mount Karuulm Lower Rocks',
-      'Lvl 30: Agility Pyramid & Varrock Rooftop Course',
-      'Lvl 30: Catch Leaping Salmon',
-      'Lvl 30: Penguin Agility Course (Quest Req)'
-    ],
-    4: [
-      'Lvl 31: Champions\' Guild Stepping Stone',
-      'Lvl 32: Catherby Grapple & Shilo Village Steps',
-      'Lvl 35: Barbarian Outpost Course',
-      'Lvl 37: Tree Gnome Stronghold Rocks',
-      'Lvl 40: Brimhaven Arena (Medium Obstacles)',
-      'Lvl 40: Canifis Rooftop Course'
-    ],
-    5: [
-      'Lvl 42: Dwarven Mine Crevice & Draynor Tunnel',
-      'Lvl 45: Catch Leaping Sturgeon',
-      'Lvl 45: Shayzien Advanced Course',
-      'Lvl 47: Trollheim Hard Rocks',
-      'Lvl 48: Ape Atoll Agility Course',
-      'Lvl 49: Yanille Dungeon Pipe',
-      'Lvl 50: Falador Rooftop & Colossal Wyrm Basic Courses',
-      'Lvl 50: Rogues\' Den Minigame Access'
-    ],
-    6: [
-      'Lvl 52: Hallowed Sepulchre (Floor 1) & Wilderness Course',
-      'Lvl 53: Karamja Strong Tree (Grapple)',
-      'Lvl 54: Motherlode Mine Dark Tunnels',
-      'Lvl 55: Miscellania Stepping Stone',
-      'Lvl 57: Yanille Dungeon Monkeybars',
-      'Lvl 60: God Wars Dungeon Access (Boulder)',
-      'Lvl 60: Seers\' Village Rooftop & Werewolf Courses'
-    ],
-    7: [
-      'Lvl 61: Slayer Tower Medium Chain',
-      'Lvl 62: Colossal Wyrm Advanced & Sepulchre Floor 2',
-      'Lvl 62: Mount Karuulm Upper Rocks',
-      'Lvl 63: Darkmeyer Wall & Taverley Railing',
-      'Lvl 65: Revenant Caves Easy Pillar',
-      'Lvl 66: Taverley Rocks & Lumbridge Swamp Stone',
-      'Lvl 70: Pollnivneach Rooftop & Dorgesh-Kaan Courses',
-      'Lvl 70: Saradomin Encampment (GWD)',
-      'Lvl 70: Taverley Dungeon Pipe (Blue Dragons)'
-    ],
-    8: [
-      'Lvl 71: Slayer Tower Advanced Chain',
-      'Lvl 72: Hallowed Sepulchre (Floor 3)',
-      'Lvl 73: Troll Stronghold Rocks',
-      'Lvl 74: Lava Dragon Isle Stone',
-      'Lvl 75: Prifddinas Agility Course',
-      'Lvl 76: Zul-Andra Stepping Stone',
-      'Lvl 80: Rellekka Rooftop Course',
-      'Lvl 80: Taverley Strange Floor'
-    ],
-    9: [
-      'Lvl 81: Waterbirth Dungeon Crevice',
-      'Lvl 82: Hallowed Sepulchre (Floor 4)',
-      'Lvl 83: Chasm of Fire Chain',
-      'Lvl 85: Tirannwn Advanced Rocks',
-      'Lvl 86: Kalphite Lair Crevice (KQ Shortcut)',
-      'Lvl 87: Brimhaven Dungeon Vine',
-      'Lvl 88: Hydra Shortcut (Mount Karuulm)',
-      'Lvl 90: Ardougne Rooftop Course'
-    ],
-    10: [
-      'Lvl 92: Hallowed Sepulchre (Floor 5)',
-      'Lvl 96: Shaman Caves Crevice',
-      'Lvl 99: Skill Mastery (Cape: Never Fail Obstacles)'
-    ],
-  },
   'Attack': {
     1: [
-      'Lvl 1: Bronze & Iron Weapons',
-      'Lvl 1: Quest Weapons (Silverlight, Wolfbane)',
-      'Lvl 5: Steel Weapons & Decorative Swords',
-      'Lvl 10: Black Weapons',
-      'Lvl 10: White Weapons (Wanted! Quest)'
+      'Lvl 1: Wield bronze weapons',
+      'Lvl 1: Slice & Slaughter abilities',
+      'Lvl 5: Havoc ability',
+      'Lvl 10: Wield iron weapons',
+      'Lvl 10: Backhand ability',
     ],
     2: [
-      'Lvl 15: Ancient Mace (Another Slice of H.A.M)',
-      'Lvl 20: Excalibur (Merlin\'s Crystal)',
-      'Lvl 20: Mithril Weapons'
+      'Lvl 15: Forceful Backhand ability',
+      'Lvl 20: Wield steel weapons',
+      'Lvl 20: Smash ability',
     ],
     3: [
-      'Lvl 30: Adamant Weapons',
-      'Lvl 30: Battlestaves & Mystic Staves',
-      'Lvl 30: Pharaoh\'s Sceptre',
-      'Lvl 30: Swamp Lizards (Magic/Range 30)'
+      'Lvl 25: Wield black weapons',
+      'Lvl 30: Wield mithril weapons',
+      'Lvl 30: Barge ability',
     ],
     4: [
-      'Lvl 40: Brine Sabre & Hill Giant Club',
-      'Lvl 40: Gilded Weapons',
-      'Lvl 40: Rune Weapons'
+      'Lvl 37: Flurry ability',
+      'Lvl 40: Wield adamant weapons',
     ],
     5: [
-      'Lvl 42: Void Knight Equipment',
-      'Lvl 50: Granite Weapons (Maul, Longsword, Hammer)',
-      'Lvl 50: Iban\'s Staff & Ancient Staff',
-      'Lvl 50: Leaf-Bladed Sword/Spear (Slayer 55)',
-      'Lvl 50: Orange Salamander & Eclipse Atlatl'
+      'Lvl 45: Sever ability',
+      'Lvl 45: Gravite weapons (Dungeoneering)',
+      'Lvl 50: Wield rune weapons',
     ],
     6: [
-      'Lvl 55: Sulphur Blades',
-      'Lvl 60: Dragon Weapons (Scimitar, Dagger, Mace)',
-      'Lvl 60: Obsidian Weapons',
-      'Lvl 60: Viggora\'s Chainmace & Barrelchest Anchor'
+      'Lvl 55: Hurricane ability',
+      'Lvl 55: Granite maul / mace',
+      'Lvl 60: Wield dragon & orikalkum weapons',
     ],
     7: [
-      'Lvl 65: 3rd Age Weapons',
-      'Lvl 65: Leaf-Bladed Battleaxe',
-      'Lvl 65: Sarachnis Cudgel & Zombie Axe',
-      'Lvl 70: Abyssal Whip, Dagger & Bludgeon',
-      'Lvl 70: Barrows Equipment (Dharok, Guthan, etc)',
-      'Lvl 70: Crystal Weapons (Halberd)',
-      'Lvl 70: Saradomin Sword & Zamorakian Spear'
+      'Lvl 65: Bladed Dive ability',
+      'Lvl 66: Massacre ability',
+      'Lvl 70: Abyssal whip, Barrows & necronium weapons',
+      'Lvl 70: Blisterwood polearm',
     ],
     8: [
-      'Lvl 75: Arclight, Abyssal Tentacle, Voidwaker',
-      'Lvl 75: Godswords (AGS, BGS, SGS, ZGS)',
-      'Lvl 80: Ferocious Gloves',
-      'Lvl 80: Ghrazi Rapier, Blade of Saeldor, Inquisitor Mace',
-      'Lvl 80: Scythe of Vitur & Soulreaper Axe'
+      'Lvl 75: Godswords & Saradomin sword',
+      'Lvl 75: Abyssal vine whip & Balmung',
+      'Lvl 78: Korasi\'s sword & Ancient Warriors\' weapons',
+      'Lvl 80: Chaotic weapons (Dungeoneering) & bane weapons',
     ],
     9: [
-      'Lvl 82: Osmumten\'s Fang'
+      'Lvl 81: Meteor Strike ability',
+      'Lvl 82: Khopesh of the Kharidian & Masuta\'s warspear',
+      'Lvl 85: Blade of Nymora & Blade of Avaryss',
+      'Lvl 90: Drygore weapons, Noxious scythe & elder rune weapons',
     ],
     10: [
-      'Lvl 99: Skill Mastery (Attack Cape)'
+      'Lvl 92: Zaros godsword, Khopesh of Tumeken & Abyssal scourge',
+      'Lvl 95: Dark Shard / Sliver of Leng',
+      'Lvl 99: Skill Mastery (Attack cape)',
     ],
   },
-  'Construction': {
+
+  'Constitution': {
     1: [
-      'Summoning: Wooden Hull, Mast, Bronze Helm',
-      'Lvl 1: Basic Wood Decor, Garden, Parlour, Kitchen',
-      'Lvl 1: Crude Furniture, Fireplaces',
-      'Lvl 1: Mahogany Homes (Beginner)',
-      'Lvl 1: Move to Rimmington',
-      'Lvl 10: Basic Stone Decor, Dining Room'
+      'Passive: +100 life points per Constitution level',
+      'Lvl 10: Starting level — 1,000 life points',
+      'Lvl 10: Portent of restoration I (Daemonheim)',
     ],
     2: [
-      'Move to Taverley',
-      'Lvl 12: STASH Units (Beginner)',
-      'Lvl 15: Workshop, Repair Bench',
-      'Lvl 16: Crafting Table 1',
-      'Lvl 17: Water Pump (Summoning)',
-      'Lvl 20: Bedroom, Whitewashed Stone Decor',
-      'Lvl 20: Mahogany Homes (Novice)'
+      'Lvl 15: Portent of restoration II',
+      'Lvl 20: Siphon ability',
+      'Lvl 20: 2,000 life points',
     ],
     3: [
-      'Summoning: Teak Hull, Cannons',
-      'Lvl 22: Oak Dining Table',
-      'Lvl 25: Skill Hall, Move to Hosidius',
-      'Lvl 27: STASH Units (Easy)',
-      'Lvl 30: Games Room, Combat Room',
-      'Lvl 30: Move to Rellekka'
+      'Lvl 24: Incite ability',
+      'Lvl 25: Portent of restoration III',
+      'Lvl 30: 3,000 life points',
     ],
     4: [
-      'Lvl 32: Oak Workbench',
-      'Lvl 33: Oak Larder',
-      'Lvl 35: Quest Hall',
-      'Lvl 37: Menagerie, Spirit Tree (Patch)',
-      'Lvl 38: Pet List, Teak Table',
-      'Lvl 40: Servant (Butler), Move to Brimhaven',
-      'Lvl 40: Study, Costume Room'
+      'Lvl 35: Portent of restoration IV',
+      'Lvl 40: 4,000 life points',
     ],
     5: [
-      'Lvl 42: Fancy Range',
-      'Lvl 42: STASH Units (Medium)',
-      'Lvl 45: Chapel, Oak Altar',
-      'Lvl 47: Mounted Glory, Mythical Cape',
-      'Lvl 50: Mahogany Homes (Adept)',
-      'Lvl 50: Portal Chamber, Teleport Focus',
-      'Lvl 50: Servant (Demon Butler), Move to Yanille'
+      'Lvl 42: Void Knight equipment (with other 42s)',
+      'Lvl 50: Start Salt in the Wound',
+      'Lvl 50: Tuska\'s Wrath ability',
+      'Lvl 50: 5,000 life points',
     ],
     6: [
-      'Lvl 52: Mahogany Table',
-      'Lvl 55: STASH Units (Hard)',
-      'Lvl 58: Servant\'s Moneybag',
-      'Lvl 60: Throne Room, Gilded 4-Poster'
+      'Lvl 60: Portent of restoration (higher tiers)',
+      'Lvl 60: 6,000 life points',
     ],
     7: [
-      'Lvl 65: Oubliette (Dungeon)',
-      'Lvl 65: Restoration Pool, Superior Garden',
-      'Lvl 67: Teak Throne',
-      'Lvl 69: Marble Incense Burners',
-      'Lvl 70: Dungeon Entrance, Marble Altar',
-      'Lvl 70: Mahogany Homes (Expert)',
-      'Lvl 70: Move to Prifddinas'
+      'Lvl 70: Enter Zamorak\'s Fortress (God Wars Dungeon)',
+      'Lvl 70: Storm Shards & Shatter abilities',
+      'Lvl 70: 7,000 life points',
     ],
     8: [
-      'Lvl 72: Portal Nexus (Marble)',
-      'Lvl 75: Spirit Tree, Gilded Altar',
-      'Lvl 77: STASH Units (Elite)',
-      'Lvl 80: Achievement Gallery, Ancient Altar',
-      'Lvl 80: Rejuvenation Pool, Jewellery Box'
+      'Lvl 74: Vital Drain ability (codex)',
+      'Lvl 75: Start The Lord of Vampyrium',
+      'Lvl 76: Start The Firemaker\'s Curse',
+      'Lvl 78: Start The Mighty Fall',
+      'Lvl 80: Wear Torva, Pernix & Virtus (with 80 Defence)',
     ],
     9: [
-      'Lvl 82: Gilded Portal Nexus',
-      'Lvl 85: Fairy Ring, Fancy Rejuvenation Pool',
-      'Lvl 88: STASH Units (Master)',
-      'Lvl 90: Occult Altar, Ornate Rejuvenation Pool'
+      'Lvl 82: Vampyre Slayer ability (codex)',
+      'Lvl 85: Guthix\'s Blessing ability',
+      'Lvl 90: Onslaught ability',
+      'Lvl 90: 9,000 life points',
     ],
     10: [
-      'Lvl 91: Ornate Jewellery Box',
-      'Lvl 95: Spirit Tree & Fairy Ring',
-      'Lvl 99: Construction Cape (Teleports)'
+      'Lvl 91: Ice Asylum ability (Codex Ultimatus)',
+      'Lvl 99: 9,900 life points',
+      'Lvl 99: Skill Mastery (Constitution cape)',
     ],
   },
-  'Cooking': {
+
+  'Mining': {
     1: [
-      'Lvl 1: Bread, Sardine, Poison Karambwan',
-      'Lvl 1: Meat, Chicken, Shrimps, Anchovies',
-      'Lvl 5: Beer Barrel (Construction 7)',
-      'Lvl 5: Herring',
-      'Lvl 10: Redberry Pie, Mackerel, Toad Crunchies'
+      'Lvl 1: Copper, tin & clay; bronze pickaxe',
+      'Lvl 1: Common gem rocks (opal, lapis lazuli)',
+      'Lvl 7: Ore box stores copper & tin',
+      'Lvl 10: Iron, blurite & limestone; iron pickaxe',
     ],
     2: [
-      'Lvl 15: Trout, Roasted Bird',
-      'Lvl 18: Cod',
-      'Lvl 20: Pike, Meat Pie, Nettle Tea'
+      'Lvl 15: Energetic Mining (stamina boost)',
+      'Lvl 18: Ore box stores iron',
+      'Lvl 20: Coal & silver; steel pickaxe',
+      'Lvl 20: Uncommon gem rocks',
     ],
     3: [
-      'Lvl 22: Fat Snail',
-      'Lvl 25: Salmon, Stew, Fruit Batta',
-      'Lvl 28: Sweetcorn, Slimy Eel',
-      'Lvl 30: Karambwan (Thoroughly), Chompy Bird',
-      'Lvl 30: Tuna, Apple Pie'
+      'Lvl 29: Ore box stores coal',
+      'Lvl 30: Mithril ore; mithril pickaxe',
     ],
     4: [
-      'Lvl 32: Cooks\' Guild Access',
-      'Lvl 35: Plain Pizza, Jug of Wine',
-      'Lvl 40: Lobster, Cake'
+      'Lvl 35: Sandstone',
+      'Lvl 37: Ore box stores mithril',
+      'Lvl 40: Adamantite, luminite & gold; adamant pickaxe',
     ],
     5: [
-      'Lvl 41: Chilli Potato, Jubbly',
-      'Lvl 43: Bass',
-      'Lvl 45: Swordfish, Meat Pizza',
-      'Lvl 50: Chocolate Cake'
+      'Lvl 45: Granite',
+      'Lvl 46: Rubium (Kennith\'s Concerns)',
+      'Lvl 50: Runite ore; rune pickaxe',
+      'Lvl 50: Concentrated sandstone',
     ],
     6: [
-      'Lvl 53: Lava Eel (Heroes\' Quest)',
-      'Lvl 55: Anchovy Pizza',
-      'Lvl 58: Pitta Bread',
-      'Lvl 60: Curry, Mushroom Pie'
+      'Lvl 55: Ore box stores runite',
+      'Lvl 60: Orichalcite & drakolith',
+      'Lvl 60: Mining Guild access',
+      'Lvl 60: Orikalkum & dragon pickaxes',
     ],
     7: [
-      'Lvl 62: Monkfish (Swan Song)',
-      'Lvl 65: Pineapple Pizza, Wine of Zamorak',
-      'Lvl 68: Tuna Potato',
-      'Lvl 70: Admiral Pie'
+      'Lvl 66: Ore box stores orichalcite & drakolith',
+      'Lvl 70: Necrite & phasmatite',
+      'Lvl 70: Necronium & crystal pickaxes',
+      'Lvl 70: Concentrated coal (Living Rock Caverns)',
     ],
     8: [
-      'Lvl 72: Sacred Eel (Zulrah Scales)',
-      'Lvl 73: Dragonfruit Pie',
-      'Lvl 80: Shark'
+      'Lvl 72: Ore box stores necrite & phasmatite',
+      'Lvl 80: Banite ore',
+      'Lvl 80: Bane & Imcando pickaxes',
+      'Lvl 80: Concentrated gold (Living Rock Caverns)',
     ],
     9: [
-      'Lvl 82: Sea Turtle',
-      'Lvl 84: Anglerfish',
-      'Lvl 85: Wild Pie',
-      'Lvl 90: Dark Crab'
+      'Lvl 85: Ore box stores banite',
+      'Lvl 89: Seren stones (Prifddinas)',
+      'Lvl 90: Light & dark animica',
+      'Lvl 90: Elder rune pickaxe',
     ],
     10: [
-      'Lvl 91: Manta Ray',
-      'Lvl 95: Summer Pie',
-      'Lvl 99: Skill Mastery (Cooking Cape)'
+      'Lvl 95: Ore box stores light & dark animica',
+      'Lvl 99: Skill Mastery (Mining cape)',
+      'Note: 100+ opens primal ore, porcelain clay & platinum',
     ],
   },
-  'Crafting': {
+
+  'Strength': {
     1: [
-      'Lvl 1: Leather, Pots, Molten Glass, Opals',
-      'Lvl 5: Gold Jewelry, Birdhouses (5)',
-      'Lvl 7: Leather Boots, Gold Bracelets',
-      'Lvl 10: Bowstrings, Crossbow Strings'
+      'Passive: Critical strike damage rises every 10 levels from 20',
+      'Lvl 1: Dwarven army axe',
+      'Lvl 8: Start Zogre Flesh Eaters',
     ],
     2: [
-      'Lvl 13: Jade, Jade Jewelry',
-      'Lvl 14: Leather Bodies',
-      'Lvl 16: Red Topaz, Unstrung Symbols',
-      'Lvl 20: Sapphires, Sapphire Rings'
+      'Lvl 15: Leaping trout (Barbarian Fishing, with 15 Agility)',
+      'Lvl 19: Lumbridge Swamp river crossing to Al Kharid',
+      'Lvl 20: Full slayer helmet (Smoking Kills)',
+      'Lvl 20: +15% critical strike damage',
     ],
     3: [
-      'Lvl 23: Tiaras, Sapphire Bracelets',
-      'Lvl 27: Emeralds, Emerald Rings',
-      'Lvl 30: Emerald Bracelets, Ropes'
+      'Lvl 21: Karamja mith grapple crossing',
+      'Lvl 22: Grapple shortcut Water Obelisk → Catherby',
+      'Lvl 30: Leaping salmon (Barbarian Fishing)',
     ],
     4: [
-      'Lvl 33: Vials',
-      'Lvl 34: Rubies, Ruby Rings',
-      'Lvl 38: Coifs, Hardleather Body',
-      'Lvl 40: Crafting Guild Access'
+      'Lvl 35: Barehanded tuna',
+      'Lvl 35: White Wolf Mountain cliff climb',
+      'Lvl 37: Falador wall shortcut',
+      'Lvl 40: Barrelchest anchor (60 Attack)',
     ],
     5: [
-      'Lvl 42: Ruby Bracelets',
-      'Lvl 43: Diamonds, Diamond Rings',
-      'Lvl 46: Unpowered Orbs',
-      'Lvl 50: Ruby Amulet, Mahogany Bird Houses'
+      'Lvl 42: Void Knight mace & armour',
+      'Lvl 45: Leaping sturgeon (Barbarian Fishing)',
+      'Lvl 46: Start The Chosen Commander',
+      'Lvl 50: Barehanded swordfish',
     ],
     6: [
-      'Lvl 54: Water Battlestaves',
-      'Lvl 55: Dragonstones, Slayer Helmets',
-      'Lvl 57: Green D\'hide Vambraces',
-      'Lvl 60: Green D\'hide Chaps, Yew Bird Houses'
+      'Lvl 55: Granite maul & mace',
+      'Lvl 60: TzHaar-Ket-Om',
+      'Lvl 60: God Wars Dungeon Strength entrance',
     ],
     7: [
-      'Lvl 63: Green D\'hide Bodies',
-      'Lvl 66: Air Battlestaves, Blue D\'hide Vambraces',
-      'Lvl 67: Onyx Rings (Cut Onyx)',
-      'Lvl 70: Diamond Amulet (Power)'
+      'Lvl 64: Start The Curse of Arrav',
+      'Lvl 69: Start Forgiveness of a Chaos Dwarf',
+      'Lvl 70: Bandos Stronghold (God Wars Dungeon)',
+      'Lvl 70: Dharok\'s greataxe & Torag\'s hammers',
     ],
     8: [
-      'Lvl 71: Blue D\'hide Bodies',
-      'Lvl 73: Red D\'hide Vambraces',
-      'Lvl 75: Magic Bird Houses, Slayer Rings',
-      'Lvl 77: Red D\'hide Bodies',
-      'Lvl 80: Dragonstone Amulet (Glory)'
+      'Lvl 75: Balmung (Blood Runs Deep)',
+      'Lvl 76: Barehanded shark',
+      'Lvl 77: Start King of the Dwarves',
+      'Lvl 79: Start The Mighty Fall',
+      'Lvl 80: Dorgesh-Kaan cave crossing',
     ],
     9: [
-      'Lvl 82: Amethyst Items',
-      'Lvl 84: Black D\'hide Bodies',
-      'Lvl 87: Light Orbs',
-      'Lvl 89: Zenyte Rings, Cut Zenyte',
-      'Lvl 90: Onyx Amulet (Fury), Redwood Bird Houses'
+      'Lvl 85: Start Birthright of the Dwarves',
+      'Lvl 90: +50% critical strike damage',
+      'Lvl 90: Promethium maul (Dungeoneering)',
     ],
     10: [
-      'Lvl 92: Zenyte Necklace (Torture)',
-      'Lvl 95: Zenyte Bracelet (Tormented)',
-      'Lvl 98: Zenyte Amulet (Anguish)',
-      'Lvl 99: Skill Mastery (Crafting Cape)'
+      'Lvl 95: Ek-ZekKil',
+      'Lvl 99: Primal maul (Dungeoneering)',
+      'Lvl 99: Skill Mastery (Strength cape)',
     ],
   },
+
+  'Agility': {
+    1: [
+      'Lvl 1: Burthorpe Agility Course',
+      'Lvl 1: Gnome Stronghold Agility Course',
+      'Lvl 1: Brimhaven Agility Arena (low obstacles)',
+      'Lvl 5: Falador west bank shortcut',
+      'Lvl 8: Lumbridge Swamp river crossing',
+      'Lvl 10: Rope swing to Moss Giant Island',
+    ],
+    2: [
+      'Lvl 11: Falador wall shortcut',
+      'Lvl 15: Edgeville Dungeon monkey bars',
+      'Lvl 15: Barbarian Fishing (with 15 Strength)',
+      'Lvl 16: Yanille underwall tunnel',
+      'Lvl 20: Brimhaven Arena medium obstacles',
+    ],
+    3: [
+      'Lvl 21: Grand Exchange underwall tunnel',
+      'Lvl 23: Start Death to the Dorgeshuun',
+      'Lvl 25: Eagles\' Peak shortcut & Werewolf Skullball',
+      'Lvl 30: Agility Pyramid',
+      'Lvl 30: Penguin Agility Course (Cold War)',
+      'Lvl 30: Anachronia Agility Course (beginner)',
+    ],
+    4: [
+      'Lvl 31: River Lum stepping stones',
+      'Lvl 35: Barbarian Outpost Agility Course',
+      'Lvl 37: Grand Tree north-west shortcut',
+      'Lvl 40: Brimhaven Arena high obstacles',
+    ],
+    5: [
+      'Lvl 45: Isafdar log balance',
+      'Lvl 48: Ape Atoll Agility Course',
+      'Lvl 48: Start Recipe for Disaster',
+      'Lvl 50: Anachronia course (novice sections)',
+    ],
+    6: [
+      'Lvl 51: Edgeville Dungeon ↔ Varrock Sewers crevice',
+      'Lvl 52: Wilderness Agility Course',
+      'Lvl 60: Werewolf Agility Course',
+      'Lvl 60: Bandos Agility Course (60 Ranged & Strength)',
+      'Lvl 60: God Wars Dungeon Agility entrance',
+    ],
+    7: [
+      'Lvl 65: Het\'s Oasis Agility Course',
+      'Lvl 65: Paterdomus → Morytania shortcut',
+      'Lvl 66: Zanaris walkway to the Cosmic altar',
+      'Lvl 70: Saradomin Encampment rope descent (GWD)',
+      'Lvl 70: Anachronia course (advanced sections)',
+    ],
+    8: [
+      'Lvl 74: Shilo Village stepping stones',
+      'Lvl 75: Hefin Serenity Posts (Prifddinas)',
+      'Lvl 77: Hefin Agility Course (Prifddinas)',
+      'Lvl 80: Dorgesh-Kaan Agility Course',
+    ],
+    9: [
+      'Lvl 85: Advanced Gnome Stronghold Agility Course',
+      'Lvl 85: Full Anachronia Agility Course',
+      'Lvl 86: Kuradal\'s Dungeon wall climb',
+      'Lvl 90: Advanced Barbarian Outpost Agility Course',
+    ],
+    10: [
+      'Lvl 94: Gemstone Cavern shortcut',
+      'Lvl 99: Wilderness Agility Course no longer fails',
+      'Lvl 99: Skill Mastery (Agility cape)',
+    ],
+  },
+
+  'Smithing': {
+    1: [
+      'Lvl 1: Smelt & smith bronze',
+      'Lvl 4: Heat cap increases begin',
+      'Lvl 9: Extra bar chance begins',
+      'Lvl 10: Smelt & smith iron',
+    ],
+    2: [
+      'Lvl 20: Smelt & smith steel',
+      'Lvl 20: Silver bars',
+    ],
+    3: [
+      'Lvl 30: Smelt & smith mithril',
+    ],
+    4: [
+      'Lvl 35: Cannonballs (Dwarf Cannon)',
+      'Lvl 40: Smelt & smith adamant',
+      'Lvl 40: Gold bars',
+      'Lvl 40: Artisans\' Workshop adamant burial armour',
+    ],
+    5: [
+      'Lvl 50: Smelt & smith rune',
+      'Lvl 50: Artisans\' Workshop rune burial armour',
+    ],
+    6: [
+      'Lvl 60: Smelt & smith orikalkum',
+      'Lvl 60: Artisans\' Workshop orikalkum burial armour',
+    ],
+    7: [
+      'Lvl 70: Smelt & smith necronium',
+      'Lvl 70: Artisans\' Workshop necronium burial armour',
+    ],
+    8: [
+      'Lvl 80: Smelt & smith bane',
+      'Lvl 80: Invention requirement (with 80 Crafting & Divination)',
+    ],
+    9: [
+      'Lvl 90: Smelt & smith elder rune',
+      'Lvl 90: Artisans\' Workshop elder rune burial armour',
+    ],
+    10: [
+      'Lvl 95: Dark Shard of Leng (with 95 Crafting)',
+      'Lvl 99: Masterwork smithing (promethium → masterwork armour)',
+      'Lvl 99: Skill Mastery (Smithing cape)',
+    ],
+  },
+
   'Defence': {
     1: [
-      'Lvl 1: Bronze & Iron Armour',
-      'Lvl 1: Wizard Robes, Leather',
-      'Lvl 5: Steel Armour, Defenders',
-      'Lvl 10: Black Armour, White Armour',
-      'Lvl 10: Hardleather Shield',
-      'Lvl 10: Slayer Helmet (Craft 55)',
-      'Lvl 10: Xerician Robes'
+      'Lvl 1: Bronze armour, soft leather & wizard robes',
+      'Lvl 3: Anticipation ability',
+      'Lvl 8: Bash ability',
+      'Lvl 10: Iron armour, hard leather & imphide',
     ],
     2: [
-      'Lvl 20: Initiate Armour (Prayer 10)',
-      'Lvl 20: Mithril Armour',
-      'Lvl 20: Mystic Robes (Magic 40)'
+      'Lvl 15: Revenge ability',
+      'Lvl 20: Steel armour, studded body & combat robes',
     ],
     3: [
-      'Lvl 25: Infinity Robes, Frog Leather',
-      'Lvl 30: Adamant Armour',
-      'Lvl 30: Inquisitor\'s Armour',
-      'Lvl 30: Masori Armour (Range 80)',
-      'Lvl 30: Proselyte Armour',
-      'Lvl 30: Snakeskin Armour'
+      'Lvl 24: Provoke ability',
+      'Lvl 25: Black armour',
+      'Lvl 29: Immortality ability',
+      'Lvl 30: Mithril armour, snakeskin & carapace',
     ],
     4: [
-      'Lvl 40: Fighter Torso, Void Knight (42)',
-      'Lvl 40: Rune Armour, Green D\'hide Body',
-      'Lvl 40: Rune Defender'
+      'Lvl 34: Freedom ability',
+      'Lvl 37: Reflect ability',
+      'Lvl 40: Adamant armour & green dragonhide',
     ],
     5: [
-      'Lvl 45: Berserker/Archer/Seer Helms',
-      'Lvl 45: Spirit Shields (Prayer 55)',
-      'Lvl 50: Granite Armour',
-      'Lvl 50: Moons of Peril Armour (Blood/Blue/Eclipse)',
-      'Lvl 50: Swampbark Armour'
+      'Lvl 42: Void Knight equipment',
+      'Lvl 45: Berserker & warrior/archer/farseer helms',
+      'Lvl 48: Resonance ability',
+      'Lvl 50: Rune armour, Mystic robes & blue dragonhide',
+      'Lvl 50: Rock-shell, spined & skeletal armour',
     ],
     6: [
-      'Lvl 55: Helm of Neitiznot',
-      'Lvl 60: Dragon Armour',
-      'Lvl 60: Dragon Defender',
-      'Lvl 60: Obsidian Armour'
+      'Lvl 52: Rejuvenate ability',
+      'Lvl 55: Debilitate ability',
+      'Lvl 55: Helm of Neitiznot, granite & red dragonhide',
+      'Lvl 60: Dragon & orikalkum armour, black dragonhide',
     ],
     7: [
-      'Lvl 65: Ancestral Robes',
-      'Lvl 65: Bandos Armour',
-      'Lvl 70: Armadyl Armour',
-      'Lvl 70: Barrows Equipment',
-      'Lvl 70: Crystal Armour',
-      'Lvl 70: Piety (Prayer 70)'
+      'Lvl 65: Third-age armour & royal dragonhide',
+      'Lvl 67: Preparation ability',
+      'Lvl 70: Barrows, Bandos & Armadyl armour',
+      'Lvl 70: Subjugation robes & necronium armour',
+      'Lvl 70: Dragonfire shield',
     ],
     8: [
-      'Lvl 75: Dragonfire Shield / Ward',
-      'Lvl 75: Justiciar Armour',
-      'Lvl 75: Primordial/Pegasian/Eternal Boots',
-      'Lvl 80: Elidinis\' Ward',
-      'Lvl 80: Ferocious Gloves',
-      'Lvl 80: Fortified Masori',
-      'Lvl 80: Torva Armour'
-    ],
-    9: [],
-    10: [
-      'Lvl 99: Skill Mastery (Defence Cape)'
-    ],
-  },
-  'Farming': {
-    1: [
-      'Lvl 1: Potatoes',
-      'Lvl 2: Marigolds',
-      'Lvl 3: Barley',
-      'Lvl 4: Hammerstone Hops',
-      'Lvl 5: Onions',
-      'Lvl 7: Cabbages',
-      'Lvl 8: Asgarnian Hops',
-      'Lvl 9: Guam (Grimy)',
-      'Lvl 10: Redberries'
-    ],
-    2: [
-      'Lvl 11: Rosemary',
-      'Lvl 12: Tomatoes',
-      'Lvl 13: Jute',
-      'Lvl 14: Marrentill',
-      'Lvl 15: Oak Trees',
-      'Lvl 16: Yanillian Hops',
-      'Lvl 18: Flax',
-      'Lvl 19: Tarromin',
-      'Lvl 20: Sweetcorn'
-    ],
-    3: [
-      'Lvl 21: Krandorian Hops',
-      'Lvl 22: Cadava Berries',
-      'Lvl 23: Scarecrows, Giant Seaweed',
-      'Lvl 24: Nasturtiums',
-      'Lvl 25: Woad Leaves',
-      'Lvl 26: Harralander, Limpwurt',
-      'Lvl 27: Apple Trees',
-      'Lvl 28: Wildblood Hops',
-      'Lvl 29: Goutweed',
-      'Lvl 30: Willow Trees'
-    ],
-    4: [
-      'Lvl 31: Strawberries',
-      'Lvl 32: Ranarr',
-      'Lvl 33: Banana Trees',
-      'Lvl 34: Tithe Farm (Golovanova)',
-      'Lvl 35: Teak Trees',
-      'Lvl 36: Dwellberries, Grapes',
-      'Lvl 38: Toadflax',
-      'Lvl 39: Orange Trees'
-    ],
-    5: [
-      'Lvl 42: Curry Trees',
-      'Lvl 44: Irit',
-      'Lvl 45: Farming Guild (Beginner), Maple Trees',
-      'Lvl 47: Watermelons',
-      'Lvl 48: Jangerberries',
-      'Lvl 50: Avantoe'
-    ],
-    6: [
-      'Lvl 51: Pineapple Trees',
-      'Lvl 53: Bittercap Mushrooms',
-      'Lvl 54: Tithe Farm (Bologano)',
-      'Lvl 55: Cactus, Mahogany Trees',
-      'Lvl 56: Kwuarm',
-      'Lvl 57: Papaya Trees',
-      'Lvl 58: White Lilies',
-      'Lvl 59: White Berries',
-      'Lvl 60: Yew Trees'
-    ],
-    7: [
-      'Lvl 61: Snape Grass',
-      'Lvl 62: Snapdragon',
-      'Lvl 63: Nightshade',
-      'Lvl 64: Potato Cactus',
-      'Lvl 65: Hespori, Farming Guild (Intermediate)',
-      'Lvl 67: Cadantine',
-      'Lvl 68: Palm Trees',
-      'Lvl 70: Poison Ivy Berries'
-    ],
-    8: [
-      'Lvl 72: Calquat Trees',
-      'Lvl 73: Lantadyme',
-      'Lvl 74: Crystal Trees, Tithe Farm (Logavano)',
-      'Lvl 75: Magic Trees',
-      'Lvl 76: Anima Seeds (Attas, Iasor, Kronos)',
-      'Lvl 79: Dwarf Weed'
+      'Lvl 75: Spirit shields (divine/elysian) & ganodermic armour',
+      'Lvl 75: Undead dragonhide',
+      'Lvl 80: Torva, Pernix & Virtus',
+      'Lvl 80: Bane armour & Anima cores',
+      'Lvl 80: Barricade ability',
     ],
     9: [
-      'Lvl 81: Dragonfruit',
-      'Lvl 83: Spirit Trees',
-      'Lvl 85: Celastrus, Torstol',
-      'Lvl 85: Farming Guild (Advanced)',
-      'Lvl 90: Redwood Trees'
+      'Lvl 85: Battle-mage, Vanguard & Trickster armour',
+      'Lvl 85: Death Lotus, Tetsu & Sea Singer armour',
+      'Lvl 90: Malevolent, Sirenic & Tectonic armour',
+      'Lvl 90: Masterwork & elder rune armour',
     ],
     10: [
-      'Lvl 99: Skill Mastery (Farming Cape)'
+      'Lvl 92: Elite Sirenic/Tectonic & trimmed Masterwork',
+      'Lvl 92: Elite Dracolich armour',
+      'Lvl 95: Vestments of havoc & Robes of the First Necromancer',
+      'Lvl 99: Skill Mastery (Defence cape)',
     ],
   },
-  'Firemaking': {
+
+  'Herblore': {
     1: [
-      'Lvl 1: Light Candles, Torches',
-      'Lvl 1: Logs (Normal, Achey)',
-      'Lvl 4: Candle Lantern',
-      'Lvl 5: Pyre Logs (Shades of Mort\'ton)'
+      'Lvl 1: Attack potion',
+      'Lvl 3: Ranging potion',
+      'Lvl 5: Magic potion',
+      'Lvl 7: Strength potion',
+      'Lvl 9: Defence potion',
     ],
     2: [
-      'Lvl 11: Pyre Ship (Regular)',
-      'Lvl 12: Oil Lamp',
-      'Lvl 15: Oak Logs',
-      'Lvl 20: Balloon Transport (Entrana, Taverley)',
-      'Lvl 20: Oak Pyre Logs'
+      'Lvl 13: Antipoison',
+      'Lvl 18: Guthix rest tea',
+      'Lvl 20: Clean harralander',
     ],
     3: [
-      'Lvl 25: Oak Pyre Ship',
-      'Lvl 26: Oil Lantern',
-      'Lvl 30: Balloon Transport (Crafting Guild)',
-      'Lvl 30: Willow Logs'
+      'Lvl 22: Restore potion',
+      'Lvl 25: Clean ranarr',
+      'Lvl 26: Energy potion',
     ],
     4: [
-      'Lvl 33: Harpie Bug Lantern',
-      'Lvl 35: Teak Logs, Willow Pyre Logs',
-      'Lvl 40: Balloon Transport (Varrock)',
-      'Lvl 40: Jatoba Logs',
-      'Lvl 40: Teak Pyre Logs, Willow Pyre Ship'
+      'Lvl 34: Agility potion',
+      'Lvl 36: Combat potion',
+      'Lvl 38: Prayer potion',
+      'Lvl 40: Summoning potion',
     ],
     5: [
-      'Lvl 42: Arctic Pine Logs',
-      'Lvl 45: Maple Logs, Teak Pyre Ship',
-      'Lvl 47: Arctic Pyre Logs',
-      'Lvl 49: Bullseye Lantern',
-      'Lvl 50: Balloon Transport (Castle Wars)',
-      'Lvl 50: Mahogany Logs, Wintertodt',
-      'Lvl 50: Maple Pyre Logs'
+      'Lvl 45: Super attack potion',
+      'Lvl 43: Divination potion',
+      'Lvl 48: Super antipoison',
+      'Lvl 50: Fishing potion',
     ],
     6: [
-      'Lvl 52: Arctic Pine Pyre Ship',
-      'Lvl 55: Maple Pyre Ship, Mahogany Pyre Logs',
-      'Lvl 60: Balloon Transport (Grand Tree)',
-      'Lvl 60: Mahogany Pyre Ship',
-      'Lvl 60: Yew Logs'
+      'Lvl 52: Super energy',
+      'Lvl 53: Hunter potion',
+      'Lvl 54: Juju hunter potions (Herblore Habitat)',
+      'Lvl 55: Super strength potion',
+      'Lvl 60: Weapon poison',
     ],
     7: [
-      'Lvl 62: Blisterwood Logs',
-      'Lvl 65: Yew Pyre Logs, Mining Helmet',
-      'Lvl 66: Camphor Logs, Permanent Fires',
-      'Lvl 70: Yew Pyre Ship'
+      'Lvl 63: Super restore potion',
+      'Lvl 66: Super defence potion',
+      'Lvl 69: Antifire potion',
     ],
     8: [
-      'Lvl 71: Camphor Pyre Logs',
-      'Lvl 75: Magic Logs',
-      'Lvl 76: Camphor Pyre Ship',
-      'Lvl 80: Ironwood Logs, Magic Pyre Logs'
+      'Lvl 72: Super ranging potion',
+      'Lvl 75: Saradomin\'s blessing, Guthix\'s gift & Zamorak\'s favour',
+      'Lvl 78: Grand attack potion & Zamorak brew',
+      'Lvl 77: Invention potion',
     ],
     9: [
-      'Lvl 85: Infernal Axe',
-      'Lvl 85: Ironwood Pyre Logs, Magic Pyre Ship',
-      'Lvl 90: Ironwood Pyre Ship',
-      'Lvl 90: Redwood Logs'
+      'Lvl 81: Saradomin brew',
+      'Lvl 82: Aggression potion',
+      'Lvl 88: Extreme attack',
+      'Lvl 89: Extreme strength',
+      'Lvl 90: Extreme defence',
     ],
     10: [
-      'Lvl 92: Rosewood Logs',
-      'Lvl 95: Redwood Pyre Logs/Ship',
-      'Lvl 99: Skill Mastery (Firemaking Cape)'
+      'Lvl 91: Extreme magic',
+      'Lvl 92: Extreme ranging',
+      'Lvl 93: Supreme potions',
+      'Lvl 96: Overload',
+      'Lvl 97: Holy overload',
+      'Lvl 98: Supreme overload',
+      'Lvl 99: Skill Mastery (Herblore cape)',
     ],
   },
+
   'Fishing': {
     1: [
-      'Lvl 1: Shrimps, Pysk Fish',
-      'Lvl 5: Sardines, Karambwanji',
-      'Lvl 7: Guppies',
-      'Lvl 10: Herring'
+      'Lvl 1: Shrimp, crayfish & minnows',
+      'Lvl 5: Sardines',
+      'Lvl 10: Herring',
     ],
     2: [
-      'Lvl 15: Anchovies, Fishing Trawler',
-      'Lvl 16: Mackerel, Oysters',
-      'Lvl 20: Trout, Cavefish'
+      'Lvl 15: Anchovies',
+      'Lvl 20: Trout',
     ],
     3: [
       'Lvl 23: Cod',
       'Lvl 25: Pike',
-      'Lvl 28: Slimy Eels',
-      'Lvl 30: Salmon'
+      'Lvl 30: Salmon',
     ],
     4: [
-      'Lvl 33: Tetra, Frog Spawns',
-      'Lvl 34: Angler\'s Outfit',
-      'Lvl 35: Tuna, Tempoross',
-      'Lvl 38: Cave Eels, Rainbow Fish',
-      'Lvl 40: Lobsters'
+      'Lvl 35: Tuna',
+      'Lvl 38: Rainbow fish',
+      'Lvl 40: Lobster',
     ],
     5: [
-      'Lvl 43: Bluegills (Aerial Fishing)',
-      'Lvl 46: Bass, Catfish',
-      'Lvl 48: Leaping Trout',
-      'Lvl 50: Swordfish'
+      'Lvl 46: Bass',
+      'Lvl 48: Leaping trout (Barbarian Fishing)',
+      'Lvl 50: Swordfish',
     ],
     6: [
-      'Lvl 52: Swordtip Squid',
-      'Lvl 53: Lava Eels',
-      'Lvl 55: Barehanded Catching (Tuna/Harpoonfish)',
-      'Lvl 58: Leaping Salmon',
-      'Lvl 60: Mycil Fish'
+      'Lvl 52: Desert sole (Menaphos)',
+      'Lvl 53: Lava eels',
+      'Lvl 55: Barehanded tuna',
+      'Lvl 58: Leaping salmon',
+      'Lvl 60: Catfish',
     ],
     7: [
-      'Lvl 61: Dragon Harpoon',
       'Lvl 62: Monkfish',
       'Lvl 65: Karambwan',
-      'Lvl 68: Fishing Guild Access',
-      'Lvl 70: Leaping Sturgeon'
+      'Lvl 66: Ghostly soles',
+      'Lvl 68: Fishing Guild & Deep Sea Fishing hub',
+      'Lvl 70: Leaping sturgeon & barehanded swordfish',
     ],
     8: [
-      'Lvl 71: Crystal Harpoon',
-      'Lvl 73: Mottled Eel',
-      'Lvl 75: Infernal Harpoon',
+      'Lvl 72: Beltfish',
+      'Lvl 75: Floating crystals (Prifddinas)',
       'Lvl 76: Sharks',
-      'Lvl 80: Infernal Eels'
+      'Lvl 79: Sea turtles',
+      'Lvl 80: Great white sharks',
     ],
     9: [
-      'Lvl 81: Manta Rays',
-      'Lvl 82: Anglerfish, Minnows',
-      'Lvl 85: Dark Crabs',
-      'Lvl 87: Sacred Eels',
-      'Lvl 90: Kyren Fish'
+      'Lvl 81: Manta rays',
+      'Lvl 82: Giant crayfish',
+      'Lvl 85: Cavefish',
+      'Lvl 88: Fungal algae',
+      'Lvl 90: Rocktails',
     ],
     10: [
-      'Lvl 91: Greater Sirens',
-      'Lvl 96: Barehanded Sharks',
-      'Lvl 99: Skill Mastery (Fishing Cape)'
+      'Lvl 91: Seerfish & blue blubber jellyfish',
+      'Lvl 94: Fishing Frenzy (Deep Sea hub)',
+      'Lvl 96: Barehanded sharks',
+      'Lvl 97: Sailfish',
+      'Lvl 99: Skill Mastery (Fishing cape)',
     ],
   },
-  'Fletching': {
+
+  'Ranged': {
     1: [
-      'Lvl 1: Arrow Shafts, Bronze Arrows',
-      'Lvl 5: Shortbows, Ogre Bows',
-      'Lvl 9: Bronze Crossbows/Bolts',
-      'Lvl 10: Longbows, Bronze Darts'
+      'Lvl 1: Shortbow, shieldbow & bronze crossbow',
+      'Lvl 2: Snapshot ability',
+      'Lvl 5: Oak bows',
+      'Lvl 10: Iron javelins & throwing knives',
     ],
     2: [
-      'Lvl 11: Opal Bolts',
-      'Lvl 15: Iron Arrows, Oak Arrow Shafts',
-      'Lvl 17: Iron Javelins',
-      'Lvl 18: Iron Brutal Arrows',
-      'Lvl 20: Oak Shortbows'
+      'Lvl 13: Piercing Shot ability',
+      'Lvl 16: Blurite crossbow',
+      'Lvl 20: Willow bows & steel thrown weapons',
     ],
     3: [
-      'Lvl 22: Iron Darts',
-      'Lvl 24: Blurite Crossbows/Bolts',
-      'Lvl 25: Oak Longbows',
-      'Lvl 26: Jade Bolts',
-      'Lvl 27: Oak Shields',
-      'Lvl 30: Steel Arrows, Composite Bows'
+      'Lvl 21: Deadshot ability',
+      'Lvl 25: Black knives & darts',
+      'Lvl 26: Iron crossbow',
+      'Lvl 30: Maple bows & mithril thrown weapons',
     ],
     4: [
-      'Lvl 32: Steel Javelins, Kebbit Bolts',
-      'Lvl 35: Willow Shortbows',
-      'Lvl 37: Steel Darts',
-      'Lvl 39: Iron Crossbows/Bolts',
-      'Lvl 40: Willow Longbows, Battlestaves'
+      'Lvl 31: Binding Shot ability',
+      'Lvl 33: Black crossbow',
+      'Lvl 36: Bombardment ability',
+      'Lvl 40: Yew bows & adamant thrown weapons',
     ],
     5: [
-      'Lvl 41: Pearl Bolts',
-      'Lvl 42: Willow Shields',
-      'Lvl 45: Mithril Arrows, Maple Arrow Shafts',
-      'Lvl 46: Steel Crossbows/Bolts',
-      'Lvl 47: Light Ballista',
-      'Lvl 48: Topaz Bolts',
-      'Lvl 50: Maple Shortbows'
+      'Lvl 45: Chinchompas',
+      'Lvl 45: Gravite shortbow (Dungeoneering)',
+      'Lvl 46: Adamant crossbow',
+      'Lvl 50: Magic bows, rune crossbow & Seercull',
     ],
     6: [
-      'Lvl 52: Broad Arrows, Mithril Darts',
-      'Lvl 54: Mithril Crossbows/Bolts',
-      'Lvl 55: Maple Longbows, Broad Bolts',
-      'Lvl 56: Sapphire Bolts',
-      'Lvl 57: Maple Shields',
-      'Lvl 59: Mithril Grapples',
-      'Lvl 60: Adamant Arrows, Yew Arrow Shafts'
+      'Lvl 55: God bows (Saradomin/Guthix/Zamorak)',
+      'Lvl 55: Red chinchompas',
+      'Lvl 58: Galeshot ability',
+      'Lvl 60: Dragon crossbow & darts',
     ],
     7: [
-      'Lvl 61: Adamant Crossbows/Bolts',
-      'Lvl 62: Sunlight Antler Bolts',
-      'Lvl 63: Ruby Bolts',
-      'Lvl 65: Yew Shortbows, Diamond Bolts',
-      'Lvl 67: Adamant Darts',
-      'Lvl 69: Rune Crossbows/Bolts',
-      'Lvl 70: Yew Longbows'
+      'Lvl 62: Rapid Fire ability',
+      'Lvl 67: Ricochet ability',
+      'Lvl 70: Dark bow, Crystal bow & Karil\'s crossbow',
+      'Lvl 70: Corruption Shot ability',
     ],
     8: [
-      'Lvl 71: Dragonstone Bolts',
-      'Lvl 72: Heavy Ballista, Yew Shields',
-      'Lvl 73: Onyx Bolts',
-      'Lvl 74: Sunlight Crossbows, Atlatl Darts',
-      'Lvl 75: Rune Arrows, Magic Arrow Shafts',
-      'Lvl 76: Amethyst Broad Bolts',
-      'Lvl 78: Dragon Crossbow, Toxic Blowpipe',
-      'Lvl 80: Magic Shortbows'
+      'Lvl 75: Armadyl crossbow & hand cannon',
+      'Lvl 76: Death\'s Swiftness ability',
+      'Lvl 78: Morrigan\'s javelins & throwing axes',
+      'Lvl 80: Royal crossbow, Zaryte bow & Chaotic crossbow',
     ],
     9: [
-      'Lvl 81: Rune Darts',
-      'Lvl 82: Amethyst Arrows',
-      'Lvl 84: Dragon Bolts, Amethyst Javelins',
-      'Lvl 85: Magic Longbows',
-      'Lvl 87: Magic Shields',
-      'Lvl 90: Dragon Arrows, Amethyst Darts',
-      'Lvl 90: Redwood Shields'
+      'Lvl 85: Death Lotus darts',
+      'Lvl 90: Noxious longbow & Ascension crossbows',
+      'Lvl 90: Hellfire bow & Kalphite repriser',
     ],
     10: [
-      'Lvl 92: Dragon Javelins',
-      'Lvl 95: Dragon Darts',
-      'Lvl 99: Skill Mastery (Fletching Cape)'
+      'Lvl 92: Seren godbow & Eldritch crossbow',
+      'Lvl 95: Bow of the Last Guardian',
+      'Lvl 99: Skill Mastery (Ranged cape)',
     ],
   },
-  'Herblore': {
+
+  'Thieving': {
     1: [
-      'Lvl 3: Clean Guam, Attack Potion',
-      'Lvl 5: Clean Marrentill, Antipoison',
-      'Lvl 8: Relicym\'s Balm (Zogre Flesh Eaters)'
+      'Lvl 1: Pickpocket men & women',
+      'Lvl 2: Vegetable, baker\'s, tea & crafting stalls',
+      'Lvl 10: Pickpocket farmers',
     ],
     2: [
-      'Lvl 11: Clean Tarromin',
-      'Lvl 12: Strength Potion',
-      'Lvl 15: Serum 207 (Shades of Mort\'ton)',
-      'Lvl 18: Guthix Rest (One Small Favour)',
-      'Lvl 20: Clean Harralander'
+      'Lvl 13: Simple chests (Ardougne)',
+      'Lvl 15: Pickpocket H.A.M. members',
     ],
     3: [
-      'Lvl 22: Restore Potion, Guthix Balance',
-      'Lvl 25: Clean Ranarr Weed',
-      'Lvl 26: Energy Potion',
-      'Lvl 30: Clean Toadflax, Defence Potion'
+      'Lvl 21: Pyramid Plunder room 1',
+      'Lvl 22: Wine stall',
+      'Lvl 25: Pickpocket warriors',
+      'Lvl 27: Seed stall',
     ],
     4: [
-      'Lvl 34: Agility Potion',
-      'Lvl 36: Combat Potion',
-      'Lvl 38: Prayer Potion',
-      'Lvl 40: Clean Irit Leaf'
+      'Lvl 31: Pyramid Plunder room 2',
+      'Lvl 32: Pickpocket rogues',
+      'Lvl 35: Fur stall',
+      'Lvl 38: Pickpocket Master farmers',
+      'Lvl 40: Pickpocket guards',
     ],
     5: [
-      'Lvl 45: Super Attack Potion',
-      'Lvl 48: Clean Avantoe, Superantipoison',
-      'Lvl 50: Fishing Potion'
+      'Lvl 41: Pyramid Plunder room 3',
+      'Lvl 42: Pickpocket Crux Eqal druids & fish stall',
+      'Lvl 46: Menaphos marketeers',
+      'Lvl 50: Silver stall & shifting tombs',
     ],
     6: [
-      'Lvl 52: Super Energy Potion',
-      'Lvl 53: Hunter Potion',
-      'Lvl 54: Clean Kwuarm',
-      'Lvl 55: Super Strength Potion',
-      'Lvl 58: Clean Huasca',
-      'Lvl 59: Clean Snapdragon',
-      'Lvl 60: Weapon Poison'
+      'Lvl 51: Pyramid Plunder room 4',
+      'Lvl 53: Pickpocket desert bandits',
+      'Lvl 55: Pickpocket Knights of Ardougne',
     ],
     7: [
-      'Lvl 63: Super Restore Potion',
-      'Lvl 65: Clean Cadantine',
-      'Lvl 66: Super Defence Potion',
-      'Lvl 67: Clean Lantadyme',
-      'Lvl 68: Antidote+',
-      'Lvl 69: Antifire Potion',
-      'Lvl 70: Clean Dwarf Weed',
-      'Lvl 70: Divine Super Combat/Def/Att/Str (SOTE)'
+      'Lvl 62: Misthalin safecracking',
+      'Lvl 64: Pickpocket Wizards\' Tower mages',
+      'Lvl 65: Menaphite thugs; magic, scimitar & spice stalls',
+      'Lvl 69: Kharidian Desert safecracking',
+      'Lvl 70: Pickpocket paladins',
     ],
     8: [
-      'Lvl 72: Ranging Potion',
-      'Lvl 75: Clean Torstol',
-      'Lvl 76: Magic Potion',
-      'Lvl 77: Stamina Potion',
-      'Lvl 78: Zamorak Brew',
-      'Lvl 80: Bastion & Battlemage Potions'
+      'Lvl 75: Pickpocket gnomes; gem stall',
+      'Lvl 76: Asgarnia safecracking',
+      'Lvl 78: Pickpocket archaeologists',
+      'Lvl 80: Pickpocket heroes',
     ],
     9: [
-      'Lvl 81: Saradomin Brew',
-      'Lvl 84: Extended Antifire',
-      'Lvl 85: Ancient Brew, Extended Stamina',
-      'Lvl 87: Anti-venom',
-      'Lvl 90: Super Combat Potion'
+      'Lvl 81: Pyramid Plunder room 7',
+      'Lvl 83: Pickpocket Crux Eqal knights',
+      'Lvl 83: Kandarin safecracking',
+      'Lvl 85: Pickpocket elves (Prifddinas)',
+      'Lvl 90: Hidden safes',
     ],
     10: [
-      'Lvl 91: Forgotten Brew',
-      'Lvl 92: Super Antifire Potion',
-      'Lvl 94: Anti-venom+',
-      'Lvl 98: Extended Super Antifire',
-      'Lvl 99: Skill Mastery (Herblore Cape)'
+      'Lvl 91: Pyramid Plunder room 8',
+      'Lvl 91: Prifddinas clan workers (91–98)',
+      'Lvl 95: Vault of Hereditas heist',
+      'Lvl 99: Skill Mastery (Thieving cape)',
     ],
   },
-  'Hunter': {
+
+  'Cooking': {
     1: [
-      'Lvl 1: Crimson Swifts, Bird Snares',
-      'Lvl 3: Common Kebbits',
-      'Lvl 5: Golden Warblers, Bird Houses',
-      'Lvl 7: Feldip Weasels',
-      'Lvl 9: Copper Longtails',
-      'Lvl 10: Desert Camouflage'
+      'Lvl 1: Shrimp, anchovies, crayfish & sardines',
+      'Lvl 5: Herring',
+      'Lvl 10: Redberry pie',
     ],
     2: [
-      'Lvl 11: Cerulean Twitches',
-      'Lvl 13: Desert Devils',
-      'Lvl 14: Oak Bird Houses',
-      'Lvl 15: Ruby Harvests, Sandworms',
-      'Lvl 17: Puro-Puro, Baby Implings',
-      'Lvl 19: Tropical Wagtails',
-      'Lvl 20: 2 Traps'
+      'Lvl 14: Cider',
+      'Lvl 15: Trout',
+      'Lvl 18: Cod',
+      'Lvl 20: Pike & meat pie',
     ],
     3: [
-      'Lvl 21: Red Crabs',
-      'Lvl 22: Young Implings',
-      'Lvl 23: Wild Kebbits',
-      'Lvl 24: Willow Bird Houses',
-      'Lvl 25: Sapphire Glacialis',
-      'Lvl 27: Eagle Transport, Box Traps, Rabbit Snares',
-      'Lvl 28: Gourmet Implings, Larupia Gear',
-      'Lvl 29: Swamp Lizards',
-      'Lvl 30: Giral Bats'
+      'Lvl 25: Salmon & stew',
+      'Lvl 30: Tuna & apple pie',
     ],
     4: [
-      'Lvl 31: Spined Larupias, Teasing Sticks',
-      'Lvl 33: Barb-tailed Kebbits',
-      'Lvl 34: Teak Bird Houses',
-      'Lvl 35: Bluegills, Snowy Knights',
-      'Lvl 36: Earth Implings',
-      'Lvl 37: Prickly Kebbits',
-      'Lvl 38: Graahk Gear',
-      'Lvl 39: Embertailed Jerboa',
-      'Lvl 40: 3 Traps, Spotted Cape'
+      'Lvl 32: Cooks\' Guild access',
+      'Lvl 35: Plain pizza',
+      'Lvl 40: Lobster',
     ],
     5: [
-      'Lvl 41: Horned Graahks',
-      'Lvl 42: Essence Implings',
-      'Lvl 43: Spotted Kebbits',
-      'Lvl 44: Fish Shoals, Maple Bird Houses',
-      'Lvl 45: Black Warlocks',
-      'Lvl 46: Hunter Guild, Rumours (Basic)',
-      'Lvl 47: Orange Salamanders',
-      'Lvl 48: Blue Crabs',
-      'Lvl 49: Razor-backed Kebbits, Mahogany Bird Houses',
-      'Lvl 50: Eclectic Implings, Sunlight Crossbow'
+      'Lvl 43: Bass',
+      'Lvl 45: Swordfish & meat pizza',
+      'Lvl 47: Fish pie',
     ],
     6: [
-      'Lvl 51: Sabre-toothed Kebbits',
-      'Lvl 52: Kyatt Gear',
-      'Lvl 53: Grey Chinchompas',
-      'Lvl 54: Gloves of Silence',
-      'Lvl 55: Sabre-toothed Kyatts',
-      'Lvl 57: Dark Kebbits, Rumours (Adept)',
-      'Lvl 58: Nature Implings',
-      'Lvl 59: Red Salamanders, Yew Bird Houses',
-      'Lvl 60: Maniacal Monkeys, 4 Traps'
+      'Lvl 55: Anchovy pizza',
+      'Lvl 60: Curry',
     ],
     7: [
-      'Lvl 63: Red Chinchompas',
-      'Lvl 65: Magpie Implings, Sunlight Moths',
-      'Lvl 66: Spottier Cape',
-      'Lvl 67: Black Salamanders',
-      'Lvl 68: Mottled Eels',
-      'Lvl 69: Dashing Kebbits'
+      'Lvl 62: Monkfish',
+      'Lvl 64: Cooking gauntlets stop burning lobster/swordfish',
+      'Lvl 65: Pineapple pizza',
+      'Lvl 70: Admiral pie',
     ],
     8: [
-      'Lvl 71: Imps (Magic Boxes)',
-      'Lvl 72: Sunlight Antelope, Rumours (Expert)',
-      'Lvl 73: Black Chinchompas',
-      'Lvl 74: Ninja Implings, Magic Bird Houses',
-      'Lvl 75: Moonlight Moths',
-      'Lvl 77: Rainbow Crabs',
-      'Lvl 79: Tecu Salamanders',
-      'Lvl 80: Crystal Implings, 5 Traps, Herbiboar'
+      'Lvl 72: Beltfish & green blubber jellyfish',
+      'Lvl 80: Shark',
     ],
     9: [
-      'Lvl 83: Dragon Implings',
-      'Lvl 87: Greater Sirens',
-      'Lvl 89: Lucky Implings, Redwood Bird Houses',
-      'Lvl 90: Psykk Bats'
+      'Lvl 82: Sea turtle',
+      'Lvl 84: Great white shark',
+      'Lvl 85: Wild pie',
+      'Lvl 88: Cavefish',
     ],
     10: [
-      'Lvl 91: Moonlight Antelope, Rumours (Master)',
-      'Lvl 99: Skill Mastery (Hunter Cape)'
+      'Lvl 91: Manta ray',
+      'Lvl 93: Rocktail',
+      'Lvl 95: Tiger shark & summer pie',
+      'Lvl 99: Sailfish',
+      'Lvl 99: Skill Mastery (Cooking cape)',
     ],
   },
-  'Magic': {
-    1: [
-      'Lvl 1: Wind Strike, Home Teleports',
-      'Lvl 3: Confuse',
-      'Lvl 4: Enchant Bolt (Opal)',
-      'Lvl 5: Water Strike',
-      'Lvl 7: Lvl-1 Enchant, Enchant Bolt (Sapphire)',
-      'Lvl 9: Earth Strike'
-    ],
-    2: [
-      'Lvl 11: Weaken',
-      'Lvl 13: Fire Strike',
-      'Lvl 14: Enchant Bolt (Jade)',
-      'Lvl 15: Bones to Bananas',
-      'Lvl 17: Wind Bolt',
-      'Lvl 19: Curse',
-      'Lvl 20: Bind, Xerician Robes'
-    ],
-    3: [
-      'Lvl 21: Low Level Alchemy',
-      'Lvl 23: Water Bolt',
-      'Lvl 24: Enchant Bolt (Pearl)',
-      'Lvl 25: Varrock Teleport',
-      'Lvl 27: Lvl-2 Enchant, Enchant Bolt (Emerald)',
-      'Lvl 29: Earth Bolt, Enchant Bolt (Red Topaz)',
-      'Lvl 30: Battlestaves, Swamp Lizards'
-    ],
-    4: [
-      'Lvl 31: Lumbridge Teleport',
-      'Lvl 33: Telekinetic Grab',
-      'Lvl 35: Fire Bolt',
-      'Lvl 37: Falador Teleport',
-      'Lvl 39: Crumble Undead',
-      'Lvl 40: House Teleport, Mystic Robes'
-    ],
-    5: [
-      'Lvl 41: Wind Blast',
-      'Lvl 43: Superheat Item',
-      'Lvl 45: Camelot Teleport',
-      'Lvl 47: Water Blast',
-      'Lvl 49: Lvl-3 Enchant, Enchant Bolt (Ruby)',
-      'Lvl 50: Snare, Iban Blast, Magic Dart, Smoke Rush'
-    ],
-    6: [
-      'Lvl 51: Ardougne Teleport',
-      'Lvl 52: Shadow Rush',
-      'Lvl 53: Earth Blast',
-      'Lvl 55: High Level Alchemy',
-      'Lvl 56: Charge Water Orb, Blood Rush',
-      'Lvl 57: Lvl-4 Enchant, Enchant Bolt (Diamond)',
-      'Lvl 58: Ice Rush, Watchtower Teleport',
-      'Lvl 59: Fire Blast',
-      'Lvl 60: God Spells (Claws of Guthix etc), Master Wand'
-    ],
-    7: [
-      'Lvl 61: Trollheim Teleport',
-      'Lvl 62: Wind Wave, Smoke Burst',
-      'Lvl 63: Charge Fire Orb',
-      'Lvl 64: Shadow Burst',
-      'Lvl 65: Water Wave, Lunar Spells (Bake Pie)',
-      'Lvl 66: Charge Air Orb, Vulnerability',
-      'Lvl 68: Blood Burst, Humidify, Lvl-5 Enchant',
-      'Lvl 70: Earth Wave, Ice Burst, Ahrim\'s, Occult Necklace'
-    ],
-    8: [
-      'Lvl 71: Ourania Teleport',
-      'Lvl 72: Waterbirth Teleport, Nightmare Staff',
-      'Lvl 73: Enfeeble',
-      'Lvl 74: Smoke Blitz',
-      'Lvl 75: Fire Wave, Trident of the Seas, Ancestral',
-      'Lvl 76: Shadow Blitz, Spin Flax',
-      'Lvl 77: Superglass Make',
-      'Lvl 78: Trident of the Swamp, Tan Leather',
-      'Lvl 79: Entangle, Blood Blitz, Dream',
-      'Lvl 80: Charge, Stun, Kodai Wand'
-    ],
-    9: [
-      'Lvl 81: Wind Surge',
-      'Lvl 82: Ice Blitz, Magic Imbue, Sanguinesti Staff',
-      'Lvl 83: Barrows Teleport, Fertile Soil',
-      'Lvl 85: Tele Block, Water Surge, Tumeken\'s Shadow',
-      'Lvl 86: Plank Make, Smoke Barrage',
-      'Lvl 87: Lvl-6 Enchant, Enchant Bolt (Onyx)',
-      'Lvl 88: Shadow Barrage',
-      'Lvl 90: Earth Surge'
-    ],
-    10: [
-      'Lvl 91: Energy Transfer',
-      'Lvl 92: Blood Barrage, Vengeance Other',
-      'Lvl 93: Lvl-7 Enchant',
-      'Lvl 94: Ice Barrage, Vengeance',
-      'Lvl 95: Fire Surge',
-      'Lvl 96: Spellbook Swap',
-      'Lvl 99: Skill Mastery (Magic Cape)'
-    ],
-  },
-  'Mining': {
-    1: [
-      'Lvl 1: Copper & Tin Ore, Clay',
-      'Lvl 1: Rune Essence',
-      'Lvl 6: Steel Pickaxe',
-      'Lvl 10: Blurite Ore, Limestone'
-    ],
-    2: [
-      'Lvl 11: Black Pickaxe',
-      'Lvl 14: Barronite',
-      'Lvl 15: Iron Ore',
-      'Lvl 20: Silver Ore'
-    ],
-    3: [
-      'Lvl 21: Mithril Pickaxe',
-      'Lvl 22: Volcanic Ash',
-      'Lvl 25: Lead Ore',
-      'Lvl 30: Coal, Pure Essence',
-      'Lvl 30: Motherlode Mine (Lower)'
-    ],
-    4: [
-      'Lvl 31: Adamant Pickaxe',
-      'Lvl 35: Sandstone',
-      'Lvl 38: Dense Essence',
-      'Lvl 40: Gold Ore, Gem Rocks'
-    ],
-    5: [
-      'Lvl 41: Rune Pickaxe, Calcified Rocks',
-      'Lvl 42: Volcanic Sulphur',
-      'Lvl 43: Blast Mine',
-      'Lvl 45: Granite',
-      'Lvl 50: Volcanic Mine'
-    ],
-    6: [
-      'Lvl 55: Mithril Ore',
-      'Lvl 57: Motherlode Mine (Upper)',
-      'Lvl 60: Lunar Ore, Daeyalt Shards',
-      'Lvl 60: Mining Guild'
-    ],
-    7: [
-      'Lvl 61: Dragon & Infernal Pickaxe',
-      'Lvl 65: Lovakite Ore',
-      'Lvl 70: Adamantite Ore'
-    ],
-    8: [
-      'Lvl 71: Crystal Pickaxe',
-      'Lvl 72: Basalt & Salts',
-      'Lvl 75: Ancient Essence'
-    ],
-    9: [
-      'Lvl 85: Runite Ore'
-    ],
-    10: [
-      'Lvl 92: Amethyst',
-      'Lvl 99: Skill Mastery (Mining Cape)'
-    ],
-  },
+
   'Prayer': {
     1: [
       'Lvl 1: Thick Skin',
       'Lvl 4: Burst of Strength',
       'Lvl 7: Clarity of Thought',
-      'Lvl 8: Sharp Eye',
-      'Lvl 9: Mystic Will',
-      'Lvl 10: Initiate Armour',
-      'Lvl 10: Rock Skin'
+      'Lvl 8: Sharp Eye & Unrelenting Force',
+      'Lvl 9: Mystic Will & Charge',
+      'Lvl 10: Rock Skin',
     ],
     2: [
       'Lvl 13: Superhuman Strength',
       'Lvl 16: Improved Reflexes',
       'Lvl 19: Rapid Restore',
-      'Lvl 20: Proselyte Armour'
+      'Lvl 20: Proselyte armour',
     ],
     3: [
-      'Lvl 22: Rapid Heal, Void Knight',
-      'Lvl 25: Protect Item, Ancient Mace',
-      'Lvl 26: Hawk Eye',
-      'Lvl 27: Mystic Lore',
+      'Lvl 22: Rapid Heal',
+      'Lvl 25: Protect Item',
+      'Lvl 26: Hawk Eye & Overpowering Force',
+      'Lvl 27: Mystic Lore & Super Charge',
       'Lvl 28: Steel Skin',
-      'Lvl 30: Blessed Bone Shards'
     ],
     4: [
-      'Lvl 31: Holy Wraps, Sandals',
-      'Lvl 31: Ultimate Strength, Monastery',
+      'Lvl 31: Ultimate Strength',
       'Lvl 34: Incredible Reflexes',
+      'Lvl 35: Protect from Summoning',
       'Lvl 37: Protect from Magic',
-      'Lvl 40: Protect from Missiles',
-      'Lvl 40: Vestment Cloaks, Mitres'
+      'Lvl 40: Protect from Ranged',
     ],
     5: [
       'Lvl 43: Protect from Melee',
-      'Lvl 44: Eagle Eye',
-      'Lvl 45: Mystic Might',
-      'Lvl 46: Retribution',
+      'Lvl 44: Eagle Eye & Unstoppable Force',
+      'Lvl 45: Mystic Might & Overcharge',
       'Lvl 49: Redemption',
-      'Lvl 50: Bless Symbols, Antler Guards'
+      'Lvl 50: Ancient Curses (The Temple at Senntisten)',
     ],
     6: [
       'Lvl 52: Smite',
-      'Lvl 54: Sacrifice Vampyre Dust',
-      'Lvl 55: Preserve, Spirit Shields',
-      'Lvl 60: Blessed Spirit Shields',
+      'Lvl 52: Sap curses (52–58)',
+      'Lvl 59: Berserker curse',
       'Lvl 60: Chivalry',
-      'Lvl 60: Devout Boots, Stoles'
     ],
     7: [
-      'Lvl 62: Deadeye',
-      'Lvl 63: Mystic Vigour',
-      'Lvl 65: 3rd Age Druidic',
-      'Lvl 70: Arcane/Spectral Spirit Shields',
-      'Lvl 70: Piety',
-      'Lvl 70: Soul Capes',
-      'Lvl 70: Superior Dragon Bones'
+      'Lvl 62: Deflect Summoning',
+      'Lvl 65: Deflect Magic & Rapid Renewal',
+      'Lvl 68: Deflect Missiles',
+      'Lvl 70: Piety, Rigour & Augury',
     ],
     8: [
-      'Lvl 74: Rigour',
-      'Lvl 75: Elysian Spirit Shield',
-      'Lvl 77: Augury',
-      'Lvl 80: Elidinis\' Ward'
+      'Lvl 71: Deflect Melee',
+      'Lvl 74: Leech curses (74–86)',
+      'Lvl 75: Eclipsed Soul',
+      'Lvl 75: Start Plague\'s End',
     ],
     9: [
-      'Lvl 85: Bless Spirit Shields',
-      'Lvl 90: Sigil Smithing'
+      'Lvl 85: Divine Rage',
+      'Lvl 89: Wrath',
+      'Lvl 90: Sigil crafting & demon horn necklaces',
     ],
     10: [
-      'Lvl 99: Skill Mastery (Prayer Cape)'
+      'Lvl 92: Soul Split',
+      'Lvl 94: Fortitude',
+      'Lvl 95: Turmoil, Anguish & Torment',
+      'Lvl 99: Malevolence, Desolation & Affliction',
+      'Lvl 99: Skill Mastery (Prayer cape)',
     ],
   },
-  'Ranged': {
+
+  'Crafting': {
     1: [
-      'Lvl 1: Crossbows, Knives, Darts',
-      'Lvl 1: Shortbows, Longbows',
-      'Lvl 5: Oak Bows, Steel Thrown',
-      'Lvl 10: Black Knives/Darts'
+      'Lvl 1: Leather armour & opal cutting',
+      'Lvl 5: Gold rings',
+      'Lvl 8: Gold amulets',
     ],
     2: [
-      'Lvl 16: Blurite Crossbow',
-      'Lvl 19: Falador Wall Shortcut',
-      'Lvl 20: Studded Leather, Mithril Thrown',
-      'Lvl 20: Willow Bows, Coifs'
+      'Lvl 11: Leather vambraces',
+      'Lvl 12: Oil lamps & fragile urns',
+      'Lvl 13: Cut jade',
+      'Lvl 16: Cut red topaz',
+      'Lvl 20: Cut sapphire & sapphire jewellery',
     ],
     3: [
-      'Lvl 26: Iron Crossbow',
-      'Lvl 28: Dorgeshuun Crossbow',
-      'Lvl 30: Adamant Thrown, Snakeskin',
-      'Lvl 30: Ava\'s Attractor',
-      'Lvl 30: Maple Bows, Ogre Bows'
+      'Lvl 23: Spider silk robes',
+      'Lvl 26: Oil lanterns',
+      'Lvl 27: Cut emerald & emerald jewellery',
     ],
     4: [
-      'Lvl 31: Steel Crossbow',
-      'Lvl 36: Mithril Crossbow',
-      'Lvl 40: Ranging Guild',
-      'Lvl 40: Rune Thrown, Spined Armour',
-      'Lvl 40: Yew Bows, Green D\'hide'
+      'Lvl 32: Plain urns',
+      'Lvl 34: Cut ruby & ruby jewellery',
+      'Lvl 40: Crafting Guild access',
+      'Lvl 40: Green dragonhide armour',
     ],
     5: [
-      'Lvl 42: Void Knight Equipment',
-      'Lvl 45: Chinchompas (Grey)',
-      'Lvl 50: Ava\'s Accumulator, Iban\'s Staff',
-      'Lvl 50: Broad Arrows, Amethyst Darts',
-      'Lvl 50: Hunters\' Crossbow',
-      'Lvl 50: Magic Bows, Blue D\'hide'
+      'Lvl 43: Cut diamond & diamond jewellery',
+      'Lvl 48: Strong urns',
+      'Lvl 49: Lantern lenses',
+      'Lvl 50: Blue dragonhide armour',
     ],
     6: [
-      'Lvl 55: Red Chinchompas',
-      'Lvl 60: Dragon Thrown, 3rd Age Bow',
-      'Lvl 60: Red D\'hide, Dark Bow'
+      'Lvl 54: Water battlestaff',
+      'Lvl 55: Red dragonhide armour',
+      'Lvl 55: Slayer helmet (Smoking Kills)',
+      'Lvl 58: Earth battlestaff',
+      'Lvl 60: Black dragonhide armour',
     ],
     7: [
-      'Lvl 61: Rune Crossbow, Broad Bolts',
-      'Lvl 64: Dragon Crossbow',
-      'Lvl 65: 3rd Age Range',
-      'Lvl 70: Armadyl Armour, Crystal Bow',
-      'Lvl 70: Ava\'s Assembler',
-      'Lvl 70: Black D\'hide, Karil\'s',
-      'Lvl 70: Dragon Hunter Crossbow'
+      'Lvl 62: Fire battlestaff',
+      'Lvl 65: Royal dragonhide armour',
+      'Lvl 66: Air battlestaff',
+      'Lvl 67: Cut moonstone',
     ],
     8: [
-      'Lvl 75: Pegasian Boots',
-      'Lvl 75: Toxic Blowpipe, Twisted Buckler',
-      'Lvl 80: Bow of Faerdhinen',
-      'Lvl 80: Masori Armour',
-      'Lvl 80: Venator Bow',
-      'Lvl 80: Zaryte Crossbow'
+      'Lvl 71: Dragonstone jewellery',
+      'Lvl 72: Cut onyx',
+      'Lvl 75: Undead dragonhide armour',
+      'Lvl 76: Decorated urns',
+      'Lvl 77: Armadyl battlestaff',
+      'Lvl 79: Cut hydrix',
+      'Lvl 80: Invention requirement (with 80 Smithing & Divination)',
     ],
     9: [
-      'Lvl 85: Twisted Bow'
+      'Lvl 82: Onyx jewellery (82–84)',
+      'Lvl 85: Top-tier moonstone jewellery',
     ],
     10: [
-      'Lvl 99: Skill Mastery (Ranging Cape)'
+      'Lvl 95: Dark Shard of Leng (with 95 Smithing)',
+      'Lvl 99: Skill Mastery (Crafting cape)',
     ],
   },
-  'Runecrafting': {
+
+  'Firemaking': {
     1: [
-      'Lvl 1: Air Runes, Mind/Water/Earth/Fire/Body Tiaras',
-      'Lvl 1: Ourania Altar (ZMI)',
-      'Lvl 1: Small Pouch',
-      'Lvl 2: Mind Runes',
-      'Lvl 5: Water Runes',
-      'Lvl 9: Earth Runes',
-      'Lvl 10: Dust Runes, Temple of the Eye'
+      'Lvl 1: Burn logs & use bonfires (+1% max life points)',
+      'Lvl 1: Achey logs',
+      'Lvl 6: Start The Tale of the Muspah',
+      'Lvl 10: Bonfire boost +2%',
     ],
     2: [
-      'Lvl 11: 2 Air Runes',
-      'Lvl 13: Mud Runes',
-      'Lvl 14: Fire Runes, 2 Mind Runes',
-      'Lvl 15: Smoke Runes',
-      'Lvl 19: 2 Water Runes, Steam Runes',
-      'Lvl 20: Body Runes'
+      'Lvl 11: Barbarian pyre ships',
+      'Lvl 12: Oil lamps',
+      'Lvl 15: Oak logs',
+      'Lvl 20: Bonfire boost +3%',
     ],
     3: [
-      'Lvl 22: 3 Air Runes',
-      'Lvl 23: Lava Runes',
-      'Lvl 25: Medium Pouch, Colossal Pouch (8)',
-      'Lvl 26: 2 Earth Runes',
-      'Lvl 27: Cosmic Runes, Guardians of the Rift',
-      'Lvl 28: 3 Mind Runes'
+      'Lvl 26: Oil lanterns',
+      'Lvl 30: Willow logs',
     ],
     4: [
-      'Lvl 33: 4 Air Runes, Sunfire Runes',
-      'Lvl 35: 2 Fire Runes, Chaos Runes',
-      'Lvl 38: 3 Water Runes',
-      'Lvl 40: Astral Runes'
+      'Lvl 33: Bug lanterns (Harpie bug swarms)',
+      'Lvl 35: Teak logs',
+      'Lvl 40: Bonfire boost +5%',
     ],
     5: [
-      'Lvl 42: 4 Mind Runes, Swampbark Gauntlets/Boots',
-      'Lvl 44: 5 Air Runes, Nature Runes',
-      'Lvl 46: 2 Body Runes, Swampbark Helm',
-      'Lvl 48: Swampbark Body/Legs',
-      'Lvl 49: 2 Sunfire Runes',
-      'Lvl 50: Large Pouch, Colossal Pouch (16)'
+      'Lvl 43: All Fired Up beacons',
+      'Lvl 45: Maple logs',
+      'Lvl 50: Mahogany logs',
     ],
     6: [
-      'Lvl 52: 3 Earth Runes',
-      'Lvl 54: Law Runes',
-      'Lvl 55: 6 Air Runes',
-      'Lvl 56: 5 Mind Runes',
-      'Lvl 57: 4 Water Runes',
-      'Lvl 59: 2 Cosmic Runes',
-      'Lvl 60: Primordial/Eternal/Pegasian Boots Fusion'
+      'Lvl 58: Eucalyptus logs',
+      'Lvl 60: Yew logs',
     ],
     7: [
-      'Lvl 65: Death Runes',
-      'Lvl 66: 7 Air Runes',
-      'Lvl 70: 6 Mind Runes, 3 Fire Runes'
+      'Lvl 61: Hand cannons (with 75 Ranged)',
+      'Lvl 70: Light fires faster',
+      'Lvl 70: Bonfire boost +8%',
     ],
     8: [
-      'Lvl 74: 2 Chaos Runes',
-      'Lvl 75: Giant Pouch, Colossal Pouch (27)',
-      'Lvl 76: 5 Water Runes',
-      'Lvl 77: 8 Air Runes, Blood Runes, Bloodbark Hands/Feet',
-      'Lvl 78: 4 Earth Runes',
-      'Lvl 79: Bloodbark Helm'
+      'Lvl 71: Burn two incense sticks at once',
+      'Lvl 74: Start The Firemaker\'s Curse',
+      'Lvl 75: Magic logs',
+      'Lvl 79: Flame gloves',
+      'Lvl 80: Magic pyre logs',
     ],
     9: [
-      'Lvl 81: Bloodbark Body/Legs',
-      'Lvl 82: 2 Astral Runes',
-      'Lvl 84: 7 Mind Runes',
-      'Lvl 85: Colossal Pouch (40)',
-      'Lvl 88: 9 Air Runes',
-      'Lvl 90: Soul Runes'
+      'Lvl 90: Elder logs',
+      'Lvl 90: Bonfire boost +10%',
     ],
     10: [
-      'Lvl 91: 2 Nature Runes',
-      'Lvl 92: 3 Body Runes',
-      'Lvl 95: Wrath Runes, 2 Law Runes, 6 Water Runes',
-      'Lvl 98: 8 Mind Runes, 3 Sunfire Runes',
-      'Lvl 99: Skill Mastery (Runecrafting Cape)'
+      'Lvl 91: Ancient effigies (starved) & Char\'s training cave',
+      'Lvl 92: Inferno adze',
+      'Lvl 95: Burn three incense sticks at once',
+      'Lvl 99: Skill Mastery (Firemaking cape)',
     ],
   },
-  'Summoning': {
-    1: ['Lvl 1: Spirit Wolf, Dreadfowl, Spirit Spider conjuring', 'Lvl 4: Dreadfowl pouch crafting'],
-    2: ['Lvl 10: Spirit Mosquito pouch crafting', 'Lvl 16: Granite Crab pouch crafting'],
-    3: ['Lvl 23: Spirit Tz-Kih pouch crafting', 'Lvl 28: Compost Mound pouch crafting'],
-    4: ['Lvl 33: Barker Toad pouch crafting', 'Lvl 40: Bull Leech pouch crafting'],
-    5: ['Lvl 46: Bunyip pouch crafting', 'Lvl 49: Fruit Bat pouch crafting'],
-    6: ['Lvl 52: Spirit Terrorbird pouch crafting', 'Lvl 56: Kyatt/Larupia/Graahk pouches'],
-    7: ['Lvl 64: Stranger Plant pouch crafting', 'Lvl 67: War Tortoise pouch crafting'],
-    8: ['Lvl 75: Praying Mantis pouch crafting', 'Lvl 79: Wolpertinger pouch crafting'],
-    9: ['Lvl 88: Pack Yak pouch crafting', 'Lvl 89: Geyser Titan pouch crafting'],
-    10: ['Lvl 96: Pack Yak Winter Storage scroll', 'Lvl 99: Steel Titan pouch crafting, Skill Cape']
-  },
-  'Slayer': {
+
+  'Magic': {
     1: [
-      'Masters: Turael, Krystilia, Spria, Mazchna, Vannaka, Chaeldar, Konar, Nieve',
-      'Lvl 1: Enchanted Gems, Spiny Helmet',
-      'Lvl 5: Crawling Hands',
-      'Lvl 7: Cave Bugs',
-      'Lvl 10: Cave Crawlers, Facemask'
+      'Lvl 1: Wind Strike & basic staves',
+      'Lvl 5: Water Strike',
+      'Lvl 9: Earth Strike',
     ],
     2: [
-      'Lvl 15: Banshees, Earmuffs',
-      'Lvl 17: Cave Slimes',
-      'Lvl 20: Rockslugs (Bag of Salt)'
+      'Lvl 13: Fire Strike',
+      'Lvl 17: Wind Bolt',
     ],
     3: [
-      'Lvl 22: Desert Lizards',
-      'Lvl 25: Cockatrices, Mirror Shield',
-      'Lvl 30: Pyrefiends'
+      'Lvl 21: Low Level Alchemy',
+      'Lvl 23: Water Bolt',
+      'Lvl 25: Varrock Teleport',
+      'Lvl 29: Earth Bolt',
+      'Lvl 30: Battlestaves',
     ],
     4: [
-      'Lvl 32: Mogres (Fishing Explosive)',
-      'Lvl 33: Harpie Bug Swarms (Lit Lantern)',
-      'Lvl 35: Wall Beasts, Slayer Helmet',
-      'Lvl 37: Killerwatts, Insulated Boots',
-      'Lvl 39: Molanisks, Slayer Bell',
-      'Lvl 40: Basilisks, Terror Dogs, Sea Snakes'
+      'Lvl 31: Lumbridge Teleport',
+      'Lvl 35: Fire Bolt',
+      'Lvl 37: Falador Teleport',
     ],
     5: [
-      'Lvl 42: Fever Spiders, Slayer Gloves',
-      'Lvl 44: Sulphur Lizards, Boots of Stone',
-      'Lvl 45: Infernal Mages',
-      'Lvl 47: Brine Rats',
-      'Lvl 48: Sulphur/Frost/Earthen Nagua',
-      'Lvl 50: Bloodveld, Master: Duradel'
+      'Lvl 41: Wind Blast',
+      'Lvl 43: Superheat Item',
+      'Lvl 45: Camelot Teleport',
+      'Lvl 50: Ancient Magicks (Desert Treasure)',
     ],
     6: [
-      'Lvl 51: Gryphons, Shellbane Gryphon (Boss)',
-      'Lvl 52: Jellies',
-      'Lvl 54: Juvenile Custodian Stalkers',
-      'Lvl 55: Turoth, Broad Ammo, Leaf-Bladed Weapons',
-      'Lvl 56: Warped Terrorbirds/Tortoises',
-      'Lvl 57: Mutated Zygomites (Fungicide)',
-      'Lvl 58: Cave Horrors (Black Mask)',
-      'Lvl 60: Aberrant Spectres, Basilisk Knights, Nose Peg'
+      'Lvl 51: Ardougne Teleport',
+      'Lvl 53: Earth Blast',
+      'Lvl 55: High Level Alchemy',
+      'Lvl 59: Fire Blast',
     ],
     7: [
-      'Lvl 62: Wyrms, Lava Strykewyrms (Summoning 60)',
-      'Lvl 63: Spiritual Rangers',
-      'Lvl 65: Dust Devils, Amethyst Broad Bolts',
-      'Lvl 66: Fossil Island Wyverns',
-      'Lvl 67: Mature Custodian Stalkers',
-      'Lvl 68: Spiritual Warriors',
-      'Lvl 70: Kurasks'
+      'Lvl 62: Wind Wave',
+      'Lvl 65: Lunar Spellbook (Lunar Diplomacy)',
+      'Lvl 65: Water Wave',
+      'Lvl 70: Earth Wave',
     ],
     8: [
-      'Lvl 72: Skeletal Wyverns',
-      'Lvl 75: Gargoyles, Grotesque Guardians',
-      'Lvl 76: Elder Custodian Stalkers',
-      'Lvl 77: Brutal Black Dragons',
-      'Lvl 78: Aquanites',
-      'Lvl 80: Nechryael'
+      'Lvl 75: Fire Wave & polypore staves',
+      'Lvl 80: Virtus robes',
     ],
     9: [
-      'Lvl 82: Ancient Wyverns',
-      'Lvl 83: Spiritual Mages',
-      'Lvl 84: Drakes',
-      'Lvl 85: Abyssal Demons, Abyssal Sire',
-      'Lvl 87: Cave Krakens, Kraken Boss',
-      'Lvl 90: Dark Beasts'
+      'Lvl 81: Wind Surge & Tsunami ability',
+      'Lvl 85: Water Surge',
+      'Lvl 86: Plank Make (Lunar)',
+      'Lvl 90: Earth Surge',
+      'Lvl 90: Noxious staff & Seismic wand/singularity',
     ],
     10: [
-      'Lvl 91: Cerberus',
-      'Lvl 92: Araxyte, Araxxor Boss',
-      'Lvl 93: Smoke Devils, Thermonuclear Smoke Devil',
-      'Lvl 95: Hydras, Alchemical Hydra',
-      'Lvl 99: Skill Mastery (Slayer Cape)'
+      'Lvl 92: Wand of the Praesul & Imperium core',
+      'Lvl 94: Vengeance (Lunar) & Ice Barrage (Ancient)',
+      'Lvl 95: Fire Surge',
+      'Lvl 95: Fractured Staff of Armadyl',
+      'Lvl 99: Skill Mastery (Magic cape)',
     ],
   },
-  'Smithing': {
+
+  'Fletching': {
     1: [
-      'Lvl 1: Smelt Bronze Bars',
-      'Lvl 1: Smith Bronze Axe/Dagger',
-      'Lvl 2: Bronze Mace',
-      'Lvl 3: Bronze Med Helm/Bolts',
-      'Lvl 4: Bronze Sword/Nails/Wire',
-      'Lvl 5: Bronze Scimitar/Arrows/C-balls/Spear',
-      'Lvl 6: Bronze Longsword/Limbs',
-      'Lvl 7: Bronze Full Helm/Knives',
-      'Lvl 8: Bronze Sq Shield',
-      'Lvl 9: Bronze Warhammer',
-      'Lvl 10: Bronze Battleaxe/Keel'
+      'Lvl 1: Arrow shafts, shortbows & bronze arrows',
+      'Lvl 3: Bronze crossbow & bolts',
+      'Lvl 5: Longbows',
+      'Lvl 10: Oak shortbow & iron arrows',
     ],
     2: [
-      'Lvl 11: Bronze Chainbody',
-      'Lvl 12: Bronze Kiteshield',
-      'Lvl 13: Blurite Bars/Limbs/Bronze Claws',
-      'Lvl 14: Bronze 2h Sword, Barronite',
-      'Lvl 15: Iron Bars/Daggers',
-      'Lvl 16: Iron Axe, Bronze Legs/Skirt',
-      'Lvl 17: Iron Mace/Spit',
-      'Lvl 18: Bronze Platebody, Iron Med Helm',
-      'Lvl 19: Iron Sword/Nails/Darts',
-      'Lvl 20: Elemental Bars, Iron Arrows/C-balls',
-      'Lvl 20: Silver Bars, Iron Scimitar'
+      'Lvl 11: Bronze darts',
+      'Lvl 13: Iron crossbow & bolts',
+      'Lvl 15: Oak longbow',
+      'Lvl 20: Willow shortbow & steel arrows',
     ],
     3: [
-      'Lvl 21: Iron Longsword/Limbs',
-      'Lvl 22: Iron Full Helm/Knives/Keel',
-      'Lvl 23: Iron Sq Shield',
-      'Lvl 24: Iron Warhammer',
-      'Lvl 25: Iron Battleaxe, Lead Bars',
-      'Lvl 26: Iron Chainbody, Oil Lantern Frame',
-      'Lvl 27: Iron Kiteshield',
-      'Lvl 28: Iron Claws',
-      'Lvl 29: Iron 2h Sword',
-      'Lvl 30: Steel Bars/Daggers'
+      'Lvl 22: Iron darts',
+      'Lvl 23: Steel crossbow & bolts',
+      'Lvl 25: Willow longbow',
+      'Lvl 30: Mithril arrows',
     ],
     4: [
-      'Lvl 31: Steel Axe, Iron Legs/Skirt',
-      'Lvl 32: Steel Mace',
-      'Lvl 33: Iron Platebody, Steel Med Helm',
-      'Lvl 34: Steel Sword/Nails/Darts',
-      'Lvl 35: Steel Scimitar/Arrows/C-balls',
-      'Lvl 36: Steel Longsword/Limbs',
-      'Lvl 37: Steel Full Helm/Knives',
-      'Lvl 38: Steel Sq Shield/Keel',
-      'Lvl 39: Steel Warhammer',
-      'Lvl 40: Gold Bars, Steel Battleaxe'
+      'Lvl 33: Mithril crossbow & bolts',
+      'Lvl 37: Steel darts',
+      'Lvl 40: Maple shortbow & adamant arrows',
     ],
     5: [
-      'Lvl 41: Steel Chainbody',
-      'Lvl 42: Steel Kiteshield',
-      'Lvl 43: Steel Claws',
-      'Lvl 44: Steel 2h Sword',
-      'Lvl 45: Lovakite Bars, Shayzien T1 Gloves',
-      'Lvl 46: Steel Legs/Skirt',
-      'Lvl 47: Shayzien T1 Boots',
-      'Lvl 48: Steel Platebody',
-      'Lvl 49: Bullseye Lantern, Shayzien T1 Helm',
-      'Lvl 50: Gold Bowl/Helmet',
-      'Lvl 50: Mithril Bars/Daggers'
+      'Lvl 43: Adamant crossbow & bolts',
+      'Lvl 45: Maple longbow',
+      'Lvl 50: Rune arrows',
     ],
     6: [
-      'Lvl 51: Mithril Axe, Shayzien T1 Greaves',
-      'Lvl 52: Mithril Mace',
-      'Lvl 53: Mithril Med Helm, Shayzien T1 Body',
-      'Lvl 54: Mithril Sword/Darts/Nails',
-      'Lvl 55: Mithril Scimitar/Arrows/C-balls',
-      'Lvl 56: Mithril Longsword/Limbs/Keel',
-      'Lvl 57: Mithril Full Helm/Knives',
-      'Lvl 58: Mithril Sq Shield',
-      'Lvl 59: Mithril Warhammer',
-      'Lvl 60: Mithril Battleaxe, Dragon Sq Shield'
+      'Lvl 52: Broad arrows & mithril darts',
+      'Lvl 53: Rune crossbow & bolts',
+      'Lvl 55: Broad-tipped bolts',
+      'Lvl 60: Dragon & orikalkum arrows',
     ],
     7: [
-      'Lvl 61: Mithril Chainbody, Shayzien T2 Greaves',
-      'Lvl 62: Mithril Kiteshield',
-      'Lvl 63: Mithril Claws, Shayzien T2 Body',
-      'Lvl 64: Mithril 2h Sword',
-      'Lvl 65: Shayzien T3 Gloves',
-      'Lvl 66: Mithril Legs/Skirt, Wyvern Shield',
-      'Lvl 67: Shayzien T3 Boots',
-      'Lvl 68: Mithril Platebody',
-      'Lvl 69: Shayzien T3 Helm',
-      'Lvl 70: Adamant Bars/Daggers',
-      'Lvl 70: Crystal Helm, Celestial Signet'
+      'Lvl 63: Dragon & orikalkum crossbows',
+      'Lvl 67: Adamant darts',
+      'Lvl 70: Yew shortbow, necronium & dark arrows',
     ],
     8: [
-      'Lvl 71: Adamant Axe, Shayzien T3 Greaves',
-      'Lvl 72: Adamant Mace, Crystal Legs',
-      'Lvl 73: Adamant Med Helm, Shayzien T3 Body',
-      'Lvl 74: Adamant Sword/Keel, Crystal Body',
-      'Lvl 75: Adamant Scimitar/Arrows/C-balls',
-      'Lvl 75: Dragon Kiteshield',
-      'Lvl 76: Adamant Longsword, Crystal Tools',
-      'Lvl 77: Adamant Full Helm, Shayzien T4 Boots',
-      'Lvl 78: Adamant Sq Shield, Crystal Weapon/Shield',
-      'Lvl 79: Adamant Warhammer',
-      'Lvl 80: Adamant Battleaxe, Godsword Blade',
-      'Lvl 80: Crystal Key/Teleport'
+      'Lvl 71: Dragonstone bolts',
+      'Lvl 73: Onyx & necronium bolts',
+      'Lvl 75: Yew longbow',
+      'Lvl 80: Magic shortbow',
     ],
     9: [
-      'Lvl 81: Adamant Chainbody, Shayzien T4 Greaves',
-      'Lvl 82: Adamant Kiteshield, Saeldor/Faerdhinen',
-      'Lvl 83: Adamant Claws, Shayzien T4 Body',
-      'Lvl 84: Adamant 2h Sword',
-      'Lvl 85: Infernal Pickaxe, Ursine Chainmace',
-      'Lvl 85: Runite Bars/Daggers, Spirit Sigils',
-      'Lvl 86: Adamant Legs/Skirt, Rune Axe/Keel',
-      'Lvl 87: Rune Mace',
-      'Lvl 88: Adamant Platebody, Rune Med Helm',
-      'Lvl 89: Rune Sword/Nails',
-      'Lvl 90: Dragon Platebody, dfs/Ward',
-      'Lvl 90: Rune Scimitar/Arrows/C-balls',
-      'Lvl 90: Torva Repair'
+      'Lvl 81: Rune darts',
+      'Lvl 83: Bane crossbow & bolts',
+      'Lvl 85: Magic longbow',
+      'Lvl 90: Elder shortbow, elder rune arrows & ascension bolts',
     ],
     10: [
-      'Lvl 91: Rune Longsword/Limbs',
-      'Lvl 92: Rune Full Helm/Knives',
-      'Lvl 93: Rune Sq Shield',
-      'Lvl 94: Rune Warhammer',
-      'Lvl 95: Rune Battleaxe',
-      'Lvl 96: Rune Chainbody',
-      'Lvl 97: Rune Kiteshield',
-      'Lvl 98: Rune Claws',
-      'Lvl 99: Rune 2h/Platebody/Legs/Skirt'
+      'Lvl 92: Death Lotus darts',
+      'Lvl 93: Elder rune bolts',
+      'Lvl 95: Elder longbow, dragon darts & Bow of the Last Guardian',
+      'Lvl 96: Eldritch crossbow',
+      'Lvl 99: Skill Mastery (Fletching cape)',
     ],
   },
-  'Strength': {
-    1: [
-      'Lvl 1: Bronze/Iron Warhammers',
-      'Lvl 5: Black/White Halberds (Att 10)',
-      'Lvl 5: Steel Warhammers',
-      'Lvl 10: Black/White Warhammers',
-      'Lvl 10: Mithril Halberds (Att 20)'
-    ],
-    2: [
-      'Lvl 15: Adamant Halberds (Att 30)',
-      'Lvl 15: Leaping Trout (Fish 48)',
-      'Lvl 20: Black Mask (Def 10)',
-      'Lvl 20: Mithril Warhammers',
-      'Lvl 20: Rune Halberds (Att 40)'
-    ],
-    3: [
-      'Lvl 28: Observatory Grapple',
-      'Lvl 30: Adamant Warhammers',
-      'Lvl 30: Dragon Halberd (Att 60)',
-      'Lvl 30: Leaping Salmon (Fish 58)'
-    ],
-    4: [
-      'Lvl 35: Barehanded Tuna/Harpoonfish',
-      'Lvl 35: Catherby/Fally Grapples',
-      'Lvl 35: Crystal Halberd (Att 70)',
-      'Lvl 40: Barrelchest Anchor (Att 60)',
-      'Lvl 40: Rune Warhammers'
-    ],
-    5: [
-      'Lvl 42: Void Knight Equipment',
-      'Lvl 45: Leaping Sturgeon',
-      'Lvl 50: Barehanded Swordfish',
-      'Lvl 50: Eclipse Atlatl (Range 75)',
-      'Lvl 50: Granite Armour/Weapons',
-      'Lvl 50: Zombie Helmets'
-    ],
-    6: [
-      'Lvl 60: Ancient Sceptre (Att 50, Mag 70)',
-      'Lvl 60: Dragon Warhammer',
-      'Lvl 60: God Wars Dungeon (Boulder)',
-      'Lvl 60: Tzhaar-Ket-Om'
-    ],
-    7: [
-      'Lvl 70: Abyssal Bludgeon',
-      'Lvl 70: Bandos Stronghold (GWD)',
-      'Lvl 70: Dharok\'s Greataxe/Torag\'s Hammers',
-      'Lvl 70: Inquisitor\'s Armour'
-    ],
-    8: [
-      'Lvl 75: Blood Moon Armour',
-      'Lvl 75: Elder Maul, Primordial Boots',
-      'Lvl 76: Barehanded Sharks',
-      'Lvl 80: Avernic Treads',
-      'Lvl 80: Soulreaper Axe'
-    ],
-    9: [
-      'Lvl 90: Scythe of Vitur'
-    ],
-    10: [
-      'Lvl 99: Skill Mastery (Strength Cape)'
-    ],
-  },
-  'Thieving': {
-    1: [
-      'Lvl 1: Pickpocket Man/Woman',
-      'Lvl 2: Vegetable Stalls',
-      'Lvl 5: Bakery & Tea Stalls',
-      'Lvl 10: Pickpocket Farmers'
-    ],
-    2: [
-      'Lvl 15: HAM Members',
-      'Lvl 20: Silk Stalls'
-    ],
-    3: [
-      'Lvl 21: Pyramid Plunder (Room 1)',
-      'Lvl 25: Warriors, Fruit Stalls',
-      'Lvl 30: The Feud (Blackjack)'
-    ],
-    4: [
-      'Lvl 31: Pyramid Plunder (Room 2)',
-      'Lvl 32: Pickpocket Rogues',
-      'Lvl 38: Master Farmers',
-      'Lvl 40: Pickpocket Guards'
-    ],
-    5: [
-      'Lvl 41: Pyramid Plunder (Room 3)',
-      'Lvl 45: Bandits, Fremennik Citizens, Autumn Sq\'irk',
-      'Lvl 50: Rogues\' Den (Wall Safes)',
-      'Lvl 50: Wealthy Citizens, Silver Stalls'
-    ],
-    6: [
-      'Lvl 51: Pyramid Plunder (Room 4)',
-      'Lvl 53: Desert Bandits',
-      'Lvl 55: Ardougne Knights'
-    ],
-    7: [
-      'Lvl 61: Pyramid Plunder (Room 5)',
-      'Lvl 64: Stone Chests',
-      'Lvl 65: Menaphite Thugs, Magic Stalls, Summer Sq\'irk',
-      'Lvl 70: Paladins'
-    ],
-    8: [
-      'Lvl 71: Pyramid Plunder (Room 6)',
-      'Lvl 75: Gnomes, Gem Stalls',
-      'Lvl 78: Dorgesh-Kaan Rich Chests',
-      'Lvl 80: Heroes'
-    ],
-    9: [
-      'Lvl 81: Pyramid Plunder (Room 7)',
-      'Lvl 82: Vyres, Ore Stalls',
-      'Lvl 84: Rogues\' Castle Chests',
-      'Lvl 85: Elves',
-      'Lvl 90: TzHaar-Hurs'
-    ],
-    10: [
-      'Lvl 91: Pyramid Plunder (Room 8)',
-      'Lvl 99: Skill Mastery (Thieving Cape)'
-    ],
-  },
+
   'Woodcutting': {
     1: [
-      'Lvl 1: Bronze/Iron Axes, Achey Trees',
-      'Lvl 6: Steel Axes',
-      'Lvl 10: Light Jungle'
+      'Lvl 1: Normal & achey trees; bronze hatchet',
+      'Lvl 10: Oak trees; iron hatchet',
     ],
     2: [
-      'Lvl 11: Black Axes',
-      'Lvl 12: Log Canoes',
-      'Lvl 15: Oak Logs',
-      'Lvl 20: Medium Jungle'
+      'Lvl 12: Log canoes',
+      'Lvl 15: Evil oak (Evil Tree)',
+      'Lvl 20: Willow trees; steel hatchet',
     ],
     3: [
-      'Lvl 21: Mithril Axes',
-      'Lvl 27: Dugout Canoes',
-      'Lvl 30: Willow Logs'
+      'Lvl 25: Black hatchet',
+      'Lvl 27: Stable canoes',
+      'Lvl 30: Teak trees; mithril hatchet',
     ],
     4: [
-      'Lvl 31: Adamant Axes',
-      'Lvl 35: Teak Logs, Forester\'s Rations',
-      'Lvl 36: Lost City',
-      'Lvl 40: Jatoba Logs'
+      'Lvl 40: Maple trees; adamant hatchet',
     ],
     5: [
-      'Lvl 41: Rune/Gilded Axes',
-      'Lvl 42: Stable Dugout Canoes, Juniper Logs',
-      'Lvl 44: Lumberjack/Forestry Outfit',
-      'Lvl 45: Maple Logs, Bark',
-      'Lvl 50: Mahogany Logs, Clothes Pouch'
+      'Lvl 42: Stable dugout canoes',
+      'Lvl 44: Lumberjack outfit',
+      'Lvl 50: Acadia trees (Menaphos); rune hatchet',
     ],
     6: [
-      'Lvl 54: Arctic Pine Logs',
-      'Lvl 57: Waka Canoes',
-      'Lvl 60: Yew Logs, Woodcutting Guild'
+      'Lvl 54: Arctic pine',
+      'Lvl 57: Waka canoes',
+      'Lvl 58: Eucalyptus',
+      'Lvl 60: Mahogany; dragon & orikalkum hatchets',
     ],
     7: [
-      'Lvl 61: Dragon/Infernal/3rd Age Axes',
-      'Lvl 62: Blisterwood Logs',
-      'Lvl 65: Sulliuscep Mushrooms',
-      'Lvl 66: Camphor Logs'
+      'Lvl 68: Ivy',
+      'Lvl 70: Yew trees; necronium & crystal hatchets',
     ],
     8: [
-      'Lvl 71: Crystal Axes',
-      'Lvl 75: Magic Logs, Sturdy Harness',
-      'Lvl 80: Infected Roots, Ironwood Logs'
+      'Lvl 75: Evil magic (Evil Tree)',
+      'Lvl 80: Magic trees; bane & Imcando hatchets',
     ],
     9: [
-      'Lvl 90: Redwood Logs'
-    ],
-    9: [
-      'Lvl 81: Adamant Chainbody, Shayzien T4 Greaves',
-      'Lvl 82: Adamant Kiteshield, Saeldor/Faerdhinen',
-      'Lvl 83: Adamant Claws, Shayzien T4 Body',
-      'Lvl 84: Adamant 2h Sword',
-      'Lvl 85: Infernal Pickaxe, Ursine Chainmace',
-      'Lvl 85: Runite Bars/Daggers, Spirit Sigils',
-      'Lvl 86: Adamant Legs/Skirt, Rune Axe/Keel',
-      'Lvl 87: Rune Mace',
-      'Lvl 88: Adamant Platebody, Rune Med Helm',
-      'Lvl 89: Rune Sword/Nails',
-      'Lvl 90: Dragon Platebody, dfs/Ward',
-      'Lvl 90: Rune Scimitar/Arrows/C-balls',
-      'Lvl 90: Torva Repair'
+      'Lvl 82: Cursed magic',
+      'Lvl 85: Bloodwood',
+      'Lvl 90: Elder trees & bamboo; elder rune hatchet',
     ],
     10: [
-      'Lvl 91: Rune Longsword/Limbs',
-      'Lvl 92: Rune Full Helm/Knives',
-      'Lvl 93: Rune Sq Shield',
-      'Lvl 94: Rune Warhammer',
-      'Lvl 95: Rune Battleaxe',
-      'Lvl 96: Rune Chainbody',
-      'Lvl 97: Rune Kiteshield',
-      'Lvl 98: Rune Claws',
-      'Lvl 99: Rune 2h/Platebody/Legs/Skirt'
+      'Lvl 94: Crystal trees (Prifddinas)',
+      'Lvl 96: Golden bamboo',
+      'Lvl 99: Skill Mastery (Woodcutting cape)',
     ],
   },
-  'Dungeoneering': {
-    1: ['Lvl 1: Frozen Floors (1-11) access', 'Lvl 1: Novice Complexity (1-6)'],
-    2: ['Lvl 12: Abandoned Floors (12-17) access', 'Lvl 15: Ring of Vigour reward purchase'],
-    3: ['Lvl 23: Furnished Floors (18-29) access', 'Lvl 30: Gem Bag reward purchase'],
-    4: ['Lvl 35: Occult Floors (30-35) access', 'Lvl 40: Bonecrusher reward purchase'],
-    5: ['Lvl 47: Warped Floors (36-47) access', 'Lvl 50: Charming Imp reward purchase'],
-    6: ['Lvl 59: Floor 48-60 access', 'Lvl 60: Resource Dungeons (Taverley, Edgeville)'],
-    7: ['Lvl 70: Chaotic Weapons (Rapier, Maul, Staff) purchase', 'Lvl 75: Daemonheim Medium Achievements'],
-    8: ['Lvl 80: Chaotic Shields and Crossbows purchase', 'Lvl 85: Gorajo Hoardstalker dungeons'],
-    9: ['Lvl 90: Blood Necklace reward purchase', 'Lvl 95: Elite Daemonheim Achievements'],
-    10: ['Lvl 99: Skill Cape & 120 Master Dungeoneering Cape']
-  },
-  'Divination': {
-    1: ['Lvl 1: Pale Energy harvesting', 'Lvl 5: Divine Crawling Peg'],
-    2: ['Lvl 10: Flickering Energy harvesting', 'Lvl 15: Divine Rock Peg'],
-    3: ['Lvl 20: Bright Energy harvesting', 'Lvl 25: Divine Tree Peg'],
-    4: ['Lvl 30: Glowing Energy harvesting', 'Lvl 35: Sign of the Porter I'],
-    5: ['Lvl 40: Sparkling Energy harvesting', 'Lvl 45: Boon of Sparkling Energy'],
-    6: ['Lvl 50: Gleaming Energy harvesting', 'Lvl 55: Sign of the Porter III'],
-    7: ['Lvl 60: Vibrant Energy harvesting', 'Lvl 65: Boon of Vibrant Energy'],
-    8: ['Lvl 70: Lustrous Energy harvesting', 'Lvl 75: Sign of the Porter V'],
-    9: ['Lvl 80: Brilliant Energy harvesting', 'Lvl 85: Divine Simulacrum creation'],
-    10: ['Lvl 95: Incandescent Energy harvesting', 'Lvl 99: Skill Cape & Elder Energy']
-  },
-  'Invention': {
-    1: ['Lvl 1: Disassemble items for parts', 'Lvl 4: Augment Weapon'],
-    2: ['Lvl 12: Augment Armour (Chest, Legs)', 'Lvl 16: Simple Parts Junk Chance Reduction I'],
-    3: ['Lvl 22: Specialised Components discovery', 'Lvl 27: Divine Charge Transmitter I'],
-    4: ['Lvl 32: Efficient Perk blueprint', 'Lvl 38: Auto-Disassembler machine'],
-    5: ['Lvl 45: Pyro-matic and Rod-o-matic tools', 'Lvl 49: Spring Cleaner upgrade blueprint'],
-    6: ['Lvl 55: Extreme Invention Potions crafting', 'Lvl 60: Augmented Pickaxe and Hatchet'],
-    7: ['Lvl 70: Mech-Chinchompas blueprint', 'Lvl 75: Divine Omatic tools'],
-    8: ['Lvl 80: Ancient Invention blueprints', 'Lvl 85: Alchemical Onyx creation'],
-    9: ['Lvl 90: Custom-Fit Trimmed Masterwork Armour', 'Lvl 95: Augmented T92 Weapons/Armour'],
-    10: ['Lvl 99: Skill Cape & Augmented T95 Necromancy Gear']
-  },
-  'Archaeology': {
-    1: ['Lvl 1: Kharid-et digsite access, Bronze Mattock', 'Lvl 5: Restoring Level 1 Relics'],
-    2: ['Lvl 12: Iron Mattock, Senntisten digsite access', 'Lvl 16: Monolith Power: Font of Life'],
-    3: ['Lvl 25: Everlight digsite access, Steel Mattock', 'Lvl 30: Archaeology Guild membership'],
-    4: ['Lvl 36: Stormguard Citadel access, Mithril Mattock', 'Lvl 40: Qualification: Associate'],
-    5: ['Lvl 45: Warforge digsite access, Adamant Mattock', 'Lvl 50: Qualification: Fit for Purpose'],
-    6: ['Lvl 60: Rune Mattock, Ortis digsite access', 'Lvl 65: Monolith Power: Berserker\'s Fury'],
-    7: ['Lvl 70: Dragon Mattock, Inquisitor Staff restoration', 'Lvl 75: Imcando Mattock creation'],
-    8: ['Lvl 80: Crystal Mattock, Spear of Annihilation restoration', 'Lvl 85: Qualification: Professor'],
-    9: ['Lvl 90: Mattock of Time and Space creation', 'Lvl 95: Qualification: Guildmaster'],
-    10: ['Lvl 99: Skill Cape & Monolith Power: Conservation of Energy']
-  },
-  'Necromancy': {
-    1: ['Lvl 1: Death Guard, Spirit Lantern, Skeleton Warrior conjure', 'Lvl 5: Ritual of Remembrance'],
-    2: ['Lvl 12: Lesser Ghost conjure, Putrid Zombie conjure', 'Lvl 16: Soul Sap ability'],
-    3: ['Lvl 24: Spectral Scythe ability, Command Skeleton ability', 'Lvl 28: Ritual of Lesser Communion'],
-    4: ['Lvl 35: Conjure Skeleton Archer, Command Zombie ability', 'Lvl 40: Death Guard Upgrade (T40)'],
-    5: ['Lvl 45: Bloat ability, Touch of Death ability', 'Lvl 50: Death Guard Upgrade (T50)'],
-    6: ['Lvl 58: Death Essence ability, Ritual of Greater Communion', 'Lvl 60: Death Guard Upgrade (T60)'],
-    7: ['Lvl 70: Death Mark ability, Necromancy Runes crafting', 'Lvl 70: Death Guard Upgrade (T70)'],
-    8: ['Lvl 80: Greater Ghost conjure, Conjure Phantom', 'Lvl 80: Death Guard Upgrade (T80)'],
-    9: ['Lvl 90: Death Grasp ability, Rasial boss fight access', 'Lvl 90: Death Guard Upgrade (T90)'],
-    10: ['Lvl 99: Skill Cape & T95 First Necromancer gear upgrade']
-  }
 
+  'Runecrafting': {
+    1: [
+      'Lvl 1: Air & mind runes; small pouch',
+      'Lvl 1: The Runespan & Ourania altar',
+      'Lvl 1: Spirit runes (Rune Mythos)',
+      'Lvl 5: Water runes',
+      'Lvl 9: Earth runes',
+      'Lvl 10: Wicked hood',
+    ],
+    2: [
+      'Lvl 11: Double air runes',
+      'Lvl 14: Fire runes',
+      'Lvl 20: Body & bone runes',
+    ],
+    3: [
+      'Lvl 23: Lava runes',
+      'Lvl 25: Medium pouch',
+      'Lvl 27: Cosmic runes',
+      'Lvl 30: Wicked cape',
+    ],
+    4: [
+      'Lvl 33: Runespan middle level',
+      'Lvl 35: Chaos runes',
+      'Lvl 40: Astral & flesh runes',
+    ],
+    5: [
+      'Lvl 44: Nature runes',
+      'Lvl 50: Large pouch',
+      'Lvl 50: Runespan high-level entrance',
+    ],
+    6: [
+      'Lvl 54: Law runes',
+      'Lvl 55: Wicked robe bottoms',
+      'Lvl 59: Double cosmic runes',
+      'Lvl 60: Miasma runes',
+    ],
+    7: [
+      'Lvl 65: Death runes',
+      'Lvl 66: Runespan top level',
+      'Lvl 70: Triple fire runes',
+    ],
+    8: [
+      'Lvl 72: Armadyl runes',
+      'Lvl 74: Double chaos runes',
+      'Lvl 75: Giant pouch',
+      'Lvl 77: Blood runes',
+      'Lvl 80: Wicked robe top',
+    ],
+    9: [
+      'Lvl 82: Double astral runes',
+      'Lvl 90: Soul runes',
+      'Lvl 90: Massive pouch',
+    ],
+    10: [
+      'Lvl 91: Double nature runes',
+      'Lvl 92: Triple body runes',
+      'Lvl 99: Skill Mastery (Runecrafting cape)',
+      'Note: 100+ opens time runes',
+    ],
+  },
+
+  'Slayer': {
+    1: [
+      'Lvl 1: Turael tasks (Burthorpe)',
+      'Lvl 5: Crawling hands',
+      'Lvl 7: Cave bugs',
+      'Lvl 10: Cave crawlers',
+    ],
+    2: [
+      'Lvl 15: Banshees (earmuffs)',
+      'Lvl 17: Cave slimes',
+      'Lvl 20: Rockslugs',
+    ],
+    3: [
+      'Lvl 22: Desert lizards',
+      'Lvl 25: Cockatrices (mirror shield)',
+      'Lvl 30: Pyrefiends',
+    ],
+    4: [
+      'Lvl 32: Mogres',
+      'Lvl 35: Wall beasts',
+      'Lvl 35: Slayer helmet (Smoking Kills)',
+      'Lvl 37: Killerwatts',
+      'Lvl 40: Basilisks & terror dogs',
+    ],
+    5: [
+      'Lvl 42: Fever spiders',
+      'Lvl 45: Infernal mages',
+      'Lvl 47: Brine rats',
+      'Lvl 50: Bloodveld',
+    ],
+    6: [
+      'Lvl 52: Jellies',
+      'Lvl 55: Turoth; leaf-bladed weapons & broad ammo',
+      'Lvl 58: Cave horrors',
+      'Lvl 60: Aberrant spectres',
+    ],
+    7: [
+      'Lvl 63: Spiritual rangers',
+      'Lvl 65: Dust devils',
+      'Lvl 68: Spiritual warriors',
+      'Lvl 70: Kurask',
+    ],
+    8: [
+      'Lvl 72: Skeletal wyverns',
+      'Lvl 73: Jungle strykewyrms',
+      'Lvl 75: Gargoyles (rock hammer)',
+      'Lvl 77: Desert strykewyrms',
+      'Lvl 78: Aquanites',
+      'Lvl 80: Nechryael',
+    ],
+    9: [
+      'Lvl 83: Spiritual mages',
+      'Lvl 84: Glacors',
+      'Lvl 85: Abyssal demons',
+      'Lvl 88: Grifolapines',
+      'Lvl 90: Dark beasts, edimmu & feral dinosaurs',
+    ],
+    10: [
+      'Lvl 92: Airut',
+      'Lvl 93: Ice strykewyrms',
+      'Lvl 94: Lava strykewyrms',
+      'Lvl 95: Ganodermic beasts & dragonstone dragons',
+      'Lvl 96: Ripper demons, camel warriors & acheron mammoths',
+      'Lvl 98: Onyx dragons',
+      'Lvl 99: Soulgazers & Skill Mastery (Slayer cape)',
+    ],
+  },
+
+  'Farming': {
+    1: [
+      'Lvl 1: Potatoes',
+      'Lvl 5: Onions',
+      'Lvl 7: Cabbages',
+      'Lvl 9: Guam herbs',
+    ],
+    2: [
+      'Lvl 12: Tomatoes',
+      'Lvl 14: Marrentill',
+      'Lvl 15: Oak trees',
+      'Lvl 17: Player-owned farm: rabbits',
+      'Lvl 19: Tarromin',
+      'Lvl 20: Sweetcorn',
+    ],
+    3: [
+      'Lvl 26: Harralander',
+      'Lvl 27: Apple trees',
+      'Lvl 28: Player-owned farm: chickens',
+      'Lvl 30: Willow trees',
+    ],
+    4: [
+      'Lvl 31: Strawberries',
+      'Lvl 32: Ranarr',
+      'Lvl 33: Banana trees',
+      'Lvl 35: Player-owned farm: sheep',
+      'Lvl 38: Toadflax',
+      'Lvl 39: Orange trees',
+    ],
+    5: [
+      'Lvl 42: Curry trees; Ranch Out of Time frogs',
+      'Lvl 44: Irit',
+      'Lvl 45: Maple trees',
+      'Lvl 47: Watermelons',
+      'Lvl 49: Player-owned farm: cows',
+      'Lvl 50: Avantoe',
+    ],
+    6: [
+      'Lvl 51: Pineapple trees',
+      'Lvl 54: Player-owned farm: chinchompas',
+      'Lvl 56: Kwuarm',
+      'Lvl 57: Papaya trees',
+      'Lvl 60: Yew trees & Livid Farm',
+    ],
+    7: [
+      'Lvl 62: Snapdragon',
+      'Lvl 64: Player-owned farm: spiders',
+      'Lvl 67: Cadantine',
+      'Lvl 68: Palm trees',
+    ],
+    8: [
+      'Lvl 71: Player-owned farm: yaks',
+      'Lvl 72: Calquat trees',
+      'Lvl 73: Lantadyme',
+      'Lvl 75: Magic trees',
+      'Lvl 76: Ranch Out of Time jadinkos',
+      'Lvl 79: Dwarf weed',
+    ],
+    9: [
+      'Lvl 81: Player-owned farm: zygomites',
+      'Lvl 83: Spirit trees',
+      'Lvl 85: Torstol',
+      'Lvl 87: Sunchokes',
+      'Lvl 90: Elder trees',
+    ],
+    10: [
+      'Lvl 91: Fellstalk',
+      'Lvl 92: Player-owned farm: dragons',
+      'Lvl 97: Ranch Out of Time varanusaurs',
+      'Lvl 99: Skill Mastery (Farming cape)',
+    ],
+  },
+
+  'Construction': {
+    1: [
+      'Lvl 1: Player-owned house — parlour & garden',
+      'Lvl 5: Kitchen',
+      'Lvl 10: Dining room',
+      'Lvl 10: Fort Forinthry Town Hall',
+    ],
+    2: [
+      'Lvl 15: Workshop',
+      'Lvl 15: Fort Forinthry Chapel',
+      'Lvl 20: Bedroom',
+      'Lvl 20: Start The Fremennik Isles',
+    ],
+    3: [
+      'Lvl 25: Skill hall',
+      'Lvl 25: Fort Forinthry Command Centre',
+      'Lvl 30: Games room',
+      'Lvl 30: Rooms on upper floors; Rellekka house portal',
+    ],
+    4: [
+      'Lvl 32: Combat room',
+      'Lvl 35: Quest hall',
+      'Lvl 37: Menagerie',
+      'Lvl 40: Study',
+      'Lvl 40: Hire a butler; Construction Contracts',
+    ],
+    5: [
+      'Lvl 42: Costume room',
+      'Lvl 45: Chapel',
+      'Lvl 50: Portal chamber',
+      'Lvl 50: Demon butler',
+    ],
+    6: [
+      'Lvl 55: Formal garden',
+      'Lvl 60: Throne room',
+    ],
+    7: [
+      'Lvl 63: Aquarium',
+      'Lvl 65: Oubliette',
+      'Lvl 70: Dungeon rooms',
+    ],
+    8: [
+      'Lvl 75: Treasure room',
+      'Lvl 75: Gilded altar',
+      'Lvl 75: Spirit tree in garden (with 83 Farming)',
+    ],
+    9: [
+      'Lvl 85: Fairy ring in garden',
+    ],
+    10: [
+      'Lvl 95: Spirit tree & fairy ring combined',
+      'Lvl 99: Demonic throne (throne room)',
+      'Lvl 99: Skill Mastery (Construction cape)',
+    ],
+  },
+
+  'Hunter': {
+    1: [
+      'Lvl 1: Crimson swifts & polar kebbits (2 traps)',
+      'Lvl 3: Common kebbits',
+      'Lvl 5: Golden warblers',
+      'Lvl 7: Feldip weasels',
+      'Lvl 9: Copper longtails',
+    ],
+    2: [
+      'Lvl 13: Desert devils',
+      'Lvl 15: Ruby harvest butterflies',
+      'Lvl 17: Baby implings (Puro-Puro)',
+      'Lvl 19: Tropical wagtails',
+    ],
+    3: [
+      'Lvl 23: Wild kebbits (deadfall)',
+      'Lvl 25: Sapphire glacialis',
+      'Lvl 27: Ferrets & cobalt skillchompas',
+      'Lvl 30: 3 traps at once',
+    ],
+    4: [
+      'Lvl 33: Barb-tailed kebbits',
+      'Lvl 37: Prickly kebbits',
+      'Lvl 36: Earth implings',
+    ],
+    5: [
+      'Lvl 41: Horned graahk',
+      'Lvl 43: Spotted kebbits (falconry)',
+      'Lvl 45: Black warlocks & penguins',
+      'Lvl 46: Viridian skillchompas',
+      'Lvl 49: Razor-backed kebbits',
+    ],
+    6: [
+      'Lvl 51: Sabre-toothed kebbits',
+      'Lvl 53: Grey chinchompas',
+      'Lvl 55: Sabre-toothed kyatts',
+      'Lvl 60: 4 traps at once',
+    ],
+    7: [
+      'Lvl 63: Carnivorous (red) chinchompas',
+      'Lvl 66: Pawyas',
+      'Lvl 68: Azure skillchompas',
+      'Lvl 69: Dashing kebbits',
+      'Lvl 70: Common jadinkos',
+    ],
+    8: [
+      'Lvl 72: Charm sprites',
+      'Lvl 74: Ninja implings',
+      'Lvl 77: Grenwalls',
+      'Lvl 79: Divine implings',
+      'Lvl 80: 5 traps at once; draconic jadinkos',
+    ],
+    9: [
+      'Lvl 83: Dragon implings',
+      'Lvl 87: Zombie implings',
+      'Lvl 89: Crimson skillchompas',
+      'Lvl 90: Tortles & Big Game Hunter (Anachronia)',
+    ],
+    10: [
+      'Lvl 91: Kingly implings',
+      'Lvl 95: Crystal implings',
+      'Lvl 96: Ornate tortles & giant chinchompas',
+      'Lvl 97: Crystal skillchompas',
+      'Lvl 99: Skill Mastery (Hunter cape)',
+    ],
+  },
+
+  'Summoning': {
+    1: [
+      'Lvl 1: Spirit wolf',
+      'Lvl 4: Dreadfowl',
+      'Lvl 10: Spirit spider',
+    ],
+    2: [
+      'Lvl 13: Thorny snail (beast of burden)',
+      'Lvl 16: Granite crab',
+      'Lvl 18: Desert wyrm',
+      'Lvl 19: Spirit scorpion',
+    ],
+    3: [
+      'Lvl 22: Spirit Tz-Kih',
+      'Lvl 23: Albino rat',
+      'Lvl 25: Spirit kalphite (beast of burden)',
+      'Lvl 28: Compost mound',
+      'Lvl 29: Giant chinchompa',
+    ],
+    4: [
+      'Lvl 31: Vampyre bat',
+      'Lvl 32: Honey badger',
+      'Lvl 33: Beaver',
+      'Lvl 34: Void ravager/shifter/spinner/torcher',
+      'Lvl 36: Bronze minotaur',
+      'Lvl 40: Bull ant (beast of burden)',
+    ],
+    5: [
+      'Lvl 41: Macaw',
+      'Lvl 46: Iron minotaur & pyrelord',
+      'Lvl 47: Magpie',
+      'Lvl 49: Bloated leech',
+      'Lvl 50: Spirit capes (with 50 Defence)',
+    ],
+    6: [
+      'Lvl 52: Spirit terrorbird (beast of burden)',
+      'Lvl 54: Abyssal parasite',
+      'Lvl 56: Steel minotaur & ibis',
+      'Lvl 57: Spirit graahk/kyatt/larupia',
+      'Lvl 58: Karamthulhu overlord',
+    ],
+    7: [
+      'Lvl 61: Smoke devil',
+      'Lvl 63: Spirit cobra',
+      'Lvl 66: Barker toad & mithril minotaur',
+      'Lvl 67: War tortoise (beast of burden)',
+      'Lvl 69: Fruit bat',
+    ],
+    8: [
+      'Lvl 73: Obsidian golem; blood reaver contracts',
+      'Lvl 74: Granite lobster',
+      'Lvl 76: Adamant minotaur & forge regent',
+      'Lvl 79: Fire, moss & ice titans',
+      'Lvl 80: Hydra',
+    ],
+    9: [
+      'Lvl 83: Lava titan',
+      'Lvl 85: Swamp titan',
+      'Lvl 86: Rune minotaur',
+      'Lvl 88: Unicorn stallion',
+      'Lvl 89: Geyser titan',
+    ],
+    10: [
+      'Lvl 92: Wolpertinger',
+      'Lvl 93: Abyssal titan',
+      'Lvl 95: Iron titan',
+      'Lvl 96: Pack yak (beast of burden); ripper demon contracts',
+      'Lvl 99: Steel titan & pack mammoth',
+      'Lvl 99: Skill Mastery (Summoning cape)',
+    ],
+  },
+
+  'Dungeoneering': {
+    1: [
+      'Lvl 1: Daemonheim floors 1+ (Frozen)',
+      'Lvl 1: One bound item slot',
+      'Lvl 10: Edgeville chaos druid resource dungeon',
+    ],
+    2: [
+      'Lvl 15: Dwarven Mine resource dungeon',
+      'Lvl 19: Floor 10',
+      'Lvl 20: Edgeville hill giant resource dungeon',
+      'Lvl 20: Two bound item slots',
+    ],
+    3: [
+      'Lvl 23: Abandoned floors',
+      'Lvl 25: Karamja Volcano resource dungeon',
+      'Lvl 25: Gem bag & scroll of life',
+      'Lvl 30: Daemonheim Peninsula resource dungeon',
+      'Lvl 30: Arcane pulse necklace',
+    ],
+    4: [
+      'Lvl 35: Furnished floors',
+      'Lvl 35: Baxtorian Falls resource dungeon',
+      'Lvl 35: Coal bag',
+    ],
+    5: [
+      'Lvl 45: Gravite weapons',
+      'Lvl 45: Mining Guild resource dungeon',
+      'Lvl 50: Arcane blast necklace & spirit cape',
+    ],
+    6: [
+      'Lvl 55: Taverley hellhound resource dungeon',
+      'Lvl 59: Abandoned II floors',
+      'Lvl 60: Taverley blue dragon resource dungeon',
+    ],
+    7: [
+      'Lvl 62: Ring of vigour',
+      'Lvl 65: Varrock Sewers resource dungeon',
+      'Lvl 65: Rapid Renewal prayer (with 65 Prayer)',
+      'Lvl 70: Chaos Tunnels resource dungeon',
+    ],
+    8: [
+      'Lvl 71: Occult floors',
+      'Lvl 75: Al Kharid mining resource dungeon',
+      'Lvl 80: Chaotic weapons & arcane stream necklace',
+      'Lvl 80: Brimhaven Dungeon resource dungeon',
+    ],
+    9: [
+      'Lvl 82: Polypore resource dungeon',
+      'Lvl 85: Asgarnian Ice Dungeon resource dungeon',
+      'Lvl 90: Four bound item slots',
+    ],
+    10: [
+      'Lvl 95: Warped floors',
+      'Lvl 95: Gorajo resource dungeon',
+      'Lvl 99: Floor 50 & Skill Mastery (Dungeoneering cape)',
+      'Note: Elite dungeons, Sinkholes & floors 51–60 continue past 99',
+    ],
+  },
+
+  'Divination': {
+    1: [
+      'Lvl 1: Pale wisps',
+      'Lvl 2: Portent of restoration I',
+      'Lvl 6: Sign of the porter I',
+      'Lvl 10: Flickering wisps & boon',
+    ],
+    2: [
+      'Lvl 12: Divine herb patch I',
+      'Lvl 15: Portent of restoration II',
+      'Lvl 20: Bright wisps & boon',
+    ],
+    3: [
+      'Lvl 23: Sign of respite II',
+      'Lvl 28: Sign of the porter II',
+      'Lvl 30: Glowing wisps & boon',
+    ],
+    4: [
+      'Lvl 35: Guthixian Cache access',
+      'Lvl 38: Sign of respite III',
+      'Lvl 40: Sparkling wisps & boon',
+    ],
+    5: [
+      'Lvl 44: Divine maple tree',
+      'Lvl 45: Portent of restoration V',
+      'Lvl 48: Sign of the porter III',
+      'Lvl 50: Gleaming wisps & boon',
+    ],
+    6: [
+      'Lvl 51: Divine herb patch II',
+      'Lvl 59: Enriched memory chance 4%',
+      'Lvl 60: Vibrant wisps & boon',
+    ],
+    7: [
+      'Lvl 62: Divine yew tree',
+      'Lvl 65: Empty Throne Room',
+      'Lvl 68: Sign of the porter IV',
+      'Lvl 69: Sign of item protection',
+      'Lvl 70: Lustrous wisps & Hall of Memories',
+    ],
+    8: [
+      'Lvl 75: Elder wisps & portent of degradation I',
+      'Lvl 78: Sign of life',
+      'Lvl 79: Sign of death',
+      'Lvl 80: Brilliant wisps & boon',
+      'Lvl 80: Invention requirement (with 80 Crafting & Smithing)',
+    ],
+    9: [
+      'Lvl 82: Divine herb patch III',
+      'Lvl 83: Divine magic tree',
+      'Lvl 85: Radiant wisps & boon',
+      'Lvl 88: Sign of the porter V',
+      'Lvl 90: Luminous wisps; positive & negative energy (The Arc)',
+    ],
+    10: [
+      'Lvl 91: Divine rocktail bubble',
+      'Lvl 95: Incandescent wisps & ancestral energy (The Arc)',
+      'Lvl 99: Sign of the porter VII',
+      'Lvl 99: Skill Mastery (Divination cape)',
+    ],
+  },
+
+  'Invention': {
+    1: [
+      'Prerequisite: Invention needs 80 Crafting, Smithing & Divination to start',
+      'Lvl 1: Invention Guild, disassembly & charge pack',
+      'Lvl 2: Augment weapons',
+      'Lvl 3: Gizmo devices',
+      'Lvl 8: Gizmo dissolver',
+    ],
+    2: [
+      'Lvl 16: Augment body armour & shields',
+      'Lvl 20: Skill fragment research',
+    ],
+    3: [
+      'Lvl 22: Augmented tools (hatchet/pickaxe/mattock)',
+      'Lvl 24: Soul-in-a-box & urn enhancer',
+      'Lvl 27: Equipment siphon (item level 10)',
+    ],
+    4: [
+      'Lvl 34: Knightly components',
+      'Lvl 40: Specialisation (cave goblin or dwarven tech)',
+    ],
+    5: [
+      'Lvl 43: Spring cleaner',
+      'Lvl 45: Augment leg armour',
+      'Lvl 49: Explosive & dragonfire components',
+      'Lvl 50: Skilling accumulators',
+    ],
+    6: [
+      'Lvl 54: Crystal tool siphon',
+      'Lvl 55: Faceted & clockwork components',
+      'Lvl 60: Machines (power generator, auto disassembler) & item level 15',
+    ],
+    7: [
+      'Lvl 69: Shifting components & lab coat',
+      'Lvl 70: Kinetic cyclone, auto sanctifier & others',
+    ],
+    8: [
+      'Lvl 72: Alchemiser',
+      'Lvl 74: God components (Bandos/Zamorak/Saradomin/Armadyl)',
+      'Lvl 75: Small gizmo bag',
+      'Lvl 77: Mechanised siphon',
+      'Lvl 80: Large generator',
+    ],
+    9: [
+      'Lvl 81: Auto disassembler mk. II',
+      'Lvl 83: Third-age, Seren & Zaros components',
+      'Lvl 85: Ancient gizmos (Ancient Invention)',
+      'Lvl 88: Slayer ability codices',
+      'Lvl 89: Shadow, cywir & ilujankan components',
+      'Lvl 90: Partial potion producer',
+    ],
+    10: [
+      'Lvl 92: Spirit tree re-rooter',
+      'Lvl 94: Portable fairy ring',
+      'Lvl 95: Medium gizmo bag',
+      'Lvl 99: Item level 20 & plank maker',
+      'Lvl 99: Skill Mastery (Invention cape)',
+    ],
+  },
+
+  'Archaeology': {
+    1: [
+      'Lvl 1: Bronze mattock',
+      'Lvl 5: Kharid-et dig site',
+      'Lvl 10: Iron mattock',
+    ],
+    2: [
+      'Lvl 20: Infernal Source dig site',
+      'Lvl 20: Steel mattock',
+    ],
+    3: [
+      'Lvl 24: Lodge art storage',
+      'Lvl 30: Mithril mattock',
+      'Lvl 30: Start Osseous Rex',
+    ],
+    4: [
+      'Lvl 38: Screening XP increase',
+      'Lvl 40: Adamant mattock',
+      'Lvl 40: Assistant qualification; research teams',
+    ],
+    5: [
+      'Lvl 42: Everlight dig site',
+      'Lvl 43: Sprite Focus 3x precision',
+      'Lvl 50: Rune mattock',
+    ],
+    6: [
+      'Lvl 52: Moonrise dig site',
+      'Lvl 58: Start Azzanadra\'s Quest',
+      'Lvl 60: Senntisten dig site',
+      'Lvl 60: Orikalkum & dragon mattocks',
+    ],
+    7: [
+      'Lvl 70: Stormguard Citadel dig site',
+      'Lvl 70: Associate qualification',
+      'Lvl 70: Necronium & crystal mattocks',
+    ],
+    8: [
+      'Lvl 73: Daemonheim dig site',
+      'Lvl 76: Warforge dig site',
+      'Lvl 80: Bane & Imcando mattocks',
+    ],
+    9: [
+      'Lvl 82: Sprite Focus 4x precision',
+      'Lvl 86: Start Requiem for a Dragon',
+      'Lvl 90: Orthen dig site',
+      'Lvl 90: Elder rune mattock & Professor qualification',
+    ],
+    10: [
+      'Lvl 99: Guildmaster qualification',
+      'Lvl 99: Skill Mastery (Archaeology cape)',
+    ],
+  },
+
+  'Necromancy': {
+    1: [
+      'Lvl 1: Tier 10 Death guard & Skull lantern; ritual site',
+      'Lvl 2: Conjure Skeleton Warrior',
+      'Lvl 5: Lesser necroplasm & communion rituals',
+      'Lvl 8: Finger of Death',
+      'Lvl 10: Deathwarden robes (T10)',
+    ],
+    2: [
+      'Lvl 13: Touch of Death',
+      'Lvl 20: Command Skeleton Warrior',
+      'Lvl 20: Tier 20 Death guard & Skull lantern',
+    ],
+    3: [
+      'Lvl 24: City of Um Teleport (Rune Mythos)',
+      'Lvl 25: Lesser Bone Shield',
+      'Lvl 28: Death Skulls',
+      'Lvl 30: Tier 30 Death guard & Skull lantern',
+    ],
+    4: [
+      'Lvl 36: Blood Siphon',
+      'Lvl 40: Conjure Putrid Zombie & Vengeful Ghost',
+      'Lvl 40: Tier 40 Death guard & Skull lantern',
+    ],
+    5: [
+      'Lvl 44: Threads of Fate',
+      'Lvl 48: Bloat',
+      'Lvl 50: Tier 50 Death guard & Skull lantern',
+    ],
+    6: [
+      'Lvl 52: Two conjures at once',
+      'Lvl 54: Soul Sap & Soul Strike',
+      'Lvl 60: Greater rituals; tier 2 ritual site',
+      'Lvl 60: Tier 60 Death guard & Skull lantern',
+    ],
+    7: [
+      'Lvl 62: Spectral Scythe',
+      'Lvl 66: Volley of Souls',
+      'Lvl 70: Conjure Phantom Guardian',
+      'Lvl 70: Tier 70 gear & Deathdealer robes',
+    ],
+    8: [
+      'Lvl 73: Greater Bone Shield',
+      'Lvl 76: Living Death & Life Transfer',
+      'Lvl 78: Invoke Lord of Bones',
+      'Lvl 80: Invoke Death',
+      'Lvl 80: Tier 80 Death guard & Skull lantern',
+    ],
+    9: [
+      'Lvl 84: Three conjures at once',
+      'Lvl 86: Darkness',
+      'Lvl 90: Powerful rituals; tier 3 ritual site',
+      'Lvl 90: Tier 90 Death guard & Skull lantern',
+    ],
+    10: [
+      'Lvl 92: Split Soul',
+      'Lvl 95: Omni guard, Soulbound lantern & Robes of the First Necromancer',
+      'Lvl 99: Conjure Undead Army',
+      'Lvl 99: Skill Mastery (Necromancy cape)',
+    ],
+  },
 };

@@ -7,7 +7,7 @@
  *   - contentFor(cx, cy): what's in this one chunk?
  *   - aggregate(chunks):  what does this whole group of chunks offer?
  *
- * The JSON uses canonical OSRS region ids (regionId = cx * 256 + cy), which is
+ * The JSON uses canonical region ids (the mainland grid is shared by RS3 and OSRS) (regionId = cx * 256 + cy), which is
  * exactly our map's chunk coordinate space (see utils/mapCoords.ts).
  * Fail-safe: if the fetch fails the map simply shows no content panel.
  */

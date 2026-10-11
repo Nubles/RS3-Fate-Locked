@@ -301,8 +301,8 @@ export const OnboardingWizard: React.FC = () => {
   const STEPS = [
     {
       title: "Fate Locked",
-      subtitle: "The Concept",
-      desc: "You begin with nothing. No skills. No equipment. No map access. Your account is completely locked until Fate decides otherwise.",
+      subtitle: "A RuneScape 3 Ironman mode",
+      desc: "You begin your RS3 Ironman with nothing. No skills past level 1 (Constitution starts at 10). No equipment. No map beyond your starting area in Misthalin. Your account is completely locked until Fate decides otherwise.",
       visual: <ConceptVisual />,
       color: "text-red-500",
       bg: "from-red-900/20"
@@ -310,7 +310,7 @@ export const OnboardingWizard: React.FC = () => {
     {
       title: "The Roll",
       subtitle: "Earning Keys",
-      desc: "Complete tasks in-game (Slayer, Quests, Clues) then click the matching card. Rolls are based on difficulty. Success grants a Key.",
+      desc: "Complete tasks in-game (Slayer tasks, Quests, Clue scrolls, Achievements) then click the matching card. Rolls are based on difficulty. Success grants a Key.",
       visual: <RollVisual />,
       color: "text-green-400",
       bg: "from-green-900/20"

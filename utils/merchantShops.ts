@@ -13,9 +13,18 @@ import { chunkContentService } from '../services/ChunkContentService';
 const RULES: [RegExp, string][] = [
   // ── Reward / minigame shops (check first; "… Cape Shop"/"… Store" would
   //    otherwise fall through to generic rules) ─────────────────────────────
-  [/reward|ticket exchange|cape (shop|store)|arena (store|rewards)|last shopper|research exchange|\bleagues\b|pvp arena|\bsanctum\b|sir tiffy|dom onion|soul wars|party room/i, 'Reward Shops'],
+  // RS3 skill-supply shops come first so "Dungeoneering rewards" etc. don't
+  // fall into the generic reward bucket.
+  [/dungeoneering|daemonheim|rewards trader/i, 'Dungeoneering Rewards'],
+  [/summoning|pikkupstix|pikkenmix|familiar/i, 'Summoning Shops'],
+  [/invention|inventor/i, 'Invention Supplies'],
+  [/archaeolog|excavat|dig ?site (shop|supplies)/i, 'Archaeology Supplies'],
+  [/necromanc|ritual (shop|supplies)|ghostly/i, 'Necromancy Supplies'],
+  [/divination|\bwisps?\b|energy (shop|trader)/i, 'Divination Supplies'],
+  [/reward|ticket exchange|cape (shop|store)|arena (store|rewards)|research exchange|soul wars|party room|void knight|stealing creation|castle wars|fist of guthix/i, 'Reward Shops'],
   // ── Specific weapon / armour / tool types ──────────────────────────────
   [/general store/i, 'General Stores'],
+  [/ore (merchant|seller|trader|exchange)|\bordan\b/i, 'Ore Merchants'],
   [/pickaxe/i, 'Mining Shops'],
   [/crossbow/i, 'Crossbow Shops'],
   [/scimitar/i, 'Scimitar Shops'],
@@ -56,7 +65,7 @@ const RULES: [RegExp, string][] = [
   [/slayer/i, 'Slayer Equipment'],
   [/stonemason|stonecutter|stone (mason|cutter)/i, 'Stonemasons'],
   [/sawmill|lumber/i, 'Sawmill Operators'],
-  [/builders merchant|estate agent|razmire/i, 'Real Estate Agents'],
+  [/builders merchant|estate agent|razmire/i, 'Estate Agents'],
   [/tanner|tannery|leather/i, 'Tanners'],
   [/taxiderm|stuffed (head|animal)/i, 'Taxidermists'],
   [/decant/i, 'Decanters'],

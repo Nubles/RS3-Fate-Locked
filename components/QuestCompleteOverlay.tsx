@@ -9,8 +9,10 @@ import { Scroll, X } from 'lucide-react';
  * click / Esc to close. Quests with no reward scroll on the wiki fall back to a
  * clean generic celebration (the image hides on error).
  */
+// RS3 wiki names the quest-complete image "<Quest name> reward.png"
+// (e.g. File:Cook's_Assistant_reward.png); OSRS used "… reward scroll.png".
 const rewardScrollUrl = (name: string) =>
-  `https://runescape.wiki/images/${encodeURIComponent(name.replace(/ /g, '_'))}_reward_scroll.png`;
+  `https://runescape.wiki/images/${encodeURIComponent(name.replace(/ /g, '_'))}_reward.png`;
 
 const PARTICLES = Array.from({ length: 14 }, (_, i) => i);
 

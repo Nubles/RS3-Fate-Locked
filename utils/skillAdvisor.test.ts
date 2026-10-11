@@ -26,9 +26,10 @@ function lowSkills(over: Record<string, any> = {}) {
 function regionsAndQuestsDone(over: Record<string, any> = {}) {
   return lowSkills({
     regions: [
+      // RS3 continents (Misthalin is the free starter area).
       'Asgarnia', 'Kandarin', 'Karamja', 'Kharidian Desert', 'Morytania',
-      'Fremennik', 'Tirannwn', 'Wilderness', 'Kourend & Kebos', 'Varlamore',
-      'Islands & Others', 'The Open Seas',
+      'Fremennik', 'Tirannwn', 'Wilderness', 'Daemonheim', 'Anachronia',
+      'The Arc', 'Islands & Others',
     ],
     ...over,
   });

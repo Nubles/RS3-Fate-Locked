@@ -250,7 +250,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
   // Availability of every item, recomputed only when game state changes.
   // Building the AvailabilityContext once (Sets from the gameState's arrays)
   // makes each per-item check O(1) lookups instead of repeatedly scanning
-  // arrays — far cheaper across 750+ items.
+  // arrays — far cheaper across ~700 items.
   const availabilityMap = useMemo(() => {
     const ctx = buildAvailabilityContext(gameState);
     const map: Record<string, boolean> = {};

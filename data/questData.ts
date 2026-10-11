@@ -1,6 +1,38 @@
-
 import { DropSource } from '../types';
 
+/**
+ * RuneScape 3 quest list.
+ *
+ * Source: https://runescape.wiki/w/List_of_quests (+ each quest's own wiki page
+ * for start location, requirements and quest points).
+ *
+ *  • `regions`  — the continent(s) the quest starts in / is gated by, using the
+ *                 continent keys of REGION_GROUPS plus 'Misthalin' (the free
+ *                 starter continent; MISTHALIN_AREAS incl. Fort Forinthry).
+ *                 The City of Um (Necromancy) sits in Morytania; Havenhythe
+ *                 (2026, east of Morytania) is tagged 'Islands & Others' until
+ *                 the backbone grows a dedicated region.
+ *  • `skills`   — skill levels needed to START/COMPLETE the quest (RS3 skill
+ *                 names, e.g. Constitution, Necromancy, Archaeology). The meta
+ *                 key 'Quest Points' is a QP requirement.
+ *  • `prereqs`  — DIRECT quest prerequisites only (the chain below them is
+ *                 implied); every entry is a key of QUEST_DATA.
+ *  • `difficulty` — RS3 official difficulty. RS3 "Special" quests (Recipe for
+ *                 Disaster, Dimension of Disaster, Once Upon a Time in Gielinor,
+ *                 That Old Black Magic) are mapped to the closest tier and
+ *                 flagged `special: true`.
+ *  • `miniquest` — RS3 miniquests (and quests that award 0 QP are NOT
+ *                 miniquests — e.g. Aftermath, Eye of Het I — they keep
+ *                 `points: 0` but no flag).
+ *
+ * Seasonal event quests (Christmas Village, Blooming Burrow, Harvest Hollow)
+ * are only available during their events and are intentionally omitted.
+ *
+ * Recipe for Disaster is modelled as its nine RS3 subquests (each 1 QP, titled
+ * as on the wiki: "Recipe for Disaster: …") plus the parent quest
+ * "Recipe for Disaster", which represents the final subquest
+ * (Defeating the Culinaromancer) and its 1 QP.
+ */
 export interface QuestData {
   id: string;
   name: string;
@@ -10,1261 +42,419 @@ export interface QuestData {
   points: number;
   series?: string;
   difficulty: DropSource;
+  /** Members-only quest (RS3). Omitted/false = free-to-play. */
+  members?: boolean;
+  /** RS3 miniquest (not in the quest list, awards no QP). */
+  miniquest?: boolean;
+  /** RS3 "Special" difficulty — mapped to the nearest tier in `difficulty`. */
+  special?: boolean;
 }
 
-export const QUEST_DATA: Record<string, QuestData> = {
-  // --- F2P Quests ---
-  'Cook\'s Assistant': {
-    id: 'Cook\'s Assistant', name: 'Cook\'s Assistant',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 1, series: 'Recipe for Disaster',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Demon Slayer': {
-    id: 'Demon Slayer', name: 'Demon Slayer',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 3, series: 'Demon Slayer',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'The Restless Ghost': {
-    id: 'The Restless Ghost', name: 'The Restless Ghost',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Romeo & Juliet': {
-    id: 'Romeo & Juliet', name: 'Romeo & Juliet',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 5,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Sheep Shearer': {
-    id: 'Sheep Shearer', name: 'Sheep Shearer',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Shield of Arrav': {
-    id: 'Shield of Arrav', name: 'Shield of Arrav',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Ernest the Chicken': {
-    id: 'Ernest the Chicken', name: 'Ernest the Chicken',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 4,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Vampyre Slayer': {
-    id: 'Vampyre Slayer', name: 'Vampyre Slayer',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 3,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Imp Catcher': {
-    id: 'Imp Catcher', name: 'Imp Catcher',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Prince Ali Rescue': {
-    id: 'Prince Ali Rescue', name: 'Prince Ali Rescue',
-    regions: ['Kharidian Desert', 'Misthalin'],
-    skills: {}, prereqs: [], points: 3, series: 'Kharidian',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Doric\'s Quest': {
-    id: 'Doric\'s Quest', name: 'Doric\'s Quest',
-    regions: ['Asgarnia'], 
-    skills: { 'Mining': 15 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Black Knights\' Fortress': {
-    id: 'Black Knights\' Fortress', name: 'Black Knights\' Fortress',
-    regions: ['Asgarnia'],
-    skills: { 'Quest Points': 12 }, prereqs: [], points: 3,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Witch\'s Potion': {
-    id: 'Witch\'s Potion', name: 'Witch\'s Potion',
-    regions: ['Asgarnia'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'The Knight\'s Sword': {
-    id: 'The Knight\'s Sword', name: 'The Knight\'s Sword',
-    regions: ['Asgarnia', 'Misthalin'], 
-    skills: { 'Mining': 10 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Goblin Diplomacy': {
-    id: 'Goblin Diplomacy', name: 'Goblin Diplomacy',
-    regions: ['Asgarnia'],
-    skills: {}, prereqs: [], points: 5,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Pirate\'s Treasure': {
-    id: 'Pirate\'s Treasure', name: 'Pirate\'s Treasure',
-    regions: ['Asgarnia', 'Misthalin'],
-    skills: {}, prereqs: [], points: 2,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Dragon Slayer I': {
-    id: 'Dragon Slayer I', name: 'Dragon Slayer I',
-    regions: ['Misthalin', 'Asgarnia', 'Karamja'],
-    skills: { 'Quest Points': 32, 'Crafting': 8 }, prereqs: [], points: 2, series: 'Dragonkin',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Rune Mysteries': {
-    id: 'Rune Mysteries', name: 'Rune Mysteries',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 1, series: 'Order of Wizards',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Misthalin Mystery': {
-    id: 'Misthalin Mystery', name: 'Misthalin Mystery',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Below Ice Mountain': {
-    id: 'Below Ice Mountain', name: 'Below Ice Mountain',
-    regions: ['Asgarnia'],
-    skills: { 'Quest Points': 16 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'The Corsair Curse': {
-    id: 'The Corsair Curse', name: 'The Corsair Curse',
-    regions: ['Asgarnia', 'Kandarin'],
-    skills: {}, prereqs: [], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'X Marks the Spot': {
-    id: 'X Marks the Spot', name: 'X Marks the Spot',
-    regions: ['Misthalin', 'Asgarnia'],
-    skills: {}, prereqs: [], points: 1, series: 'Great Kourend',
-    difficulty: DropSource.QUEST_NOVICE
-  },
+const N = DropSource.QUEST_NOVICE;
+const I = DropSource.QUEST_INTERMEDIATE;
+const E = DropSource.QUEST_EXPERIENCED;
+const M = DropSource.QUEST_MASTER;
+const G = DropSource.QUEST_GRANDMASTER;
 
-  // --- P2P Quests ---
-  'Druidic Ritual': {
-    id: 'Druidic Ritual', name: 'Druidic Ritual',
-    regions: ['Asgarnia'],
-    skills: {}, prereqs: [], points: 4,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Lost City': {
-    id: 'Lost City', name: 'Lost City',
-    regions: ['Misthalin', 'Islands & Others'],
-    skills: { 'Crafting': 31, 'Woodcutting': 36 }, prereqs: [], points: 3,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Witch\'s House': {
-    id: 'Witch\'s House', name: 'Witch\'s House',
-    regions: ['Asgarnia'],
-    skills: {}, prereqs: [], points: 4,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Merlin\'s Crystal': {
-    id: 'Merlin\'s Crystal', name: 'Merlin\'s Crystal',
-    regions: ['Kandarin'],
-    skills: {}, prereqs: [], points: 6, series: 'Camelot',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Heroes\' Quest': {
-    id: 'Heroes\' Quest', name: 'Heroes\' Quest',
-    regions: ['Asgarnia', 'Misthalin', 'Kandarin', 'Karamja'],
-    skills: { 'Quest Points': 55, 'Cooking': 53, 'Fishing': 53, 'Herblore': 25, 'Mining': 50 }, prereqs: ['Shield of Arrav', 'Lost City', 'Merlin\'s Crystal', 'Dragon Slayer I', 'Druidic Ritual'], points: 1,
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Scorpion Catcher': {
-    id: 'Scorpion Catcher', name: 'Scorpion Catcher',
-    regions: ['Kandarin'],
-    skills: { 'Prayer': 31 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Family Crest': {
-    id: 'Family Crest', name: 'Family Crest',
-    regions: ['Asgarnia', 'Kandarin', 'Misthalin', 'Kharidian Desert'],
-    skills: { 'Mining': 40, 'Smithing': 40, 'Magic': 59, 'Crafting': 40 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Tribal Totem': {
-    id: 'Tribal Totem', name: 'Tribal Totem',
-    regions: ['Karamja'],
-    skills: { 'Thieving': 21 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Fishing Contest': {
-    id: 'Fishing Contest', name: 'Fishing Contest',
-    regions: ['Kandarin', 'Asgarnia'],
-    skills: { 'Fishing': 10 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Monk\'s Friend': {
-    id: 'Monk\'s Friend', name: 'Monk\'s Friend',
-    regions: ['Kandarin'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Temple of Ikov': {
-    id: 'Temple of Ikov', name: 'Temple of Ikov',
-    regions: ['Kandarin'],
-    skills: { 'Thieving': 42, 'Ranged': 40 }, prereqs: [], points: 1, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Clock Tower': {
-    id: 'Clock Tower', name: 'Clock Tower',
-    regions: ['Kandarin'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Holy Grail': {
-    id: 'Holy Grail', name: 'Holy Grail',
-    regions: ['Kandarin', 'Islands & Others'],
-    skills: { 'Attack': 20 }, prereqs: ['Merlin\'s Crystal'], points: 2, series: 'Camelot',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Tree Gnome Village': {
-    id: 'Tree Gnome Village', name: 'Tree Gnome Village',
-    regions: ['Kandarin'],
-    skills: {}, prereqs: [], points: 2, series: 'Gnome',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Fight Arena': {
-    id: 'Fight Arena', name: 'Fight Arena',
-    regions: ['Kandarin'],
-    skills: {}, prereqs: [], points: 2, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Hazeel Cult': {
-    id: 'Hazeel Cult', name: 'Hazeel Cult',
-    regions: ['Kandarin'],
-    skills: {}, prereqs: [], points: 1, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Sheep Herder': {
-    id: 'Sheep Herder', name: 'Sheep Herder',
-    regions: ['Kandarin'],
-    skills: {}, prereqs: [], points: 4,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Plague City': {
-    id: 'Plague City', name: 'Plague City',
-    regions: ['Kandarin'],
-    skills: {}, prereqs: [], points: 1, series: 'Elf',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Sea Slug': {
-    id: 'Sea Slug', name: 'Sea Slug',
-    regions: ['Kandarin'],
-    skills: { 'Firemaking': 30 }, prereqs: [], points: 1, series: 'Temple Knight',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Waterfall Quest': {
-    id: 'Waterfall Quest', name: 'Waterfall Quest',
-    regions: ['Kandarin'],
-    skills: {}, prereqs: [], points: 1, series: 'Elf',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Biohazard': {
-    id: 'Biohazard', name: 'Biohazard',
-    regions: ['Kandarin', 'Asgarnia'],
-    skills: {}, prereqs: ['Plague City'], points: 3, series: 'Elf',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Jungle Potion': {
-    id: 'Jungle Potion', name: 'Jungle Potion',
-    regions: ['Karamja'],
-    skills: { 'Herblore': 3 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'The Grand Tree': {
-    id: 'The Grand Tree', name: 'The Grand Tree',
-    regions: ['Kandarin'],
-    skills: { 'Agility': 25 }, prereqs: [], points: 5, series: 'Gnome',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Shilo Village': {
-    id: 'Shilo Village', name: 'Shilo Village',
-    regions: ['Karamja'],
-    skills: { 'Crafting': 20, 'Agility': 32 }, prereqs: ['Jungle Potion'], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Underground Pass': {
-    id: 'Underground Pass', name: 'Underground Pass',
-    regions: ['Kandarin', 'Tirannwn'],
-    skills: { 'Ranged': 25 }, prereqs: ['Biohazard'], points: 5, series: 'Elf',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Observatory Quest': {
-    id: 'Observatory Quest', name: 'Observatory Quest',
-    regions: ['Kandarin'],
-    skills: {}, prereqs: [], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'The Tourist Trap': {
-    id: 'The Tourist Trap', name: 'The Tourist Trap',
-    regions: ['Kharidian Desert'],
-    skills: { 'Fletching': 10, 'Smithing': 20 }, prereqs: [], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Watchtower': {
-    id: 'Watchtower', name: 'Watchtower',
-    regions: ['Kandarin'],
-    skills: { 'Magic': 14, 'Thieving': 15, 'Agility': 25, 'Herblore': 14, 'Mining': 40 }, prereqs: [], points: 4,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Dwarf Cannon': {
-    id: 'Dwarf Cannon', name: 'Dwarf Cannon',
-    regions: ['Kandarin', 'Asgarnia'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Murder Mystery': {
-    id: 'Murder Mystery', name: 'Murder Mystery',
-    regions: ['Kandarin'],
-    skills: {}, prereqs: [], points: 3,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'The Dig Site': {
-    id: 'The Dig Site', name: 'The Dig Site',
-    regions: ['Misthalin'],
-    skills: { 'Agility': 10, 'Herblore': 10, 'Thieving': 25 }, prereqs: [], points: 2, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Gertrude\'s Cat': {
-    id: 'Gertrude\'s Cat', name: 'Gertrude\'s Cat',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Legends\' Quest': {
-    id: 'Legends\' Quest', name: 'Legends\' Quest',
-    regions: ['Kandarin'],
-    skills: { 'Quest Points': 107, 'Herblore': 45, 'Prayer': 42, 'Strength': 50, 'Agility': 50, 'Thieving': 50, 'Crafting': 50, 'Smithing': 50, 'Mining': 52, 'Woodcutting': 50, 'Magic': 56 }, 
-    prereqs: ['Family Crest', 'Heroes\' Quest', 'Shilo Village', 'Underground Pass', 'Waterfall Quest'], points: 4,
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'Big Chompy Bird Hunting': {
-    id: 'Big Chompy Bird Hunting', name: 'Big Chompy Bird Hunting',
-    regions: ['Kandarin'],
-    skills: { 'Fletching': 5, 'Cooking': 30, 'Ranged': 30 }, prereqs: [], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Elemental Workshop I': {
-    id: 'Elemental Workshop I', name: 'Elemental Workshop I',
-    regions: ['Kandarin'],
-    skills: { 'Mining': 20, 'Smithing': 20, 'Crafting': 20 }, prereqs: [], points: 1, series: 'Elemental Workshop',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Priest in Peril': {
-    id: 'Priest in Peril', name: 'Priest in Peril',
-    regions: ['Misthalin', 'Morytania'],
-    skills: {}, prereqs: [], points: 1, series: 'Myreque',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Nature Spirit': {
-    id: 'Nature Spirit', name: 'Nature Spirit',
-    regions: ['Morytania'],
-    skills: { 'Crafting': 18 }, prereqs: ['Priest in Peril', 'The Restless Ghost'], points: 2, series: 'Myreque',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Death Plateau': {
-    id: 'Death Plateau', name: 'Death Plateau',
-    regions: ['Asgarnia'],
-    skills: {}, prereqs: [], points: 1, series: 'Troll',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Troll Stronghold': {
-    id: 'Troll Stronghold', name: 'Troll Stronghold',
-    regions: ['Asgarnia'],
-    skills: { 'Agility': 15 }, prereqs: ['Death Plateau'], points: 1, series: 'Troll',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Tai Bwo Wannai Trio': {
-    id: 'Tai Bwo Wannai Trio', name: 'Tai Bwo Wannai Trio',
-    regions: ['Karamja'],
-    skills: { 'Agility': 15, 'Cooking': 30, 'Fishing': 5 }, prereqs: ['Jungle Potion'], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Regicide': {
-    id: 'Regicide', name: 'Regicide',
-    regions: ['Tirannwn'],
-    skills: { 'Agility': 56, 'Crafting': 10 }, prereqs: ['Underground Pass'], points: 3, series: 'Elf',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Eadgar\'s Ruse': {
-    id: 'Eadgar\'s Ruse', name: 'Eadgar\'s Ruse',
-    regions: ['Asgarnia', 'Kandarin'],
-    skills: { 'Herblore': 31 }, prereqs: ['Druidic Ritual', 'Troll Stronghold'], points: 1, series: 'Troll',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Shades of Mort\'ton': {
-    id: 'Shades of Mort\'ton', name: 'Shades of Mort\'ton',
-    regions: ['Morytania'],
-    skills: { 'Crafting': 20, 'Herblore': 15, 'Firemaking': 5 }, prereqs: ['Priest in Peril'], points: 3,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'The Fremennik Trials': {
-    id: 'The Fremennik Trials', name: 'The Fremennik Trials',
-    regions: ['Fremennik'],
-    skills: { 'Fletching': 25, 'Woodcutting': 40, 'Crafting': 40 }, prereqs: [], points: 3, series: 'Fremennik',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Horror from the Deep': {
-    id: 'Horror from the Deep', name: 'Horror from the Deep',
-    regions: ['Fremennik'],
-    skills: { 'Agility': 35 }, prereqs: [], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Throne of Miscellania': {
-    id: 'Throne of Miscellania', name: 'Throne of Miscellania',
-    regions: ['Fremennik'],
-    skills: { 'Woodcutting': 45, 'Farming': 10, 'Mining': 30, 'Fishing': 35 }, prereqs: ['The Fremennik Trials', 'Heroes\' Quest'], points: 1, series: 'Miscellania',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Monkey Madness I': {
-    id: 'Monkey Madness I', name: 'Monkey Madness I',
-    regions: ['Kandarin', 'Islands & Others'],
-    skills: {}, prereqs: ['The Grand Tree', 'Tree Gnome Village'], points: 3, series: 'Gnome',
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'Haunted Mine': {
-    id: 'Haunted Mine', name: 'Haunted Mine',
-    regions: ['Morytania'],
-    skills: { 'Crafting': 35 }, prereqs: ['Priest in Peril'], points: 2,
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Troll Romance': {
-    id: 'Troll Romance', name: 'Troll Romance',
-    regions: ['Asgarnia'],
-    skills: { 'Agility': 28 }, prereqs: ['Troll Stronghold'], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'In Search of the Myreque': {
-    id: 'In Search of the Myreque', name: 'In Search of the Myreque',
-    regions: ['Morytania', 'Misthalin'],
-    skills: { 'Agility': 25 }, prereqs: ['Nature Spirit'], points: 2, series: 'Myreque',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Creature of Fenkenstrain': {
-    id: 'Creature of Fenkenstrain', name: 'Creature of Fenkenstrain',
-    regions: ['Morytania'],
-    skills: { 'Crafting': 20, 'Thieving': 25 }, prereqs: ['Priest in Peril', 'The Restless Ghost'], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Roving Elves': {
-    id: 'Roving Elves', name: 'Roving Elves',
-    regions: ['Tirannwn'],
-    skills: { 'Agility': 56 }, prereqs: ['Regicide', 'Waterfall Quest'], points: 1, series: 'Elf',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Ghosts Ahoy': {
-    id: 'Ghosts Ahoy', name: 'Ghosts Ahoy',
-    regions: ['Morytania'],
-    skills: { 'Agility': 25, 'Cooking': 20 }, prereqs: ['Priest in Peril', 'The Restless Ghost'], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'One Small Favour': {
-    id: 'One Small Favour', name: 'One Small Favour',
-    regions: ['Kandarin', 'Karamja', 'Asgarnia', 'Misthalin'],
-    skills: { 'Agility': 36, 'Crafting': 25, 'Herblore': 18, 'Smithing': 30 }, prereqs: ['Rune Mysteries', 'Shilo Village'], points: 2,
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Mountain Daughter': {
-    id: 'Mountain Daughter', name: 'Mountain Daughter',
-    regions: ['Fremennik'],
-    skills: { 'Agility': 20 }, prereqs: [], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Between a Rock...': {
-    id: 'Between a Rock...', name: 'Between a Rock...',
-    regions: ['Fremennik'],
-    skills: { 'Defence': 30, 'Mining': 40, 'Smithing': 50 }, prereqs: ['Dwarf Cannon', 'Fishing Contest'], points: 2,
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'The Feud': {
-    id: 'The Feud', name: 'The Feud',
-    regions: ['Kharidian Desert'],
-    skills: { 'Thieving': 30 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'The Golem': {
-    id: 'The Golem', name: 'The Golem',
-    regions: ['Kharidian Desert'],
-    skills: { 'Crafting': 20, 'Thieving': 25 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Desert Treasure I': {
-    id: 'Desert Treasure I', name: 'Desert Treasure I',
-    regions: ['Kharidian Desert', 'Asgarnia', 'Kandarin', 'Morytania', 'Wilderness'],
-    skills: { 'Thieving': 53, 'Firemaking': 50, 'Slayer': 10, 'Magic': 50 }, prereqs: ['The Dig Site', 'Temple of Ikov', 'The Tourist Trap', 'Troll Stronghold', 'Priest in Peril', 'Waterfall Quest'], points: 3, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'Icthlarin\'s Little Helper': {
-    id: 'Icthlarin\'s Little Helper', name: 'Icthlarin\'s Little Helper',
-    regions: ['Kharidian Desert'],
-    skills: {}, prereqs: ['Gertrude\'s Cat'], points: 2, series: 'Kharidian',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Tears of Guthix': {
-    id: 'Tears of Guthix', name: 'Tears of Guthix',
-    regions: ['Misthalin'],
-    skills: { 'Firemaking': 49, 'Crafting': 20, 'Mining': 20 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Zogre Flesh Eaters': {
-    id: 'Zogre Flesh Eaters', name: 'Zogre Flesh Eaters',
-    regions: ['Kandarin'],
-    skills: { 'Smithing': 4, 'Herblore': 8, 'Ranged': 30, 'Strength': 10, 'Fletching': 30 }, prereqs: ['Big Chompy Bird Hunting', 'Jungle Potion'], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'The Lost Tribe': {
-    id: 'The Lost Tribe', name: 'The Lost Tribe',
-    regions: ['Misthalin'],
-    skills: { 'Agility': 13, 'Mining': 17, 'Thieving': 13 }, prereqs: ['Goblin Diplomacy', 'Rune Mysteries'], points: 1, series: 'Dorgeshuun',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'The Giant Dwarf': {
-    id: 'The Giant Dwarf', name: 'The Giant Dwarf',
-    regions: ['Fremennik'],
-    skills: { 'Crafting': 12, 'Firemaking': 16, 'Magic': 33, 'Thieving': 14 }, prereqs: [], points: 2, series: 'Red Axe',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Recruitment Drive': {
-    id: 'Recruitment Drive', name: 'Recruitment Drive',
-    regions: ['Asgarnia'],
-    skills: { 'Quest Points': 12 }, prereqs: ['Black Knights\' Fortress'], points: 1, series: 'Temple Knight',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Mourning\'s End Part I': {
-    id: 'Mourning\'s End Part I', name: 'Mourning\'s End Part I',
-    regions: ['Tirannwn'],
-    skills: { 'Ranged': 60, 'Thieving': 50 }, prereqs: ['Roving Elves', 'Big Chompy Bird Hunting', 'Sheep Herder'], points: 2, series: 'Elf',
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'Forgettable Tale...': {
-    id: 'Forgettable Tale...', name: 'Forgettable Tale of a Drunken Dwarf',
-    regions: ['Fremennik'],
-    skills: { 'Cooking': 22, 'Farming': 17 }, prereqs: ['The Giant Dwarf', 'Fishing Contest'], points: 2, series: 'Red Axe',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Garden of Tranquillity': {
-    id: 'Garden of Tranquillity', name: 'Garden of Tranquillity',
-    regions: ['Misthalin'],
-    skills: { 'Farming': 25 }, prereqs: ['Creature of Fenkenstrain'], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'A Tail of Two Cats': {
-    id: 'A Tail of Two Cats', name: 'A Tail of Two Cats',
-    regions: ['Asgarnia', 'Misthalin'],
-    skills: {}, prereqs: ['Icthlarin\'s Little Helper'], points: 2, series: 'Dragonkin',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Wanted!': {
-    id: 'Wanted!', name: 'Wanted!',
-    regions: ['Asgarnia'],
-    skills: { 'Quest Points': 32 }, prereqs: ['Recruitment Drive', 'The Lost Tribe', 'Priest in Peril'], points: 1, series: 'Temple Knight',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Mourning\'s End Part II': {
-    id: 'Mourning\'s End Part II', name: 'Mourning\'s End Part II',
-    regions: ['Tirannwn'],
-    skills: { 'Agility': 65 }, prereqs: ['Mourning\'s End Part I'], points: 2, series: 'Elf',
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'Rum Deal': {
-    id: 'Rum Deal', name: 'Rum Deal',
-    regions: ['Morytania', 'Islands & Others'],
-    skills: { 'Farming': 40, 'Prayer': 47, 'Slayer': 42, 'Crafting': 42, 'Fishing': 50 }, prereqs: ['Zogre Flesh Eaters', 'Priest in Peril'], points: 2, series: 'Pirate',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Shadow of the Storm': {
-    id: 'Shadow of the Storm', name: 'Shadow of the Storm',
-    regions: ['Kharidian Desert'],
-    skills: { 'Crafting': 30 }, prereqs: ['Demon Slayer', 'The Golem'], points: 1, series: 'Demon Slayer',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Making History': {
-    id: 'Making History', name: 'Making History',
-    regions: ['Kandarin'],
-    skills: {}, prereqs: ['Priest in Peril', 'The Restless Ghost'], points: 3,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Ratcatchers': {
-    id: 'Ratcatchers', name: 'Ratcatchers',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: ['Icthlarin\'s Little Helper'], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Spirits of the Elid': {
-    id: 'Spirits of the Elid', name: 'Spirits of the Elid',
-    regions: ['Kharidian Desert'],
-    skills: { 'Magic': 33, 'Ranged': 37, 'Mining': 37, 'Thieving': 37 }, prereqs: [], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Devious Minds': {
-    id: 'Devious Minds', name: 'Devious Minds',
-    regions: ['Misthalin', 'Asgarnia'],
-    skills: { 'Smithing': 65, 'Runecrafting': 50, 'Fletching': 50 }, prereqs: ['Wanted!', 'Troll Stronghold', 'Doric\'s Quest'], points: 1, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'The Hand in the Sand': {
-    id: 'The Hand in the Sand', name: 'The Hand in the Sand',
-    regions: ['Kandarin'],
-    skills: { 'Thieving': 17, 'Crafting': 49 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Enakhra\'s Lament': {
-    id: 'Enakhra\'s Lament', name: 'Enakhra\'s Lament',
-    regions: ['Kharidian Desert'],
-    skills: { 'Crafting': 50, 'Firemaking': 45, 'Magic': 39, 'Prayer': 43 }, prereqs: [], points: 2, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Cabin Fever': {
-    id: 'Cabin Fever', name: 'Cabin Fever',
-    regions: ['Islands & Others'],
-    skills: { 'Ranged': 40, 'Smithing': 50, 'Crafting': 45, 'Agility': 42 }, prereqs: ['Pirate\'s Treasure', 'Rum Deal'], points: 2, series: 'Pirate',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Fairytale I - Growing Pains': {
-    id: 'Fairytale I - Growing Pains', name: 'Fairytale I - Growing Pains',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: ['Lost City', 'Nature Spirit'], points: 2, series: 'Fairy Tale',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'RFD: The Cook': {
-    id: 'RFD: The Cook', name: 'RFD: Start (The Cook)',
-    regions: ['Misthalin'],
-    skills: { 'Cooking': 10 }, prereqs: ['Cook\'s Assistant'], points: 1, series: 'Recipe for Disaster',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'RFD: Dwarf': {
-    id: 'RFD: Dwarf', name: 'RFD: Dwarf',
-    regions: ['Asgarnia'],
-    skills: {}, prereqs: ['Fishing Contest'], points: 1, series: 'Recipe for Disaster',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'RFD: Goblins': {
-    id: 'RFD: Goblins', name: 'RFD: Goblins',
-    regions: ['Asgarnia'],
-    skills: {}, prereqs: ['Goblin Diplomacy'], points: 1, series: 'Recipe for Disaster',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'RFD: Pirate Pete': {
-    id: 'RFD: Pirate Pete', name: 'RFD: Pirate Pete',
-    regions: ['Misthalin', 'Asgarnia', 'Islands & Others'],
-    skills: { 'Cooking': 31 }, prereqs: [], points: 1, series: 'Recipe for Disaster',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'RFD: Lumbridge Guide': {
-    id: 'RFD: Lumbridge Guide', name: 'RFD: Lumbridge Guide',
-    regions: ['Misthalin'],
-    skills: { 'Cooking': 40 }, prereqs: ['Big Chompy Bird Hunting', 'Biohazard', 'Demon Slayer', 'Murder Mystery', 'Nature Spirit', 'Priest in Peril', 'The Restless Ghost', 'Witch\'s House'], points: 1, series: 'Recipe for Disaster',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'RFD: Evil Dave': {
-    id: 'RFD: Evil Dave', name: 'RFD: Evil Dave',
-    regions: ['Misthalin'],
-    skills: { 'Cooking': 25 }, prereqs: ['Gertrude\'s Cat', 'Shadow of the Storm'], points: 1, series: 'Recipe for Disaster',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'RFD: Skrach Uglogwee': {
-    id: 'RFD: Skrach Uglogwee', name: 'RFD: Skrach Uglogwee',
-    regions: ['Kandarin'],
-    skills: { 'Cooking': 41, 'Firemaking': 20 }, prereqs: ['Big Chompy Bird Hunting'], points: 1, series: 'Recipe for Disaster',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'RFD: Sir Amik Varze': {
-    id: 'RFD: Sir Amik Varze', name: 'RFD: Sir Amik Varze',
-    regions: ['Asgarnia', 'Karamja', 'Misthalin', 'Islands & Others'],
-    skills: { 'Quest Points': 107 }, prereqs: ['Legends\' Quest'], points: 1, series: 'Recipe for Disaster',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'RFD: King Awowogei': {
-    id: 'RFD: King Awowogei', name: 'RFD: King Awowogei',
-    regions: ['Islands & Others', 'Kandarin'],
-    skills: { 'Cooking': 70, 'Agility': 48 }, prereqs: ['Monkey Madness I'], points: 1, series: 'Recipe for Disaster',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'RFD: Finale': {
-    id: 'RFD: Finale', name: 'RFD: Finale',
-    regions: ['Misthalin'],
-    skills: { 'Quest Points': 175 }, prereqs: ['RFD: The Cook', 'RFD: Dwarf', 'RFD: Goblins', 'RFD: Pirate Pete', 'RFD: Lumbridge Guide', 'RFD: Evil Dave', 'RFD: Skrach Uglogwee', 'RFD: Sir Amik Varze', 'RFD: King Awowogei'], points: 1, series: 'Recipe for Disaster',
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'In Aid of the Myreque': {
-    id: 'In Aid of the Myreque', name: 'In Aid of the Myreque',
-    regions: ['Morytania'],
-    skills: { 'Crafting': 25, 'Magic': 7, 'Mining': 15 },
-    prereqs: ['In Search of the Myreque'],
-    points: 2,
-    series: 'Myreque',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'A Soul\'s Bane': {
-    id: 'A Soul\'s Bane', name: 'A Soul\'s Bane',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Rag and Bone Man I': {
-    id: 'Rag and Bone Man I', name: 'Rag and Bone Man I',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 1, series: 'Rag and Bone Man',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Swan Song': {
-    id: 'Swan Song', name: 'Swan Song',
-    regions: ['Kandarin'],
-    skills: { 'Quest Points': 100, 'Magic': 66, 'Cooking': 62, 'Fishing': 62, 'Smithing': 45, 'Firemaking': 42, 'Crafting': 40 }, prereqs: ['One Small Favour', 'Garden of Tranquillity'], points: 2,
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'Royal Trouble': {
-    id: 'Royal Trouble', name: 'Royal Trouble',
-    regions: ['Fremennik'],
-    skills: { 'Agility': 40, 'Slayer': 40 }, prereqs: ['Throne of Miscellania'], points: 1, series: 'Miscellania',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Death to the Dorgeshuun': {
-    id: 'Death to the Dorgeshuun', name: 'Death to the Dorgeshuun',
-    regions: ['Misthalin'],
-    skills: { 'Thieving': 23, 'Agility': 23 }, prereqs: ['The Lost Tribe'], points: 1, series: 'Dorgeshuun',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Fairytale II - Cure a Queen': {
-    id: 'Fairytale II - Cure a Queen', name: 'Fairytale II - Cure a Queen',
-    regions: ['Islands & Others'],
-    skills: { 'Thieving': 40, 'Farming': 49, 'Herblore': 57 }, prereqs: ['Fairytale I - Growing Pains'], points: 2, series: 'Fairy Tale',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Lunar Diplomacy': {
-    id: 'Lunar Diplomacy', name: 'Lunar Diplomacy',
-    regions: ['Fremennik'],
-    skills: { 'Crafting': 61, 'Defence': 40, 'Firemaking': 49, 'Magic': 65, 'Mining': 60, 'Woodcutting': 55 }, prereqs: ['The Fremennik Trials', 'Lost City', 'Rune Mysteries', 'Shilo Village'], points: 2, series: 'Fremennik',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'The Eyes of Glouphrie': {
-    id: 'The Eyes of Glouphrie', name: 'The Eyes of Glouphrie',
-    regions: ['Kandarin'],
-    skills: { 'Construction': 5, 'Magic': 46 }, prereqs: ['The Grand Tree'], points: 2, series: 'Gnome',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Darkness of Hallowvale': {
-    id: 'Darkness of Hallowvale', name: 'Darkness of Hallowvale',
-    regions: ['Morytania'],
-    skills: { 'Construction': 5, 'Mining': 20, 'Thieving': 22, 'Agility': 26, 'Crafting': 32, 'Magic': 33, 'Strength': 40 }, prereqs: ['In Aid of the Myreque'], points: 2, series: 'Myreque',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'The Slug Menace': {
-    id: 'The Slug Menace', name: 'The Slug Menace',
-    regions: ['Kandarin'],
-    skills: { 'Crafting': 30, 'Runecrafting': 30, 'Slayer': 30, 'Thieving': 30 }, prereqs: ['Sea Slug', 'Wanted!'], points: 1, series: 'Temple Knight',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Elemental Workshop II': {
-    id: 'Elemental Workshop II', name: 'Elemental Workshop II',
-    regions: ['Kandarin'],
-    skills: { 'Magic': 20, 'Smithing': 30 }, prereqs: ['Elemental Workshop I'], points: 1, series: 'Elemental Workshop',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'My Arm\'s Big Adventure': {
-    id: 'My Arm\'s Big Adventure', name: 'My Arm\'s Big Adventure',
-    regions: ['Asgarnia'],
-    skills: { 'Woodcutting': 10, 'Farming': 29 }, prereqs: ['Eadgar\'s Ruse', 'The Feud', 'Jungle Potion'], points: 1, series: 'Troll',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Enlightened Journey': {
-    id: 'Enlightened Journey', name: 'Enlightened Journey',
-    regions: ['Asgarnia', 'Kandarin', 'Misthalin'],
-    skills: { 'Firemaking': 20, 'Farming': 30, 'Crafting': 36 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Eagles\' Peak': {
-    id: 'Eagles\' Peak', name: 'Eagles\' Peak',
-    regions: ['Kandarin'],
-    skills: { 'Hunter': 27 }, prereqs: [], points: 2,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Animal Magnetism': {
-    id: 'Animal Magnetism', name: 'Animal Magnetism',
-    regions: ['Misthalin'],
-    skills: { 'Slayer': 18, 'Crafting': 19, 'Ranged': 30, 'Woodcutting': 35 }, prereqs: ['The Restless Ghost', 'Ernest the Chicken', 'Priest in Peril'], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Contact!': {
-    id: 'Contact!', name: 'Contact!',
-    regions: ['Kharidian Desert'],
-    skills: {}, prereqs: ['Prince Ali Rescue', 'Icthlarin\'s Little Helper'], points: 1, series: 'Kharidian',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Cold War': {
-    id: 'Cold War', name: 'Cold War',
-    regions: ['Fremennik'],
-    skills: { 'Hunter': 10, 'Agility': 30, 'Crafting': 30, 'Construction': 34, 'Thieving': 15 }, prereqs: [], points: 1, series: 'Penguin',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'The Fremennik Isles': {
-    id: 'The Fremennik Isles', name: 'The Fremennik Isles',
-    regions: ['Fremennik'],
-    skills: { 'Construction': 20, 'Agility': 40 }, prereqs: ['The Fremennik Trials'], points: 1, series: 'Fremennik',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Tower of Life': {
-    id: 'Tower of Life', name: 'Tower of Life',
-    regions: ['Kandarin'],
-    skills: { 'Construction': 10 }, prereqs: [], points: 2,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'The Great Brain Robbery': {
-    id: 'The Great Brain Robbery', name: 'The Great Brain Robbery',
-    regions: ['Islands & Others'],
-    skills: { 'Crafting': 16, 'Construction': 30, 'Prayer': 50 }, prereqs: ['Creature of Fenkenstrain', 'Cabin Fever'], points: 2, series: 'Pirate',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'What Lies Below': {
-    id: 'What Lies Below', name: 'What Lies Below',
-    regions: ['Misthalin'],
-    skills: { 'Runecrafting': 35 }, prereqs: ['Rune Mysteries'], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Olaf\'s Quest': {
-    id: 'Olaf\'s Quest', name: 'Olaf\'s Quest',
-    regions: ['Fremennik'],
-    skills: { 'Firemaking': 40, 'Woodcutting': 50 }, prereqs: ['The Fremennik Trials'], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Another Slice of H.A.M.': {
-    id: 'Another Slice of H.A.M.', name: 'Another Slice of H.A.M.',
-    regions: ['Misthalin'],
-    skills: { 'Attack': 15, 'Prayer': 25 }, prereqs: ['Death to the Dorgeshuun', 'The Dig Site', 'The Giant Dwarf'], points: 1, series: 'Dorgeshuun',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Dream Mentor': {
-    id: 'Dream Mentor', name: 'Dream Mentor',
-    regions: ['Fremennik'],
-    skills: { 'Combat': 85 }, prereqs: ['Lunar Diplomacy', 'Eadgar\'s Ruse'], points: 2,
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'Grim Tales': {
-    id: 'Grim Tales', name: 'Grim Tales',
-    regions: ['Asgarnia'],
-    skills: { 'Farming': 45, 'Herblore': 52, 'Thieving': 58, 'Agility': 59, 'Woodcutting': 71 }, prereqs: ['Witch\'s House'], points: 1,
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'King\'s Ransom': {
-    id: 'King\'s Ransom', name: 'King\'s Ransom',
-    regions: ['Kandarin'],
-    skills: { 'Magic': 45, 'Defence': 65 }, prereqs: ['Black Knights\' Fortress', 'Holy Grail', 'Murder Mystery', 'One Small Favour'], points: 1, series: 'Camelot',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Monkey Madness II': {
-    id: 'Monkey Madness II', name: 'Monkey Madness II',
-    regions: ['Islands & Others'],
-    skills: { 'Slayer': 69, 'Crafting': 70, 'Hunter': 60, 'Agility': 55, 'Thieving': 55, 'Firemaking': 60 }, prereqs: ['Monkey Madness I', 'Enlightened Journey', 'The Eyes of Glouphrie', 'Troll Stronghold', 'Watchtower', 'RFD: King Awowogei'], points: 4, series: 'Gnome',
-    difficulty: DropSource.QUEST_GRANDMASTER
-  },
-  'Client of Kourend': {
-    id: 'Client of Kourend', name: 'Client of Kourend',
-    regions: ['Kourend & Kebos'],
-    skills: {}, prereqs: [], points: 1, series: 'Great Kourend',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Rag and Bone Man II': {
-    id: 'Rag and Bone Man II', name: 'Rag and Bone Man II',
-    regions: ['Misthalin'],
-    skills: { 'Slayer': 40, 'Defence': 20 }, prereqs: ['Rag and Bone Man I'], points: 1, series: 'Rag and Bone Man',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Bone Voyage': {
-    id: 'Bone Voyage', name: 'Bone Voyage',
-    regions: ['Misthalin', 'Islands & Others'],
-    skills: {}, prereqs: ['The Dig Site'], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'The Queen of Thieves': {
-    id: 'The Queen of Thieves', name: 'The Queen of Thieves',
-    regions: ['Kourend & Kebos'],
-    skills: { 'Thieving': 20 }, prereqs: ['Client of Kourend'], points: 1, series: 'Great Kourend',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'The Depths of Despair': {
-    id: 'The Depths of Despair', name: 'The Depths of Despair',
-    regions: ['Kourend & Kebos'],
-    skills: { 'Agility': 18 }, prereqs: ['Client of Kourend'], points: 1, series: 'Great Kourend',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Dragon Slayer II': {
-    id: 'Dragon Slayer II', name: 'Dragon Slayer II',
-    regions: ['Misthalin', 'Asgarnia', 'Kandarin', 'Fremennik', 'Kourend & Kebos'],
-    skills: { 'Magic': 75, 'Smithing': 70, 'Mining': 68, 'Crafting': 62, 'Agility': 60, 'Thieving': 60, 'Construction': 50, 'Constitution': 50, 'Quest Points': 200 }, prereqs: ['Legends\' Quest', 'Dream Mentor', 'A Tail of Two Cats', 'Animal Magnetism', 'Ghosts Ahoy', 'Bone Voyage', 'Client of Kourend'], points: 5, series: 'Dragonkin',
-    difficulty: DropSource.QUEST_GRANDMASTER
-  },
-  'Tale of the Righteous': {
-    id: 'Tale of the Righteous', name: 'Tale of the Righteous',
-    regions: ['Kourend & Kebos'],
-    skills: { 'Strength': 16, 'Mining': 10 }, prereqs: ['Client of Kourend'], points: 1, series: 'Great Kourend',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'A Taste of Hope': {
-    id: 'A Taste of Hope', name: 'A Taste of Hope',
-    regions: ['Morytania'],
-    skills: { 'Crafting': 48, 'Agility': 45, 'Attack': 40, 'Herblore': 40, 'Slayer': 38 }, prereqs: ['Darkness of Hallowvale'], points: 1, series: 'Myreque',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Making Friends with My Arm': {
-    id: 'Making Friends with My Arm', name: 'Making Friends with My Arm',
-    regions: ['Asgarnia', 'Fremennik'],
-    skills: { 'Firemaking': 66, 'Mining': 72, 'Construction': 35, 'Agility': 68 }, prereqs: ['My Arm\'s Big Adventure', 'Swan Song', 'Cold War', 'Romeo & Juliet'], points: 2, series: 'Troll',
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'The Forsaken Tower': {
-    id: 'The Forsaken Tower', name: 'The Forsaken Tower',
-    regions: ['Kourend & Kebos'],
-    skills: {}, prereqs: ['Client of Kourend'], points: 1, series: 'Great Kourend',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'The Ascent of Arceuus': {
-    id: 'The Ascent of Arceuus', name: 'The Ascent of Arceuus',
-    regions: ['Kourend & Kebos'],
-    skills: { 'Hunter': 12 }, prereqs: ['Client of Kourend'], points: 1, series: 'Great Kourend',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Song of the Elves': {
-    id: 'Song of the Elves', name: 'Song of the Elves',
-    regions: ['Tirannwn'],
-    skills: { 'Agility': 70, 'Construction': 70, 'Farming': 70, 'Herblore': 70, 'Hunter': 70, 'Mining': 70, 'Smithing': 70, 'Woodcutting': 70 }, prereqs: ['Mourning\'s End Part II', 'Making History'], points: 4, series: 'Elf',
-    difficulty: DropSource.QUEST_GRANDMASTER
-  },
-  'The Fremennik Exiles': {
-    id: 'The Fremennik Exiles', name: 'The Fremennik Exiles',
-    regions: ['Fremennik'],
-    skills: { 'Crafting': 65, 'Slayer': 60, 'Smithing': 60, 'Fishing': 60, 'Runecrafting': 55 }, prereqs: ['The Fremennik Isles', 'Lunar Diplomacy', 'Mountain Daughter', 'Heroes\' Quest'], points: 2, series: 'Fremennik',
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'Sins of the Father': {
-    id: 'Sins of the Father', name: 'Sins of the Father',
-    regions: ['Morytania'],
-    skills: { 'Woodcutting': 62, 'Fletching': 60, 'Crafting': 56, 'Agility': 52, 'Slayer': 50, 'Attack': 50, 'Firemaking': 66, 'Magic': 49 }, prereqs: ['A Taste of Hope', 'Vampyre Slayer'], points: 2, series: 'Myreque',
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'A Porcine of Interest': {
-    id: 'A Porcine of Interest', name: 'A Porcine of Interest',
-    regions: ['Misthalin'],
-    skills: { 'Slayer': 1 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Getting Ahead': {
-    id: 'Getting Ahead', name: 'Getting Ahead',
-    regions: ['Kourend & Kebos'],
-    skills: { 'Construction': 26, 'Crafting': 30 }, prereqs: [], points: 1, series: 'Twisted Tales',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'A Night at the Theatre': {
-    id: 'A Night at the Theatre', name: 'A Night at the Theatre',
-    regions: ['Morytania'],
-    skills: {}, prereqs: ['A Taste of Hope'], points: 2,
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'A Kingdom Divided': {
-    id: 'A Kingdom Divided', name: 'A Kingdom Divided',
-    regions: ['Kourend & Kebos'],
-    skills: { 'Agility': 54, 'Thieving': 52, 'Woodcutting': 52, 'Herblore': 50, 'Mining': 42, 'Crafting': 38, 'Magic': 35 }, prereqs: ['The Depths of Despair', 'The Queen of Thieves', 'Tale of the Righteous', 'The Forsaken Tower', 'The Ascent of Arceuus'], points: 2, series: 'Great Kourend',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Land of the Goblins': {
-    id: 'Land of the Goblins', name: 'Land of the Goblins',
-    regions: ['Kandarin'],
-    skills: { 'Agility': 38, 'Thieving': 45, 'Fishing': 40, 'Herblore': 48 }, prereqs: ['Another Slice of H.A.M.', 'Fishing Contest'], points: 2, series: 'Dorgeshuun',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Temple of the Eye': {
-    id: 'Temple of the Eye', name: 'Temple of the Eye',
-    regions: ['Kharidian Desert'],
-    skills: { 'Runecrafting': 10 }, prereqs: ['Enter the Abyss'], points: 1, series: 'Order of Wizards',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Beneath Cursed Sands': {
-    id: 'Beneath Cursed Sands', name: 'Beneath Cursed Sands',
-    regions: ['Kharidian Desert'],
-    skills: { 'Agility': 62, 'Crafting': 55, 'Firemaking': 55 }, prereqs: ['Contact!'], points: 2, series: 'Kharidian',
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'Sleeping Giants': {
-    id: 'Sleeping Giants', name: 'Sleeping Giants',
-    regions: ['Kharidian Desert'],
-    skills: { 'Smithing': 15 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'The Garden of Death': {
-    id: 'The Garden of Death', name: 'The Garden of Death',
-    regions: ['Kourend & Kebos'],
-    skills: { 'Farming': 20 }, prereqs: [], points: 1, series: 'Twisted Tales',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Secrets of the North': {
-    id: 'Secrets of the North', name: 'Secrets of the North',
-    regions: ['Fremennik', 'Kharidian Desert'],
-    skills: { 'Thieving': 64, 'Agility': 69, 'Hunter': 56 }, prereqs: ['Hazeel Cult', 'The General\'s Shadow', 'Making Friends with My Arm'], points: 2, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'Desert Treasure II': {
-    id: 'Desert Treasure II', name: 'Desert Treasure II - The Fallen Empire',
-    regions: ['Kharidian Desert', 'Asgarnia', 'Fremennik', 'Kourend & Kebos', 'Morytania'],
-    skills: { 'Magic': 75, 'Firemaking': 75, 'Thieving': 70, 'Herblore': 62, 'Runecrafting': 60, 'Construction': 60 }, prereqs: ['Desert Treasure I', 'Secrets of the North', 'Enakhra\'s Lament', 'Temple of the Eye', 'The Garden of Death', 'Below Ice Mountain'], points: 5, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_GRANDMASTER
-  },
-  'The Path of Glouphrie': {
-    id: 'The Path of Glouphrie', name: 'The Path of Glouphrie',
-    regions: ['Kandarin'],
-    skills: { 'Strength': 60, 'Slayer': 56, 'Thieving': 56, 'Ranged': 47, 'Agility': 45 }, prereqs: ['The Eyes of Glouphrie', 'Waterfall Quest', 'Tree Gnome Village'], points: 2, series: 'Gnome',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Children of the Sun': {
-    id: 'Children of the Sun', name: 'Children of the Sun',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 1, series: 'Twilight Emissaries',
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Defender of Varrock': {
-    id: 'Defender of Varrock', name: 'Defender of Varrock',
-    regions: ['Misthalin'],
-    skills: { 'Smithing': 55, 'Hunter': 52 }, prereqs: ['Shield of Arrav', 'Romeo & Juliet', 'Demon Slayer', 'Temple of Ikov', 'Below Ice Mountain', 'Family Crest', 'Garden of Tranquillity', 'What Lies Below'], points: 2, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Twilight\'s Promise': {
-    id: 'Twilight\'s Promise', name: 'Twilight\'s Promise',
-    regions: ['Varlamore'],
-    skills: {}, prereqs: ['Children of the Sun'], points: 1, series: 'Twilight Emissaries',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'At First Light': {
-    id: 'At First Light', name: 'At First Light',
-    regions: ['Varlamore'],
-    skills: { 'Hunter': 46, 'Herblore': 30, 'Construction': 27 }, prereqs: ['Children of the Sun'], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Perilous Moons': {
-    id: 'Perilous Moons', name: 'Perilous Moons',
-    regions: ['Varlamore'],
-    skills: { 'Slayer': 48, 'Hunter': 20, 'Fishing': 20, 'Runecrafting': 20, 'Construction': 10 }, prereqs: ['Twilight\'s Promise'], points: 2,
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'The Ribbiting Tale': {
-    id: 'The Ribbiting Tale', name: 'The Ribbiting Tale of a Lily Pad Labour Dispute',
-    regions: ['Varlamore'],
-    skills: { 'Woodcutting': 15 }, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'While Guthix Sleeps': {
-    id: 'While Guthix Sleeps', name: 'While Guthix Sleeps',
-    regions: ['Misthalin', 'Asgarnia', 'Kandarin'],
-    skills: { 'Thieving': 72, 'Agility': 66, 'Farming': 65, 'Hunter': 62, 'Quest Points': 180 }, prereqs: ['Dream Mentor', 'Legends\' Quest', 'The Path of Glouphrie', 'Defender of Varrock'], points: 5, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_GRANDMASTER
-  },
-  'The Heart of Darkness': {
-    id: 'The Heart of Darkness', name: 'The Heart of Darkness',
-    regions: ['Varlamore'],
-    skills: { 'Mining': 55, 'Thieving': 48, 'Slayer': 48, 'Agility': 46 }, prereqs: ['Twilight\'s Promise', 'Meat and Greet'], points: 2, series: 'Twilight Emissaries',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Death on the Isle': {
-    id: 'Death on the Isle', name: 'Death on the Isle',
-    regions: ['Varlamore'],
-    skills: { 'Thieving': 34, 'Agility': 32 }, prereqs: ['Children of the Sun'], points: 2,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Meat and Greet': {
-    id: 'Meat and Greet', name: 'Meat and Greet',
-    regions: ['Varlamore'],
-    skills: {}, prereqs: ['Children of the Sun'], points: 1,
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Ethically Acquired Antiquities': {
-    id: 'Ethically Acquired Antiquities', name: 'Ethically Acquired Antiquities',
-    regions: ['Varlamore'],
-    skills: { 'Thieving': 25 }, prereqs: ['Children of the Sun'], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'The Curse of Arrav': {
-    id: 'The Curse of Arrav', name: 'The Curse of Arrav',
-    regions: ['Misthalin'],
-    skills: { 'Agility': 61, 'Ranged': 62, 'Strength': 58, 'Thieving': 62, 'Mining': 64, 'Slayer': 37 }, prereqs: ['Defender of Varrock', 'While Guthix Sleeps'], points: 2, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'The Final Dawn': {
-    id: 'The Final Dawn', name: 'The Final Dawn',
-    regions: ['Varlamore'],
-    skills: {}, prereqs: ['The Heart of Darkness'], points: 3, series: 'Twilight Emissaries',
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'Shadows of Custodia': {
-    id: 'Shadows of Custodia', name: 'Shadows of Custodia',
-    regions: ['Varlamore'],
-    skills: {}, prereqs: [], points: 2,
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Scrambled!': {
-    id: 'Scrambled!', name: 'Scrambled!',
-    regions: ['Varlamore'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Pandemonium': {
-    id: 'Pandemonium', name: 'Pandemonium',
-    regions: ['The Open Seas'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Prying Times': {
-    id: 'Prying Times', name: 'Prying Times',
-    regions: ['The Open Seas'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Current Affairs': {
-    id: 'Current Affairs', name: 'Current Affairs',
-    regions: ['The Open Seas'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Troubled Tortugans': {
-    id: 'Troubled Tortugans', name: 'Troubled Tortugans',
-    regions: ['The Open Seas'],
-    skills: {}, prereqs: [], points: 1, series: 'Tortugan',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'The Red Reef': {
-    id: 'The Red Reef', name: 'The Red Reef',
-    regions: ['The Open Seas'],
-    skills: { Summoning: 52, Smithing: 48 }, prereqs: ['Troubled Tortugans'], points: 2, series: 'Tortugan',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'The Ides of Milk': {
-    id: 'The Ides of Milk', name: 'The Ides of Milk',
-    regions: ['Misthalin'],
-    skills: {}, prereqs: [], points: 1,
-    difficulty: DropSource.QUEST_NOVICE
-  },
+interface Opts {
+  series?: string;
+  /** Free-to-play quest (default: members). */
+  f2p?: boolean;
+  miniquest?: boolean;
+  special?: boolean;
+}
 
-  // --- Miniquests ---
-  'Alfred Grimhand\'s Barcrawl': {
-    id: 'Alfred Grimhand\'s Barcrawl', name: 'Alfred Grimhand\'s Barcrawl',
-    regions: ['Kandarin'], // Barbarian Outpost start
-    skills: {}, prereqs: [], points: 0,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Barbarian Training': {
-    id: 'Barbarian Training', name: 'Barbarian Training',
-    regions: ['Kandarin'], // Otto's Grotto
-    skills: { 'Fishing': 55, 'Firemaking': 35, 'Strength': 35, 'Agility': 15, 'Farming': 15, 'Crafting': 11, 'Smithing': 5, 'Herblore': 4 },
-    prereqs: ['Tai Bwo Wannai Trio'], points: 0,
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Bear Your Soul': {
-    id: 'Bear Your Soul', name: 'Bear Your Soul',
-    regions: ['Kourend & Kebos'],
-    skills: {}, prereqs: ['Client of Kourend'], points: 0, series: 'Great Kourend',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Curse of the Empty Lord': {
-    id: 'Curse of the Empty Lord', name: 'Curse of the Empty Lord',
-    regions: ['Misthalin'], // Starts in Varrock/Canifis connection or general ghostly robe hunt
-    skills: {}, prereqs: ['Desert Treasure I'], points: 0, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Daddy\'s Home': {
-    id: 'Daddy\'s Home', name: 'Daddy\'s Home',
-    regions: ['Misthalin'], // Varrock
-    skills: {}, prereqs: [], points: 0,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'The Enchanted Key': {
-    id: 'The Enchanted Key', name: 'The Enchanted Key',
-    regions: ['Misthalin'], // Start
-    skills: {}, prereqs: ['Making History'], points: 0,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Enter the Abyss': {
-    id: 'Enter the Abyss', name: 'Enter the Abyss',
-    regions: ['Misthalin'], // Varrock
-    skills: {}, prereqs: ['Rune Mysteries'], points: 0, series: 'Order of Wizards',
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'Family Pest': {
-    id: 'Family Pest', name: 'Family Pest',
-    regions: ['Misthalin'], // Lumbridge/Varrock
-    skills: {}, prereqs: ['Family Crest'], points: 0,
-    difficulty: DropSource.QUEST_INTERMEDIATE
-  },
-  'The Frozen Door': {
-    id: 'The Frozen Door', name: 'The Frozen Door',
-    regions: ['Asgarnia'], // God Wars Dungeon
-    skills: { 'Agility': 70, 'Strength': 70, 'Ranged': 70, 'Constitution': 70 }, 
-    prereqs: ['Desert Treasure I'], // GWD reqs usually imply access
-    points: 0,
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'The General\'s Shadow': {
-    id: 'The General\'s Shadow', name: 'The General\'s Shadow',
-    regions: ['Kandarin'], // Fight Arena/Gnome area
-    skills: {}, prereqs: ['Fight Arena', 'Curse of the Empty Lord'], points: 0, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'His Faithful Servants': {
-    id: 'His Faithful Servants', name: 'His Faithful Servants',
-    regions: ['Morytania'], // Barrows
-    skills: {}, prereqs: ['Priest in Peril'], points: 0, series: 'Mahjarrat',
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Hopespear\'s Will': {
-    id: 'Hopespear\'s Will', name: 'Hopespear\'s Will',
-    regions: ['Asgarnia'], // Goblin Village
-    skills: { 'Prayer': 50 }, prereqs: ['Land of the Goblins'], points: 0,
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'In Search of Knowledge': {
-    id: 'In Search of Knowledge', name: 'In Search of Knowledge',
-    regions: ['Kourend & Kebos'], // Arceuus
-    skills: {}, prereqs: ['Client of Kourend'], points: 0,
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Into the Tombs': {
-    id: 'Into the Tombs', name: 'Into the Tombs',
-    regions: ['Kharidian Desert'],
-    skills: {}, prereqs: ['Beneath Cursed Sands'], points: 0, series: 'Kharidian',
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'Lair of Tarn Razorlor': {
-    id: 'Lair of Tarn Razorlor', name: 'Lair of Tarn Razorlor',
-    regions: ['Morytania'], // Haunted Mine
-    skills: { 'Slayer': 40 }, prereqs: ['Haunted Mine'], points: 0,
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Mage Arena I': {
-    id: 'Mage Arena I', name: 'Mage Arena I',
-    regions: ['Wilderness'],
-    skills: { 'Magic': 60 }, prereqs: [], points: 0,
-    difficulty: DropSource.QUEST_EXPERIENCED
-  },
-  'Mage Arena II': {
-    id: 'Mage Arena II', name: 'Mage Arena II',
-    regions: ['Wilderness'],
-    skills: { 'Magic': 75 }, prereqs: ['Mage Arena I'], points: 0,
-    difficulty: DropSource.QUEST_MASTER
-  },
-  'Skippy and the Mogres': {
-    id: 'Skippy and the Mogres', name: 'Skippy and the Mogres',
-    regions: ['Asgarnia'], // Mudskipper Point
-    skills: { 'Cooking': 20 }, prereqs: [], points: 0,
-    difficulty: DropSource.QUEST_NOVICE
-  },
-  'Vale Totems': {
-    id: 'Vale Totems', name: 'Vale Totems',
-    regions: ['Varlamore'],
-    skills: {}, prereqs: ['Children of the Sun'], points: 0,
-    difficulty: DropSource.QUEST_NOVICE
+type Def = [
+  name: string,
+  difficulty: DropSource,
+  points: number,
+  regions: string[],
+  skills: Record<string, number>,
+  prereqs: string[],
+  opts?: Opts,
+];
+
+// Common region shorthands
+const MIS = ['Misthalin'];
+const ASG = ['Asgarnia'];
+const KAN = ['Kandarin'];
+const KAR = ['Karamja'];
+const DES = ['Kharidian Desert'];
+const MOR = ['Morytania'];
+const FRE = ['Fremennik'];
+const TIR = ['Tirannwn'];
+const WIL = ['Wilderness'];
+const DAE = ['Daemonheim'];
+const ANA = ['Anachronia'];
+const ISL = ['Islands & Others'];
+/** City of Um — the Necromancy hub, in Morytania. */
+const UM = MOR;
+/** Havenhythe (2026 continent east of Morytania) — see header note. */
+const HAV = ['Havenhythe'];
+
+const DEFS: Def[] = [
+  // ───────────────────────────── Free-to-play ─────────────────────────────
+  ['A Shadow over Ashdale', N, 1, ISL, {}, [], { f2p: true }],
+  ['A Soul\'s Bane', N, 1, MIS, {}, [], { f2p: true }],
+  ['Beneath Cursed Tides', I, 1, MIS, { Attack: 30, Cooking: 30, Firemaking: 30, Magic: 30, Mining: 30, Smithing: 30, Strength: 30, Woodcutting: 30 }, [], { f2p: true }],
+  ['Broken Home', N, 1, MIS, {}, [], { f2p: true }],
+  ['Chef\'s Assistant', N, 1, MIS, { Cooking: 32 }, ['Cook\'s Assistant'], { f2p: true }],
+  ['Cook\'s Assistant', N, 1, MIS, {}, [], { f2p: true, series: 'Recipe for Disaster' }],
+  ['Death Plateau', N, 1, ASG, {}, [], { f2p: true, series: 'Troll' }],
+  ['Demon Slayer', N, 3, MIS, {}, [], { f2p: true, series: 'Delrith' }],
+  ['Dragon Slayer', E, 2, MIS, { 'Quest Points': 33 }, [], { f2p: true }],
+  ['Druidic Ritual', N, 4, ASG, {}, [], { f2p: true }],
+  ['Duck Quest', N, 1, MIS, {}, [], { f2p: true }],
+  ['Ernest the Chicken', N, 4, MIS, {}, [], { f2p: true }],
+  ['Gertrude\'s Cat', N, 1, MIS, {}, [], { f2p: true }],
+  ['Goblin Diplomacy', N, 5, ASG, {}, [], { f2p: true, series: 'Cave Goblin' }],
+  ['Gower Quest', E, 1, MIS, { 'Quest Points': 34 }, [], { f2p: true }],
+  ['Gunnar\'s Ground', N, 5, MIS, { Crafting: 5 }, [], { f2p: true }],
+  ['Hearts of Sanguine', N, 1, HAV, {}, ['Visions of Havenhythe'], { f2p: true, series: 'Sanguine' }],
+  ['Heartstealer', N, 1, MIS, {}, [], { f2p: true }],
+  ['Imp Catcher', N, 1, MIS, {}, [], { f2p: true }],
+  ['Let Them Eat Pie', N, 1, MIS, {}, [], { f2p: true }],
+  ['Missing, Presumed Death', N, 2, MIS, {}, [], { f2p: true, series: 'Sliske\'s Game' }],
+  ['Myths of the White Lands', N, 2, MIS, {}, [], { f2p: true }],
+  ['Necromancy!', N, 1, MIS, {}, [], { f2p: true, series: 'The First Necromancer' }],
+  ['Once Upon a Slime', N, 1, ASG, {}, [], { f2p: true }],
+  ['One Piercing Note', N, 2, ASG, {}, [], { f2p: true }],
+  ['Perils of Ice Mountain', N, 1, ASG, { Farming: 5, Hunter: 5, Thieving: 5 }, [], { f2p: true }],
+  ['Pirate\'s Treasure', N, 2, ASG, {}, [], { f2p: true, series: 'Pirate' }],
+  ['Rune Memories', N, 1, MIS, {}, ['Rune Mysteries'], { f2p: true, series: 'Ariane' }],
+  ['Rune Mysteries', N, 1, MIS, {}, [], { f2p: true, series: 'Ariane' }],
+  ['Shield of Arrav', N, 1, MIS, {}, [], { f2p: true }],
+  ['Song from the Depths', N, 1, ASG, {}, [], { f2p: true }],
+  ['Stolen Hearts', N, 1, MIS, {}, [], { f2p: true, series: 'Ozan' }],
+  ['Swept Away', N, 2, MIS, {}, [], { f2p: true }],
+  ['The Blood Pact', N, 1, MIS, {}, [], { f2p: true }],
+  ['The Death of Chivalry', N, 1, ASG, {}, [], { f2p: true }],
+  ['The Knight\'s Sword', I, 1, ASG, { Mining: 10 }, [], { f2p: true }],
+  ['The Restless Ghost', N, 1, MIS, {}, [], { f2p: true }],
+  ['There\'s No Place Like Home...', N, 1, ASG, {}, [], { f2p: true }],
+  ['Vampyre Slayer', N, 3, MIS, {}, [], { f2p: true }],
+  ['Violet is Blue', N, 1, ASG, {}, [], { f2p: true }],
+  ['Violet is Blue Too', N, 1, ASG, {}, ['Violet is Blue'], { f2p: true }],
+  ['Visions of Havenhythe', N, 1, [...ASG, ...HAV], {}, [], { f2p: true, series: 'Sanguine' }],
+  ['What\'s Mine is Yours', N, 1, ASG, { Smithing: 5 }, [], { f2p: true }],
+  ['Witch\'s House', I, 4, ASG, {}, [], { f2p: true }],
+  ['Wolf Whistle', N, 1, ASG, {}, [], { f2p: true }],
+
+  // ─────────────────────────────── Novice ────────────────────────────────
+  ['Biohazard', N, 3, KAN, {}, ['Plague City'], { series: 'Elf (Prifddinas)' }],
+  ['Bringing Home the Bacon', N, 1, ASG, { Construction: 14, Farming: 14, Summoning: 14 }, []],
+  ['Buyers and Cellars', N, 1, MIS, { Thieving: 5 }, [], { series: 'Thieves\' Guild' }],
+  ['Call of the Ancestors', N, 1, DES, {}, []],
+  ['Clock Tower', N, 1, KAN, {}, []],
+  ['Diamond in the Rough', N, 1, MIS, {}, ['Stolen Hearts'], { series: 'Ozan' }],
+  ['Dwarf Cannon', N, 1, KAN, {}, []],
+  ['Eagles\' Peak', N, 2, KAN, { Hunter: 27 }, []],
+  ['Elemental Workshop I', N, 1, KAN, { Crafting: 20, Mining: 20, Smithing: 20 }, [], { series: 'Elemental Workshop' }],
+  ['Eye of Het I', N, 0, DES, { Agility: 65 }, ['City of Senntisten'], { series: 'The Elder God Wars' }],
+  ['Eye of Het II', N, 0, DES, {}, ['Eye of Het I'], { series: 'The Elder God Wars' }],
+  ['Fishing Contest', N, 1, KAN, { Fishing: 10 }, []],
+  ['Fur \'n Seek', N, 2, MIS, {}, ['Rag and Bone Man'], { series: 'Odd Old Man' }],
+  ['Hazeel Cult', N, 1, KAN, {}, [], { series: 'Mahjarrat Mysteries' }],
+  ['Hermit Permits', N, 1, HAV, { Construction: 5, Crafting: 15 }, ['Visions of Havenhythe']],
+  ['Impressing the Locals', N, 1, [...ASG, 'The Arc'], {}, [], { series: 'Tales of the Arc' }],
+  ['Jungle Potion', N, 1, KAR, { Herblore: 3 }, ['Druidic Ritual']],
+  ['Monk\'s Friend', N, 1, KAN, {}, []],
+  ['Murder Mystery', N, 3, KAN, {}, []],
+  ['Murder on the Border', N, 1, MIS, { Woodcutting: 20 }, ['New Foundations'], { series: 'Fort Forinthry' }],
+  ['Nature Spirit', N, 2, MOR, {}, ['Priest in Peril', 'The Restless Ghost'], { series: 'Myreque' }],
+  ['New Foundations', N, 1, MIS, {}, [], { series: 'Fort Forinthry' }],
+  ['Observatory Quest', N, 2, KAN, {}, []],
+  ['Plague City', N, 1, KAN, {}, [], { series: 'Elf (Prifddinas)' }],
+  ['Priest in Peril', N, 1, MIS, {}, [], { series: 'Myreque' }],
+  ['Princess and the Pauper', N, 1, MIS, { Construction: 25, Cooking: 25 }, ['Gertrude\'s Cat', 'Murder on the Border'], { series: 'Fort Forinthry' }],
+  ['Rag and Bone Man', N, 1, MIS, {}, [], { series: 'Odd Old Man' }],
+  ['Raksha, the Shadow Colossus', N, 0, ANA, {}, [], { series: 'The Elder God Wars' }],
+  ['Recruitment Drive', N, 1, ASG, { Herblore: 3 }, [], { series: 'Temple Knight' }],
+  ['Rune Mechanics', N, 1, DES, { Construction: 25, Magic: 27, Runecrafting: 20 }, []],
+  ['Rune Mythos', N, 1, UM, { Necromancy: 24 }, ['Necromancy!'], { series: 'The First Necromancer' }],
+  ['Sheep Herder', N, 4, KAN, {}, []],
+  ['The Jack of Spades', N, 1, DES, {}, ['Diamond in the Rough'], { series: 'Ozan' }],
+  ['The Needle Skips', N, 1, KAN, {}, [], { series: 'The Elder God Wars' }],
+  ['The Tale of the Muspah', N, 1, FRE, { Firemaking: 10, Magic: 8, Mining: 10, Woodcutting: 6 }, []],
+  ['Tower of Life', N, 2, KAN, { Construction: 10 }, []],
+  ['Wiz Kid', N, 1, HAV, { Magic: 33 }, ['Visions of Havenhythe']],
+
+  // ───────────────────────────── Intermediate ────────────────────────────
+  ['A Tail of Two Cats', I, 2, ASG, {}, ['Icthlarin\'s Little Helper']],
+  ['All Fired Up', I, 1, MIS, { Firemaking: 43 }, ['Priest in Peril']],
+  ['Animal Magnetism', I, 1, MIS, { Crafting: 19, Ranged: 30, Slayer: 18, Woodcutting: 35 }, ['The Restless Ghost', 'Ernest the Chicken', 'Priest in Peril']],
+  ['Another Slice of H.A.M.', I, 1, MIS, { Attack: 15, Prayer: 25 }, ['Death to the Dorgeshuun', 'The Giant Dwarf', 'The Dig Site'], { series: 'Cave Goblin' }],
+  ['Battle of the Monolith', I, 0, MIS, {}, ['Azzanadra\'s Quest'], { series: 'The Elder God Wars' }],
+  ['Big Chompy Bird Hunting', I, 2, KAN, { Cooking: 30, Fletching: 5, Ranged: 30 }, [], { series: 'Ogre' }],
+  ['Carnillean Rising', I, 1, KAN, { Construction: 31, Thieving: 33, 'Quest Points': 50 }, ['The Blood Pact', 'Hazeel Cult']],
+  ['Cold War', I, 1, KAN, { Agility: 30, Construction: 34, Crafting: 30, Hunter: 10, Thieving: 15 }, [], { series: 'Penguin' }],
+  ['Creature of Fenkenstrain', I, 2, MOR, { Crafting: 20, Thieving: 25 }, ['Priest in Peril', 'The Restless Ghost']],
+  ['Daughter of Chaos', I, 1, ASG, { Archaeology: 40, Divination: 40 }, [], { series: 'Legacy of Zamorak' }],
+  ['Death to the Dorgeshuun', I, 1, MIS, { Agility: 23, Thieving: 23 }, ['The Lost Tribe'], { series: 'Cave Goblin' }],
+  ['Desperate Creatures', I, 0, ASG, {}, ['Desperate Measures'], { series: 'The Elder God Wars' }],
+  ['Desperate Measures', I, 3, ASG, { Agility: 50, Archaeology: 50 }, ['Desperate Times'], { series: 'The Elder God Wars' }],
+  ['Desperate Times', I, 3, ASG, { Divination: 50, Mining: 50, Smithing: 50 }, ['The Needle Skips', 'You Are It', 'There\'s No Place Like Home...'], { series: 'The Elder God Wars' }],
+  ['Dishonour among Thieves', I, 2, MIS, { Agility: 30, Thieving: 30 }, ['Hazeel Cult', 'Missing, Presumed Death'], { series: 'Sliske\'s Game' }],
+  ['Elemental Workshop II', I, 1, KAN, { Magic: 20, Smithing: 30 }, ['Elemental Workshop I'], { series: 'Elemental Workshop' }],
+  ['Elemental Workshop III', I, 1, KAN, { Mining: 20, Smithing: 33 }, ['Elemental Workshop II'], { series: 'Elemental Workshop' }],
+  ['Elemental Workshop IV', I, 2, KAN, { Crafting: 41, Defence: 40, Runecrafting: 39, Smithing: 42, Thieving: 39 }, ['Elemental Workshop III'], { series: 'Elemental Workshop' }],
+  ['Enlightened Journey', I, 1, ASG, { Crafting: 36, Farming: 30, Firemaking: 20, 'Quest Points': 20 }, []],
+  ['Evil Dave\'s Big Day Out', I, 2, MIS, { Cooking: 30 }, ['Recipe for Disaster: Freeing Evil Dave']],
+  ['Forgettable Tale of a Drunken Dwarf', I, 2, FRE, { Cooking: 22, Farming: 17 }, ['The Giant Dwarf', 'Fishing Contest'], { series: 'Dwarf (Red Axe)' }],
+  ['Garden of Tranquillity', I, 2, MIS, { Farming: 25 }, ['Creature of Fenkenstrain']],
+  ['Ghosts Ahoy', I, 2, MOR, { Agility: 25, Cooking: 20 }, ['Priest in Peril', 'The Restless Ghost']],
+  ['Heart of Stone', I, 1, MIS, { Magic: 35, Runecrafting: 25 }, ['Carnillean Rising', 'Rune Memories'], { series: 'Sliske\'s Game' }],
+  ['Holy Grail', I, 2, KAN, { Attack: 20 }, ['Merlin\'s Crystal'], { series: 'Camelot' }],
+  ['Hunt for Red Raktuber', I, 1, KAN, { Construction: 45, Hunter: 45, Thieving: 38 }, ['Cold War', 'Sea Slug'], { series: 'Penguin' }],
+  ['Icthlarin\'s Little Helper', I, 2, DES, {}, ['Gertrude\'s Cat', 'Diamond in the Rough'], { series: 'Desert' }],
+  ['In Aid of the Myreque', I, 2, MOR, { Agility: 25, Crafting: 25, Magic: 7, Mining: 15 }, ['In Search of the Myreque'], { series: 'Myreque' }],
+  ['In Search of the Myreque', I, 2, MOR, { Agility: 25 }, ['Nature Spirit'], { series: 'Myreque' }],
+  ['Kennith\'s Concerns', I, 1, KAN, { Mining: 46 }, ['The Slug Menace'], { series: 'Temple Knight' }],
+  ['Kili Row', I, 1, UM, { Necromancy: 20 }, ['Necromancy!'], { series: 'City of Um' }],
+  ['Making History', I, 3, KAN, {}, ['Priest in Peril', 'The Restless Ghost'], { series: 'Enchanted Key' }],
+  ['Meeting History', I, 1, KAN, { Herblore: 3 }, ['Making History'], { series: 'Enchanted Key' }],
+  ['Merlin\'s Crystal', I, 6, KAN, {}, [], { series: 'Camelot' }],
+  ['Missing My Mummy', I, 1, MIS, { Construction: 35, Cooking: 35, Crafting: 35, Magic: 35, Prayer: 35 }, ['Icthlarin\'s Little Helper', 'The Golem'], { series: 'Desert' }],
+  ['Mountain Daughter', I, 2, FRE, { Agility: 20 }, [], { series: 'Fremennik' }],
+  ['My Arm\'s Big Adventure', I, 1, FRE, { Farming: 29, Woodcutting: 10 }, ['Eadgar\'s Ruse', 'The Feud', 'Jungle Potion'], { series: 'Troll' }],
+  ['Olaf\'s Quest', I, 1, FRE, { Firemaking: 40, Woodcutting: 50 }, ['The Fremennik Trials']],
+  ['Quiet Before the Swarm', I, 1, ASG, { Attack: 35, Strength: 42 }, ['Imp Catcher', 'Wanted!'], { series: 'Void Knight' }],
+  ['Rat Catchers', I, 2, MIS, {}, ['Icthlarin\'s Little Helper']],
+  ['Salt in the Wound', I, 2, DAE, { Constitution: 50, Defence: 60, Dungeoneering: 35, Herblore: 47, Summoning: 45 }, ['Kennith\'s Concerns'], { series: 'Temple Knight' }],
+  ['Scorpion Catcher', I, 1, ASG, { Prayer: 31 }, []],
+  ['Sea Slug', I, 1, KAN, { Firemaking: 30 }, [], { series: 'Temple Knight' }],
+  ['Secrets of Amberfell', I, 3, HAV, { Construction: 30, Herblore: 35, Hunter: 32, Slayer: 28 }, ['Hearts of Sanguine'], { series: 'Sanguine' }],
+  ['Shades of Mort\'ton', I, 3, MOR, { Crafting: 20, Firemaking: 5, Herblore: 15 }, ['Priest in Peril']],
+  ['Shadow of the Storm', I, 1, DES, { Crafting: 30 }, ['Demon Slayer', 'The Golem'], { series: 'Delrith' }],
+  ['Smoking Kills', I, 1, DES, { Crafting: 25, Slayer: 35 }, ['Icthlarin\'s Little Helper', 'The Restless Ghost'], { series: 'Desert' }],
+  ['Spirit of Summer', I, 1, WIL, { Construction: 40, Farming: 26, Prayer: 35, Summoning: 19 }, ['The Restless Ghost'], { series: 'Summer' }],
+  ['Spirits of the Elid', I, 2, DES, { Magic: 33, Mining: 37, Ranged: 37, Thieving: 37 }, [], { series: 'Desert' }],
+  ['Tai Bwo Wannai Trio', I, 2, KAR, { Agility: 15, Cooking: 30, Fishing: 5 }, ['Jungle Potion']],
+  ['Tears of Guthix', I, 1, MIS, { Crafting: 20, Firemaking: 49, Mining: 20, 'Quest Points': 44 }, []],
+  ['The Darkness of Hallowvale', I, 2, MOR, { Agility: 26, Construction: 5, Crafting: 32, Magic: 33, Mining: 20, Strength: 40, Thieving: 22 }, ['In Aid of the Myreque'], { series: 'Myreque' }],
+  ['The Dig Site', I, 2, MIS, { Agility: 10, Herblore: 10, Thieving: 25 }, []],
+  ['The Eyes of Glouphrie', I, 2, KAN, { Construction: 5, Magic: 46 }, ['The Grand Tree'], { series: 'Gnome' }],
+  ['The Feud', I, 1, DES, { Thieving: 30 }, []],
+  ['The Fremennik Trials', I, 3, FRE, { Crafting: 40, Fletching: 25, Woodcutting: 40 }, [], { series: 'Fremennik' }],
+  ['The Giant Dwarf', I, 2, FRE, { Crafting: 12, Firemaking: 16, Magic: 33, Thieving: 14 }, [], { series: 'Dwarf (Red Axe)' }],
+  ['The Golem', I, 1, DES, { Crafting: 20, Thieving: 25 }, []],
+  ['The Hand in the Sand', I, 1, KAN, { Crafting: 49, Thieving: 17 }, []],
+  ['The Lost Tribe', I, 1, MIS, { Agility: 13, Mining: 17, Thieving: 13 }, ['Goblin Diplomacy', 'Rune Mysteries'], { series: 'Cave Goblin' }],
+  ['The Slug Menace', I, 1, KAN, { Crafting: 30, Runecrafting: 30, Slayer: 30, Thieving: 30 }, ['Wanted!', 'Sea Slug'], { series: 'Temple Knight' }],
+  ['The Tourist Trap', I, 2, DES, { Fletching: 10, Smithing: 20 }, []],
+  ['Tree Gnome Village', I, 2, KAN, {}, [], { series: 'Gnome' }],
+  ['Tribal Totem', I, 1, KAN, { Thieving: 21 }, []],
+  ['Unwelcome Guests', I, 1, MIS, { Construction: 50, Slayer: 10 }, ['Murder on the Border'], { series: 'Fort Forinthry' }],
+  ['Vessel of the Harbinger', I, 1, UM, { Necromancy: 46, Prayer: 40 }, ['Rune Mythos', 'Ghosts Ahoy'], { series: 'The First Necromancer' }],
+  ['Wanted!', I, 1, ASG, {}, ['Recruitment Drive', 'Enter the Abyss'], { series: 'Temple Knight' }],
+  ['Watchtower', I, 4, KAN, { Agility: 25, Herblore: 14, Magic: 14, Mining: 40, Thieving: 15 }, []],
+  ['Waterfall Quest', I, 1, KAN, {}, []],
+  ['What Lies Below', I, 1, MIS, { Runecrafting: 35 }, ['Rune Mysteries']],
+  ['You Are It', I, 1, KAN, {}, ['There\'s No Place Like Home...'], { series: 'The Elder God Wars' }],
+  ['Zogre Flesh Eaters', I, 1, KAN, { Herblore: 8, Ranged: 30, Smithing: 4 }, ['Big Chompy Bird Hunting', 'Jungle Potion'], { series: 'Ogre' }],
+  // "Special" in RS3 — a short fairy-tale anthology with no requirements.
+  ['Once Upon a Time in Gielinor', I, 4, MIS, {}, [], { special: true }],
+
+  // ───────────────────────────── Experienced ─────────────────────────────
+  ['A Fairy Tale I - Growing Pains', E, 2, MIS, {}, ['Lost City', 'Nature Spirit'], { series: 'Fairy' }],
+  ['A Fairy Tale II - Cure a Queen', E, 2, MIS, { Farming: 49, Herblore: 57, Thieving: 40 }, ['A Fairy Tale I - Growing Pains'], { series: 'Fairy' }],
+  ['A Fairy Tale III - Battle at Ork\'s Rift', E, 2, ISL, { Farming: 54, Magic: 59 }, ['A Fairy Tale II - Cure a Queen'], { series: 'Fairy' }],
+  ['A Void Dance', E, 1, ASG, { Construction: 47, Herblore: 49, Hunter: 46, Mining: 47, Summoning: 48, Thieving: 54, Woodcutting: 52 }, ['Quiet Before the Swarm'], { series: 'Void Knight' }],
+  ['Aftermath', E, 0, ASG, {}, ['Twilight of the Gods'], { series: 'The Elder God Wars' }],
+  ['Ancient Awakening', E, 1, MIS, { Necromancy: 50 }, ['Dead and Buried'], { series: 'Fort Forinthry' }],
+  ['As a First Resort', E, 1, KAN, { Firemaking: 51, Hunter: 48, Woodcutting: 58 }, ['Zogre Flesh Eaters'], { series: 'Ogre' }],
+  ['Azzanadra\'s Quest', E, 3, ASG, { Agility: 58, Archaeology: 70 }, ['The Vault of Shadows', 'Raksha, the Shadow Colossus', 'Desperate Creatures'], { series: 'The Elder God Wars' }],
+  ['Battle of Forinthry', E, 1, MIS, { Necromancy: 60 }, ['Ancient Awakening'], { series: 'Fort Forinthry' }],
+  ['Beneath Scabaras\' Sands', E, 2, DES, { Slayer: 87 }, ['\'Phite Club', 'Ode of the Devourer', 'Soul Searching'], { series: 'Desert' }],
+  ['Between a Rock...', E, 2, FRE, { Defence: 30, Mining: 40, Smithing: 50 }, ['Dwarf Cannon', 'Fishing Contest']],
+  ['Cabin Fever', E, 2, MOR, { Agility: 42, Crafting: 45, Ranged: 40, Smithing: 50 }, ['Pirate\'s Treasure', 'Rum Deal'], { series: 'Pirate' }],
+  ['Dead and Buried', E, 1, MIS, {}, ['Unwelcome Guests'], { series: 'Fort Forinthry' }],
+  ['Defender of Varrock', E, 2, MIS, { Agility: 51, Hunter: 59, Mining: 54, Smithing: 54 }, ['Shield of Arrav', 'The Knight\'s Sword', 'Family Crest', 'What Lies Below'], { series: 'Mahjarrat Mysteries' }],
+  ['Devious Minds', E, 1, MIS, { Fletching: 50, Runecrafting: 50, Smithing: 65 }, ['Recruitment Drive', 'What\'s Mine is Yours'], { series: 'Mahjarrat Mysteries' }],
+  ['Eadgar\'s Ruse', E, 1, ASG, { Herblore: 31 }, ['Druidic Ritual', 'Troll Stronghold'], { series: 'Troll' }],
+  ['Eclipse of the Heart', E, 3, DES, { Agility: 65, Necromancy: 90 }, ['Pharaoh\'s Folly'], { series: 'Desert' }],
+  ['Enakhra\'s Lament', E, 2, DES, { Crafting: 50, Firemaking: 45, Magic: 13, Mining: 45, Prayer: 43 }, [], { series: 'Mahjarrat Mysteries' }],
+  ['Family Crest', E, 1, MIS, { Crafting: 40, Magic: 59, Mining: 40, Smithing: 40 }, []],
+  ['Fight Arena', E, 2, KAN, {}, [], { series: 'Mahjarrat Mysteries' }],
+  ['Haunted Mine', E, 2, MOR, { Agility: 15, Crafting: 35 }, ['Priest in Peril']],
+  ['Heralds of Crimson', E, 3, HAV, { Crafting: 51, Herblore: 55, Mining: 65, Smithing: 60 }, ['Secrets of Amberfell'], { series: 'Sanguine' }],
+  ['Hero\'s Welcome', E, 2, FRE, { Divination: 60, Mining: 67, Slayer: 62, Smithing: 67 }, ['Lunar Diplomacy'], { series: 'Sliske\'s Game' }],
+  ['Heroes\' Quest', E, 1, ASG, { 'Quest Points': 55, Cooking: 53, Fishing: 53, Herblore: 25, Mining: 50 }, ['Shield of Arrav', 'Lost City', 'Merlin\'s Crystal', 'Dragon Slayer', 'Druidic Ritual']],
+  ['Horror from the Deep', E, 2, FRE, { Agility: 35 }, ['Bar Crawl'], { series: 'Fremennik' }],
+  ['Housing of Parliament', E, 1, UM, { Necromancy: 54 }, ['Necromancy!'], { series: 'City of Um' }],
+  ['In Pyre Need', E, 1, KAN, { Crafting: 52, Firemaking: 55, Fletching: 53 }, []],
+  ['Kindred Spirits', E, 1, ASG, { Agility: 60, Crafting: 60, Herblore: 60, Smithing: 60 }, ['Missing, Presumed Death'], { series: 'Sliske\'s Game' }],
+  ['King\'s Ransom', E, 1, KAN, { Defence: 65, Magic: 45 }, ['Holy Grail', 'Murder Mystery', 'One Small Favour'], { series: 'Camelot' }],
+  ['Land of the Goblins', E, 1, ISL, { Agility: 36, Fishing: 36, Herblore: 37, Thieving: 36 }, ['Another Slice of H.A.M.', 'Fishing Contest'], { series: 'Cave Goblin' }],
+  ['Legacy of Seergaze', E, 2, MOR, { Agility: 29, Construction: 20, Crafting: 47, Firemaking: 40, Magic: 49, Mining: 35, Slayer: 31 }, ['The Darkness of Hallowvale'], { series: 'Myreque' }],
+  ['Lost City', E, 3, MIS, { Crafting: 31, Woodcutting: 36 }, [], { series: 'Fairy' }],
+  ['Lunar Diplomacy', E, 2, FRE, { Crafting: 61, Defence: 40, Firemaking: 49, Herblore: 5, Magic: 65, Mining: 60, Woodcutting: 55 }, ['The Fremennik Trials', 'Lost City', 'Rune Mysteries', 'Shilo Village'], { series: 'Fremennik' }],
+  ['One Small Favour', E, 2, KAR, { Agility: 36, Crafting: 25, Herblore: 18, Smithing: 30 }, ['Rune Mysteries', 'Shilo Village']],
+  ['Osseous Rex', E, 1, ANA, { Archaeology: 30, Necromancy: 70 }, []],
+  ['Pharaoh\'s Folly', E, 2, DES, {}, ['Beneath Scabaras\' Sands'], { series: 'Desert' }],
+  ['Royal Trouble', E, 1, FRE, { Agility: 40, Slayer: 40 }, ['Throne of Miscellania'], { series: 'Fremennik' }],
+  ['Rum Deal', E, 2, MOR, { Crafting: 42, Farming: 40, Fishing: 50, Prayer: 47, Slayer: 42 }, ['Zogre Flesh Eaters', 'Priest in Peril'], { series: 'Pirate' }],
+  ['Shilo Village', E, 2, KAR, { Agility: 32, Crafting: 20 }, ['Jungle Potion']],
+  ['Some Like It Cold', E, 1, KAN, { Construction: 50, Crafting: 56, Fishing: 65, Thieving: 50 }, ['Hunt for Red Raktuber'], { series: 'Penguin' }],
+  ['Soul Searching', E, 1, UM, {}, ['Necromancy!'], { series: 'City of Um' }],
+  ['Stellar Born', E, 2, KAN, { Divination: 70, Mining: 70 }, ['Observatory Quest']],
+  ['Succession', E, 1, ASG, { Mining: 60, Smithing: 60 }, ['Daughter of Chaos', 'Civil War III'], { series: 'Legacy of Zamorak' }],
+  ['Summer\'s End', E, 1, WIL, { Firemaking: 47, Hunter: 35, Mining: 45, Prayer: 55, Summoning: 23, Woodcutting: 37 }, ['Spirit of Summer'], { series: 'Summer' }],
+  ['Temple of Ikov', E, 1, KAN, { Ranged: 40, Thieving: 42 }, [], { series: 'Mahjarrat Mysteries' }],
+  ['The Chosen Commander', E, 3, ISL, { Agility: 46, Strength: 46, Thieving: 46 }, ['Land of the Goblins'], { series: 'Cave Goblin' }],
+  ['The Fremennik Isles', E, 1, FRE, { Agility: 40, Construction: 20, Crafting: 46, Woodcutting: 56 }, ['The Fremennik Trials'], { series: 'Fremennik' }],
+  ['The Grand Tree', E, 5, KAN, { Agility: 25 }, [], { series: 'Gnome' }],
+  ['The Great Brain Robbery', E, 2, MOR, { Construction: 30, Crafting: 16, Prayer: 50 }, ['Creature of Fenkenstrain', 'Cabin Fever', 'Recipe for Disaster: Freeing Pirate Pete'], { series: 'Pirate' }],
+  ['The Path of Glouphrie', E, 2, KAN, { Agility: 45, Ranged: 47, Slayer: 56, Strength: 60, Thieving: 56 }, ['The Eyes of Glouphrie', 'Waterfall Quest', 'Tree Gnome Village'], { series: 'Gnome' }],
+  ['The Spirit of War', E, 1, UM, { Necromancy: 65 }, ['Vessel of the Harbinger'], { series: 'The First Necromancer' }],
+  ['The Vault of Shadows', E, 0, DES, { Archaeology: 58, Divination: 60 }, [], { series: 'The Elder God Wars' }],
+  ['Throne of Miscellania', E, 1, FRE, {}, ['The Fremennik Trials', 'Heroes\' Quest'], { series: 'Fremennik' }],
+  ['TokTz-Ket-Dill', E, 1, KAR, { Construction: 50, Crafting: 43, Mining: 45, Strength: 40 }, [], { series: 'TzHaar' }],
+  ['Troll Romance', E, 2, FRE, { Agility: 28 }, ['Troll Stronghold'], { series: 'Troll' }],
+  ['Troll Stronghold', E, 1, ASG, { Agility: 15 }, ['Death Plateau'], { series: 'Troll' }],
+  ['Underground Pass', E, 2, KAN, { Ranged: 25 }, ['Biohazard'], { series: 'Elf (Prifddinas)' }],
+  // "Special" in RS3 (four Necromancy sub-stories, 32–65 Necromancy).
+  ['That Old Black Magic', E, 1, UM, { Necromancy: 32 }, ['Necromancy!'], { special: true }],
+
+  // ─────────────────────────────── Master ────────────────────────────────
+  ['\'Phite Club', M, 1, DES, {}, ['Our Man in the North'], { series: 'Desert' }],
+  ['A Clockwork Syringe', M, 1, ASG, { Construction: 62, Defence: 76, Dungeoneering: 50, Slayer: 61, Smithing: 74, Summoning: 65, Thieving: 74 }, ['Rocking Out', 'There\'s No Place Like Home...'], { series: 'Pirate' }],
+  ['Back to my Roots', M, 1, KAN, { Agility: 55, Farming: 53, Slayer: 59, Woodcutting: 72 }, ['The Hand in the Sand', 'Tribal Totem']],
+  ['Back to the Freezer', M, 1, KAN, { Divination: 50, Runecrafting: 45, Slayer: 37 }, ['Some Like It Cold', 'Ernest the Chicken'], { series: 'Penguin' }],
+  ['Blood Runs Deep', M, 2, FRE, { Attack: 75, Slayer: 65, Strength: 75 }, ['Glorious Memories', 'Dream Mentor', 'Horror from the Deep'], { series: 'Fremennik' }],
+  ['Catapult Construction', M, 2, TIR, { Construction: 44, Fletching: 42 }, ['Regicide']],
+  ['City of Senntisten', M, 3, DES, { Archaeology: 74, Magic: 74, Slayer: 75 }, ['Battle of the Monolith'], { series: 'The Elder God Wars' }],
+  ['Contact!', M, 1, DES, {}, ['Icthlarin\'s Little Helper'], { series: 'Desert' }],
+  ['Crocodile Tears', M, 1, DES, { Agility: 30, Fishing: 72, Hunter: 73, Woodcutting: 47 }, ['Missing My Mummy', 'Dealing with Scabaras', 'Spirits of the Elid', 'The Jack of Spades'], { series: 'Desert' }],
+  ['Curse of the Black Stone', M, 4, DAE, { Agility: 12, Woodcutting: 34 }, ['Impressing the Locals']],
+  ['Deadliest Catch', M, 1, KAN, { Fishing: 70, Herblore: 3, Hunter: 67, Thieving: 70 }, ['Tower of Life']],
+  ['Dealing with Scabaras', M, 1, DES, { Agility: 50, Firemaking: 21, Strength: 60, Thieving: 60 }, ['Contact!'], { series: 'Desert' }],
+  ['Desert Treasure', M, 3, DES, { Firemaking: 50, Magic: 50, Slayer: 10, Thieving: 53 }, ['The Dig Site', 'Troll Stronghold'], { series: 'Mahjarrat Mysteries' }],
+  ['Do No Evil', M, 1, DES, { Construction: 64, Crafting: 68, Magic: 70, Ranged: 50, Thieving: 70 }, ['Animal Magnetism', 'Desert Treasure', 'Smoking Kills', 'Missing My Mummy', 'Dealing with Scabaras', 'Recipe for Disaster: Freeing King Awowogei'], { series: 'Desert' }],
+  ['Dream Mentor', M, 2, FRE, {}, ['Lunar Diplomacy'], { series: 'Fremennik' }],
+  ['Forgiveness of a Chaos Dwarf', M, 2, FRE, { Firemaking: 61, Hunter: 61, Strength: 69 }, ['Forgettable Tale of a Drunken Dwarf', 'Between a Rock...'], { series: 'Dwarf (Red Axe)' }],
+  ['Glorious Memories', M, 1, FRE, { Agility: 50, Herblore: 43, Hunter: 41, Magic: 57 }, ['Mountain Daughter', 'The Fremennik Isles', 'Royal Trouble'], { series: 'Fremennik' }],
+  ['Grim Tales', M, 1, ASG, { Agility: 59, Farming: 45, Herblore: 52, Thieving: 58, Woodcutting: 71 }, ['Witch\'s House']],
+  ['King of the Dwarves', M, 2, FRE, { Mining: 68, Smithing: 70, Strength: 77 }, ['Forgiveness of a Chaos Dwarf', 'My Arm\'s Big Adventure'], { series: 'Dwarf (Red Axe)' }],
+  ['Legends\' Quest', M, 4, KAN, { 'Quest Points': 107, Agility: 50, Crafting: 45, Herblore: 56, Magic: 52, Mining: 42, Prayer: 50, Smithing: 50, Strength: 50, Thieving: 50, Woodcutting: 10 }, ['Heroes\' Quest', 'Jungle Potion']],
+  ['Love Story', M, 2, MIS, { Construction: 68, Crafting: 67, Magic: 77, Smithing: 68 }, ['Swan Song'], { series: 'Wise Old Man' }],
+  ['Monkey Madness', M, 3, KAN, {}, ['The Grand Tree', 'Tree Gnome Village'], { series: 'Gnome' }],
+  ['Mourning\'s End Part I', M, 2, TIR, { Ranged: 60, Thieving: 50 }, ['Roving Elves', 'Big Chompy Bird Hunting', 'Sheep Herder'], { series: 'Elf (Prifddinas)' }],
+  ['Mourning\'s End Part II', M, 2, TIR, {}, ['Mourning\'s End Part I'], { series: 'Elf (Prifddinas)' }],
+  ['Nomad\'s Elegy', M, 1, MIS, { Construction: 75, Mining: 75, Woodcutting: 75 }, ['Nomad\'s Requiem', 'Dishonour among Thieves', 'Heart of Stone', 'The Mighty Fall', 'Throne of Miscellania', 'The Void Stares Back'], { series: 'Sliske\'s Game' }],
+  ['Ode of the Devourer', M, 1, MIS, {}, ['Requiem for a Dragon'], { series: 'Fort Forinthry' }],
+  ['Our Man in the North', M, 1, DES, {}, ['Do No Evil', 'Crocodile Tears', 'The Feud', 'Spirits of the Elid'], { series: 'Desert' }],
+  ['Regicide', M, 3, KAN, { Agility: 56 }, ['Underground Pass'], { series: 'Elf (Prifddinas)' }],
+  ['Remains of the Necrolord', M, 1, UM, { Dungeoneering: 77, Necromancy: 85 }, ['Tomes of the Warlock'], { series: 'The First Necromancer' }],
+  ['Requiem for a Dragon', M, 1, MIS, {}, ['Battle of Forinthry', 'Tomes of the Warlock', 'Kili Row'], { series: 'Fort Forinthry' }],
+  ['Rocking Out', M, 2, MOR, { Agility: 60, Crafting: 66, Smithing: 69, Thieving: 63 }, ['The Great Brain Robbery'], { series: 'Pirate' }],
+  ['Roving Elves', M, 1, TIR, {}, ['Regicide', 'Waterfall Quest'], { series: 'Elf (Prifddinas)' }],
+  ['Swan Song', M, 2, KAN, { 'Quest Points': 100, Cooking: 62, Crafting: 40, Firemaking: 42, Fishing: 62, Magic: 66, Smithing: 45 }, ['One Small Favour', 'Garden of Tranquillity'], { series: 'Wise Old Man' }],
+  ['The Branches of Darkmeyer', M, 2, MOR, { Agility: 63, Crafting: 64, Farming: 63, Fletching: 70, Magic: 70, Slayer: 67, Woodcutting: 76 }, ['Legacy of Seergaze'], { series: 'Myreque' }],
+  ['The Curse of Arrav', M, 1, DES, { Agility: 61, Mining: 64, Ranged: 64, Slayer: 37, Strength: 64, Summoning: 41, Thieving: 66 }, ['Defender of Varrock', 'Missing My Mummy', 'The Tale of the Muspah', 'Troll Stronghold', 'Garden of Tranquillity'], { series: 'Mahjarrat Mysteries' }],
+  ['The Elder Kiln', M, 2, KAR, { Agility: 60, Magic: 75, Mining: 40 }, [], { series: 'TzHaar' }],
+  ['The Firemaker\'s Curse', M, 2, KAN, { Agility: 64, Constitution: 76, Firemaking: 74 }, []],
+  ['The Lord of Vampyrium', M, 2, MOR, { Attack: 75, Constitution: 79, Construction: 75, Defence: 76, Hunter: 78, Slayer: 75, Strength: 75 }, ['The Branches of Darkmeyer'], { series: 'Myreque' }],
+  ['The Mighty Fall', M, 2, ISL, { Attack: 79, Constitution: 78, Defence: 72, Slayer: 69, Strength: 79 }, ['The Chosen Commander', 'Missing, Presumed Death'], { series: 'Cave Goblin' }],
+  ['The Prisoner of Glouphrie', M, 1, KAN, { Agility: 64, Construction: 62, Runecrafting: 61, Thieving: 64 }, ['The Path of Glouphrie', 'Roving Elves'], { series: 'Gnome' }],
+  ['The Temple at Senntisten', M, 2, DES, { Prayer: 50 }, ['Devious Minds', 'Desert Treasure', 'The Curse of Arrav'], { series: 'Mahjarrat Mysteries' }],
+  ['Tomes of the Warlock', M, 1, UM, { Archaeology: 86, Magic: 66, Necromancy: 75 }, ['The Spirit of War', 'The Jack of Spades'], { series: 'The First Necromancer' }],
+  ['Twilight of the Gods', M, 3, MIS, { Divination: 80, Thieving: 60 }, ['Extinction'], { series: 'The Elder God Wars' }],
+  ['Within the Light', M, 2, TIR, { Agility: 69, Fletching: 70, Ranged: 75, Woodcutting: 75 }, ['Mourning\'s End Part II'], { series: 'Elf (Prifddinas)' }],
+  // "Special" in RS3 — five subquests (Coin of the Realm + four replays).
+  ['Dimension of Disaster', M, 10, MIS, {}, ['Shield of Arrav', 'Shadow of the Storm', 'Defender of Varrock', 'The Curse of Arrav'], { special: true }],
+
+  // ───────────────────────────── Grandmaster ─────────────────────────────
+  ['Alpha vs Omega', G, 1, UM, { Necromancy: 95 }, ['Remains of the Necrolord'], { series: 'The First Necromancer' }],
+  ['Birthright of the Dwarves', G, 2, FRE, { Mining: 80, Smithing: 82, Strength: 85 }, ['King of the Dwarves'], { series: 'Dwarf (Red Axe)' }],
+  ['Children of Mah', G, 2, FRE, {}, ['The Light Within', 'Dishonour among Thieves'], { series: 'Sliske\'s Game' }],
+  ['Extinction', G, 4, MIS, {}, ['Sins of the Father', 'Eye of Het II'], { series: 'The Elder God Wars' }],
+  ['Fate of the Gods', G, 2, TIR, { Agility: 73, Divination: 75, Magic: 79, Slayer: 76, Summoning: 67 }, ['Missing, Presumed Death'], { series: 'Sliske\'s Game' }],
+  ['Nomad\'s Requiem', G, 3, MIS, { Construction: 60, Hunter: 65, Magic: 75, Mining: 66, Prayer: 70 }, ['King\'s Ransom', 'One Small Favour']],
+  ['One of a Kind', G, 1, MIS, { Divination: 40, Dungeoneering: 67, Magic: 81, Summoning: 74 }, ['A Tail of Two Cats', 'Holy Grail', 'The World Wakes', 'Missing, Presumed Death'], { series: 'Sliske\'s Game' }],
+  ['Pieces of Hate', G, 2, ASG, { Agility: 83, Construction: 81, Firemaking: 82, Thieving: 85 }, ['A Clockwork Syringe'], { series: 'Pirate' }],
+  ['Plague\'s End', G, 2, TIR, { Agility: 75, Construction: 75, Crafting: 75, Dungeoneering: 75, Herblore: 75, Mining: 75, Prayer: 75, Ranged: 75, Summoning: 75, Woodcutting: 75 }, ['Within the Light', 'Catapult Construction', 'Making History'], { series: 'Elf (Prifddinas)' }],
+  ['Ritual of the Mahjarrat', G, 5, ASG, { Agility: 77, Crafting: 76, Mining: 76 }, ['The Temple at Senntisten', 'While Guthix Sleeps', 'Enakhra\'s Lament', 'The Slug Menace', 'A Fairy Tale II - Cure a Queen', 'Cabin Fever', 'A Tail of Two Cats', 'Fight Arena', 'Hazeel Cult'], { series: 'Mahjarrat Mysteries' }],
+  ['River of Blood', G, 3, MIS, { Attack: 78, Constitution: 80, Firemaking: 76, Fletching: 75, Herblore: 80, Magic: 78, Mining: 72, Ranged: 78 }, ['The Lord of Vampyrium', 'Defender of Varrock', 'All Fired Up'], { series: 'Myreque' }],
+  // Sins of the Father also needs 85 in ONE of Crafting/Runecrafting/Smithing/
+  // Invention — an either/or the skills map can't express, so it's left out.
+  ['Sins of the Father', G, 0, ANA, {}, ['Desperate Creatures'], { series: 'The Elder God Wars' }],
+  ['Sliske\'s Endgame', G, 3, MIS, {}, ['Children of Mah', 'Nomad\'s Elegy', 'Kindred Spirits', 'Hero\'s Welcome', 'One of a Kind', 'The Death of Chivalry'], { series: 'Sliske\'s Game' }],
+  ['The Brink of Extinction', G, 3, KAR, { Mining: 72, Smithing: 80 }, ['The Elder Kiln'], { series: 'TzHaar' }],
+  ['The Light Within', G, 2, TIR, { Agility: 80, Crafting: 80, Divination: 80, Herblore: 80, Prayer: 80, Slayer: 80, Woodcutting: 80 }, ['Plague\'s End', 'The World Wakes', 'Fate of the Gods', 'The Temple at Senntisten', 'Meeting History'], { series: 'Elf (Prifddinas)' }],
+  ['The Void Stares Back', G, 1, ASG, { Attack: 78, Construction: 70, Crafting: 25, Defence: 71, Firemaking: 80, Magic: 70, Smithing: 78, Strength: 55, Summoning: 80 }, ['A Void Dance'], { series: 'Void Knight' }],
+  ['The World Wakes', G, 3, KAN, {}, []],
+  ['While Guthix Sleeps', G, 5, KAN, { Agility: 25, Defence: 40, Farming: 65, Herblore: 65, Hunter: 55, Magic: 75, Summoning: 23, Thieving: 60 }, ['Defender of Varrock', 'Dream Mentor', 'Legends\' Quest', 'The Path of Glouphrie', 'Tears of Guthix', 'Wanted!', 'Temple of Ikov', 'The Hunt for Surok'], { series: 'Mahjarrat Mysteries' }],
+
+  // ───────────────────────── Recipe for Disaster ─────────────────────────
+  // Nine 1-QP subquests + the final "Defeating the Culinaromancer" (the parent
+  // quest entry). The parent is RS3 "Special"; mapped to Grandmaster.
+  ['Recipe for Disaster: Another Cook\'s Quest', N, 1, MIS, { Cooking: 10 }, ['Cook\'s Assistant'], { series: 'Recipe for Disaster' }],
+  ['Recipe for Disaster: Freeing the Goblin Generals', N, 1, [...MIS, ...ASG], {}, ['Recipe for Disaster: Another Cook\'s Quest', 'Goblin Diplomacy'], { series: 'Recipe for Disaster' }],
+  ['Recipe for Disaster: Freeing the Mountain Dwarf', N, 1, [...MIS, ...ASG], {}, ['Recipe for Disaster: Another Cook\'s Quest', 'Fishing Contest'], { series: 'Recipe for Disaster' }],
+  ['Recipe for Disaster: Freeing Evil Dave', I, 1, MIS, { Cooking: 25 }, ['Recipe for Disaster: Another Cook\'s Quest', 'Gertrude\'s Cat', 'Shadow of the Storm'], { series: 'Recipe for Disaster' }],
+  ['Recipe for Disaster: Freeing the Lumbridge Sage', I, 1, MIS, { Cooking: 40 }, ['Recipe for Disaster: Another Cook\'s Quest'], { series: 'Recipe for Disaster' }],
+  ['Recipe for Disaster: Freeing Pirate Pete', I, 1, [...MIS, ...ASG], { Cooking: 31 }, ['Recipe for Disaster: Another Cook\'s Quest'], { series: 'Recipe for Disaster' }],
+  ['Recipe for Disaster: Freeing Skrach Uglogwee', I, 1, [...MIS, ...KAN], { Cooking: 41, Firemaking: 20 }, ['Recipe for Disaster: Another Cook\'s Quest', 'Big Chompy Bird Hunting'], { series: 'Recipe for Disaster' }],
+  ['Recipe for Disaster: Freeing Sir Amik Varze', E, 1, [...MIS, ...ASG, ...KAR], {}, ['Recipe for Disaster: Another Cook\'s Quest', 'Lost City', 'Legends\' Quest'], { series: 'Recipe for Disaster' }],
+  ['Recipe for Disaster: Freeing King Awowogei', M, 1, [...MIS, ...ISL], { Agility: 48, Cooking: 70 }, ['Recipe for Disaster: Another Cook\'s Quest', 'Monkey Madness'], { series: 'Recipe for Disaster' }],
+  ['Recipe for Disaster', G, 1, MIS, { 'Quest Points': 176 }, [
+    'Recipe for Disaster: Freeing the Goblin Generals', 'Recipe for Disaster: Freeing the Mountain Dwarf',
+    'Recipe for Disaster: Freeing Evil Dave', 'Recipe for Disaster: Freeing the Lumbridge Sage',
+    'Recipe for Disaster: Freeing Pirate Pete', 'Recipe for Disaster: Freeing Skrach Uglogwee',
+    'Recipe for Disaster: Freeing Sir Amik Varze', 'Recipe for Disaster: Freeing King Awowogei',
+    'Desert Treasure', 'Horror from the Deep',
+  ], { series: 'Recipe for Disaster', special: true }],
+
+  // ────────────────────────────── Miniquests ─────────────────────────────
+  // RS3 miniquests that gate quests above, plus a few notable ones.
+  ['Bar Crawl', N, 0, KAN, {}, [], { miniquest: true }],
+  ['Civil War I', I, 0, ASG, {}, ['Daughter of Chaos'], { miniquest: true, series: 'Legacy of Zamorak' }],
+  ['Civil War II', I, 0, ASG, {}, ['Civil War I'], { miniquest: true, series: 'Legacy of Zamorak' }],
+  ['Civil War III', I, 0, ASG, {}, ['Civil War II'], { miniquest: true, series: 'Legacy of Zamorak' }],
+  ['Curse of the Empty Lord', E, 0, WIL, {}, ['Desert Treasure', 'The Restless Ghost'], { miniquest: true, series: 'Mahjarrat Mysteries' }],
+  ['Enter the Abyss', N, 0, [...MIS, ...WIL], {}, ['Rune Mysteries'], { miniquest: true }],
+  ['Koschei\'s Troubles', M, 0, FRE, {}, ['Children of Mah'], { miniquest: true }],
+  ['Lair of Tarn Razorlor', E, 0, MOR, { Slayer: 40 }, ['Haunted Mine'], { miniquest: true }],
+  ['Purple Cat', N, 0, MIS, {}, [], { miniquest: true }],
+  ['Sheep Shearer', N, 0, MIS, {}, [], { miniquest: true, f2p: true }],
+  ['Tales of the God Wars', I, 0, FRE, {}, ['Troll Stronghold'], { miniquest: true }],
+  ['The General\'s Shadow', I, 0, KAN, {}, ['Curse of the Empty Lord', 'Fight Arena'], { miniquest: true }],
+  ['The Hunt for Surok', E, 0, MIS, {}, ['What Lies Below'], { miniquest: true, series: 'Mahjarrat Mysteries' }],
+  ['Witch\'s Potion', N, 0, ASG, {}, [], { miniquest: true, f2p: true }],
+];
+
+function build(defs: Def[]): Record<string, QuestData> {
+  const out: Record<string, QuestData> = {};
+  for (const [name, difficulty, points, regions, skills, prereqs, opts = {}] of defs) {
+    const q: QuestData = {
+      id: name, name, regions: [...new Set(regions)], skills, prereqs, points, difficulty,
+      members: !opts.f2p,
+    };
+    if (opts.series) q.series = opts.series;
+    if (opts.miniquest) q.miniquest = true;
+    if (opts.special) q.special = true;
+    out[name] = q;
   }
+  return out;
+}
+
+export const QUEST_DATA: Record<string, QuestData> = build(DEFS);
+
+/** Is this entry an RS3 miniquest (as opposed to a full quest)? */
+export const isMiniquest = (q: Pick<QuestData, 'miniquest'>): boolean => !!q.miniquest;
+
+/**
+ * RS3 wiki page titles that differ from the quest's display name.
+ * Miniquest pages carry a " (miniquest)" suffix on the RS3 wiki.
+ */
+const QUEST_WIKI_TITLES: Record<string, string> = {
+  'Raksha, the Shadow Colossus': 'Raksha, the Shadow Colossus (quest)',
+};
+
+/** RuneScape Wiki URL for a quest or miniquest by name. */
+export const questWikiUrl = (name: string): string => {
+  const q = QUEST_DATA[name];
+  const title = QUEST_WIKI_TITLES[name] ?? (q?.miniquest ? `${name} (miniquest)` : name);
+  return `https://runescape.wiki/w/${encodeURIComponent(title.replace(/ /g, '_'))}`;
 };

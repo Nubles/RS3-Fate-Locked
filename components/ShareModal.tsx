@@ -143,7 +143,7 @@ Progression: ${progressPercent}% | Total Level: ${totalLevel}
 🌍 Regions: ${totalRegions} Unlocked
 ⚔️ Gear Tiers: ${totalEquipTiers}
 🏆 Bosses: ${bossCount} | 🎲 Minigames: ${minigameCount}
-#OSRS #FateLocked`;
+#RS3 #RuneScape #FateLocked`;
   };
 
   const handleCopyText = async () => {
@@ -205,16 +205,16 @@ Progression: ${progressPercent}% | Total Level: ${totalLevel}
       const maxedGear = Object.entries(unlocks.equipment).filter(([_, t]) => (t as number) >= 9);
       if (maxedGear.length > 0) feats.push({ label: 'Endgame Gear Unlocked', icon: Shield, color: 'text-red-400' });
 
-      // Raids
-      if (unlocks.bosses.includes('Chambers of Xeric') || unlocks.bosses.includes('Theatre of Blood') || unlocks.bosses.includes('Tombs of Amascut')) {
-          feats.push({ label: 'Raid Access', icon: Skull, color: 'text-green-400' });
+      // Raids & Elite Dungeons
+      if (['Liberation of Mazcab', 'Temple of Aminishi', 'Dragonkin Laboratory', 'The Shadow Reef', 'Zamorakian Undercity'].some(b => unlocks.bosses.includes(b))) {
+          feats.push({ label: 'Raid / Elite Dungeon Access', icon: Skull, color: 'text-green-400' });
       }
 
       // Specifics
-      if (unlocks.bosses.includes('Inferno')) feats.push({ label: 'Inferno Unlocked', icon: Zap, color: 'text-orange-500' });
+      if (unlocks.bosses.includes('TzKal-Zuk')) feats.push({ label: 'TzKal-Zuk Unlocked', icon: Zap, color: 'text-orange-500' });
       if (unlocks.regions.includes('Prifddinas')) feats.push({ label: 'Prifddinas Access', icon: Map, color: 'text-teal-400' });
       // 'Wilderness' is a REGION_GROUPS continent key, not an unlockable area —
-      // unlocks.regions only ever contains children (Ferox Enclave, Lava Maze,
+      // unlocks.regions only ever contains children (Lava Maze, Mage Arena,
       // etc.). Check any Wilderness area is unlocked instead.
       if ((REGION_GROUPS['Wilderness'] || []).some(a => unlocks.regions.includes(a))) {
           feats.push({ label: 'Brave Wanderer', icon: Skull, color: 'text-gray-400' });

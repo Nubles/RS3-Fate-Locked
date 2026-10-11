@@ -2,6 +2,10 @@
  * Loads the OSRS monster dataset (weirdgloop dps-calc) on demand for the DPS
  * calculator: defence levels/bonuses + HP per monster. Lazy + localStorage
  * cached, mirroring services/GearService.ts.
+ * RS3 MODE: legacy from the OSRS fork. RS3 combat is ability/tier-based and has
+ * no equivalent public dataset, so the Gear and DPS views that used this are
+ * not mounted (components/EquipmentLab.tsx). Kept compiling + tested because
+ * components/BossKillPlanner still imports it.
  */
 
 const DATA_URL = 'https://raw.githubusercontent.com/weirdgloop/osrs-dps-calc/main/cdn/json/monsters.json';

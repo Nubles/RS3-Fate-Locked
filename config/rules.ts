@@ -10,10 +10,12 @@ export const DROP_RATES: Record<string, number> = {
   [DropSource.QUEST_MASTER]: 95,
   [DropSource.QUEST_GRANDMASTER]: 100,
   
-  // Rebalanced 2026: the bulk repeatable sources (CAs 637 tasks, diaries 485,
-  // collection log 1,905 slots, level-ups) were ~2x over-funding the 805-key
-  // sink. Trimmed so total one-time earn ≈ 1.2x the sink — keys stay scarce, and
-  // slayer & clues remain the flexible top-up income. See config/economy.ts.
+  // RS3 balance: the sink is ~888 keys (29 skills x 10 tiers, 13 gear slots x 9
+  // tiers, 164 areas, 53 bosses, 53 minigames, ...). One-time earn at these
+  // rates is ~1,070 (286 quests ~175, 619 diary tasks ~284, ~590 Combat Mastery
+  // tasks ~178, 1,167 collection-log slots ~140, level-ups ~287), i.e. ~1.2x the
+  // sink, so keys stay scarce and Slayer, clues and bossing stay the flexible
+  // top-up income. See config/economy.ts.
   [DropSource.CA_EASY]: 8,
   [DropSource.CA_MEDIUM]: 15,
   [DropSource.CA_HARD]: 25,
@@ -21,7 +23,7 @@ export const DROP_RATES: Record<string, number> = {
   [DropSource.CA_MASTER]: 40,
   [DropSource.CA_GRANDMASTER]: 55,
 
-  [DropSource.COLLECTION_LOG]: 8,
+  [DropSource.COLLECTION_LOG]: 12, // RS3's log is ~1,170 slots vs OSRS's ~1,900, so each slot pays more
 
   [DropSource.DIARY_EASY]: 20,
   [DropSource.DIARY_MEDIUM]: 40,

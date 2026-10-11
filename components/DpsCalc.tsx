@@ -1,3 +1,5 @@
+// RS3 MODE: not mounted — this view runs on the OSRS dps-calc dataset, and
+// RS3 has no equivalent. Kept so it can be revived with RS3 data later.
 import React, { useState, useEffect, useMemo } from 'react';
 import {
   Swords, Crosshair, Wand2, X, Search, Loader2, AlertCircle, RefreshCw, Target, Info, Zap, Clock, Crown,

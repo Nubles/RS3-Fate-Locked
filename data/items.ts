@@ -25,7 +25,7 @@ export const MOBILITY_LIST = [
   'Lodestone Network', 'Fairy Rings', 'Spirit Trees', 'Gnome Gliders', 'Charter Ships',
   'Abyss Teleport', 'Jewellery Teleports', 'Canoes', 'Balloon Transport', 'Mine Carts',
   'Wilderness Obelisks', 'Grouping Teleports', 'Ring of Kinship', 'Ring of Slaying',
-  'Ectophial', 'Crystal Teleport Seed', 'Royal Seed Pod', 'Ring of Fortune',
+  'Ectophial', 'Crystal Teleport Seed', 'Grand Seed Pod', 'Ring of Fortune',
   'Enchanted Lyre', 'Digsite Pendant', 'Games Necklace', 'Ring of Duelling',
   'Combat Bracelet', 'Skills Necklace', 'Amulet of Glory', 'Eagle Transport',
   'Drakan\'s Medallion', 'Pharaoh\'s Sceptre', 'Magic Carpets', 'Camulet',
@@ -122,7 +122,7 @@ export const REGION_GROUPS: Record<string, string[]> = {
     'Falador', 'Port Sarim', 'Rimmington', 'Taverley', 'Burthorpe', 'Warriors\' Guild',
     'Heroes\' Guild', 'Crafting Guild', 'Dwarven Mine', 'Ice Mountain', 'Asgarnian Ice Dungeon',
     'Artisans\' Workshop', 'Goblin Village', 'Mudskipper Point', 'Void Knights\' Outpost', 'Entrana',
-    'Max Guild', 'Clan Camp'
+    'Clan Camp'
   ],
   'Kandarin': [
     'East Ardougne', 'West Ardougne', 'Catherby', 'Seers\' Village', 'Camelot', 'Yanille',
@@ -154,7 +154,8 @@ export const REGION_GROUPS: Record<string, string[]> = {
   ],
   'Tirannwn': [
     'Prifddinas', 'Lletya', 'Tyras Camp', 'Elf Camp', 'Isafdar',
-    'Arandar', 'Gwenith', 'Iorwerth Camp', 'Poison Waste', 'Port Tyras'
+    'Arandar', 'Gwenith', 'Iorwerth Camp', 'Poison Waste', 'Port Tyras',
+    'Max Guild', 'Lost Grove'
   ],
   'Wilderness': [
     'Chaos Temple', 'Rogues\' Castle', 'Lava Maze', 'Wilderness Bandit Camp',
@@ -174,9 +175,13 @@ export const REGION_GROUPS: Record<string, string[]> = {
     'Waiko', 'Tuai Leit', 'Aminishi', 'Cyclosis', 'Goshima', 'Whale\'s Maw',
     'Islands That Once Were Turtles'
   ],
+  'Havenhythe': [
+    'Wendlewick', 'Amberfell', 'Highweald Forest', 'Moonrise Dig Site', 'Berylbrook',
+    'Fenmoor', 'Linbog Village', 'Moonsylvar Wood'
+  ],
   'Islands & Others': [
     'Ape Atoll', 'Zanaris', 'Puro-Puro', 'The Abyss', 'Dorgesh-Kaan', 'Mazcab',
-    'Everlight', 'Stormguard Citadel', 'Infernal Source', 'Warforge', 'Ashdale', 'Lost Grove'
+    'Everlight', 'Stormguard Citadel', 'Infernal Source', 'Warforge', 'Ashdale'
   ]
 };
 
@@ -196,10 +201,11 @@ export const BOSSES_LIST = [
   // Mid-level
   'Corporeal Beast', 'Queen Black Dragon', 'Legiones', 'Har-Aken', 'Dagannoth Kings',
   'Kalphite Queen', 'Exiled Kalphite Queen', 'Black Stone Dragon', 'Hermod',
-  'Zemouregal & Vorkath', 'Rex Matriarchs',
+  'Zemouregal & Vorkath', 'Rex Matriarchs', 'Flesh-hatcher Mhekarnahz',
   // Entry / skilling
   'Giant Mole', 'King Black Dragon', 'Chaos Elemental', 'Barrows Brothers', 'Bork',
-  'TzHaar Fight Cave', 'Skeletal Horror', 'Croesus', 'Gate of Elidinis'
+  'TzHaar Fight Cave', 'Skeletal Horror', 'Croesus', 'Gate of Elidinis',
+  'Ivar, King of Bones', 'Silverquill, the Dreadhog'
 ];
 
 export const MINIGAMES_LIST = [

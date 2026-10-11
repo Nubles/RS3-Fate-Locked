@@ -1,3 +1,5 @@
+// RS3 MODE: not mounted — this view runs on the OSRS dps-calc dataset, and
+// RS3 has no equivalent. Kept so it can be revived with RS3 data later.
 import React, { useState, useEffect, useMemo } from 'react';
 import { X, Search, Trash2, Lock, Loader2, AlertCircle, RefreshCw, Shirt } from 'lucide-react';
 import { useGame } from '../context/GameContext';
@@ -9,7 +11,7 @@ import { equipTierColor } from '../utils/equipTiers';
 import { WikiLink } from './WikiLink';
 
 const emptySlotImg = (slot: string) =>
-  `https://runescape.wiki/images/${SLOT_CONFIG[slot]?.file ?? 'Globe_icon.png'}`;
+  `https://runescape.wiki/images/${SLOT_CONFIG[slot]?.file ?? 'Lodestone_map_icon.png'}`;
 const itemImg = (file: string) =>
   `https://runescape.wiki/images/${(file || '').replace(/ /g, '_')}`;
 

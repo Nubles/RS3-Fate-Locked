@@ -16,21 +16,36 @@ import type { ChunkCoord } from './mapCoords';
 
 const key = (cx: number, cy: number) => `${cx},${cy}`;
 
-const CHUNK_SUB: Record<string, string> = {};
-for (const [sub, chunks] of Object.entries(SUB_AREA_CHUNKS)) {
-  for (const c of chunks) CHUNK_SUB[key(c.cx, c.cy)] = sub;
-}
+// The chunk grid is the Old School map, whose mainland matches RS3. Only RS3
+// continents count: should the authoring data ever paint an OSRS-only block
+// (Kourend & Kebos, Varlamore, The Open Seas, …), its chunks — and any
+// sub-areas inside them — are treated as unpainted rather than offered as
+// places the player could unlock.
+const RS3_CONTINENTS = new Set<string>(['Misthalin', ...Object.keys(REGION_GROUPS)]);
+
 const CHUNK_REGION: Record<string, string> = {};
 for (const [region, chunks] of Object.entries(REGION_CHUNKS)) {
+  if (!RS3_CONTINENTS.has(region)) continue;
   for (const c of chunks) CHUNK_REGION[key(c.cx, c.cy)] = region;
+}
+const CHUNK_SUB: Record<string, string> = {};
+for (const [sub, chunks] of Object.entries(SUB_AREA_CHUNKS)) {
+  for (const c of chunks) if (CHUNK_REGION[key(c.cx, c.cy)]) CHUNK_SUB[key(c.cx, c.cy)] = sub;
 }
 
 // Reverse lookup: a place NAME (sub-area or continent) → a representative chunk,
 // so journal items that reference a place by name (diary tasks, etc.) can link
 // to the map. Sub-areas win over continents for the same name.
 const PLACE_CHUNK: Record<string, ChunkCoord> = {};
-for (const [name, chunks] of Object.entries(REGION_CHUNKS)) if (chunks[0]) PLACE_CHUNK[name.toLowerCase()] = chunks[0];
-for (const [name, chunks] of Object.entries(SUB_AREA_CHUNKS)) if (chunks[0]) PLACE_CHUNK[name.toLowerCase()] = chunks[0];
+const onRs3Map = (c: ChunkCoord) => !!CHUNK_REGION[key(c.cx, c.cy)];
+for (const [name, chunks] of Object.entries(REGION_CHUNKS)) {
+  const c = chunks.find(onRs3Map);
+  if (c) PLACE_CHUNK[name.toLowerCase()] = c;
+}
+for (const [name, chunks] of Object.entries(SUB_AREA_CHUNKS)) {
+  const c = chunks.find(onRs3Map);
+  if (c) PLACE_CHUNK[name.toLowerCase()] = c;
+}
 
 /** A representative chunk for a named place, or null if it isn't on the map. */
 export const chunkForPlace = (name: string): ChunkCoord | null =>

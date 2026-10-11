@@ -32,6 +32,7 @@ export const REGION_MODIFIERS: RegionModifier[] = [
   { continent: 'Daemonheim',       name: 'Sinkeep\'s Gamble',    description: '+1% success, +1% Omni',       successBonus: 1,  omniBonus: 1 },
   { continent: 'Anachronia',       name: 'Primal Vigour',       description: '+2% roll success',            successBonus: 2,  omniBonus: 0 },
   { continent: 'The Arc',          name: 'Tidal Fortune',       description: '+1% success, +1% Omni',       successBonus: 1,  omniBonus: 1 },
+  { continent: 'Havenhythe',       name: 'Amber Harvest',       description: '+1% success, +1% Omni',       successBonus: 1,  omniBonus: 1 },
   { continent: 'Islands & Others', name: "Explorer's Boon",     description: '+1% roll success',            successBonus: 1,  omniBonus: 0 },
 ];
 

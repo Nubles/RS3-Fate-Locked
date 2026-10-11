@@ -2,8 +2,8 @@
  * Skill tier ↔ level model — the single source of truth.
  *
  * Cap model: unlocking tier N grants the right to use content requiring levels
- * 1 … N×10. So a level-60 activity (e.g. yew trees) needs tier 6, and a player
- * with 99 Woodcutting but only tier 3 unlocked still can't cut yews.
+ * 1 … N×10. So a level-60 activity (e.g. mahogany trees) needs tier 6, and a player
+ * with 99 Woodcutting but only tier 3 unlocked still can't cut mahogany.
  *
  *   tier 1 → levels 1–10      tier 6 → levels 51–60 (cumulative 1–60)
  *   tier 7 → levels 61–70     tier 10 → levels 91–99

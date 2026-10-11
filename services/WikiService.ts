@@ -187,7 +187,7 @@ class WikiService {
       });
 
       // Fallback: a handful of item pages have no lead "pageimage" set (e.g.
-      // currency/cosmetic pages like the house scarves or the Wintertodt supply
+      // currency/cosmetic pages like the house scarves or a minigame supply
       // crate) but DO have an inventory icon file named after the item. Look
       // those up directly so they show an icon instead of a "?".
       if (stillNull.length) {

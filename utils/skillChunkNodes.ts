@@ -4,10 +4,10 @@
  * Scans the whole chunk dataset — objects, NPCs and monsters — and classifies
  * each entity to a skill + level, so the tab can show *everywhere* you can
  * train a skill on the map:
- *   • objects  → resourceReqFor (trees, ores, fishing spots, RC altars, stalls,
- *     rooftop courses) + farming patches
+ *   • objects  → resourceReqFor (trees, ores, fishing spots, RC altars, stalls)
+ *     + RS3 agility-course obstacles + farming patches
  *   • NPCs/monsters → curated Hunter-creature and Thieving-pickpocket tables
- *     with wiki-verified levels (these never appear as objects)
+ *     with RS3-wiki-verified levels (these never appear as objects)
  *
  * Levels are grouped by the tier that unlocks them (cap model), matching the
  * resource gate. Names come from our own chunk-content dataset.
@@ -50,7 +50,7 @@ const stationReq = (name: string): Req | null => {
 
 // Farming patches — usable from low levels (the crop sets the real level), so
 // they're surfaced at level 1. Excludes look-alikes like "Patched Wall".
-const FARMING_PATCH = /\b(allotment|herb|flower|hops|bush|tree|fruit tree|hardwood|cactus|mushroom|belladonna|seaweed|calquat|spirit tree|celastrus|redwood|hespori|anima|vine|grapevine|vinery)\b.*patch|^bush$|grapevine|giant seaweed/i;
+const FARMING_PATCH = /\b(allotment|herb|flower|hops|bush|tree|fruit tree|hardwood|cactus|mushroom|belladonna|seaweed|calquat|spirit tree|elder tree|crystal tree|vine|grapevine|vinery)\b.*patch|^bush$|grapevine|giant seaweed/i;
 const NOT_PATCH = /wall|barren|dry patch|mud patch|muddy|soil patch|firm snow|weedy|new farming/i;
 
 // Entities that trip the keyword rules but aren't real gathering targets:
@@ -61,6 +61,7 @@ const NOT_NODE = /butterfly ray|guard dog|guard captain|\bgnome (archer|mage|tro
 
 // Ordered curated NPC/monster rules (Hunter first so e.g. "Snowy knight" — a
 // butterfly — isn't mistaken for a Thieving "knight"). First match wins.
+// Levels are RS3 values (runescape.wiki Hunter/Thieving level up tables).
 const NPC_RULES: [RegExp, Req][] = [
   // ── Hunter: birds ──
   [/crimson swift/i, { skill: 'Hunter', level: 1 }],
@@ -73,12 +74,12 @@ const NPC_RULES: [RegExp, Req][] = [
   [/sapphire glacialis/i, { skill: 'Hunter', level: 25 }],
   [/snowy knight/i, { skill: 'Hunter', level: 35 }],
   [/black warlock/i, { skill: 'Hunter', level: 45 }],
-  [/sunlight moth/i, { skill: 'Hunter', level: 65 }],
-  [/moonlight moth/i, { skill: 'Hunter', level: 75 }],
   [/\bbutterfly\b/i, { skill: 'Hunter', level: 15 }],
   // ── Hunter: kebbits ──
+  [/polar kebbit/i, { skill: 'Hunter', level: 1 }],
   [/common kebbit/i, { skill: 'Hunter', level: 3 }],
   [/feldip weasel/i, { skill: 'Hunter', level: 7 }],
+  [/desert devil/i, { skill: 'Hunter', level: 13 }],
   [/wild kebbit/i, { skill: 'Hunter', level: 23 }],
   [/barb-tailed kebbit/i, { skill: 'Hunter', level: 33 }],
   [/prickly kebbit/i, { skill: 'Hunter', level: 37 }],
@@ -92,48 +93,64 @@ const NPC_RULES: [RegExp, Req][] = [
   [/orange salamander/i, { skill: 'Hunter', level: 47 }],
   [/red salamander/i, { skill: 'Hunter', level: 59 }],
   [/black salamander/i, { skill: 'Hunter', level: 67 }],
-  [/tecu salamander/i, { skill: 'Hunter', level: 79 }],
   // ── Hunter: beasts ──
   [/spined larupia/i, { skill: 'Hunter', level: 31 }],
-  [/embertailed jerboa/i, { skill: 'Hunter', level: 39 }],
   [/horned graahk/i, { skill: 'Hunter', level: 41 }],
   [/sabre-toothed kyatt/i, { skill: 'Hunter', level: 55 }],
-  [/sunlight antelope/i, { skill: 'Hunter', level: 72 }],
-  [/moonlight antelope/i, { skill: 'Hunter', level: 91 }],
-  // ── Hunter: chinchompas ──
-  [/black chinchompa/i, { skill: 'Hunter', level: 73 }],
+  [/\bpawya\b/i, { skill: 'Hunter', level: 66 }],
+  [/\bgrenwall\b/i, { skill: 'Hunter', level: 77 }],
+  [/ornate tortle/i, { skill: 'Hunter', level: 96 }],
+  [/\btortle\b/i, { skill: 'Hunter', level: 90 }],
+  [/draconic jadinko/i, { skill: 'Hunter', level: 80 }],
+  [/common jadinko/i, { skill: 'Hunter', level: 70 }],
+  // ── Hunter: chinchompas / skillchompas ──
+  [/crystal skillchompa/i, { skill: 'Hunter', level: 97 }],
+  [/crimson skillchompa/i, { skill: 'Hunter', level: 89 }],
+  [/azure skillchompa/i, { skill: 'Hunter', level: 68 }],
+  [/viridian skillchompa/i, { skill: 'Hunter', level: 46 }],
+  [/cobalt skillchompa/i, { skill: 'Hunter', level: 27 }],
+  [/giant chinchompa/i, { skill: 'Hunter', level: 96 }],
   [/carnivorous chinchompa|red chinchompa/i, { skill: 'Hunter', level: 63 }],
   [/chinchompa/i, { skill: 'Hunter', level: 53 }],
-  // ── Hunter: crabs / other ──
-  [/red crab \(hunter\)/i, { skill: 'Hunter', level: 21 }],
-  [/blue crab \(hunter\)/i, { skill: 'Hunter', level: 48 }],
-  [/rainbow crab \(hunter\)/i, { skill: 'Hunter', level: 77 }],
-  [/herbiboar/i, { skill: 'Hunter', level: 80 }],
+  // ── Hunter: other ──
   [/\bferret\b/i, { skill: 'Hunter', level: 27 }],
+  [/crystal impling/i, { skill: 'Hunter', level: 95 }],
   [/\bimpling\b/i, { skill: 'Hunter', level: 17 }],
 
-  // ── Thieving: pickpocket targets (wiki levels) ──
+  // ── Thieving: pickpocket targets (RS3 wiki levels) ──
   [/master farmer|chief farmer|martin the master/i, { skill: 'Thieving', level: 38 }],
   [/^farmer\b|farmer \(|fred the farmer|farmer (brumty|fromund|gricoller|hayfield)/i, { skill: 'Thieving', level: 10 }],
   [/h\.?a\.?m\.? member/i, { skill: 'Thieving', level: 15 }],
+  [/^rogue enforcer/i, { skill: 'Thieving', level: 62 }],
   [/^rogue\b/i, { skill: 'Thieving', level: 32 }],
   [/cave goblin/i, { skill: 'Thieving', level: 36 }],
-  [/wealthy citizen|fremennik citizen/i, { skill: 'Thieving', level: 45 }],
-  [/desert bandit|^bandit$|^bandit \(/i, { skill: 'Thieving', level: 53 }],
-  [/menaphite (thug|guard)/i, { skill: 'Thieving', level: 65 }],
+  [/crux eqal knight/i, { skill: 'Thieving', level: 83 }],
+  [/crux eqal druid/i, { skill: 'Thieving', level: 42 }],
+  [/desert bandit|pollnivnian bandit|^bandit$|^bandit \(/i, { skill: 'Thieving', level: 53 }],
+  [/menaphite thug/i, { skill: 'Thieving', level: 65 }],
+  [/^watchman/i, { skill: 'Thieving', level: 65 }],
+  [/wizards'? tower mage/i, { skill: 'Thieving', level: 64 }],
+  [/^archaeologist\b/i, { skill: 'Thieving', level: 78 }],
+  // Prifddinas clan workers (91–98).
+  [/iorwerth worker/i, { skill: 'Thieving', level: 91 }],
+  [/ithell worker/i, { skill: 'Thieving', level: 92 }],
+  [/cadarn worker/i, { skill: 'Thieving', level: 93 }],
+  [/amlodd worker/i, { skill: 'Thieving', level: 94 }],
+  [/hefin worker/i, { skill: 'Thieving', level: 95 }],
+  [/crwys worker/i, { skill: 'Thieving', level: 96 }],
+  [/meilyr worker/i, { skill: 'Thieving', level: 97 }],
+  [/trahaearn worker/i, { skill: 'Thieving', level: 98 }],
   // Only the canonical pickpocket knights (generic "Knight" = Black/White
   // Knights, not pickpocketable).
-  [/knight of ardougne|knight of varlamore/i, { skill: 'Thieving', level: 55 }],
+  [/knight of ardougne/i, { skill: 'Thieving', level: 55 }],
   [/^paladin/i, { skill: 'Thieving', level: 70 }],
-  [/tzhaar-hur/i, { skill: 'Thieving', level: 90 }],
-  [/vyre(lord|lady|watch)|vyrewatch/i, { skill: 'Thieving', level: 82 }],
   [/^hero\b/i, { skill: 'Thieving', level: 80 }],
   [/\bgnome\b/i, { skill: 'Thieving', level: 75 }],
   // Only the explicitly thieving-tagged Al Kharid warrior (other "Warrior (…)"
   // are combat NPCs).
   [/warrior \(thieving\)|^warrior \(al kharid\)/i, { skill: 'Thieving', level: 25 }],
-  [/^guard\b|guard \(|town guard|bank guard|jail guard|menaphite guard/i, { skill: 'Thieving', level: 40 }],
-  [/^(wo)?man\b|^man \(|poor looking (man|woman)|well-dressed man/i, { skill: 'Thieving', level: 1 }],
+  [/^guard\b|guard \(|town guard|bank guard|jail guard/i, { skill: 'Thieving', level: 40 }],
+  [/^(wo)?man\b|^man \(|poor looking (man|woman)|well-dressed man|pompous merchant/i, { skill: 'Thieving', level: 1 }],
 ];
 
 const npcReq = (name: string): Req | null => {
@@ -142,26 +159,19 @@ const npcReq = (name: string): Req | null => {
   return null;
 };
 
-// Agility rooftop-course obstacles (named by their course location, so the
-// level is the course requirement). Generic shortcuts aren't included — their
-// requirements vary widely and aren't derivable from the chunk name.
+// RS3 Agility-course obstacles (named by their course, so the level is the
+// course requirement). Advanced routes first so they win over their base
+// course. Generic shortcuts aren't included — their requirements vary widely
+// and aren't derivable from the chunk name.
 const AGILITY_OBJ: [RegExp, number][] = [
-  [/ardougne rooftop/i, 90], [/rellekka rooftop/i, 80], [/pollnivneach rooftop/i, 70],
-  [/seers.{0,3}rooftop/i, 60], [/falador rooftop/i, 50], [/canifis rooftop/i, 40],
-  [/varrock rooftop/i, 30], [/al kharid rooftop/i, 20], [/draynor.{0,12}rooftop/i, 1],
+  [/advanced barbarian/i, 90], [/advanced gnome/i, 85],
+  [/dorgesh-kaan agility/i, 80], [/hefin (agility )?course/i, 77],
+  [/het'?s oasis/i, 65], [/werewolf agility/i, 60], [/bandos agility/i, 60],
+  [/wilderness agility/i, 52], [/ape atoll agility/i, 48],
+  [/barbarian outpost agility|barbarian agility/i, 35],
+  [/agility pyramid/i, 30], [/penguin agility/i, 30], [/anachronia agility/i, 30],
+  [/gnome stronghold agility|gnome agility/i, 1], [/burthorpe agility/i, 1],
 ];
-
-// Sailing — salvageable shipwrecks (the skill's "gathering" mechanic). Levels
-// are the salvage requirements from the game's own Sailing data.
-const sailingReq = (name: string): Req | null => {
-  if (!/shipwreck|wreck of\b/i.test(name)) return null;
-  if (/campfire|\bprop\b|bank /i.test(name)) return null; // scenery, not a salvage spot
-  const level = /merchant/i.test(name) ? 87 : /fremennik/i.test(name) ? 80
-    : /mercenary/i.test(name) ? 73 : /pirate/i.test(name) ? 64 : /large/i.test(name) ? 53
-    : /barracuda/i.test(name) ? 35 : /fisherman/i.test(name) ? 26 : /small/i.test(name) ? 15
-    : 15; // named "Wreck of the …" salvage spots default to the small tier
-  return { skill: 'Sailing', level };
-};
 
 const reqFor = (name: string, kind: EntityKind): Req | null => {
   if (kind === 'object') {
@@ -169,7 +179,7 @@ const reqFor = (name: string, kind: EntityKind): Req | null => {
     if (r) return r;
     if (FARMING_PATCH.test(name) && !NOT_PATCH.test(name)) return { skill: 'Farming', level: 1 };
     for (const [re, level] of AGILITY_OBJ) if (re.test(name)) return { skill: 'Agility', level };
-    return sailingReq(name) ?? stationReq(name);
+    return stationReq(name);
   }
   return npcReq(name); // npc | monster
 };

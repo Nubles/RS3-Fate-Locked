@@ -55,7 +55,7 @@ const ReqBadge: React.FC<{ reqs: string[] }> = ({ reqs }) => (
 const BOSS_SET = new Set(BOSSES_LIST.map(b => b.toLowerCase()));
 const DIARY_AREA_REGION: Record<string, string> = {};
 for (const d of Object.values(DIARY_DATA)) {
-  const area = d.id.replace(/ (Easy|Medium|Hard|Elite)$/, '');
+  const area = d.id.replace(/ (Beginner|Easy|Medium|Hard|Elite)$/, '');
   DIARY_AREA_REGION[area] = d.region;
 }
 

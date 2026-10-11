@@ -18,16 +18,15 @@ export const GUIDES: Record<string, Guide> = {
     blurb: 'Your gear and skills — and the tools to plan and theorycraft them.',
     bullets: [
       'Spend Omni-keys to upgrade equipment slots and skill tiers (the paper-doll & skill grid).',
-      'Equipment Lab → Tiers: see gear progress and plan a target loadout + its Omni-key cost.',
-      'Equipment Lab → Gear: equip real OSRS items (gated by your unlocked tier) and see their stats.',
-      'Equipment Lab → DPS: pick a monster and get max hit, accuracy, DPS and time-to-kill.',
+      'Equipment Lab: see gear progress by RS3 tier and plan a target loadout + its Omni-key cost.',
     ],
   },
   WORLD: {
     title: 'World',
-    blurb: 'Everywhere fate has let you travel — on the real OSRS map.',
+    blurb: 'Everywhere fate has let you travel — on the RuneScape 3 world map.',
     bullets: [
       'See which regions and sub-areas you’ve unlocked, lit up on the world map.',
+      'RS3-only areas (Daemonheim, Anachronia, the Arc…) aren’t on the map image — they’re listed in the “Off the map” panel.',
       'Pan and zoom the map; hover for tile/chunk coordinates.',
       'Track region mastery per continent and what’s left to unlock.',
     ],
@@ -63,11 +62,11 @@ export const GUIDES: Record<string, Guide> = {
   // ── Equipment Lab ───────────────────────────────────────────────────────
   EQUIPMENT_LAB: {
     title: 'Equipment Lab',
-    blurb: 'Three tools in one for your gear.',
+    blurb: 'Your fate-locked gear tiers, slot by slot.',
     bullets: [
-      'Tiers — your fate-locked gear tiers; click a slot for its ladder, or Plan a target loadout.',
-      'Gear — equip real OSRS items (limited to your unlocked tier) and read their combined stats.',
-      'DPS — choose a style, prayers and potion, pick a monster, and get max hit / DPS / TTK.',
+      'Each of the 13 RS3 slots (incl. Pocket and Aura) has its own tier, from Bronze/Iron (T1) to tier 92-95 gear (T9).',
+      'Click a slot for its tier ladder, or Plan a target loadout and see its Omni-key cost.',
+      'RS3 combat is ability-based, so there is no item-stat / DPS calculator — gear is gated by tier only.',
     ],
   },
 
@@ -101,7 +100,7 @@ export const GUIDES: Record<string, Guide> = {
 
   SKILLS: {
     title: 'Skills',
-    blurb: 'Your 23 skills — each unlocked and levelled through fate.',
+    blurb: 'Your 29 RS3 skills — each unlocked and levelled through fate.',
     bullets: [
       'Spend an Omni-key on a locked skill to unlock it, then upgrade its tier (caps your trainable level).',
       'Level unlocked skills toward 99 as you train them in-game.',

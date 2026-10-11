@@ -1,15 +1,21 @@
-// Re-syncs data/collectionLogData.ts to the live OSRS Wiki collection log so the
-// in-app log stays an exact mirror of the game's. Source of truth is the wiki's
-// own data module (the same data it renders, fed by WikiSync):
-//   Module:Collection_log/data.json   — every item: { id, name, tabs:[page,…] }
-//   Module:Collection_log             — a Lua `overrides` table of display names
+// Re-syncs data/collectionLogData.ts to the live RuneScape 3 Wiki collection
+// logs so the in-app log stays a mirror of the game's. RS3 has no
+// machine-readable collection-log module (OSRS's Module:Collection_log is
+// WikiSync-fed and OSRS-only), so the source of truth is the rendered RS3 log
+// pages, fetched via the API's action=parse:
+//   Boss collection log           -> Bosses tab   (one section per log entry)
+//   Slayer collection log         -> Slayer tab   (one section per region)
+//   Treasure Trail collection log -> Clues tab    (one section per clue tier)
+// Each section heading is a log entry; the first article link of each table
+// row is a tracked item. The Minigames and Other tabs are app-curated (RS3 has
+// no minigame log) and are left untouched.
 //
 // Run on demand:   npm run clog:sync
 //
 // What it does (and deliberately does NOT do):
-//   • Aligns each existing page's item names to the wiki's rendered names and
-//     APPENDS any newly-tracked items — PRESERVING existing synthetic IDs, so
-//     player progress (keyed by id) survives a re-sync.
+//   • Aligns each existing page's item names to the wiki's names and APPENDS any
+//     newly-tracked items — PRESERVING existing synthetic IDs, so player
+//     progress (keyed by id) survives a re-sync.
 //   • Never renumbers, never deletes. App items with no wiki match are kept and
 //     reported (so a wiki rename can't silently drop a slot).
 //   • If the wiki adds a brand-new PAGE, it can't know which tab it belongs to,
@@ -19,49 +25,80 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 const FILE = 'data/collectionLogData.ts';
 const API = 'https://runescape.wiki/api.php';
-const UA = { 'Api-User-Agent': 'FateLockedUIM/1.0 (collection-log sync)' };
+const UA = { 'Api-User-Agent': 'FateLockedRS3/1.0 (collection-log sync)' };
+const SOURCES = ['Boss collection log', 'Slayer collection log', 'Treasure Trail collection log'];
 
-// Page-title differences between the app and the wiki (app title -> wiki title).
-// Used only for MATCHING; the app keeps its own display titles for these.
+// Page-title differences between the app and the wiki (app title -> wiki
+// section). Used only for MATCHING; the app keeps its own display titles.
 const PAGE_MATCH = {
-  'Beginner': 'Beginner Treasure Trails', 'Easy': 'Easy Treasure Trails',
-  'Medium': 'Medium Treasure Trails', 'Hard': 'Hard Treasure Trails',
-  'Elite': 'Elite Treasure Trails', 'Master': 'Master Treasure Trails',
-  'Hard (Rare)': 'Hard Treasure Trails (Rare)', 'Elite (Rare)': 'Elite Treasure Trails (Rare)',
-  'Master (Rare)': 'Master Treasure Trails (Rare)', 'Shared Rewards': 'Shared Treasure Trail Rewards',
-  'Beginner Treasure Trails': 'Beginner Treasure Trails', 'Easy Treasure Trails': 'Easy Treasure Trails',
-  'Medium Treasure Trails': 'Medium Treasure Trails', 'Hard Treasure Trails': 'Hard Treasure Trails',
-  'Elite Treasure Trails': 'Elite Treasure Trails', 'Master Treasure Trails': 'Master Treasure Trails',
-  'Hard Treasure Trails (Rare)': 'Hard Treasure Trails (Rare)',
-  'Elite Treasure Trails (Rare)': 'Elite Treasure Trails (Rare)',
-  'Master Treasure Trails (Rare)': 'Master Treasure Trails (Rare)',
-  'Shared Treasure Trail Rewards': 'Shared Treasure Trail Rewards',
-  'The Fight Caves': 'The Fight Caves', 'Fight Caves': 'The Fight Caves',
-  'Mage Training Arena': 'Magic Training Arena',
+  'Shared Treasure Trail Rewards': 'General clue rewards',
+  'Easy Treasure Trails': 'Easy clue rewards',
+  'Medium Treasure Trails': 'Medium clue rewards',
+  'Hard Treasure Trails': 'Hard clue rewards',
+  'Elite Treasure Trails': 'Elite clue rewards',
+  'Master Treasure Trails': 'Master clue rewards',
 };
+
+// Section headings on the log pages that are not log entries.
+const NON_LOG_SECTIONS = new Set([
+  'contents', 'tracked drops', 'rewards', 'achievements', 'disassembly', 'update history',
+  'trivia', 'references', 'gallery', 'see also', 'book info', 'combat stats', 'changes',
+  'navigation menu',
+]);
+
+const decode = s => s
+  .replace(/&#0?39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&')
+  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;|&#160;/g, ' ');
+
+// Same parser as services/CollectionLogSyncService.ts parseLogPageHtml (kept in
+// sync by hand; scripts/ is plain JS and can't import the TS module).
+function parseLogPageHtml(html) {
+  const out = {};
+  const parts = html.split(/<h[23]\b[^>]*>/i);
+  for (let i = 1; i < parts.length; i++) {
+    const end = parts[i].search(/<\/h[23]>/i);
+    if (end < 0) continue;
+    const raw = parts[i].slice(0, end);
+    const headline = raw.match(/class="mw-headline"[^>]*>([\s\S]*?)<\/span>/i);
+    const heading = decode((headline ? headline[1] : raw.replace(/<span[^>]*mw-editsection[\s\S]*$/i, ''))
+      .replace(/<[^>]+>/g, '')).trim();
+    if (!heading || NON_LOG_SECTIONS.has(heading.toLowerCase())) continue;
+    const items = [];
+    for (const row of parts[i].slice(end).split(/<tr\b/i).slice(1)) {
+      const re = /<a\b[^>]*href="\/w\/([^"#?]+)[^"]*"[^>]*title="([^"]+)"/gi;
+      let m;
+      while ((m = re.exec(row)) !== null) {
+        const title = decode(m[2]);
+        if (/^(File|Category|Template|Special|Help|RuneScape|Module|User|Update):/i.test(title)) continue;
+        if (!items.includes(title)) items.push(title);
+        break;
+      }
+    }
+    if (items.length) out[heading] = items;
+  }
+  return out;
+}
 
 const norm = s => s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, ' ').trim();
 const baseNorm = s => s.toLowerCase().replace(/\s*\([^)]*\)\s*/g, ' ').replace(/&/g, 'and').replace(/[^a-z0-9]+/g, ' ').trim();
 const esc = s => s.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 const unesc = s => s.replace(/\\'/g, "'").replace(/\\\\/g, '\\');
 
-async function wikiPage(title) {
-  const u = `${API}?action=query&prop=revisions&titles=${encodeURIComponent(title)}&rvslots=main&rvprop=content&format=json`;
+async function wikiHtml(title) {
+  const u = `${API}?action=parse&page=${encodeURIComponent(title)}&prop=text&format=json`;
   const r = await fetch(u, { headers: UA });
   if (!r.ok) throw new Error(`wiki ${title}: HTTP ${r.status}`);
   const d = await r.json();
-  return Object.values(d.query.pages)[0].revisions[0].slots.main['*'];
+  return d.parse.text['*'];
 }
 
 async function loadWiki() {
-  const data = JSON.parse(await wikiPage('Module:Collection_log/data.json'));
-  const lua = await wikiPage('Module:Collection_log');
-  const overrides = {};
-  const re = /\[(\d+)\]\s*=\s*\{[^}]*name\s*=\s*"((?:[^"\\]|\\.)*)"[^}]*\}/g;
-  let m; while ((m = re.exec(lua)) !== null) overrides[m[1]] = m[2].replace(/\\"/g, '"');
-  const rendered = it => (overrides[it.id] !== undefined ? overrides[it.id] : it.name);
   const pages = {};
-  for (const it of data) for (const pg of it.tabs) (pages[pg] = pages[pg] || []).push(rendered(it));
+  for (const title of SOURCES) {
+    const sections = parseLogPageHtml(await wikiHtml(title));
+    if (!Object.keys(sections).length) throw new Error(`no log sections parsed from "${title}" — page layout changed?`);
+    Object.assign(pages, sections);
+  }
   return pages;
 }
 
