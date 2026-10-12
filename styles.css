@@ -84,6 +84,113 @@ body {
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7), 0 1px 0 rgba(106, 135, 151, 0.15);
 }
 
+/* ── RS3 game-screen HUD ─────────────────────────────────────────────── */
+
+/* Ribbon: the row of square menu buttons along the top of the screen. */
+.rs3-ribbon {
+  background: linear-gradient(180deg, #16262f 0%, #0c171d 100%);
+  border: 1px solid #050b0e;
+  box-shadow: inset 0 1px 0 rgba(160, 196, 214, 0.12), 0 0 0 1px var(--rs3-border);
+  border-radius: 4px;
+}
+.rs3-ribbon-btn {
+  color: #a9bcc6;
+  background: linear-gradient(180deg, #23394a 0%, #15242e 55%, #0f1b22 100%);
+  border: 1px solid #070e12;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(180, 215, 232, 0.25), inset 0 0 0 1px rgba(106, 135, 151, 0.35);
+  transition: color 120ms, filter 120ms;
+}
+.rs3-ribbon-btn:hover {
+  color: var(--rs3-gold);
+  filter: brightness(1.25);
+}
+.rs3-ribbon-btn-active {
+  color: var(--rs3-gold);
+  box-shadow: inset 0 1px 0 rgba(180, 215, 232, 0.25), inset 0 0 0 1px rgba(232, 192, 107, 0.6);
+}
+
+/* The dark hover label RS3 shows over buttons. */
+.rs3-tooltip {
+  background: #070d10;
+  border: 1px solid var(--rs3-border);
+  color: #e6edf0;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* Circular stat orb (Life points / Prayer / Summoning style). */
+.rs3-orb {
+  background: radial-gradient(circle at 50% 35%, #2a4251 0%, #0e1a20 70%);
+  border: 1px solid #050b0e;
+  box-shadow: inset 0 1px 0 rgba(180, 215, 232, 0.25), 0 0 0 1px var(--rs3-border), 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* Stack and count numbers use RS3's yellow item-stack text. */
+.rs3-stack {
+  color: #ffff00;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* The action bar along the bottom of the screen. */
+.rs3-actionbar {
+  background: linear-gradient(180deg, #1d3140 0%, #111e26 40%, #0b151b 100%);
+  border: 1px solid #050b0e;
+  border-radius: 6px 6px 0 0;
+  box-shadow:
+    inset 0 1px 0 rgba(180, 215, 232, 0.22),
+    0 0 0 1px var(--rs3-border),
+    0 -6px 20px rgba(0, 0, 0, 0.6);
+}
+.rs3-action-slot {
+  background: radial-gradient(circle at 50% 40%, #142630 0%, #071014 80%);
+  border: 1px solid #2f4653;
+  border-radius: 3px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.85), 0 1px 0 rgba(106, 135, 151, 0.2);
+  color: #b8c9d2;
+  transition: border-color 120ms, color 120ms;
+}
+.rs3-action-slot:hover {
+  border-color: var(--rs3-gold);
+  color: #fff;
+}
+
+/* Adrenaline-style bar across the top of the action bar. */
+.rs3-adren {
+  height: 10px;
+  background: #050b0e;
+  border: 1px solid #2a3f4b;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+  position: relative;
+}
+.rs3-adren-fill {
+  height: 100%;
+  background: linear-gradient(180deg, #ffe08a 0%, #e8b13c 45%, #a8741c 100%);
+  box-shadow: 0 0 6px rgba(232, 192, 107, 0.6);
+  transition: width 500ms ease;
+}
+.rs3-adren-fill.is-danger {
+  background: linear-gradient(180deg, #ff9a8a 0%, #e0442f 45%, #8e1f12 100%);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.7);
+}
+
+/* Interface window frame: a slim title bar over the window body. */
+.rs3-window-padded > :not(.rs3-window-bar) {
+  margin-inline: 0.75rem;
+}
+.rs3-frame {
+  position: relative;
+}
+.rs3-window-bar {
+  background: linear-gradient(180deg, #2b4554 0%, #1a2c37 50%, #13222b 51%, #0f1b22 100%);
+  border-bottom: 1px solid #050b0e;
+  box-shadow: inset 0 1px 0 rgba(190, 222, 238, 0.25);
+}
+
 /* RS3-style scrollbar: a recessed track with a bevelled steel thumb. */
 ::-webkit-scrollbar {
   width: 10px;

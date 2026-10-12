@@ -200,11 +200,11 @@ export const JournalSummaryCard: React.FC<Props> = ({ onNavClick }) => {
   const noneLeft = recommendation.tab === null;
 
   return (
-    <section className="rs3-window rounded-lg p-4" aria-label="Journal summary">
-      <div className="flex items-center gap-2 mb-3">
+    <section className="rs3-window rs3-window-padded rounded-md overflow-hidden pb-3" aria-label="Journal summary">
+      <div className="rs3-window-bar h-7 px-2.5 flex items-center gap-2 mb-3">
         <WikiIcon file="Quest_list_icon.png" alt="" Fallback={Sparkles} size={14} />
-        <h3 className="text-xs font-bold rs3-title uppercase tracking-widest">Journal Summary</h3>
-        <span className="ml-auto text-[10px] text-gray-600">click to jump</span>
+        <h3 className="text-[12px] font-bold rs3-title tracking-wide">Journal Summary</h3>
+        <span className="ml-auto text-[10px] text-gray-500">click to jump</span>
       </div>
 
       {/* ── Recommended next action (advisory — hidden when advisors are off) ── */}
