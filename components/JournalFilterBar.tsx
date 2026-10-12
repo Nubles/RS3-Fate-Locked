@@ -54,7 +54,7 @@ export const JournalFilterBar: React.FC<JournalFilterBarProps> = ({
   const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
 
   return (
-    <div className="p-3 border-b border-white/10 bg-[#121d24] shrink-0 space-y-2">
+    <div className="p-3 border-b border-white/10 bg-[#1d1a17] shrink-0 space-y-2">
       {/* Top row: title + progress + extras */}
       <div className="flex items-center gap-3">
         <h2 className={`text-sm font-bold flex items-center gap-2 ${accent.split(' ').find((c) => c.startsWith('text-')) || ''}`}>

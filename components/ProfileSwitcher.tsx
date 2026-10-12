@@ -61,14 +61,14 @@ export const ProfileSwitcher: React.FC = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-2.5 py-1 bg-[#192a34] border border-white/10 rounded-lg text-xs text-gray-300 hover:text-white hover:border-white/20 transition-colors max-w-[160px]"
+        className="flex items-center gap-1.5 px-2.5 py-1 bg-[#292521] border border-white/10 rounded-lg text-xs text-gray-300 hover:text-white hover:border-white/20 transition-colors max-w-[160px]"
       >
         <span className="truncate font-medium">{activeProfileName}</span>
         <ChevronDown size={12} className={`shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
 
       {open && (
-        <div className="absolute top-full mt-1 right-0 w-64 bg-[#192a34] border border-white/10 rounded-lg shadow-2xl z-[100] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
+        <div className="absolute top-full mt-1 right-0 w-64 bg-[#292521] border border-white/10 rounded-lg shadow-2xl z-[100] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
           <div className="px-3 py-2 border-b border-white/5">
             <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500">Profiles</span>
           </div>

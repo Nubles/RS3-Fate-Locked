@@ -35,7 +35,7 @@ export class PanelErrorBoundary extends Component<Props, State> {
 
     return (
       <div className="h-full min-h-[160px] flex items-center justify-center p-6">
-        <div className="bg-[#15222a] border border-red-500/30 rounded-lg p-5 max-w-sm text-center">
+        <div className="bg-[#211e1b] border border-red-500/30 rounded-lg p-5 max-w-sm text-center">
           <AlertTriangle className="w-8 h-8 text-red-400 mx-auto mb-3" />
           <h3 className="text-sm font-bold text-red-300 mb-1">
             {this.props.name} hit an error

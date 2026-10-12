@@ -200,10 +200,10 @@ export const JournalSummaryCard: React.FC<Props> = ({ onNavClick }) => {
   const noneLeft = recommendation.tab === null;
 
   return (
-    <section className="rs3-window rs3-window-padded rounded-md overflow-hidden pb-3" aria-label="Journal summary">
+    <section className="rs3-window rs3-window-padded rounded-[3px] overflow-hidden pb-3" aria-label="Journal summary">
       <div className="rs3-window-bar h-7 px-2.5 flex items-center gap-2 mb-3">
         <WikiIcon file="Quest_list_icon.png" alt="" Fallback={Sparkles} size={14} />
-        <h3 className="text-[12px] font-bold rs3-title tracking-wide">Journal Summary</h3>
+        <h3 className="rs3-title text-[14px] leading-none">Journal Summary</h3>
         <span className="ml-auto text-[10px] text-gray-500">click to jump</span>
       </div>
 
@@ -240,7 +240,7 @@ export const JournalSummaryCard: React.FC<Props> = ({ onNavClick }) => {
             onClick={() => onNavClick(row.key)}
             aria-label={`${row.label}: ${row.headline}, ${row.sub}`}
             style={{ animationDelay: `${idx * 40}ms` }}
-            className="w-full text-left bg-[#121d24] border border-white/5 rounded-lg px-3 py-2 hover:bg-white/5 hover:border-white/10 transition-all group outline-none focus-visible:ring-2 focus-visible:ring-white/30 animate-in fade-in slide-in-from-bottom-1 duration-300 fill-mode-both"
+            className="w-full text-left bg-[#1d1a17] border border-white/5 rounded-lg px-3 py-2 hover:bg-white/5 hover:border-white/10 transition-all group outline-none focus-visible:ring-2 focus-visible:ring-white/30 animate-in fade-in slide-in-from-bottom-1 duration-300 fill-mode-both"
           >
             <div className="flex items-center gap-2 mb-1.5">
               <span className={row.accent} aria-hidden>{row.icon}</span>

@@ -191,8 +191,8 @@ export const StrategyGuide: React.FC<{ onClose: () => void }> = ({ onClose }) =>
 
     return (
         <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Strategy guide" tabIndex={-1} className="fixed inset-0 z-[150] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 animate-in fade-in zoom-in-95 duration-200">
-            <div className="bg-[#0c1419] border border-gray-700 w-full max-w-5xl h-[85vh] rounded-xl flex flex-col shadow-2xl overflow-hidden">
-                <div className="bg-[#121d24] p-4 border-b border-gray-700 flex justify-between items-center shrink-0">
+            <div className="bg-[#141210] border border-gray-700 w-full max-w-5xl h-[85vh] rounded-xl flex flex-col shadow-2xl overflow-hidden">
+                <div className="bg-[#1d1a17] p-4 border-b border-gray-700 flex justify-between items-center shrink-0">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-emerald-900/30 rounded border border-emerald-500/30">
                             <Compass className="w-5 h-5 text-emerald-400" />
@@ -229,7 +229,7 @@ export const StrategyGuide: React.FC<{ onClose: () => void }> = ({ onClose }) =>
                     </button>
                 </div>
 
-                <div className="bg-[#0f191f] border-b border-white/5 p-3 shrink-0 flex flex-col gap-3">
+                <div className="bg-[#181614] border-b border-white/5 p-3 shrink-0 flex flex-col gap-3">
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
                         <input 
@@ -261,7 +261,7 @@ export const StrategyGuide: React.FC<{ onClose: () => void }> = ({ onClose }) =>
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-hidden bg-[#070b0e] relative">
+                <div className="flex-1 overflow-hidden bg-[#0b0a09] relative">
                     {activeTab === 'PLAYABLE' && (
                         <div className="h-full overflow-y-auto custom-scrollbar p-6">
                             {filteredPlayable.length === 0 ? (
@@ -274,7 +274,7 @@ export const StrategyGuide: React.FC<{ onClose: () => void }> = ({ onClose }) =>
                                     {filteredPlayable.map(content => {
                                         const isPinned = pinnedGoals.includes(content.uniqueId);
                                         return (
-                                            <div key={content.uniqueId} className="bg-[#121d24] border border-emerald-500/30 p-4 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.05)] hover:bg-[#16242d] transition-colors group relative flex flex-col h-full">
+                                            <div key={content.uniqueId} className="bg-[#1d1a17] border border-emerald-500/30 p-4 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.05)] hover:bg-[#24201c] transition-colors group relative flex flex-col h-full">
                                                 <div className="flex justify-between items-start mb-2">
                                                     <span className="text-[9px] font-bold text-emerald-400 bg-emerald-900/20 px-2 py-0.5 rounded border border-emerald-500/20 uppercase tracking-wide">
                                                         {content.category}
@@ -316,7 +316,7 @@ export const StrategyGuide: React.FC<{ onClose: () => void }> = ({ onClose }) =>
                                         const progressColor = completionPercent > 75 ? 'bg-green-500' : completionPercent > 40 ? 'bg-yellow-500' : 'bg-red-500';
                                         
                                         return (
-                                            <div key={content.uniqueId} className="bg-[#0f191f] border border-white/5 rounded-lg p-4 flex flex-col lg:flex-row gap-6 relative overflow-hidden group hover:border-white/10 transition-colors">
+                                            <div key={content.uniqueId} className="bg-[#181614] border border-white/5 rounded-lg p-4 flex flex-col lg:flex-row gap-6 relative overflow-hidden group hover:border-white/10 transition-colors">
                                                 <div className="absolute bottom-0 left-0 h-1 bg-white/5 w-full"><div className={`h-full ${progressColor} transition-all duration-500`} style={{ width: `${completionPercent}%` }}></div></div>
                                                 <div className="lg:w-1/3 shrink-0 flex flex-col">
                                                     <div className="flex justify-between items-start mb-2">
@@ -385,7 +385,7 @@ export const StrategyGuide: React.FC<{ onClose: () => void }> = ({ onClose }) =>
                                     const isPinned = pinnedGoals.includes(content.uniqueId);
                                     
                                     return (
-                                        <div key={content.uniqueId} className="bg-[#121d24] border border-white/5 rounded-lg p-4 flex items-center gap-4 hover:bg-[#16242d] transition-colors group">
+                                        <div key={content.uniqueId} className="bg-[#1d1a17] border border-white/5 rounded-lg p-4 flex items-center gap-4 hover:bg-[#24201c] transition-colors group">
                                             <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-900/40 border border-purple-500/30 flex items-center justify-center font-bold text-purple-300 text-sm">
                                                 #{idx + 1}
                                             </div>

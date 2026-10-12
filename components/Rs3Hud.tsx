@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
 
 /**
- * Building blocks for the RS3 game-screen layout: the ribbon of square menu
- * buttons along the top, the circular stat orbs, the action-bar slots along
- * the bottom, and the framed interface windows the panels sit in.
+ * Building blocks for the RS3 game-screen layout: the ribbon of menu buttons
+ * along the top, the action bar (stat readouts and slots) along the bottom,
+ * and the bronze-framed interface windows the panels sit in.
  */
 
 interface RibbonButtonProps {
@@ -32,42 +32,35 @@ export const RibbonButton: React.FC<RibbonButtonProps> = ({ label, onClick, chil
   </button>
 );
 
-interface StatOrbProps {
+interface ActionStatProps {
   label: string;
   value: ReactNode;
-  /** 0–1 share of the ring to fill. */
-  fill: number;
-  color: string;
   icon: ReactNode;
+  /** 0–1 share of the stat bar to fill; omit for a count with no bar. */
+  fill?: number;
+  /** RS3 stat colour for the bar. */
+  tone?: 'adren' | 'lp' | 'prayer' | 'summon';
   dim?: boolean;
   title?: string;
+  className?: string;
 }
 
-/** A circular RS3 orb (like Life points or Prayer): a filled ring around an icon, value below. */
-export const StatOrb: React.FC<StatOrbProps> = ({ label, value, fill, color, icon, dim, title }) => {
-  const r = 20;
-  const c = 2 * Math.PI * r;
-  const f = Math.max(0, Math.min(1, fill));
-  return (
-    <div className={`flex flex-col items-center gap-0.5 ${dim ? 'opacity-50' : ''}`} title={title ?? label}>
-      <div className="rs3-orb relative w-12 h-12 rounded-full flex items-center justify-center">
-        <svg className="absolute inset-0 -rotate-90" viewBox="0 0 48 48" aria-hidden="true">
-          <circle cx="24" cy="24" r={r} fill="none" stroke="rgba(0,0,0,0.6)" strokeWidth="4" />
-          <circle
-            cx="24" cy="24" r={r} fill="none" stroke={color} strokeWidth="4"
-            strokeDasharray={c} strokeDashoffset={c * (1 - f)}
-            style={{ transition: 'stroke-dashoffset 500ms ease', filter: `drop-shadow(0 0 3px ${color})` }}
-          />
-        </svg>
-        <div className="relative w-8 h-8 rounded-full bg-[#081116] border border-black flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)]">
-          {icon}
+/** One readout on the action bar's stat row: icon, value and a thin stat bar, like Life points or Adrenaline. */
+export const ActionStat: React.FC<ActionStatProps> = ({ label, value, icon, fill, tone = 'adren', dim, title, className = '' }) => (
+  <div className={`flex items-center gap-1.5 ${dim ? 'opacity-50' : ''} ${className}`} title={title ?? label}>
+    <span className="w-6 h-6 shrink-0 flex items-center justify-center">{icon}</span>
+    <div className="flex-1 min-w-0 flex flex-col gap-0.5">
+      <span className="text-[12px] leading-none font-semibold text-[#f0e6d6] [text-shadow:1px_1px_0_#000] whitespace-nowrap">
+        <span className="sr-only">{label}: </span>{value}
+      </span>
+      {fill !== undefined && (
+        <div className="rs3-statbar w-full">
+          <div className={`rs3-statbar-fill is-${tone}`} style={{ width: `${Math.max(0, Math.min(1, fill)) * 100}%` }} />
         </div>
-      </div>
-      <span className="rs3-stack text-[11px] leading-none font-bold">{value}</span>
-      <span className="sr-only">{label}</span>
+      )}
     </div>
-  );
-};
+  </div>
+);
 
 interface ActionSlotProps {
   label: string;
@@ -107,12 +100,12 @@ interface Rs3WindowProps {
   bodyClassName?: string;
 }
 
-/** An RS3 interface window: a slim title bar with a gold title over a framed body. */
+/** An RS3 interface window: a dark title bar with a centred gold title over a bronze-framed body. */
 export const Rs3Window: React.FC<Rs3WindowProps> = ({ title, icon, children, className = '', bodyClassName = '' }) => (
-  <section className={`rs3-window rs3-frame rounded-md flex flex-col overflow-hidden ${className}`} aria-label={title}>
-    <div className="rs3-window-bar shrink-0 h-7 px-2.5 flex items-center gap-2">
-      {icon && <span className="flex items-center opacity-90">{icon}</span>}
-      <h2 className="rs3-title text-[12px] font-bold tracking-wide truncate">{title}</h2>
+  <section className={`rs3-window rs3-frame rounded-[3px] flex flex-col overflow-hidden ${className}`} aria-label={title}>
+    <div className="rs3-window-bar shrink-0 h-7 px-2.5 flex items-center justify-center gap-2">
+      {icon && <span className="flex items-center">{icon}</span>}
+      <h2 className="rs3-title text-[14px] leading-none truncate">{title}</h2>
     </div>
     <div className={`flex-1 min-h-0 ${bodyClassName}`}>{children}</div>
   </section>

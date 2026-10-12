@@ -68,7 +68,7 @@ export const RivalModal: React.FC<Props> = ({ onClose }) => {
         )}
 
         {/* The race */}
-        <div className="rounded-xl bg-[#121d24] border border-white/10 p-4 space-y-3">
+        <div className="rounded-xl bg-[#1d1a17] border border-white/10 p-4 space-y-3">
           <RaceBar label="You" emoji="🧑‍🚀" pct={playerPct} color="bg-cyan-500" accent="text-cyan-300" leading={st.leader === 'you'} />
           <RaceBar label={rival.name} emoji={rival.emoji} pct={rivalPct} color="bg-fuchsia-500" accent="text-fuchsia-300" leading={st.leader === 'rival'} />
           <div className="pt-1 text-center">
@@ -85,11 +85,11 @@ export const RivalModal: React.FC<Props> = ({ onClose }) => {
         {/* Projections (sim only) */}
         {rival.mode === 'sim' && (
           <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl bg-[#121d24] border border-white/10 p-3">
+            <div className="rounded-xl bg-[#1d1a17] border border-white/10 p-3">
               <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-widest text-gray-500 mb-1"><Zap size={11} className="text-fuchsia-400" /> Catches your {playerPct}%</div>
               <div className="text-[15px] font-bold text-gray-100">{st.lead <= 0 ? 'already has' : catchUp != null ? `in ~${fmtDays(catchUp)}` : '—'}</div>
             </div>
-            <div className="rounded-xl bg-[#121d24] border border-white/10 p-3">
+            <div className="rounded-xl bg-[#1d1a17] border border-white/10 p-3">
               <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-widest text-gray-500 mb-1"><Clock size={11} className="text-emerald-400" /> Reaches 100%</div>
               <div className="text-[15px] font-bold text-gray-100">{reach100 != null ? `~${fmtDays(reach100)}` : '—'}</div>
             </div>
@@ -98,7 +98,7 @@ export const RivalModal: React.FC<Props> = ({ onClose }) => {
 
         {/* Rival's notable unlocks */}
         {recent.length > 0 && (
-          <div className="rounded-xl bg-[#121d24] border border-white/10 p-4">
+          <div className="rounded-xl bg-[#1d1a17] border border-white/10 p-4">
             <div className="text-[9px] uppercase tracking-widest text-gray-500 mb-2">{rival.name} recently grabbed</div>
             <div className="space-y-1.5">
               {recent.map((h) => (
@@ -144,8 +144,8 @@ const RaceBar: React.FC<{ label: string; emoji: string; pct: number; color: stri
 // ── Modal shell ──────────────────────────────────────────────────────────────
 const Shell: React.FC<{ onClose: () => void; title: string; subtitle: string; children: React.ReactNode }> = ({ onClose, title, subtitle, children }) => (
   <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200" onClick={onClose} role="dialog" aria-modal="true" aria-label="Rival Ghost">
-    <div className="bg-[#0f191f] border border-white/10 rounded-xl shadow-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
-      <div className="flex items-center gap-3 p-4 border-b border-white/10 bg-[#131f26] shrink-0">
+    <div className="bg-[#181614] border border-white/10 rounded-xl shadow-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
+      <div className="flex items-center gap-3 p-4 border-b border-white/10 bg-[#1e1b18] shrink-0">
         <div className="p-2 bg-fuchsia-900/20 rounded-lg border border-fuchsia-500/30 text-fuchsia-300"><Swords size={18} /></div>
         <div className="flex-1 min-w-0">
           <h2 className="text-base font-bold text-white leading-none truncate flex items-center gap-1.5">{title} <SectionGuide id="RIVAL" /></h2>
@@ -184,7 +184,7 @@ const Setup: React.FC<{ onClose: () => void; onStart: (r: ReturnType<typeof make
           {RIVAL_PERSONAS.map((p) => {
             const active = picked === p.id;
             return (
-              <button key={p.id} onClick={() => setPicked(p.id)} className={`w-full flex items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition-colors ${active ? 'border-fuchsia-500/50 bg-fuchsia-950/30' : 'border-white/10 bg-[#121d24] hover:bg-white/5'}`}>
+              <button key={p.id} onClick={() => setPicked(p.id)} className={`w-full flex items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition-colors ${active ? 'border-fuchsia-500/50 bg-fuchsia-950/30' : 'border-white/10 bg-[#1d1a17] hover:bg-white/5'}`}>
                 <span className="text-2xl">{p.emoji}</span>
                 <div className="flex-1 min-w-0">
                   <div className={`text-[13px] font-bold ${active ? 'text-fuchsia-200' : 'text-gray-200'}`}>{p.name}</div>
@@ -216,8 +216,8 @@ const Setup: React.FC<{ onClose: () => void; onStart: (r: ReturnType<typeof make
           />
           {error && <p className="text-[10px] text-red-400 flex items-center gap-1"><AlertTriangle size={11} /> {error}</p>}
           <div className="flex items-center gap-2">
-            <button onClick={async () => { try { setFriendCode(await navigator.clipboard.readText()); } catch { /* blocked */ } }} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#192a34] border border-white/10 hover:bg-[#1f333f] text-gray-300 text-[11px] font-medium"><ClipboardPaste size={13} /> Paste</button>
-            <button onClick={startFriend} disabled={!friendCode.trim() || decoding} className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#192a34] border border-fuchsia-500/30 hover:bg-fuchsia-950/40 disabled:opacity-40 disabled:cursor-not-allowed text-fuchsia-300 text-[11px] font-bold">
+            <button onClick={async () => { try { setFriendCode(await navigator.clipboard.readText()); } catch { /* blocked */ } }} className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#292521] border border-white/10 hover:bg-[#322d28] text-gray-300 text-[11px] font-medium"><ClipboardPaste size={13} /> Paste</button>
+            <button onClick={startFriend} disabled={!friendCode.trim() || decoding} className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#292521] border border-fuchsia-500/30 hover:bg-fuchsia-950/40 disabled:opacity-40 disabled:cursor-not-allowed text-fuchsia-300 text-[11px] font-bold">
               {decoding ? <><Loader2 size={13} className="animate-spin" /> Reading…</> : <><Flag size={13} /> Race this run</>}
             </button>
           </div>

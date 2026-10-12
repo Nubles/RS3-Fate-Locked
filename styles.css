@@ -3,51 +3,68 @@
 @tailwind utilities;
 
 /* ── RS3 interface theme ────────────────────────────────────────────────
-   The app is styled after the RuneScape 3 (NXT) interface: deep steel-blue
-   panels, bevelled steel borders, gradient title bars with gold titles and
-   cyan highlights. Colours live in tailwind.config.js (rs3.* and the
-   retinted gray scale); these classes add the window chrome. */
+   Styled after the RS3 (NXT) game interface. Colours are sampled from
+   in-game captures: dark warm-brown window bodies, a bronze bevelled frame
+   with a gold top edge, a dark title bar with gold serif small-caps titles,
+   maroon buttons, rounded brown tabs and a gold scrollbar. */
 :root {
-  --rs3-bg: #0a1419;
-  --rs3-panel: #13212a;
-  --rs3-panel-hi: #1c2f3a;
-  --rs3-border: #3a5361;
-  --rs3-border-hi: #6a8797;
-  --rs3-gold: #e8c06b;
-  --rs3-accent: #4cc4e2;
+  --rs3-bg: #0f0d0b;
+  --rs3-body: #1e1b18;
+  --rs3-body-hi: #23211c;
+  --rs3-bronze: #745d39;
+  --rs3-bronze-hi: #9a7e4e;
+  --rs3-bronze-lo: #4d3d26;
+  --rs3-edge: #0f0e0c;
+  --rs3-gold: #f0be79;
+  --rs3-gold-text: #dcb58d;
+  --rs3-title-font: 'Cinzel', 'Trajan Pro', Georgia, serif;
 }
 
 body {
   background-color: var(--rs3-bg);
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(76, 196, 226, 0.08), transparent 70%),
-    radial-gradient(ellipse 60% 40% at 50% 110%, rgba(232, 192, 107, 0.04), transparent 70%);
+    radial-gradient(ellipse 90% 60% at 50% 0%, rgba(120, 90, 50, 0.16), transparent 70%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(60, 45, 30, 0.25), transparent 70%);
   background-attachment: fixed;
-  color: #d4dee3;
+  color: #e8e2d8;
 }
 
-/* A framed RS3 interface window: steel border with a light top bevel and a
-   dark inner edge. */
+/* An RS3 interface window: near-black outline, bronze bevel with a gold top
+   edge, and a dark inner line around the brown body. */
 .rs3-window {
-  background: linear-gradient(180deg, #172832 0%, var(--rs3-panel) 120px);
-  border: 1px solid var(--rs3-border);
+  background-color: var(--rs3-body);
+  background-image: linear-gradient(180deg, rgba(255, 240, 210, 0.025), transparent 160px);
+  border: 2px solid var(--rs3-bronze);
+  border-top-color: #93743f;
+  border-bottom-color: var(--rs3-bronze-lo);
   box-shadow:
-    inset 0 1px 0 rgba(160, 196, 214, 0.18),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.55),
-    0 6px 18px rgba(0, 0, 0, 0.5);
+    0 0 0 1px var(--rs3-edge),
+    inset 0 1px 0 rgba(188, 150, 83, 0.55),
+    inset 0 0 0 1px #110f0d,
+    0 8px 22px rgba(0, 0, 0, 0.6);
 }
 
-/* The gradient title bar that tops RS3 windows and the top HUD. */
-.rs3-titlebar {
-  background: linear-gradient(180deg, #2a4351 0%, #1b2d38 48%, #14232c 52%, #101c23 100%);
-  border-bottom: 1px solid #050b0e;
-  box-shadow:
-    inset 0 1px 0 rgba(170, 205, 222, 0.22),
-    0 1px 0 rgba(106, 135, 151, 0.25);
+/* Title bar across the top of a window (and the top HUD strip). */
+.rs3-titlebar,
+.rs3-window-bar {
+  background: linear-gradient(180deg, #23201c 0%, #2b2722 60%, #332e28 100%);
+  border-bottom: 1px solid var(--rs3-edge);
+  box-shadow: 0 1px 0 #3b2e1b;
 }
 
-/* Gold window titles, with the hard drop shadow RS3 puts under its text. */
+/* The leather-brown strip used for the top HUD. */
+.rs3-hudbar {
+  background: linear-gradient(180deg, #4a3020 0%, #3c2413 55%, #2e1c0f 100%);
+  border-bottom: 2px solid var(--rs3-bronze);
+  box-shadow: 0 1px 0 var(--rs3-edge), inset 0 1px 0 rgba(188, 150, 83, 0.35), 0 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+/* Gold serif small-caps titles with a hard drop shadow, like RS3 headers. */
 .rs3-title {
+  font-family: var(--rs3-title-font);
+  font-variant: small-caps;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   color: var(--rs3-gold);
   text-shadow: 1px 1px 0 #000;
 }
@@ -55,80 +72,104 @@ body {
   text-shadow: 1px 1px 0 #000;
 }
 
-/* Tabs along the top of a window. The active one lifts into the window,
-   like the RS3 ribbon tabs; its coloured underline comes from the tab. */
+/* Rounded-top tabs. The active one is lighter brown and joins its window. */
 .rs3-tab {
-  background: linear-gradient(180deg, #1a2b35 0%, #111d24 100%);
-  border-right: 1px solid #070e12;
-  box-shadow: inset 0 1px 0 rgba(160, 196, 214, 0.1);
+  background: linear-gradient(180deg, #2c221d 0%, #241c18 100%);
+  border: 1px solid #574930;
+  border-bottom-color: transparent;
+  border-radius: 6px 6px 0 0;
+  margin: 4px 1px 0;
+  box-shadow: inset 0 1px 0 rgba(188, 150, 83, 0.18);
 }
 .rs3-tab:hover {
-  background: linear-gradient(180deg, #223845 0%, #16252e 100%);
+  background: linear-gradient(180deg, #3a2a20 0%, #2c211a 100%);
 }
 .rs3-tab-active {
-  background: linear-gradient(180deg, #2b4757 0%, #1c2f3a 100%);
-  box-shadow: inset 0 1px 0 rgba(180, 215, 232, 0.28);
+  background: linear-gradient(180deg, #5a3e28 0%, #4e3523 55%, #3e2a1c 100%);
+  border: 1px solid #8a6d42;
+  border-bottom-color: transparent;
+  border-radius: 6px 6px 0 0;
+  margin: 4px 1px 0;
+  box-shadow: inset 0 1px 0 rgba(240, 190, 121, 0.35);
 }
 
-/* Bevelled steel button / icon tray. */
+.rs3-tab-label {
+  font-family: var(--rs3-title-font);
+  font-variant: small-caps;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* Maroon RS3 button with gold serif caps. */
+.rs3-btn {
+  font-family: var(--rs3-title-font);
+  font-variant: small-caps;
+  font-weight: 700;
+  color: var(--rs3-gold-text);
+  background: linear-gradient(180deg, #4a3030 0%, #3f2929 50%, #352121 100%);
+  border: 1px solid #261415;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(166, 133, 107, 0.35), 0 0 0 1px #513b35;
+  text-shadow: 1px 1px 0 #000;
+}
+.rs3-btn:hover {
+  filter: brightness(1.2);
+}
+
+/* Small square tray (icon button group). */
 .rs3-tray {
-  background: linear-gradient(180deg, #1f3440 0%, #142229 100%);
-  border: 1px solid var(--rs3-border);
-  box-shadow: inset 0 1px 0 rgba(170, 205, 222, 0.15), 0 1px 2px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(180deg, #2b2620 0%, #1c1916 100%);
+  border: 1px solid var(--rs3-bronze-lo);
+  box-shadow: inset 0 1px 0 rgba(188, 150, 83, 0.2), 0 0 0 1px var(--rs3-edge);
 }
 
-/* Inventory-style slot: a recessed dark square. */
+/* Recessed item slot. */
 .rs3-slot {
-  background: #0b161c;
-  border: 1px solid #2a3f4b;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7), 0 1px 0 rgba(106, 135, 151, 0.15);
+  background: #14110f;
+  border: 1px solid #3a3027;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 /* ── RS3 game-screen HUD ─────────────────────────────────────────────── */
 
-/* Ribbon: the row of square menu buttons along the top of the screen. */
+/* Ribbon: the row of gold-iconed menu buttons. */
 .rs3-ribbon {
-  background: linear-gradient(180deg, #16262f 0%, #0c171d 100%);
-  border: 1px solid #050b0e;
-  box-shadow: inset 0 1px 0 rgba(160, 196, 214, 0.12), 0 0 0 1px var(--rs3-border);
-  border-radius: 4px;
+  background: linear-gradient(180deg, #221d18 0%, #161310 100%);
+  border: 1px solid var(--rs3-bronze);
+  border-top-color: #93743f;
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px var(--rs3-edge), inset 0 0 0 1px #0d0b09;
 }
 .rs3-ribbon-btn {
-  color: #a9bcc6;
-  background: linear-gradient(180deg, #23394a 0%, #15242e 55%, #0f1b22 100%);
-  border: 1px solid #070e12;
-  border-radius: 3px;
-  box-shadow: inset 0 1px 0 rgba(180, 215, 232, 0.25), inset 0 0 0 1px rgba(106, 135, 151, 0.35);
+  color: #c7a27f;
+  background: linear-gradient(180deg, #2e2822 0%, #211d19 55%, #181512 100%);
+  border: 1px solid #0d0b09;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 rgba(188, 150, 83, 0.28), inset 0 0 0 1px rgba(116, 93, 57, 0.45);
   transition: color 120ms, filter 120ms;
 }
 .rs3-ribbon-btn:hover {
-  color: var(--rs3-gold);
-  filter: brightness(1.25);
+  color: #ffe2a8;
+  filter: brightness(1.2);
 }
 .rs3-ribbon-btn-active {
   color: var(--rs3-gold);
-  box-shadow: inset 0 1px 0 rgba(180, 215, 232, 0.25), inset 0 0 0 1px rgba(232, 192, 107, 0.6);
+  box-shadow: inset 0 1px 0 rgba(240, 190, 121, 0.4), inset 0 0 0 1px rgba(240, 190, 121, 0.7);
 }
 
-/* The dark hover label RS3 shows over buttons. */
+/* RS3 hover label. */
 .rs3-tooltip {
-  background: #070d10;
-  border: 1px solid var(--rs3-border);
-  color: #e6edf0;
+  background: #0f0d0b;
+  border: 1px solid var(--rs3-bronze);
+  color: #f0e6d6;
   font-size: 11px;
   padding: 2px 7px;
   border-radius: 2px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
 }
 
-/* Circular stat orb (Life points / Prayer / Summoning style). */
-.rs3-orb {
-  background: radial-gradient(circle at 50% 35%, #2a4251 0%, #0e1a20 70%);
-  border: 1px solid #050b0e;
-  box-shadow: inset 0 1px 0 rgba(180, 215, 232, 0.25), 0 0 0 1px var(--rs3-border), 0 2px 6px rgba(0, 0, 0, 0.7);
-}
-
-/* Stack and count numbers use RS3's yellow item-stack text. */
+/* Yellow item-stack numbers. */
 .rs3-stack {
   color: #ffff00;
   text-shadow: 1px 1px 0 #000;
@@ -136,85 +177,86 @@ body {
 
 /* The action bar along the bottom of the screen. */
 .rs3-actionbar {
-  background: linear-gradient(180deg, #1d3140 0%, #111e26 40%, #0b151b 100%);
-  border: 1px solid #050b0e;
-  border-radius: 6px 6px 0 0;
-  box-shadow:
-    inset 0 1px 0 rgba(180, 215, 232, 0.22),
-    0 0 0 1px var(--rs3-border),
-    0 -6px 20px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(180deg, #1d1a18 0%, #181513 100%);
+  border: 2px solid var(--rs3-bronze);
+  border-top-color: #93743f;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 0 0 1px var(--rs3-edge), inset 0 1px 0 rgba(188, 150, 83, 0.4), 0 -6px 20px rgba(0, 0, 0, 0.6);
 }
 .rs3-action-slot {
-  background: radial-gradient(circle at 50% 40%, #142630 0%, #071014 80%);
-  border: 1px solid #2f4653;
-  border-radius: 3px;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.85), 0 1px 0 rgba(106, 135, 151, 0.2);
-  color: #b8c9d2;
+  background: radial-gradient(circle at 50% 40%, #241d16 0%, #0d0907 85%);
+  border: 1px solid #3a3027;
+  border-radius: 2px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.85);
+  color: #c7a27f;
   transition: border-color 120ms, color 120ms;
 }
 .rs3-action-slot:hover {
   border-color: var(--rs3-gold);
-  color: #fff;
+  color: #ffe2a8;
 }
 
-/* Adrenaline-style bar across the top of the action bar. */
-.rs3-adren {
-  height: 10px;
-  background: #050b0e;
-  border: 1px solid #2a3f4b;
-  border-radius: 2px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.9);
+/* Action-bar stat bars: thin recessed tracks with RS3's stat colours. */
+.rs3-statbar {
+  height: 7px;
+  background: #241e1a;
+  border: 1px solid #0d0b09;
+  box-shadow: 0 0 0 1px #3a3027, inset 0 1px 2px rgba(0, 0, 0, 0.8);
   overflow: hidden;
   position: relative;
 }
-.rs3-adren-fill {
+.rs3-statbar-fill {
   height: 100%;
-  background: linear-gradient(180deg, #ffe08a 0%, #e8b13c 45%, #a8741c 100%);
-  box-shadow: 0 0 6px rgba(232, 192, 107, 0.6);
   transition: width 500ms ease;
 }
-.rs3-adren-fill.is-danger {
-  background: linear-gradient(180deg, #ff9a8a 0%, #e0442f 45%, #8e1f12 100%);
-  box-shadow: 0 0 8px rgba(239, 68, 68, 0.7);
+.rs3-statbar-fill.is-adren  { background: linear-gradient(180deg, #ffd08a 0%, #efad74 40%, #bf7454 100%); }
+.rs3-statbar-fill.is-lp     { background: linear-gradient(180deg, #f87650 0%, #f35737 60%, #b8371f 100%); }
+.rs3-statbar-fill.is-prayer { background: linear-gradient(180deg, #8d6dc4 0%, #7451ab 60%, #523883 100%); }
+.rs3-statbar-fill.is-summon { background: linear-gradient(180deg, #7cc967 0%, #5caf47 60%, #3f8030 100%); }
+
+/* RS3 progress bar: green fill in a recessed, grey-bevelled track. */
+.rs3-progress {
+  background: #0e0d0c;
+  border: 1px solid #000;
+  box-shadow: 0 0 0 1px #858584, inset 0 2px 3px rgba(0, 0, 0, 0.9);
+}
+.rs3-progress-fill {
+  background: linear-gradient(180deg, #85b476 0%, #4f8a3c 45%, #315326 100%);
 }
 
-/* Interface window frame: a slim title bar over the window body. */
-.rs3-window-padded > :not(.rs3-window-bar) {
-  margin-inline: 0.75rem;
-}
+/* Window frame helpers. */
 .rs3-frame {
   position: relative;
 }
-.rs3-window-bar {
-  background: linear-gradient(180deg, #2b4554 0%, #1a2c37 50%, #13222b 51%, #0f1b22 100%);
-  border-bottom: 1px solid #050b0e;
-  box-shadow: inset 0 1px 0 rgba(190, 222, 238, 0.25);
+.rs3-window-padded > :not(.rs3-window-bar) {
+  margin-inline: 0.75rem;
 }
 
-/* RS3-style scrollbar: a recessed track with a bevelled steel thumb. */
+/* RS3 scrollbar: dark track with a gold, bevelled thumb. */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b161c;
-  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.8);
+  background: #171412;
+  box-shadow: inset 0 0 0 1px #0d0b09;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(90deg, #3a5361 0%, #5a7787 50%, #3a5361 100%);
-  border: 1px solid #0b161c;
+  background: linear-gradient(90deg, #ffee9d 0%, #fec980 35%, #b28b5a 65%, #684d2f 100%);
+  border: 1px solid #171412;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:horizontal {
-  background: linear-gradient(180deg, #3a5361 0%, #5a7787 50%, #3a5361 100%);
+  background: linear-gradient(180deg, #ffee9d 0%, #fec980 35%, #b28b5a 65%, #684d2f 100%);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(90deg, #4a6676 0%, #7392a3 50%, #4a6676 100%);
+  filter: brightness(1.1);
 }
 /* Firefox (setting this in Chromium would switch off the rules above). */
 @supports not selector(::-webkit-scrollbar) {
   * {
-    scrollbar-color: #4a6676 #0b161c;
+    scrollbar-color: #b28b5a #171412;
   }
 }
 
@@ -222,7 +264,7 @@ body {
    A consistent, visible focus ring for keyboard users only (focus-visible),
    so mouse clicks stay clean but tabbing is always legible. */
 :focus-visible {
-  outline: 2px solid rgba(251, 191, 36, 0.7); /* rs3-gold */
+  outline: 2px solid rgba(240, 190, 121, 0.8); /* rs3-gold */
   outline-offset: 2px;
   border-radius: 4px;
 }

@@ -79,7 +79,7 @@ export const GoalTracker: React.FC = () => {
           const isComplete = progress.percentage === 100;
 
           return (
-            <div key={id} className={`relative bg-[#121d24] border rounded-lg p-3 group transition-all ${isComplete ? 'border-green-500/30 bg-green-900/5' : 'border-white/10 hover:border-white/20'}`}>
+            <div key={id} className={`relative bg-[#1d1a17] border rounded-lg p-3 group transition-all ${isComplete ? 'border-green-500/30 bg-green-900/5' : 'border-white/10 hover:border-white/20'}`}>
               
               <div className="flex justify-between items-start mb-2">
                 <h4 className={`font-bold text-sm leading-tight pr-4 ${isComplete ? 'text-green-400' : 'text-gray-200'}`}>{id}</h4>

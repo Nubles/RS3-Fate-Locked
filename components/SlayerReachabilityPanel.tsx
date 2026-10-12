@@ -72,7 +72,7 @@ export const SlayerReachabilityPanel: React.FC = () => {
   const totalReady = reach.masters.reduce((a, m) => a + m.ready, 0);
 
   return (
-    <div className="mb-4 rounded-lg border border-rose-500/20 bg-[#0f191f] overflow-hidden">
+    <div className="mb-4 rounded-lg border border-rose-500/20 bg-[#181614] overflow-hidden">
       <div className="flex items-center gap-2 px-3 py-2 border-b border-white/5 bg-rose-950/15">
         <Skull size={13} className="text-rose-300" />
         <span className="text-[11px] font-bold uppercase tracking-wide text-rose-200">Slayer Task Reachability</span>

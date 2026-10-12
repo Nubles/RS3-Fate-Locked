@@ -77,7 +77,7 @@ const ActionMenu: React.FC<{ a: Action; onPick: (s: SubTab) => void; onClose: ()
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
-      <div className="absolute left-0 top-full mt-1 z-50 w-56 bg-[#0f191f] border border-white/15 rounded-lg shadow-2xl py-1 overflow-hidden">
+      <div className="absolute left-0 top-full mt-1 z-50 w-56 bg-[#181614] border border-white/15 rounded-lg shadow-2xl py-1 overflow-hidden">
         <div className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-gray-500 truncate border-b border-white/5 mb-1">{a.name}</div>
         <Row icon={<ListChecks size={12} />} label="Open in the list" onClick={() => {
           onPick(a.sub);
@@ -149,7 +149,7 @@ export const JournalNextBest: React.FC<{ onPick: (sub: SubTab) => void }> = ({ o
   const ready = actions.filter(a => a.unmet === 0).length;
 
   return (
-    <div className="shrink-0 border-b border-white/5 bg-[#0f191f]">
+    <div className="shrink-0 border-b border-white/5 bg-[#181614]">
       <button onClick={() => setOpen(o => !o)} className="w-full flex items-center gap-2 px-3 py-1.5 text-left">
         {open ? <ChevronDown size={12} className="text-gray-500" /> : <ChevronRight size={12} className="text-gray-500" />}
         <Sparkles size={12} className="text-amber-300" />

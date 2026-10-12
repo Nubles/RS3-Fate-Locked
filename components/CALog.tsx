@@ -135,7 +135,7 @@ export const CALog: React.FC<CALogProps> = ({ searchTerm: externalSearch = '' })
 
   // Lowest incomplete tiers — these are the player's next combat-achievement
   return (
-    <div className="flex flex-col h-full bg-[#0c1419] border border-white/10 rounded-lg overflow-hidden">
+    <div className="flex flex-col h-full bg-[#141210] border border-white/10 rounded-lg overflow-hidden">
       <JournalFilterBar
         title="Combat Achievements"
         icon={<Swords size={14} />}
@@ -182,7 +182,7 @@ export const CALog: React.FC<CALogProps> = ({ searchTerm: externalSearch = '' })
                 <div
                   key={ca.id}
                   data-journal-id={ca.id}
-                  className={`relative border rounded-lg transition-all group ${isCompleted ? 'bg-green-900/10 border-green-500/30 opacity-60' : `bg-[#121d24] ${style}`} ${highlightedId === ca.id ? 'ring-2 ring-amber-400/70 shadow-[0_0_20px_rgba(251,191,36,0.25)]' : ''}`}
+                  className={`relative border rounded-lg transition-all group ${isCompleted ? 'bg-green-900/10 border-green-500/30 opacity-60' : `bg-[#1d1a17] ${style}`} ${highlightedId === ca.id ? 'ring-2 ring-amber-400/70 shadow-[0_0_20px_rgba(251,191,36,0.25)]' : ''}`}
                 >
                     <div 
                         className="p-4 flex justify-between items-start cursor-pointer"

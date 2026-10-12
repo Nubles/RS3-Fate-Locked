@@ -75,7 +75,7 @@ const StepRow: React.FC<{ step: PlanStep; index?: number }> = ({ step, index }) 
     className={`flex items-center gap-2.5 px-2.5 py-1.5 rounded-md border text-left transition-colors ${
       step.done
         ? 'bg-emerald-950/20 border-emerald-500/15'
-        : 'bg-[#121d24] border-white/5'
+        : 'bg-[#1d1a17] border-white/5'
     }`}
   >
     {step.done ? (
@@ -174,11 +174,11 @@ export const GoalPlannerModal: React.FC<Props> = ({ onClose, initialTarget }) =>
       aria-label="Goal Planner"
     >
       <div
-        className="bg-[#0f191f] border border-white/10 rounded-xl shadow-2xl w-full max-w-3xl h-[80vh] flex flex-col overflow-hidden"
+        className="bg-[#181614] border border-white/10 rounded-xl shadow-2xl w-full max-w-3xl h-[80vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 p-4 border-b border-white/10 bg-[#131f26] shrink-0">
+        <div className="flex items-center gap-3 p-4 border-b border-white/10 bg-[#1e1b18] shrink-0">
           <div className="p-2 bg-cyan-900/20 rounded-lg border border-cyan-500/30 text-cyan-400">
             <Route size={18} />
           </div>

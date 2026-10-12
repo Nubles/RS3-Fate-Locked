@@ -190,7 +190,7 @@ export const CommandPalette: React.FC = () => {
       aria-label="Command palette"
     >
       <div
-        className="w-full max-w-xl bg-[#131f26] border border-white/15 rounded-xl shadow-[0_24px_70px_rgba(0,0,0,0.7)] overflow-hidden animate-in zoom-in-95 slide-in-from-top-2 duration-150"
+        className="w-full max-w-xl bg-[#1e1b18] border border-white/15 rounded-xl shadow-[0_24px_70px_rgba(0,0,0,0.7)] overflow-hidden animate-in zoom-in-95 slide-in-from-top-2 duration-150"
         onMouseDown={(e) => e.stopPropagation()}
         onKeyDown={onListKey}
       >

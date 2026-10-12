@@ -24,7 +24,7 @@ import { PanelErrorBoundary } from './components/PanelErrorBoundary';
 import { UpdateBanner } from './components/UpdateBanner';
 import { ModalFallback } from './components/LoadingFallback';
 import { JournalSummaryCard } from './components/JournalSummaryCard';
-import { RibbonButton, StatOrb, ActionSlot, Rs3Window } from './components/Rs3Hud';
+import { RibbonButton, ActionStat, ActionSlot, Rs3Window } from './components/Rs3Hud';
 import { useEscapeKey } from './hooks/useEscapeKey';
 import { resolveModeRules } from './config/gameModes';
 import { showToast } from './utils/toast';
@@ -63,8 +63,8 @@ class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryStat
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#0f191f] flex items-center justify-center p-8">
-          <div className="bg-[#15222a] border border-red-500/30 rounded-xl p-8 max-w-lg text-center">
+        <div className="min-h-screen bg-[#1a1714] flex items-center justify-center p-8">
+          <div className="bg-[#23201c] border border-red-500/30 rounded-xl p-8 max-w-lg text-center">
             <h1 className="text-2xl font-bold text-red-400 mb-4">Something went wrong</h1>
             <p className="text-gray-400 mb-4">
               The application encountered an error. Your save data is preserved in localStorage.
@@ -146,7 +146,7 @@ const ToastNotification = () => {
   if (!visible || !host) return null;
 
   return createPortal(
-    <div className="pointer-events-auto bg-[#17272f] border border-white/20 shadow-2xl rounded-lg p-3 flex items-center gap-4 animate-in slide-in-from-bottom-5 fade-in duration-300">
+    <div className="pointer-events-auto bg-[#27231f] border border-white/20 shadow-2xl rounded-lg p-3 flex items-center gap-4 animate-in slide-in-from-bottom-5 fade-in duration-300">
        <span className="text-sm font-bold text-gray-200">{message}</span>
     </div>,
     host,
@@ -230,15 +230,15 @@ const Header = ({ setShowAltar, setShowStats, setShowReference, setShowOracle, s
   return (
     <>
       {/* Top: title on the left, the RS3 ribbon of menu buttons on the right. */}
-      <header className="rs3-titlebar sticky top-0 z-50 shadow-xl">
+      <header className="rs3-hudbar sticky top-0 z-50">
         <div className="max-w-[1600px] mx-auto px-4 py-1.5 flex flex-col md:flex-row items-center justify-between gap-2">
           <div className="flex items-center gap-3 shrink-0">
-            <div className="rs3-orb w-9 h-9 rounded-full flex items-center justify-center">
+            <div className="rs3-slot w-9 h-9 rounded-sm flex items-center justify-center">
               <WikiIcon file="Crystal_key.png" alt="Fate Locked" Fallback={Key} size={20} className="drop-shadow-md" />
             </div>
             <div>
-              <h1 className="text-base font-black rs3-title tracking-tight uppercase leading-none">RS3 Fate Locked Ironman</h1>
-              <p className="text-[10px] text-gray-500 font-mono mt-0.5 tracking-wide">RNG EDITION COMMAND CENTER</p>
+              <h1 className="text-lg rs3-title leading-none">RS3 Fate Locked Ironman</h1>
+              <p className="text-[10px] text-[#c7a27f] font-mono mt-0.5 tracking-wide">RNG EDITION COMMAND CENTER</p>
             </div>
             <ProfileSwitcher />
           </div>
@@ -265,38 +265,33 @@ const Header = ({ setShowAltar, setShowStats, setShowReference, setShowOracle, s
         </div>
       </header>
 
-      {/* Bottom: the RS3 action bar — key orbs, the Fate "adrenaline" bar and action slots. */}
+      {/* Bottom: the RS3 action bar — a stat row (keys and the Fate bar) over action slots. */}
       <div className="fixed bottom-0 inset-x-0 z-40 flex justify-center pointer-events-none px-2">
-        <div className="rs3-actionbar pointer-events-auto flex items-end gap-3 px-3 pt-2 pb-2 max-w-full overflow-x-auto">
-          <div data-tour="keys" className="flex items-end gap-2 shrink-0">
-            <StatOrb label="Keys" title="Keys — spend on a table in Spend Keys for a random unlock" value={<PopOnChange value={keys} />} fill={keys > 0 ? 1 : 0} color="#f5c04a"
-              icon={<WikiIcon file="Crystal_key.png" alt="Keys" Fallback={Key} size={16} className="drop-shadow" />} />
-            <StatOrb label="Omni-keys" title="Omni-keys — click any locked item in the Dashboard to unlock exactly it" value={<PopOnChange value={specialKeys} />} fill={specialKeys > 0 ? 1 : 0} color="#b77cf5" dim={specialKeys === 0}
-              icon={<WikiIcon file="Enhanced_crystal_key.png" alt="Omni-keys" Fallback={Sparkles} size={16} className={specialKeys > 0 ? 'animate-pulse' : 'grayscale'} />} />
+        <div className="rs3-actionbar pointer-events-auto flex flex-col gap-1.5 px-3 pt-2 pb-2 max-w-full overflow-x-auto">
+          <div data-tour="keys" className="flex items-center gap-5 shrink-0">
+            <ActionStat label="Keys" title="Keys — spend on a table in Spend Keys for a random unlock" value={<PopOnChange value={keys} />}
+              icon={<WikiIcon file="Crystal_key.png" alt="Keys" Fallback={Key} size={18} className="drop-shadow" />} />
+            <ActionStat label="Fate Points" className="w-40"
+              title={pityRules.pityEnabled ? `Fate Points — pity triggers at ${pityRules.pityThreshold}` : 'Fate Points'}
+              value={pityRules.pityEnabled ? `${fatePoints}/${pityRules.pityThreshold}` : `${fatePoints}`}
+              fill={fateShare} tone={nearPity ? 'lp' : 'adren'}
+              icon={<Flame size={18} className={nearPity ? 'text-red-400 animate-pulse' : 'text-[#efad74]'} />} />
+            <ActionStat label="Omni-keys" title="Omni-keys — click any locked item in the Dashboard to unlock exactly it" value={<PopOnChange value={specialKeys} />} dim={specialKeys === 0}
+              icon={<WikiIcon file="Enhanced_crystal_key.png" alt="Omni-keys" Fallback={Sparkles} size={18} className={specialKeys > 0 ? 'animate-pulse' : 'grayscale'} />} />
             {chaosKeys > 0 && (
-              <StatOrb label="Chaos keys" title="Chaos keys (unlock from any category)" value={<PopOnChange value={chaosKeys} />} fill={1} color="#ef4444"
-                icon={<WikiIcon file="Sinister_key.png" alt="Chaos keys" Fallback={Dna} size={16} className="animate-pulse drop-shadow" />} />
+              <ActionStat label="Chaos keys" title="Chaos keys (unlock from any category)" value={<PopOnChange value={chaosKeys} />}
+                icon={<WikiIcon file="Sinister_key.png" alt="Chaos keys" Fallback={Dna} size={18} className="animate-pulse drop-shadow" />} />
             )}
           </div>
-
-          <div className="flex flex-col gap-1.5 shrink-0">
-            <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
-              <span className={nearPity ? 'text-red-400 animate-pulse' : 'rs3-title'}>Fate</span>
-              <div className="rs3-adren flex-1 min-w-[160px]" role="progressbar" aria-label="Fate Points" aria-valuemin={0} aria-valuemax={pityCap} aria-valuenow={fatePoints}>
-                <div className={`rs3-adren-fill relative overflow-hidden ${animationsEnabled ? 'progress-sheen' : ''} ${nearPity ? 'is-danger' : ''}`} style={{ width: `${fateShare * 100}%` }} />
-              </div>
-              <span className="text-gray-300 font-mono normal-case">{pityRules.pityEnabled ? `${fatePoints}/${pityRules.pityThreshold}` : `${fatePoints}`}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <ActionSlot label={activeBuff === 'NONE' ? 'Void Altar' : `Void Altar — ${activeBuff} active`} data-tour="altar" onClick={() => setShowAltar(true)} glow={altarGlow}>
-                <Flame size={20} className={activeBuff === 'NONE' ? 'text-purple-300' : activeBuff === 'GREED' ? 'text-amber-300' : 'text-blue-300'} />
-              </ActionSlot>
-              <ActionSlot label="Oracle — search content" onClick={() => setShowOracle(true)}><Search size={18} /></ActionSlot>
-              <ActionSlot label="Resource Engine" onClick={() => setShowSupplyChain(true)}><Database size={18} className="text-cyan-300" /></ActionSlot>
-              <ActionSlot label="Fate Thread" onClick={() => openNav('open:fatethread')}><Spline size={18} className="text-fuchsia-300" /></ActionSlot>
-              <ActionSlot label="Strategy Guide" onClick={() => setShowStrategy(true)}><Compass size={18} className="text-emerald-300" /></ActionSlot>
-              <ActionSlot label="Stats" onClick={() => setShowStats(true)}><BarChart3 size={18} className="text-blue-300" /></ActionSlot>
-            </div>
+          <div className="flex items-center gap-0.5 shrink-0">
+            <ActionSlot label={activeBuff === 'NONE' ? 'Void Altar' : `Void Altar — ${activeBuff} active`} data-tour="altar" onClick={() => setShowAltar(true)} glow={altarGlow}>
+              <Flame size={20} className={activeBuff === 'NONE' ? 'text-purple-300' : activeBuff === 'GREED' ? 'text-amber-300' : 'text-blue-300'} />
+            </ActionSlot>
+            <ActionSlot label="Oracle — search content" onClick={() => setShowOracle(true)}><Search size={18} /></ActionSlot>
+            <ActionSlot label="Resource Engine" onClick={() => setShowSupplyChain(true)}><Database size={18} /></ActionSlot>
+            <ActionSlot label="Fate Thread" onClick={() => openNav('open:fatethread')}><Spline size={18} /></ActionSlot>
+            <ActionSlot label="Strategy Guide" onClick={() => setShowStrategy(true)}><Compass size={18} /></ActionSlot>
+            <ActionSlot label="Stats" onClick={() => setShowStats(true)}><BarChart3 size={18} /></ActionSlot>
           </div>
         </div>
       </div>
@@ -321,31 +316,31 @@ const ControlPanel = () => {
   return (
     <Rs3Window title="Fate Actions" icon={<Key size={13} className="text-rs3-gold" />} className="h-full" bodyClassName="flex flex-col">
       {/* Tabs */}
-      <div className="flex border-b border-[#233a47] bg-[#0f191f] shrink-0">
+      <div className="flex border-b border-[#574930] bg-[#171412] px-1 shrink-0">
         <button
           data-tour="farm"
           onClick={() => setActiveTab('FARM')}
-          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'FARM' ? 'rs3-tab-active text-green-400 border-b-2 border-green-400' : 'rs3-tab text-gray-500 hover:text-gray-300'}`}
+          className={`flex-1 py-2 text-[13px] rs3-tab-label flex items-center justify-center gap-2 transition-colors ${activeTab === 'FARM' ? 'rs3-tab-active text-green-400' : 'rs3-tab text-gray-500 hover:text-gray-300'}`}
         >
           <WikiIcon file="Slayer_icon.png" alt="Farm Keys" Fallback={Swords} size={15} className={activeTab === 'FARM' ? '' : 'opacity-60 grayscale'} /> Farm Keys
         </button>
         <button
           data-tour="spend"
           onClick={() => setActiveTab('SPEND')}
-          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'SPEND' ? 'rs3-tab-active text-rs3-gold border-b-2 border-rs3-gold' : 'rs3-tab text-gray-500 hover:text-gray-300'}`}
+          className={`flex-1 py-2 text-[13px] rs3-tab-label flex items-center justify-center gap-2 transition-colors ${activeTab === 'SPEND' ? 'rs3-tab-active text-rs3-gold' : 'rs3-tab text-gray-500 hover:text-gray-300'}`}
         >
           <WikiIcon file="Mystery_box.png" alt="Spend Keys" Fallback={ShoppingBag} size={15} className={activeTab === 'SPEND' ? '' : 'opacity-60 grayscale'} /> Spend Keys
         </button>
         <button
           onClick={() => setActiveTab('LOG')}
-          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'LOG' ? 'rs3-tab-active text-blue-400 border-b-2 border-blue-400' : 'rs3-tab text-gray-500 hover:text-gray-300'}`}
+          className={`flex-1 py-2 text-[13px] rs3-tab-label flex items-center justify-center gap-2 transition-colors ${activeTab === 'LOG' ? 'rs3-tab-active text-blue-400' : 'rs3-tab text-gray-500 hover:text-gray-300'}`}
         >
           <WikiIcon file="Watch.png" alt="History" Fallback={ScrollText} size={15} className={activeTab === 'LOG' ? '' : 'opacity-60 grayscale'} /> History
         </button>
       </div>
 
       {/* Contextual guide for the active panel */}
-      <div className="flex items-center justify-end gap-1.5 px-3 py-1 bg-[#0e171c] border-b border-[#1d303b] shrink-0 text-[10px] text-gray-500">
+      <div className="flex items-center justify-end gap-1.5 px-3 py-1 bg-[#171513] border-b border-[#312c27] shrink-0 text-[10px] text-gray-500">
         <span>{GUIDES[activeTab]?.title}</span>
         <SectionGuide id={activeTab} />
       </div>
