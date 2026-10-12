@@ -202,10 +202,10 @@ const UnlockCard: React.FC<UnlockCardProps> = ({
         className={`
             relative flex items-center gap-3 p-2 rounded-lg border transition-all duration-200 group min-h-[60px]
             ${isUnlocked 
-                ? 'bg-[#252525] border-white/10 hover:border-white/20' 
+                ? 'bg-[#192a34] border-white/10 hover:border-white/20' 
                 : canUnlock 
                     ? 'bg-purple-900/10 border-purple-500/30 cursor-pointer hover:bg-purple-900/20 hover:scale-[1.01]' 
-                    : 'bg-[#151515] border-transparent opacity-60'}
+                    : 'bg-[#0e181d] border-transparent opacity-60'}
         `}
     >
         <div className="absolute top-1 right-1 z-10">
@@ -436,7 +436,7 @@ export const Dashboard: React.FC = () => {
 
         {/* Skills Section */}
         <div className="space-y-4">
-            <div className="flex justify-between items-center bg-[#151515] p-2 rounded border border-white/5">
+            <div className="flex justify-between items-center bg-[#0e181d] p-2 rounded border border-white/5">
                 <h3 className="text-blue-400 font-bold text-sm flex items-center gap-1.5">Skills <SectionGuide id="SKILLS" /></h3>
                 <span className="text-xs text-blue-400/60 font-mono">{totalSkillTiers}/{SKILLS_LIST.length * 10} Tiers</span>
             </div>
@@ -479,8 +479,8 @@ export const Dashboard: React.FC = () => {
                            data-skill-card={skill}
                            onClick={isMainActionable ? handleMainClick : undefined}
                            className={`
-                                flex flex-col p-2 rounded bg-[#1f1f1f] border border-white/5 text-left transition-all duration-150 relative overflow-hidden group min-h-[60px]
-                                ${canLevel ? 'hover:bg-[#2a2a2a] cursor-pointer ring-1 ring-green-500/20 hover:ring-green-500/40' : ''}
+                                flex flex-col p-2 rounded bg-[#15232b] border border-white/5 text-left transition-all duration-150 relative overflow-hidden group min-h-[60px]
+                                ${canLevel ? 'hover:bg-[#1d303b] cursor-pointer ring-1 ring-green-500/20 hover:ring-green-500/40' : ''}
                                 ${canUnlockStart ? 'ring-1 ring-purple-400/40 hover:ring-purple-400/70 hover:bg-purple-900/10 cursor-pointer' : ''}
                                 ${levelingSkill === skill ? 'animate-pulse bg-green-900/40' : ''}
                                 ${!isMainActionable ? 'opacity-90' : ''}
@@ -538,7 +538,7 @@ export const Dashboard: React.FC = () => {
                             <div className="flex gap-px w-full h-1.5 mt-auto bg-black/50 rounded-sm overflow-hidden border border-white/5 pointer-events-none">
                                 {Array.from({ length: 10 }).map((_, i) => {
                                     const isActive = tier > i;
-                                    const colorClass = isActive ? TIER_COLORS[Math.min(tier - 1, 9)] : 'bg-[#1a1a1a]';
+                                    const colorClass = isActive ? TIER_COLORS[Math.min(tier - 1, 9)] : 'bg-[#121d24]';
                                     return (
                                         <div 
                                             key={i} 
@@ -596,7 +596,7 @@ export const Dashboard: React.FC = () => {
       <div className="flex flex-col h-full overflow-hidden">
           <div className="flex justify-between items-center mb-4 px-2 pt-2 shrink-0">
                <h3 className="text-emerald-400 font-bold text-sm uppercase tracking-wide">Regions</h3>
-               <div className="flex bg-[#1a1a1a] p-1 rounded-lg border border-white/10">
+               <div className="flex bg-[#121d24] p-1 rounded-lg border border-white/10">
                    <button 
                      onClick={() => setWorldView('MAP')}
                      className={`p-1.5 rounded transition-colors ${worldView === 'MAP' ? 'bg-emerald-600 text-white' : 'text-gray-500 hover:text-white'}`}
@@ -615,7 +615,7 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {worldView === 'MAP' ? (
-              <div className="flex-1 bg-[#050505] rounded-lg border border-white/10 overflow-hidden relative">
+              <div className="flex-1 bg-[#030607] rounded-lg border border-white/10 overflow-hidden relative">
                   <PanelErrorBoundary name="Region map">
                     <RegionMap />
                   </PanelErrorBoundary>
@@ -627,7 +627,7 @@ export const Dashboard: React.FC = () => {
                   {advisorsEnabled && <RegionAdvisorPanel />}
 
                   {/* Misthalin Special Card */}
-                  <div className="bg-[#1a1a1a] rounded border border-emerald-500/30 p-3 relative overflow-hidden group">
+                  <div className="bg-[#121d24] rounded border border-emerald-500/30 p-3 relative overflow-hidden group">
                       <div className="absolute inset-0 bg-emerald-900/5 pointer-events-none"></div>
                       <div className="absolute top-1 right-1 z-20">
                             <NoteTrigger id="Misthalin" title="Misthalin" />
@@ -656,7 +656,7 @@ export const Dashboard: React.FC = () => {
                                     );
                                     return (
                                         <button key={area} onClick={() => canUnlock && handleSpecialUnlock(TableType.REGIONS, area)} disabled={!canUnlock}
-                                            className={`px-2 py-1 rounded text-xs border flex items-center gap-1 ${canUnlock ? 'bg-purple-900/10 text-purple-300 border-purple-500/30 hover:bg-purple-900/20 cursor-pointer' : 'bg-[#222] text-gray-600 border-transparent cursor-default'}`}>
+                                            className={`px-2 py-1 rounded text-xs border flex items-center gap-1 ${canUnlock ? 'bg-purple-900/10 text-purple-300 border-purple-500/30 hover:bg-purple-900/20 cursor-pointer' : 'bg-[#17272f] text-gray-600 border-transparent cursor-default'}`}>
                                             {area} <Lock size={8} />
                                         </button>
                                     );
@@ -684,7 +684,7 @@ export const Dashboard: React.FC = () => {
                           if (showOnlyActionable && !hasAnyUnlocked && !canUnlockAny) return null;
 
                           return (
-                              <div key={group} data-region-card={group} className="bg-[#1a1a1a] rounded border border-white/5 p-3 h-full relative transition-shadow duration-300">
+                              <div key={group} data-region-card={group} className="bg-[#121d24] rounded border border-white/5 p-3 h-full relative transition-shadow duration-300">
                                   <div className="absolute top-1 right-1 z-20">
                                         <NoteTrigger id={group} title={group} />
                                   </div>
@@ -724,7 +724,7 @@ export const Dashboard: React.FC = () => {
                                                 disabled={!canUnlock}
                                                 className={`
                                                     px-2 py-1 rounded text-xs border flex items-center gap-1
-                                                    ${canUnlock ? 'bg-purple-900/10 text-purple-300 border-purple-500/30 hover:bg-purple-900/20 cursor-pointer' : 'bg-[#222] text-gray-600 border-transparent cursor-default'}
+                                                    ${canUnlock ? 'bg-purple-900/10 text-purple-300 border-purple-500/30 hover:bg-purple-900/20 cursor-pointer' : 'bg-[#17272f] text-gray-600 border-transparent cursor-default'}
                                                 `}
                                               >
                                                   {area} {canUnlock && <Lock size={8} />}
@@ -795,7 +795,7 @@ export const Dashboard: React.FC = () => {
                   key={c.id}
                   onClick={() => setActivityCategory(c.id)}
                   className={`px-2.5 py-1.5 rounded-lg border text-left transition-all w-[130px]
-                    ${isActive ? 'bg-[#252525] border-white/20 shadow-sm' : 'bg-[#161616] border-white/5 hover:border-white/15'}`}
+                    ${isActive ? 'bg-[#192a34] border-white/20 shadow-sm' : 'bg-[#0f191f] border-white/5 hover:border-white/15'}`}
                 >
                   <div className={`text-[11px] font-bold truncate ${isActive ? c.color : 'text-gray-400'}`}>{c.label}</div>
                   <div className="flex items-center gap-1.5 mt-1">
@@ -833,28 +833,28 @@ export const Dashboard: React.FC = () => {
   const renderJournalTab = () => (
       <div className="h-full flex flex-col">
           <JournalProgressRings />
-          <div className="flex bg-[#1a1a1a] border-b border-white/10 shrink-0">
+          <div className="flex bg-[#121d24] border-b border-white/10 shrink-0">
               <button 
                   onClick={() => setJournalSubTab('QUESTS')}
-                  className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${journalSubTab === 'QUESTS' ? 'bg-[#222] text-blue-400 border-b-2 border-blue-400' : 'text-gray-500 hover:text-gray-300'}`}
+                  className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${journalSubTab === 'QUESTS' ? 'bg-[#17272f] text-blue-400 border-b-2 border-blue-400' : 'text-gray-500 hover:text-gray-300'}`}
               >
                   Quests
               </button>
               <button 
                   onClick={() => setJournalSubTab('DIARIES')}
-                  className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${journalSubTab === 'DIARIES' ? 'bg-[#222] text-green-400 border-b-2 border-green-400' : 'text-gray-500 hover:text-gray-300'}`}
+                  className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${journalSubTab === 'DIARIES' ? 'bg-[#17272f] text-green-400 border-b-2 border-green-400' : 'text-gray-500 hover:text-gray-300'}`}
               >
                   Diaries
               </button>
               <button
                   onClick={() => setJournalSubTab('CA')}
-                  className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${journalSubTab === 'CA' ? 'bg-[#222] text-red-400 border-b-2 border-red-400' : 'text-gray-500 hover:text-gray-300'}`}
+                  className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${journalSubTab === 'CA' ? 'bg-[#17272f] text-red-400 border-b-2 border-red-400' : 'text-gray-500 hover:text-gray-300'}`}
               >
                   Combat Achievements
               </button>
               <button
                   onClick={() => setJournalSubTab('DOABLE')}
-                  className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${journalSubTab === 'DOABLE' ? 'bg-[#222] text-emerald-400 border-b-2 border-emerald-400' : 'text-gray-500 hover:text-gray-300'}`}
+                  className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${journalSubTab === 'DOABLE' ? 'bg-[#17272f] text-emerald-400 border-b-2 border-emerald-400' : 'text-gray-500 hover:text-gray-300'}`}
               >
                   Doable
               </button>
@@ -873,7 +873,7 @@ export const Dashboard: React.FC = () => {
 
   return (
     <>
-    <div className="bg-rs3-panel border border-rs3-border rounded-lg shadow-lg flex flex-col h-full overflow-hidden relative">
+    <div className="rs3-window rounded-lg flex flex-col h-full overflow-hidden relative">
       {pendingSpecial && (
           <VoidReveal itemName={pendingSpecial.item} itemType={pendingSpecial.table} itemImage={pendingSpecial.image} onComplete={finalizeSpecial} animationsEnabled={animationsEnabled} />
       )}
@@ -891,7 +891,7 @@ export const Dashboard: React.FC = () => {
       {/* Confirmation Modal */}
       {confirmOmni && (
           <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-              <div className="bg-[#1a1a1a] border border-purple-500/50 rounded-xl shadow-2xl p-6 max-w-sm w-full relative">
+              <div className="bg-[#121d24] border border-purple-500/50 rounded-xl shadow-2xl p-6 max-w-sm w-full relative">
                   <div className="flex items-center gap-3 mb-4">
                       <div className="p-3 bg-purple-900/20 rounded-full border border-purple-500/30 text-purple-400">
                           <Sparkles size={24} />
@@ -925,9 +925,9 @@ export const Dashboard: React.FC = () => {
       )}
       
       {/* Header */}
-      <div className="p-4 border-b border-white/5 bg-[#1b1b1b] shrink-0">
+      <div className="p-4 rs3-titlebar shrink-0">
          <div className="flex flex-wrap justify-between items-center gap-y-2 mb-3">
-             <h2 className="text-lg font-bold text-rs3-gold flex flex-wrap items-center gap-2 min-w-0">
+             <h2 className="text-lg font-bold rs3-title flex flex-wrap items-center gap-2 min-w-0">
                  <span className="whitespace-nowrap">Progression Dashboard</span>
                  <span
                    className="text-[10px] font-normal text-amber-200 bg-amber-900/40 px-2 py-0.5 rounded border border-amber-500/30 whitespace-nowrap shrink-0"
@@ -1019,7 +1019,7 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* Tabs & Search */}
-      <div className="flex flex-col md:flex-row border-b border-white/5 bg-[#161616] shrink-0">
+      <div className="flex flex-col md:flex-row border-b border-white/5 bg-[#0f191f] shrink-0">
           <div data-tour="dashtabs" className="flex flex-1 overflow-x-auto no-scrollbar">
               {TABS.map(tab => {
                   const isActive = activeTab === tab.id;
@@ -1029,7 +1029,7 @@ export const Dashboard: React.FC = () => {
                         onClick={() => setActiveTab(tab.id)}
                         className={`
                             flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-wider transition-colors border-b-2 whitespace-nowrap
-                            ${isActive ? `${tab.color} ${tab.border} bg-white/5` : 'text-gray-500 border-transparent hover:text-gray-300 hover:text-gray-300 hover:bg-white/5'}
+                            ${isActive ? `${tab.color} ${tab.border} rs3-tab-active` : 'rs3-tab text-gray-500 border-transparent hover:text-gray-300'}
                         `}
                       >
                           <WikiIcon file={tab.img} alt={tab.label} Fallback={tab.icon} size={15} className={isActive ? '' : 'opacity-70 grayscale'} /> {tab.label}
@@ -1037,7 +1037,7 @@ export const Dashboard: React.FC = () => {
                   )
               })}
           </div>
-          <div className="p-2 border-l border-white/5 relative bg-[#161616] flex items-center gap-2">
+          <div className="p-2 border-l border-white/5 relative bg-[#0f191f] flex items-center gap-2">
               <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-3.5 h-3.5" />
                   <input 
@@ -1060,7 +1060,7 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* Content Area */}
-      <div className="flex-1 overflow-hidden p-4 bg-[#111]">
+      <div className="flex-1 overflow-hidden p-4 bg-[#0c1318]">
           <Suspense fallback={<ModalFallback />}>
               <GoalTracker />
           </Suspense>

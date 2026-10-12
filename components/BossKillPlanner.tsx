@@ -65,21 +65,21 @@ export const BossKillPlanner: React.FC<Props> = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200" onClick={onClose} role="dialog" aria-modal="true" aria-label="Boss Kill Planner">
-      <div className="bg-[#161616] border border-white/10 rounded-xl shadow-2xl w-full max-w-3xl h-[82vh] flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-[#0f191f] border border-white/10 rounded-xl shadow-2xl w-full max-w-3xl h-[82vh] flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div className="flex items-center gap-2 p-4 border-b border-white/10 bg-[#1b1b1b] shrink-0 flex-wrap">
+        <div className="flex items-center gap-2 p-4 border-b border-white/10 bg-[#131f26] shrink-0 flex-wrap">
           <div className="p-2 bg-red-900/20 rounded-lg border border-red-500/30 text-red-300"><Skull size={18} /></div>
           <div className="flex-1 min-w-[180px]">
             <h2 className="text-base font-bold text-white leading-none flex items-center gap-1.5">Boss Kill Planner <SectionGuide id="KILL_PLANNER" /></h2>
             <p className="text-[11px] text-gray-500 mt-1">Readiness and estimated kill times against your RS3 bosses, from your unlocked gear tiers and levels.</p>
           </div>
-          <select value={rotationId} onChange={(e) => setRotationId(e.target.value)} title="Assumed rotation" className="bg-[#1f1f1f] border border-white/10 rounded px-2 py-1 text-[10px] font-bold text-gray-300">
+          <select value={rotationId} onChange={(e) => setRotationId(e.target.value)} title="Assumed rotation" className="bg-[#15232b] border border-white/10 rounded px-2 py-1 text-[10px] font-bold text-gray-300">
             {ROTATIONS.map((r) => <option key={r.id} value={r.id}>{r.label}</option>)}
           </select>
-          <button onClick={() => setBoostsOn((b) => !b)} title="Toggle elder overloads" className={`flex items-center gap-1.5 px-2.5 py-1 rounded border text-[10px] font-bold uppercase tracking-wide transition-colors ${boostsOn ? 'border-emerald-500/40 bg-emerald-950/30 text-emerald-300' : 'border-white/10 bg-[#1f1f1f] text-gray-400'}`}>
+          <button onClick={() => setBoostsOn((b) => !b)} title="Toggle elder overloads" className={`flex items-center gap-1.5 px-2.5 py-1 rounded border text-[10px] font-bold uppercase tracking-wide transition-colors ${boostsOn ? 'border-emerald-500/40 bg-emerald-950/30 text-emerald-300' : 'border-white/10 bg-[#15232b] text-gray-400'}`}>
             <FlaskConical size={11} /> Overload {boostsOn ? 'on' : 'off'}
           </button>
-          <button onClick={() => setShowAll((s) => !s)} title="Include bosses you haven't unlocked" className={`px-2.5 py-1 rounded border text-[10px] font-bold uppercase tracking-wide ${showAll ? 'border-sky-500/40 bg-sky-950/30 text-sky-300' : 'border-white/10 bg-[#1f1f1f] text-gray-400'}`}>
+          <button onClick={() => setShowAll((s) => !s)} title="Include bosses you haven't unlocked" className={`px-2.5 py-1 rounded border text-[10px] font-bold uppercase tracking-wide ${showAll ? 'border-sky-500/40 bg-sky-950/30 text-sky-300' : 'border-white/10 bg-[#15232b] text-gray-400'}`}>
             {showAll ? 'All bosses' : 'Unlocked'}
           </button>
           <button onClick={onClose} className="p-1.5 rounded hover:bg-white/10 text-gray-400 hover:text-white" aria-label="Close"><X size={18} /></button>
@@ -160,7 +160,7 @@ const Detail: React.FC<{ plan: BossPlan; levels: Record<string, number> }> = ({ 
       </div>
 
       {/* Readiness banner */}
-      <div className="rounded-lg border px-3 py-2 bg-[#1a1a1a] border-white/10 space-y-1.5">
+      <div className="rounded-lg border px-3 py-2 bg-[#121d24] border-white/10 space-y-1.5">
         <div className="flex items-center gap-2">
           <span className={`w-2 h-2 rounded-full ${r.dot}`} />
           <span className={`text-[12px] font-bold ${r.cls}`}>{r.label}</span>
@@ -186,7 +186,7 @@ const Detail: React.FC<{ plan: BossPlan; levels: Record<string, number> }> = ({ 
       </div>
 
       {boss.skilling ? (
-        <div className="rounded-lg bg-[#151515] border border-white/5 px-3 py-3 text-[11px] text-gray-400 flex items-start gap-2">
+        <div className="rounded-lg bg-[#0e181d] border border-white/5 px-3 py-3 text-[11px] text-gray-400 flex items-start gap-2">
           <Pickaxe size={14} className="text-sky-300 shrink-0 mt-0.5" /> Skilling boss — fought with {boss.skilling}. No combat DPS applies.
         </div>
       ) : best && (
@@ -199,7 +199,7 @@ const Detail: React.FC<{ plan: BossPlan; levels: Record<string, number> }> = ({ 
           </div>
 
           {/* Per-style comparison */}
-          <div className="rounded-xl bg-[#1a1a1a] border border-white/10 p-3">
+          <div className="rounded-xl bg-[#121d24] border border-white/10 p-3">
             <div className="text-[10px] uppercase tracking-widest text-gray-500 mb-2 flex items-center gap-1.5"><Swords size={11} className="text-red-400" /> By style (best gear you've unlocked)</div>
             <div className="space-y-1">
               {plan.styles.map((s) => (
@@ -237,7 +237,7 @@ const Detail: React.FC<{ plan: BossPlan; levels: Record<string, number> }> = ({ 
 };
 
 const Gap: React.FC<{ label: string; have: number; need: number; delta: number }> = ({ label, have, need, delta }) => (
-  <div className="rounded bg-[#151515] border border-white/5 px-2 py-1">
+  <div className="rounded bg-[#0e181d] border border-white/5 px-2 py-1">
     <div className="text-[8px] uppercase tracking-widest text-gray-600">{label}</div>
     <div className="font-mono">
       <span className={delta >= 0 ? 'text-emerald-300' : delta >= -10 ? 'text-amber-300' : 'text-red-300'}>{have}</span>
@@ -247,7 +247,7 @@ const Gap: React.FC<{ label: string; have: number; need: number; delta: number }
 );
 
 const Stat: React.FC<{ label: string; value: React.ReactNode; accent: string; Icon: typeof Clock }> = ({ label, value, accent, Icon }) => (
-  <div className="rounded-lg bg-[#151515] border border-white/5 px-3 py-2">
+  <div className="rounded-lg bg-[#0e181d] border border-white/5 px-3 py-2">
     <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-widest text-gray-500 mb-0.5"><Icon size={10} /> {label}</div>
     <div className={`text-xl font-black leading-none ${accent}`}>{value}</div>
   </div>

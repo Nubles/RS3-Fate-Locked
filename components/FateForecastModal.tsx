@@ -76,11 +76,11 @@ export const FateForecastModal: React.FC<Props> = ({ onClose }) => {
       aria-label="Fate Forecast"
     >
       <div
-        className="bg-[#161616] border border-white/10 rounded-xl shadow-2xl w-full max-w-3xl h-[80vh] flex flex-col overflow-hidden"
+        className="bg-[#0f191f] border border-white/10 rounded-xl shadow-2xl w-full max-w-3xl h-[80vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 p-4 border-b border-white/10 bg-[#1b1b1b] shrink-0">
+        <div className="flex items-center gap-3 p-4 border-b border-white/10 bg-[#131f26] shrink-0">
           <div className="p-2 bg-fuchsia-900/20 rounded-lg border border-fuchsia-500/30 text-fuchsia-300">
             <Sparkles size={18} />
           </div>
@@ -88,7 +88,7 @@ export const FateForecastModal: React.FC<Props> = ({ onClose }) => {
             <h2 className="text-base font-bold text-white leading-none flex items-center gap-1.5">Fate Forecast <SectionGuide id="FORECAST" /></h2>
             <p className="text-[11px] text-gray-500 mt-1">How long until Fate hands you something from each category.</p>
           </div>
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#1a1a1a] border border-white/10" title="Keys earned per day, from your history">
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#121d24] border border-white/10" title="Keys earned per day, from your history">
             <Gauge size={13} className="text-emerald-400" />
             <span className="text-[11px] text-gray-300">
               {velocity.ok ? <>~{velocity.keysPerDay.toFixed(1)} <span className="text-gray-500">keys/day</span></> : <span className="text-gray-500">pace: n/a</span>}
@@ -148,7 +148,7 @@ export const FateForecastModal: React.FC<Props> = ({ onClose }) => {
                   </div>
 
                   {/* A specific one */}
-                  <div className="rounded-xl bg-[#1a1a1a] border border-white/10 p-4">
+                  <div className="rounded-xl bg-[#121d24] border border-white/10 p-4">
                     <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-gray-500 mb-2">
                       <Key size={12} className="text-amber-400" /> Keys for a specific {active.singular}
                     </div>
@@ -172,7 +172,7 @@ export const FateForecastModal: React.FC<Props> = ({ onClose }) => {
 
                   {/* Complete the whole category */}
                   {completeAll && (
-                    <div className="rounded-xl bg-[#1a1a1a] border border-white/10 p-4">
+                    <div className="rounded-xl bg-[#121d24] border border-white/10 p-4">
                       <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-gray-500 mb-2">
                         <Sparkles size={12} className="text-fuchsia-400" /> Complete all {completeAll.totalKeys}
                       </div>

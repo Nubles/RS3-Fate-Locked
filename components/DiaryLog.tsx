@@ -221,7 +221,7 @@ export const DiaryLog: React.FC<DiaryLogProps> = ({ searchTerm: externalSearch =
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#121212] border border-white/10 rounded-lg overflow-hidden">
+    <div className="flex flex-col h-full bg-[#0c1419] border border-white/10 rounded-lg overflow-hidden">
       <JournalFilterBar
         title="Diaries"
         icon={<Map size={14} />}
@@ -305,7 +305,7 @@ export const DiaryLog: React.FC<DiaryLogProps> = ({ searchTerm: externalSearch =
             <div
               key={diary.id}
               data-journal-id={diary.id}
-              className={`group relative border rounded-lg overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/40 ${isCompleted ? 'bg-green-900/10 border-green-500/20 opacity-60 hover:opacity-100' : isAvailable ? 'bg-green-900/10 border-green-500/40' : 'bg-[#1a1a1a] border-white/5 opacity-80 hover:opacity-100'} ${highlightedId === diary.id ? 'ring-2 ring-amber-400/70 shadow-[0_0_20px_rgba(251,191,36,0.25)]' : ''}`}
+              className={`group relative border rounded-lg overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/40 ${isCompleted ? 'bg-green-900/10 border-green-500/20 opacity-60 hover:opacity-100' : isAvailable ? 'bg-green-900/10 border-green-500/40' : 'bg-[#121d24] border-white/5 opacity-80 hover:opacity-100'} ${highlightedId === diary.id ? 'ring-2 ring-amber-400/70 shadow-[0_0_20px_rgba(251,191,36,0.25)]' : ''}`}
             >
               {/* Tier accent edge */}
               <div className={`absolute left-0 top-0 bottom-0 w-1 ${diary.tier === 'Elite' ? 'bg-purple-400' : diary.tier === 'Hard' ? 'bg-red-400' : diary.tier === 'Medium' ? 'bg-blue-400' : diary.tier === 'Beginner' ? 'bg-teal-400' : 'bg-green-400'} ${isCompleted ? 'opacity-40' : 'opacity-80 group-hover:opacity-100'}`} />

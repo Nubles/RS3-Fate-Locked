@@ -420,7 +420,7 @@ export const ChunkActivityPanel: React.FC<Props> = ({ chunk, region, subArea, re
     : content?.name ?? `Chunk ${chunk.cx}, ${chunk.cy}`;
 
   return (
-    <div className="absolute top-3 right-3 bottom-3 w-72 z-30 bg-[#161616]/95 border border-white/15 rounded-xl shadow-2xl backdrop-blur-sm flex flex-col overflow-hidden">
+    <div className="absolute top-3 right-3 bottom-3 w-72 z-30 bg-[#0f191f]/95 border border-white/15 rounded-xl shadow-2xl backdrop-blur-sm flex flex-col overflow-hidden">
       {/* Header */}
       <div className="p-3 border-b border-white/10 shrink-0">
         <div className="flex items-start justify-between gap-2">

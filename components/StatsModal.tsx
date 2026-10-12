@@ -144,7 +144,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-[#1a1a1a] border border-white/20 p-2 rounded shadow-xl text-xs font-mono">
+        <div className="bg-[#121d24] border border-white/20 p-2 rounded shadow-xl text-xs font-mono">
           <p className="text-gray-400 mb-1">Roll #{label}</p>
           <p className="text-white font-bold">Luck: <span className={payload[0].value >= 0 ? 'text-green-400' : 'text-red-400'}>{payload[0].value.toFixed(2)}</span></p>
         </div>
@@ -156,7 +156,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
   const BarTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-[#1a1a1a] border border-white/20 p-2 rounded shadow-xl text-xs font-mono">
+        <div className="bg-[#121d24] border border-white/20 p-2 rounded shadow-xl text-xs font-mono">
           <p className="text-gray-400 mb-1">Range {label}</p>
           <p className="text-white font-bold">Count: {payload[0].value}</p>
         </div>
@@ -167,10 +167,10 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
 
   return (
     <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Fate Analytics" tabIndex={-1} className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="bg-[#161616] border border-rs3-border w-full max-w-5xl rounded-lg shadow-2xl overflow-hidden flex flex-col h-[85vh]">
+      <div className="bg-[#0f191f] border border-rs3-border w-full max-w-5xl rounded-lg shadow-2xl overflow-hidden flex flex-col h-[85vh]">
         
         {/* Header */}
-        <div className="bg-[#2d2d2d] p-4 border-b border-rs3-border flex justify-between items-center shrink-0">
+        <div className="bg-[#1f333f] p-4 border-b border-rs3-border flex justify-between items-center shrink-0">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-900/30 rounded border border-blue-500/30">
                 <Activity className="w-5 h-5 text-blue-400" />
@@ -183,7 +183,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex border-b border-rs3-border bg-[#1a1a1a] shrink-0">
+        <div className="flex border-b border-rs3-border bg-[#121d24] shrink-0">
             <button 
                 onClick={() => setActiveTab('overview')}
                 className={`px-6 py-3 text-sm font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'overview' ? 'border-rs3-gold text-rs3-gold bg-rs3-gold/5' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
@@ -205,13 +205,13 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto custom-scrollbar bg-[#111] p-6">
+        <div className="flex-1 overflow-y-auto custom-scrollbar bg-[#0c1318] p-6">
             
             {/* OVERVIEW TAB */}
             {activeTab === 'overview' && (
                 <div className="space-y-6 animate-in slide-in-from-right-4 duration-300">
                     {/* Luck Meter */}
-                    <div className="bg-gradient-to-r from-gray-900 to-[#1a1a1a] rounded-lg p-6 border border-white/5 relative overflow-hidden text-center shadow-lg">
+                    <div className="bg-gradient-to-r from-gray-900 to-[#121d24] rounded-lg p-6 border border-white/5 relative overflow-hidden text-center shadow-lg">
                         <h3 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-2">Luck Deviation</h3>
                         <div className="flex items-center justify-center gap-4 mb-2 relative z-10">
                             {stats.luckScore >= 0 ? <TrendingUp className="w-12 h-12 text-green-500" /> : <TrendingDown className="w-12 h-12 text-red-500" />}
@@ -227,26 +227,26 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
 
                     {/* KPI Cards */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="bg-[#1f1f1f] p-4 rounded border border-white/5 flex flex-col items-center">
+                        <div className="bg-[#15232b] p-4 rounded border border-white/5 flex flex-col items-center">
                             <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Total Rolls</span>
                             <span className="text-2xl font-bold text-white">{stats.totalRolls}</span>
                         </div>
-                        <div className="bg-[#1f1f1f] p-4 rounded border border-white/5 flex flex-col items-center">
+                        <div className="bg-[#15232b] p-4 rounded border border-white/5 flex flex-col items-center">
                             <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">RNG Keys</span>
                             <span className="text-2xl font-bold text-rs3-gold flex items-center gap-2"><Key size={16} /> {stats.actualSuccesses}</span>
                         </div>
-                        <div className="bg-[#1f1f1f] p-4 rounded border border-white/5 flex flex-col items-center">
+                        <div className="bg-[#15232b] p-4 rounded border border-white/5 flex flex-col items-center">
                             <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Pity Keys</span>
                             <span className="text-2xl font-bold text-rs3-pity flex items-center gap-2"><Shield size={16} /> {stats.pityKeys}</span>
                         </div>
-                        <div className="bg-[#1f1f1f] p-4 rounded border border-white/5 flex flex-col items-center">
+                        <div className="bg-[#15232b] p-4 rounded border border-white/5 flex flex-col items-center">
                             <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">Max Dry Streak</span>
                             <span className="text-2xl font-bold text-red-400 flex items-center gap-2"><Skull size={16} /> {stats.maxDry}</span>
                         </div>
                     </div>
 
                     {/* Detailed Stats Text */}
-                    <div className="bg-[#1f1f1f] p-5 rounded border border-white/5">
+                    <div className="bg-[#15232b] p-5 rounded border border-white/5">
                         <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest border-b border-gray-700 pb-2 mb-4">Statistical Deep Dive</h3>
                         <div className="grid grid-cols-2 gap-y-3 text-sm font-mono">
                             <div className="text-gray-500">Expected Keys:</div>
@@ -274,7 +274,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
                 <div className="space-y-6 animate-in slide-in-from-right-4 duration-300">
                     
                     {/* LUCK TIMELINE */}
-                    <div className="bg-[#1f1f1f] border border-white/5 rounded-lg p-4 h-[300px] flex flex-col">
+                    <div className="bg-[#15232b] border border-white/5 rounded-lg p-4 h-[300px] flex flex-col">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 flex items-center gap-2">
                                 <TrendingUp size={14} /> Cumulative Luck History
@@ -291,11 +291,11 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
                                                 <stop offset="95%" stopColor={stats.luckScore >= 0 ? '#4ade80' : '#f87171'} stopOpacity={0}/>
                                             </linearGradient>
                                         </defs>
-                                        <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                                        <XAxis dataKey="index" stroke="#666" tick={{fontSize: 10}} tickLine={false} />
-                                        <YAxis stroke="#666" tick={{fontSize: 10}} tickLine={false} />
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#233a47" />
+                                        <XAxis dataKey="index" stroke="#596f7b" tick={{fontSize: 10}} tickLine={false} />
+                                        <YAxis stroke="#596f7b" tick={{fontSize: 10}} tickLine={false} />
                                         <Tooltip content={<CustomTooltip />} />
-                                        <ReferenceLine y={0} stroke="#666" strokeDasharray="3 3" />
+                                        <ReferenceLine y={0} stroke="#596f7b" strokeDasharray="3 3" />
                                         <Area 
                                             type="monotone" 
                                             dataKey="luck" 
@@ -313,7 +313,7 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
                     </div>
 
                     {/* ROLL DISTRIBUTION */}
-                    <div className="bg-[#1f1f1f] border border-white/5 rounded-lg p-4 h-[300px] flex flex-col">
+                    <div className="bg-[#15232b] border border-white/5 rounded-lg p-4 h-[300px] flex flex-col">
                          <div className="flex justify-between items-center mb-4">
                             <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 flex items-center gap-2">
                                 <BarChart3 size={14} /> Roll Distribution (1-100)
@@ -326,9 +326,9 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
                         <div className="flex-1 w-full min-h-0">
                              <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={stats.buckets}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="#333" vertical={false} />
-                                    <XAxis dataKey="range" stroke="#666" tick={{fontSize: 9}} interval={1} angle={-45} textAnchor="end" height={50} />
-                                    <YAxis stroke="#666" tick={{fontSize: 10}} tickLine={false} allowDecimals={false} />
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#233a47" vertical={false} />
+                                    <XAxis dataKey="range" stroke="#596f7b" tick={{fontSize: 9}} interval={1} angle={-45} textAnchor="end" height={50} />
+                                    <YAxis stroke="#596f7b" tick={{fontSize: 10}} tickLine={false} allowDecimals={false} />
                                     <Tooltip content={<BarTooltip />} cursor={{fill: 'rgba(255,255,255,0.05)'}} />
                                     <Bar dataKey="count" radius={[2, 2, 0, 0]}>
                                         {stats.buckets.map((entry, index) => (
@@ -345,9 +345,9 @@ export const StatsModal: React.FC<StatsModalProps> = ({ onClose }) => {
             {/* BREAKDOWN TAB */}
             {activeTab === 'breakdown' && (
                  <div className="space-y-4 animate-in slide-in-from-right-4 duration-300">
-                    <div className="bg-[#1f1f1f] border border-white/5 rounded-lg overflow-hidden">
+                    <div className="bg-[#15232b] border border-white/5 rounded-lg overflow-hidden">
                         <table className="w-full text-left text-xs">
-                            <thead className="bg-[#252525] text-gray-400 uppercase font-bold">
+                            <thead className="bg-[#192a34] text-gray-400 uppercase font-bold">
                                 <tr>
                                     <th className="p-3 cursor-pointer hover:bg-white/5 transition-colors group" onClick={() => handleSort('source')}>
                                         <div className="flex items-center gap-2">Source Activity <SortIcon column="source" /></div>

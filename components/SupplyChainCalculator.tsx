@@ -54,7 +54,7 @@ const ItemImage = ({ name, size = 'md', qty }: { name: string, size?: 'sm' | 'md
     const iconSize = size === 'sm' ? 12 : size === 'lg' ? 24 : 18;
 
     return (
-        <div className={`relative ${dims} rounded bg-[#252525] border border-white/5 flex items-center justify-center shadow-inner shrink-0 group`}>
+        <div className={`relative ${dims} rounded bg-[#192a34] border border-white/5 flex items-center justify-center shadow-inner shrink-0 group`}>
             {src ? (
                  <img src={src} alt={name} className="max-w-full max-h-full object-contain p-0.5 drop-shadow-lg transition-transform group-hover:scale-110" />
             ) : (
@@ -350,10 +350,10 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
 
   return (
     <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Supply chain calculator" tabIndex={-1} className="fixed inset-0 z-[160] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-in fade-in duration-200">
-      <div className="bg-[#121212] border border-[#333] w-full max-w-3xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+      <div className="bg-[#0c1419] border border-[#233a47] w-full max-w-3xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
         
         {/* Header */}
-        <div className="bg-[#1a1a1a] p-4 border-b border-[#333] flex justify-between items-center shrink-0">
+        <div className="bg-[#121d24] p-4 border-b border-[#233a47] flex justify-between items-center shrink-0">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-emerald-900/20 rounded-lg border border-emerald-500/30">
                 <Database className="w-5 h-5 text-emerald-400" />
@@ -369,7 +369,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
         </div>
 
         {/* Search Bar & Navigation */}
-        <div className="p-4 bg-[#161616] border-b border-[#333] flex gap-2">
+        <div className="p-4 bg-[#0f191f] border-b border-[#233a47] flex gap-2">
             <button 
                 onClick={handleBack} 
                 disabled={history.length === 0}
@@ -393,7 +393,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
 
         {/* Breadcrumbs */}
         {history.length > 0 && (
-            <div className="px-4 py-2 bg-[#0a0a0a] border-b border-white/5 flex items-center gap-2 overflow-x-auto no-scrollbar whitespace-nowrap">
+            <div className="px-4 py-2 bg-[#070b0e] border-b border-white/5 flex items-center gap-2 overflow-x-auto no-scrollbar whitespace-nowrap">
                 <span className="text-[10px] text-gray-600 uppercase font-bold tracking-wider">Path:</span>
                 {history.map((step, i) => (
                     <React.Fragment key={i}>
@@ -412,7 +412,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
         )}
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 bg-[#0a0a0a] space-y-6">
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 bg-[#070b0e] space-y-6">
             
             {/* If detailed result found */}
             {selectedResult ? (
@@ -480,7 +480,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                         </div>
 
                         {/* Quantity Calculator */}
-                        <div className="flex items-center bg-[#1a1a1a] rounded-lg border border-white/10 p-1">
+                        <div className="flex items-center bg-[#121d24] rounded-lg border border-white/10 p-1">
                              <div className="px-3 py-1 bg-black/40 rounded-md mr-2">
                                 <span className="text-[10px] text-gray-500 font-bold uppercase">Target Qty</span>
                              </div>
@@ -556,7 +556,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                                         relative overflow-hidden rounded-xl border transition-all duration-200
                                         ${entry.status.isAvailable 
                                             ? 'bg-gradient-to-r from-emerald-900/10 to-transparent border-emerald-500/30' 
-                                            : 'bg-[#121212] border-[#2a2a2a]'}
+                                            : 'bg-[#0c1419] border-[#1d303b]'}
                                     `}
                                 >
                                     <div className="flex flex-col md:flex-row">
@@ -564,7 +564,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                                         <div className="flex-1 p-5">
                                             <div className="flex items-center justify-between mb-3">
                                                 <div className="flex items-center gap-3">
-                                                    <div className={`p-1.5 rounded-lg border flex items-center justify-center ${entry.status.isAvailable ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-[#222] border-[#333] text-gray-500'}`}>
+                                                    <div className={`p-1.5 rounded-lg border flex items-center justify-center ${entry.status.isAvailable ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-[#17272f] border-[#233a47] text-gray-500'}`}>
                                                         <SourceIcon type={entry.source.type} />
                                                     </div>
                                                     <div>
@@ -638,7 +638,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                                                                     className={`
                                                                         flex items-center gap-2 px-2 py-1.5 rounded-lg border text-xs transition-all
                                                                         ${isLinkable 
-                                                                            ? 'bg-[#222] border-white/10 hover:bg-[#333] hover:border-white/20 text-gray-200 cursor-pointer group/ing' 
+                                                                            ? 'bg-[#17272f] border-white/10 hover:bg-[#233a47] hover:border-white/20 text-gray-200 cursor-pointer group/ing' 
                                                                             : 'bg-transparent border-transparent text-gray-500 cursor-default'}
                                                                     `}
                                                                 >
@@ -724,7 +724,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                                         return (
                                             <div
                                                 key={item}
-                                                className={`flex items-center gap-3 p-3 rounded-lg border transition-all ${isCovered ? 'bg-emerald-900/10 border-emerald-500/20' : 'bg-[#1a1a1a] border-white/5'}`}
+                                                className={`flex items-center gap-3 p-3 rounded-lg border transition-all ${isCovered ? 'bg-emerald-900/10 border-emerald-500/20' : 'bg-[#121d24] border-white/5'}`}
                                             >
                                                 {item === 'Coins' ? (
                                                     <div className="w-10 h-10 flex items-center justify-center bg-yellow-900/20 rounded border border-yellow-500/20 shrink-0"><Coins size={18} className="text-yellow-400" /></div>
@@ -779,7 +779,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                                     <button 
                                         key={i}
                                         onClick={() => handleNavigate(prodName)}
-                                        className="flex items-center gap-3 p-3 rounded-lg bg-[#1a1a1a] border border-white/5 hover:bg-[#252525] hover:border-white/10 transition-all text-left group"
+                                        className="flex items-center gap-3 p-3 rounded-lg bg-[#121d24] border border-white/5 hover:bg-[#192a34] hover:border-white/10 transition-all text-left group"
                                     >
                                         <ItemImage name={prodName} size="md" />
                                         <div className="flex-1 min-w-0">
@@ -809,7 +809,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                                 {favorites.filter(f => RESOURCE_MAP[f]).map(item => (
                                     <div
                                         key={item}
-                                        className="flex items-center gap-2 px-3 py-2 bg-[#1a1a1a] border border-yellow-500/10 rounded-lg text-sm group"
+                                        className="flex items-center gap-2 px-3 py-2 bg-[#121d24] border border-yellow-500/10 rounded-lg text-sm group"
                                     >
                                         <span
                                             className={`w-2 h-2 rounded-full shrink-0 ${availabilityMap[item] ? 'bg-emerald-500' : 'bg-red-500'}`}
@@ -879,7 +879,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                             {/* Target list — always shown so the player can edit qty without expanding the breakdown. */}
                             <div className="flex flex-wrap gap-2 mb-3">
                                 {Object.entries(planTargets).map(([item, qty]) => (
-                                    <div key={item} className="flex items-center gap-2 px-2.5 py-1.5 bg-[#1a1a1a] border border-cyan-500/15 rounded-lg text-xs">
+                                    <div key={item} className="flex items-center gap-2 px-2.5 py-1.5 bg-[#121d24] border border-cyan-500/15 rounded-lg text-xs">
                                         <button onClick={() => handleNavigate(item)} className="flex items-center gap-2 text-cyan-100 hover:text-white transition-colors">
                                             <ItemImage name={item} size="sm" />
                                             <span className="font-medium max-w-[160px] truncate" title={item}>{item}</span>
@@ -912,7 +912,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                                         return (
                                             <div
                                                 key={item}
-                                                className={`flex items-center gap-3 p-2.5 rounded-lg border transition-all ${isCovered ? 'bg-emerald-900/10 border-emerald-500/20' : 'bg-[#1a1a1a] border-white/5'}`}
+                                                className={`flex items-center gap-3 p-2.5 rounded-lg border transition-all ${isCovered ? 'bg-emerald-900/10 border-emerald-500/20' : 'bg-[#121d24] border-white/5'}`}
                                             >
                                                 {item === 'Coins' ? (
                                                     <div className="w-8 h-8 flex items-center justify-center bg-yellow-900/20 rounded border border-yellow-500/20 shrink-0"><Coins size={14} className="text-yellow-400" /></div>
@@ -974,7 +974,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                                     <button
                                         key={item}
                                         onClick={() => handleNavigate(item)}
-                                        className="shrink-0 flex items-center gap-2 px-2.5 py-1.5 bg-[#1a1a1a] border border-white/5 rounded-lg text-xs hover:bg-[#252525] hover:border-white/10 transition-all"
+                                        className="shrink-0 flex items-center gap-2 px-2.5 py-1.5 bg-[#121d24] border border-white/5 rounded-lg text-xs hover:bg-[#192a34] hover:border-white/10 transition-all"
                                         title={item}
                                     >
                                         <ItemImage name={item} size="sm" />
@@ -1001,7 +1001,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                                     <button
                                         key={item}
                                         onClick={() => handleNavigate(item)}
-                                        className="flex items-center gap-3 px-3 py-2 bg-[#1a1a1a] border border-amber-500/15 rounded-lg text-sm hover:bg-amber-900/10 hover:border-amber-500/30 transition-all group"
+                                        className="flex items-center gap-3 px-3 py-2 bg-[#121d24] border border-amber-500/15 rounded-lg text-sm hover:bg-amber-900/10 hover:border-amber-500/30 transition-all group"
                                     >
                                         <ItemImage name={item} size="sm" />
                                         <div className="flex-1 min-w-0 text-left">
@@ -1021,7 +1021,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                     <div className="flex gap-1.5 overflow-x-auto no-scrollbar pb-2 mb-3 -mx-1 px-1">
                         <button
                             onClick={() => setActiveCategory(null)}
-                            className={`shrink-0 text-xs px-3 py-1.5 rounded-full border transition-colors ${activeCategory === null ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300' : 'bg-[#1a1a1a] border-white/5 text-gray-400 hover:text-white'}`}
+                            className={`shrink-0 text-xs px-3 py-1.5 rounded-full border transition-colors ${activeCategory === null ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300' : 'bg-[#121d24] border-white/5 text-gray-400 hover:text-white'}`}
                         >
                             All ({Object.keys(RESOURCE_MAP).length})
                         </button>
@@ -1029,7 +1029,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                             <button
                                 key={cat}
                                 onClick={() => setActiveCategory(c => c === cat ? null : cat)}
-                                className={`shrink-0 text-xs px-3 py-1.5 rounded-full border transition-colors whitespace-nowrap ${activeCategory === cat ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300' : 'bg-[#1a1a1a] border-white/5 text-gray-400 hover:text-white'}`}
+                                className={`shrink-0 text-xs px-3 py-1.5 rounded-full border transition-colors whitespace-nowrap ${activeCategory === cat ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300' : 'bg-[#121d24] border-white/5 text-gray-400 hover:text-white'}`}
                             >
                                 {cat} ({RESOURCE_CATEGORIES[cat].length})
                             </button>
@@ -1045,7 +1045,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                         <button
                             onClick={() => setAvailableOnly(v => !v)}
                             aria-pressed={availableOnly}
-                            className={`text-xs px-3 py-1.5 rounded-lg border transition-colors flex items-center gap-1.5 ${availableOnly ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300' : 'bg-[#1a1a1a] border-white/5 text-gray-400 hover:text-white'}`}
+                            className={`text-xs px-3 py-1.5 rounded-lg border transition-colors flex items-center gap-1.5 ${availableOnly ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300' : 'bg-[#121d24] border-white/5 text-gray-400 hover:text-white'}`}
                         >
                             <CheckCircle2 size={12} /> Available only
                         </button>
@@ -1064,7 +1064,7 @@ export const SupplyChainCalculator: React.FC<SupplyChainCalculatorProps> = ({ on
                                 <button
                                     key={item}
                                     onClick={() => handleNavigate(item)}
-                                    className="text-left px-3 py-3 bg-[#1a1a1a] hover:bg-[#252525] border border-white/5 rounded-xl text-sm text-gray-300 hover:text-white transition-all flex items-center gap-3 group"
+                                    className="text-left px-3 py-3 bg-[#121d24] hover:bg-[#192a34] border border-white/5 rounded-xl text-sm text-gray-300 hover:text-white transition-all flex items-center gap-3 group"
                                 >
                                     <ItemImage name={item} />
                                     <span className="flex-1 truncate font-medium">{item}</span>

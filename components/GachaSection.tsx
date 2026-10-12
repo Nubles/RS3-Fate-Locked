@@ -90,10 +90,10 @@ const SpendCard: React.FC<SpendCardProps> = ({
       style={animate ? { animationDelay: `${index * 30}ms` } : undefined}
       className={`relative overflow-hidden rounded-lg border-2 w-full text-left group flex flex-col p-2.5 h-full min-h-[104px] transition-all duration-200 ${animate ? 'animate-fade-in-up' : ''} active:scale-[0.98]
         ${isClickable
-          ? `bg-[#1f1c17] border-[#3a352c] ${a.hoverBorder} ${a.hoverShadow} hover:-translate-y-1`
+          ? `bg-[#131f26] border-[#233a47] ${a.hoverBorder} ${a.hoverShadow} hover:-translate-y-1`
           : complete
             ? 'bg-[#14180f] border-[#26331a]'
-            : 'bg-[#121212] border-[#222] cursor-not-allowed'}`}
+            : 'bg-[#0c1419] border-[#17272f] cursor-not-allowed'}`}
     >
       {/* Hover sheen sweep */}
       {isClickable && (
@@ -334,7 +334,7 @@ export const GachaSection: React.FC = () => {
                 <div className="text-2xl font-bold text-red-500 group-hover:scale-110 transition-transform relative z-10 text-shadow-rs3">{chaosKeys}</div>
             </button>
         ) : (
-            <div className="w-full p-3 rounded-lg border border-white/5 bg-[#1a1a1a] flex items-center justify-between relative overflow-hidden">
+            <div className="w-full p-3 rounded-lg border border-white/5 bg-[#121d24] flex items-center justify-between relative overflow-hidden">
                 {/* Info */}
                 <div className="flex items-center gap-3">
                     <div className="p-2 bg-black/40 rounded-full border border-white/10 grayscale opacity-50"><Dna className="text-gray-500 w-5 h-5" /></div>

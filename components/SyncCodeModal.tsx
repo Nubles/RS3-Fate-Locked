@@ -217,11 +217,11 @@ export const SyncCodeModal: React.FC<Props> = ({ onClose, initialImportCode }) =
       aria-label="Sync code"
     >
       <div
-        className="bg-[#161616] border border-white/10 rounded-xl shadow-2xl w-full max-w-xl max-h-[85vh] flex flex-col overflow-hidden"
+        className="bg-[#0f191f] border border-white/10 rounded-xl shadow-2xl w-full max-w-xl max-h-[85vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 p-4 border-b border-white/10 bg-[#1b1b1b] shrink-0">
+        <div className="flex items-center gap-3 p-4 border-b border-white/10 bg-[#131f26] shrink-0">
           <div className="p-2 bg-cyan-900/20 rounded-lg border border-cyan-500/30 text-cyan-400">
             <Link2 size={18} />
           </div>
@@ -241,7 +241,7 @@ export const SyncCodeModal: React.FC<Props> = ({ onClose, initialImportCode }) =
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-white/10 bg-[#141414] shrink-0">
+        <div className="flex border-b border-white/10 bg-[#0e171c] shrink-0">
           <TabBtn id="EXPORT" label="Export" Icon={Upload} />
           <TabBtn id="IMPORT" label="Import" Icon={ArrowDownToLine} />
           <TabBtn id="BACKUPS" label="Backups" Icon={History} />
@@ -274,7 +274,7 @@ export const SyncCodeModal: React.FC<Props> = ({ onClose, initialImportCode }) =
                   <button
                     onClick={() => copyText(shareUrlFor(code), 'link')}
                     disabled={!code || encoding}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#252525] border border-white/10 hover:bg-[#2d2d2d] disabled:opacity-40 disabled:cursor-not-allowed text-gray-200 text-[12px] font-bold transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#192a34] border border-white/10 hover:bg-[#1f333f] disabled:opacity-40 disabled:cursor-not-allowed text-gray-200 text-[12px] font-bold transition-colors"
                   >
                     {copied === 'link' ? <><Check size={14} /> Link!</> : <><Link2 size={14} /> Copy link</>}
                   </button>
@@ -290,7 +290,7 @@ export const SyncCodeModal: React.FC<Props> = ({ onClose, initialImportCode }) =
 
               {/* QR of the share link */}
               {code && !encoding && (
-                <div className="rounded-lg bg-[#1a1a1a] border border-white/5 p-4 flex flex-col items-center gap-2">
+                <div className="rounded-lg bg-[#121d24] border border-white/5 p-4 flex flex-col items-center gap-2">
                   <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wide text-gray-500">
                     <QrCode size={12} /> Scan to load on another device
                   </div>
@@ -327,7 +327,7 @@ export const SyncCodeModal: React.FC<Props> = ({ onClose, initialImportCode }) =
               <div className="flex items-center gap-2">
                 <button
                   onClick={handlePaste}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#252525] border border-white/10 hover:bg-[#2d2d2d] text-gray-300 text-[11px] font-medium transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#192a34] border border-white/10 hover:bg-[#1f333f] text-gray-300 text-[11px] font-medium transition-colors"
                 >
                   <ClipboardPaste size={13} /> Paste
                 </button>
@@ -368,7 +368,7 @@ export const SyncCodeModal: React.FC<Props> = ({ onClose, initialImportCode }) =
                         { label: 'Quests', value: preview.quests },
                         { label: 'Skill tiers', value: preview.skillTiers },
                       ].map((stat) => (
-                        <div key={stat.label} className="rounded-lg bg-[#1a1a1a] border border-white/5 px-2.5 py-2 text-center">
+                        <div key={stat.label} className="rounded-lg bg-[#121d24] border border-white/5 px-2.5 py-2 text-center">
                           <div className="text-[9px] uppercase tracking-wide text-gray-500">{stat.label}</div>
                           <div className="text-base font-bold text-white leading-tight">{stat.value}</div>
                         </div>
@@ -397,7 +397,7 @@ export const SyncCodeModal: React.FC<Props> = ({ onClose, initialImportCode }) =
                 to roll back. Only the most recent few are kept, per profile.
               </p>
               {backups.length === 0 ? (
-                <div className="rounded-lg border border-white/5 bg-[#1a1a1a] p-6 text-center">
+                <div className="rounded-lg border border-white/5 bg-[#121d24] p-6 text-center">
                   <History size={20} className="mx-auto text-gray-600 mb-2" />
                   <p className="text-[11px] text-gray-500">No backups yet.</p>
                   <p className="text-[10px] text-gray-600 mt-1">
@@ -409,7 +409,7 @@ export const SyncCodeModal: React.FC<Props> = ({ onClose, initialImportCode }) =
                   {backups.map((b) => (
                     <div
                       key={b.ts}
-                      className="flex items-center gap-3 rounded-lg border border-white/5 bg-[#1a1a1a] px-3 py-2.5"
+                      className="flex items-center gap-3 rounded-lg border border-white/5 bg-[#121d24] px-3 py-2.5"
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
@@ -420,7 +420,7 @@ export const SyncCodeModal: React.FC<Props> = ({ onClose, initialImportCode }) =
                       </div>
                       <button
                         onClick={() => handleRestore(b)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#252525] border border-white/10 hover:border-cyan-500/40 hover:text-cyan-300 text-gray-300 text-[11px] font-bold transition-colors shrink-0"
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#192a34] border border-white/10 hover:border-cyan-500/40 hover:text-cyan-300 text-gray-300 text-[11px] font-bold transition-colors shrink-0"
                       >
                         <RotateCcw size={12} /> Restore
                       </button>

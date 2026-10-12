@@ -98,7 +98,7 @@ export const DpsCalc: React.FC = () => {
   return (
     <div className="flex flex-col gap-4">
       {/* Target */}
-      <div className="bg-[#151515] border border-white/10 rounded-xl p-3 space-y-3">
+      <div className="bg-[#0e181d] border border-white/10 rounded-xl p-3 space-y-3">
         <Field label="Boss">
           <select value={boss.name} onChange={(e) => setBossName(e.target.value)} className={selectCls}>
             {sortedBosses.map((b) => (
@@ -120,12 +120,12 @@ export const DpsCalc: React.FC = () => {
       </div>
 
       {/* Setup */}
-      <div className="bg-[#151515] border border-white/10 rounded-xl p-3 space-y-3">
+      <div className="bg-[#0e181d] border border-white/10 rounded-xl p-3 space-y-3">
         <div className="flex gap-1 flex-wrap">
           {COMBAT_STYLES.map((s) => {
             const Icon = STYLE_ICON[s];
             return (
-              <button key={s} onClick={() => setStyle(s)} className={`flex items-center gap-1 px-2.5 py-1 rounded border text-[11px] font-bold ${style === s ? 'border-red-500/40 bg-red-950/30 text-red-200' : 'border-white/10 bg-[#1a1a1a] text-gray-400 hover:text-gray-200'}`}>
+              <button key={s} onClick={() => setStyle(s)} className={`flex items-center gap-1 px-2.5 py-1 rounded border text-[11px] font-bold ${style === s ? 'border-red-500/40 bg-red-950/30 text-red-200' : 'border-white/10 bg-[#121d24] text-gray-400 hover:text-gray-200'}`}>
                 <Icon size={12} /> {STYLE_LABEL[s]}
               </button>
             );
@@ -196,14 +196,14 @@ export const DpsCalc: React.FC = () => {
 };
 
 const Stat: React.FC<{ label: string; value: React.ReactNode; accent: string; Icon: typeof Zap }> = ({ label, value, accent, Icon }) => (
-  <div className="rounded-lg bg-[#151515] border border-white/5 px-3 py-2">
+  <div className="rounded-lg bg-[#0e181d] border border-white/5 px-3 py-2">
     <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-widest text-gray-500 mb-0.5"><Icon size={10} /> {label}</div>
     <div className={`text-xl font-black leading-none ${accent}`}>{value}</div>
   </div>
 );
 
 const Info2: React.FC<{ label: string; value: React.ReactNode; Icon?: typeof Zap }> = ({ label, value, Icon }) => (
-  <div className="rounded bg-[#1a1a1a] border border-white/5 px-2 py-1 min-w-0">
+  <div className="rounded bg-[#121d24] border border-white/5 px-2 py-1 min-w-0">
     <div className="text-[8px] uppercase tracking-widest text-gray-600 flex items-center gap-1">{Icon && <Icon size={9} />}{label}</div>
     <div className="text-[11px] font-bold text-gray-200 truncate" title={String(value)}>{value}</div>
   </div>

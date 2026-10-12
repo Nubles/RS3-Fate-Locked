@@ -207,10 +207,10 @@ export const LogViewer: React.FC = () => {
   );
 
   return (
-    <div className="h-full flex flex-col relative bg-[#121212] rounded-lg overflow-hidden border border-white/5">
+    <div className="h-full flex flex-col relative bg-[#0c1419] rounded-lg overflow-hidden border border-white/5">
       
       {/* Header Toolbar */}
-      <div className="p-3 border-b border-white/10 bg-[#1a1a1a] flex flex-col gap-3 shrink-0">
+      <div className="p-3 border-b border-white/10 bg-[#121d24] flex flex-col gap-3 shrink-0">
         
         <div className="flex justify-between items-center">
           <h3 className="text-gray-200 text-sm font-bold flex items-center gap-2">

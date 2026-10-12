@@ -121,7 +121,7 @@ export const GuidedTour: React.FC = () => {
 
       {/* Tooltip card */}
       <div
-        className="fixed w-[330px] bg-[#1c1c1c] border border-amber-500/30 rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.7)] p-4 animate-in fade-in zoom-in-95 duration-200"
+        className="fixed w-[330px] bg-[#132027] border border-amber-500/30 rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.7)] p-4 animate-in fade-in zoom-in-95 duration-200"
         style={tipStyle}
       >
         <div className="flex items-start gap-2 mb-2">

@@ -58,7 +58,7 @@ export const JournalNextUpStrip: React.FC<JournalNextUpStripProps> = ({
             <button
               key={it.id}
               onClick={() => onItemClick(it.id)}
-              className="flex items-center gap-2 px-2.5 py-1.5 bg-[#1a1a1a] border border-white/5 rounded-md hover:bg-white/5 hover:border-white/15 transition-all text-left group"
+              className="flex items-center gap-2 px-2.5 py-1.5 bg-[#121d24] border border-white/5 rounded-md hover:bg-white/5 hover:border-white/15 transition-all text-left group"
             >
               {it.tierLabel && (
                 <span className={`text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded border border-current ${it.tierColorClass || textAccent} shrink-0`}>

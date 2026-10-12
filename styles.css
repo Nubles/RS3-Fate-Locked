@@ -2,25 +2,113 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: #161616;
-  color: #d1d5db;
+/* ── RS3 interface theme ────────────────────────────────────────────────
+   The app is styled after the RuneScape 3 (NXT) interface: deep steel-blue
+   panels, bevelled steel borders, gradient title bars with gold titles and
+   cyan highlights. Colours live in tailwind.config.js (rs3.* and the
+   retinted gray scale); these classes add the window chrome. */
+:root {
+  --rs3-bg: #0a1419;
+  --rs3-panel: #13212a;
+  --rs3-panel-hi: #1c2f3a;
+  --rs3-border: #3a5361;
+  --rs3-border-hi: #6a8797;
+  --rs3-gold: #e8c06b;
+  --rs3-accent: #4cc4e2;
 }
 
-/* Custom Scrollbar */
+body {
+  background-color: var(--rs3-bg);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(76, 196, 226, 0.08), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 50% 110%, rgba(232, 192, 107, 0.04), transparent 70%);
+  background-attachment: fixed;
+  color: #d4dee3;
+}
+
+/* A framed RS3 interface window: steel border with a light top bevel and a
+   dark inner edge. */
+.rs3-window {
+  background: linear-gradient(180deg, #172832 0%, var(--rs3-panel) 120px);
+  border: 1px solid var(--rs3-border);
+  box-shadow:
+    inset 0 1px 0 rgba(160, 196, 214, 0.18),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.55),
+    0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+/* The gradient title bar that tops RS3 windows and the top HUD. */
+.rs3-titlebar {
+  background: linear-gradient(180deg, #2a4351 0%, #1b2d38 48%, #14232c 52%, #101c23 100%);
+  border-bottom: 1px solid #050b0e;
+  box-shadow:
+    inset 0 1px 0 rgba(170, 205, 222, 0.22),
+    0 1px 0 rgba(106, 135, 151, 0.25);
+}
+
+/* Gold window titles, with the hard drop shadow RS3 puts under its text. */
+.rs3-title {
+  color: var(--rs3-gold);
+  text-shadow: 1px 1px 0 #000;
+}
+.text-shadow {
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* Tabs along the top of a window. The active one lifts into the window,
+   like the RS3 ribbon tabs; its coloured underline comes from the tab. */
+.rs3-tab {
+  background: linear-gradient(180deg, #1a2b35 0%, #111d24 100%);
+  border-right: 1px solid #070e12;
+  box-shadow: inset 0 1px 0 rgba(160, 196, 214, 0.1);
+}
+.rs3-tab:hover {
+  background: linear-gradient(180deg, #223845 0%, #16252e 100%);
+}
+.rs3-tab-active {
+  background: linear-gradient(180deg, #2b4757 0%, #1c2f3a 100%);
+  box-shadow: inset 0 1px 0 rgba(180, 215, 232, 0.28);
+}
+
+/* Bevelled steel button / icon tray. */
+.rs3-tray {
+  background: linear-gradient(180deg, #1f3440 0%, #142229 100%);
+  border: 1px solid var(--rs3-border);
+  box-shadow: inset 0 1px 0 rgba(170, 205, 222, 0.15), 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* Inventory-style slot: a recessed dark square. */
+.rs3-slot {
+  background: #0b161c;
+  border: 1px solid #2a3f4b;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7), 0 1px 0 rgba(106, 135, 151, 0.15);
+}
+
+/* RS3-style scrollbar: a recessed track with a bevelled steel thumb. */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #1f1f1f;
+  background: #0b161c;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.8);
 }
 ::-webkit-scrollbar-thumb {
-  background: #4b5563;
-  border-radius: 4px;
+  background: linear-gradient(90deg, #3a5361 0%, #5a7787 50%, #3a5361 100%);
+  border: 1px solid #0b161c;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:horizontal {
+  background: linear-gradient(180deg, #3a5361 0%, #5a7787 50%, #3a5361 100%);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #6b7280;
+  background: linear-gradient(90deg, #4a6676 0%, #7392a3 50%, #4a6676 100%);
+}
+/* Firefox (setting this in Chromium would switch off the rules above). */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-color: #4a6676 #0b161c;
+  }
 }
 
 /* ── Keyboard accessibility ──────────────────────────────────────────────

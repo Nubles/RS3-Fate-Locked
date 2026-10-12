@@ -62,7 +62,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }: any) => {
        <div 
          className={`
            group relative flex flex-col items-center justify-center p-1 rounded transition-all duration-200 cursor-pointer h-full border border-transparent
-           ${isHighlighted ? 'bg-white/10 ring-1 ring-[#ff981f]' : 'hover:bg-white/5 hover:border-[#ff981f]/30'}
+           ${isHighlighted ? 'bg-white/10 ring-1 ring-[#e8c06b]' : 'hover:bg-white/5 hover:border-[#e8c06b]/30'}
          `}
          onClick={(e) => handleItemClick(e, item.id, item.name)}
          title={`${item.name} ${isUnlocked ? `(x${count})` : '(Locked)'}`}
@@ -73,21 +73,21 @@ const Cell = ({ columnIndex, rowIndex, style, data }: any) => {
            </div>
            
            {isUnlocked && count > 1 && (
-             <div className="absolute -top-1 -right-1 text-[8px] font-bold text-black bg-[#ff981f] px-1 rounded-full border border-black shadow-sm leading-tight z-10">
+             <div className="absolute -top-1 -right-1 text-[8px] font-bold text-black bg-[#e8c06b] px-1 rounded-full border border-black shadow-sm leading-tight z-10">
                {count}
              </div>
            )}
            {!isUnlocked && (
              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-40">
-               <Lock size={12} className="text-[#887]" />
+               <Lock size={12} className="text-[#788891]" />
              </div>
            )}
          </div>
-         <span className={`text-[8px] mt-1 text-center leading-tight line-clamp-2 w-full ${isUnlocked ? 'text-green-400' : 'text-[#887]'} ${isHighlighted ? 'text-white font-bold' : ''}`}>
+         <span className={`text-[8px] mt-1 text-center leading-tight line-clamp-2 w-full ${isUnlocked ? 'text-green-400' : 'text-[#788891]'} ${isHighlighted ? 'text-white font-bold' : ''}`}>
            <WikiLink name={item.name} className="hover:underline decoration-dotted underline-offset-2" />
          </span>
          {item.sourcePage && (
-             <span className="text-[7px] text-[#ff981f]/60 mt-0.5 text-center leading-none w-full truncate px-1">
+             <span className="text-[7px] text-[#e8c06b]/60 mt-0.5 text-center leading-none w-full truncate px-1">
                  {item.sourcePage}
              </span>
          )}
@@ -280,75 +280,75 @@ export const CollectionLog: React.FC<CollectionLogProps> = ({ searchTerm = '' })
   const [showReach, setShowReach] = useState(false);
 
   return (
-    <div className="flex flex-col h-full bg-[#3e3529] border-2 border-[#5a5245] rounded-lg overflow-hidden font-sans shadow-2xl relative text-[#ff981f]">
+    <div className="flex flex-col h-full rs3-window rounded-lg overflow-hidden font-sans relative text-[#e8c06b]">
       {/* Top Bar */}
-      <div className="flex justify-between items-center p-2 bg-[#3e3529] border-b-2 border-[#5a5245] shadow-md shrink-0">
-        <h2 className="text-[#ff981f] text-shadow font-bold px-2 text-sm uppercase tracking-wider">Collection Log</h2>
+      <div className="flex justify-between items-center p-2 rs3-titlebar shrink-0">
+        <h2 className="rs3-title font-bold px-2 text-sm uppercase tracking-wider">Collection Log</h2>
         
         {/* Wealth Ticker */}
         <div className="flex items-center gap-4">
             {mostValuable && (
-                <div className="hidden md:flex items-center gap-2 text-[10px] bg-[#2c241b] px-2 py-1 rounded border border-[#5a5245] shadow-inner text-[#d4c5b0]">
-                    <span className="text-[#ff981f] font-bold flex items-center gap-1"><TrendingUp size={10} /> MVP:</span>
+                <div className="hidden md:flex items-center gap-2 text-[10px] bg-[#182831] px-2 py-1 rounded border border-[#3f5866] shadow-inner text-[#c3d0d7]">
+                    <span className="text-[#e8c06b] font-bold flex items-center gap-1"><TrendingUp size={10} /> MVP:</span>
                     <span className="truncate max-w-[80px] text-white">{mostValuable.name}</span>
                     <span className="text-green-400 font-mono">({formatNumber(mostValuable.value)})</span>
                 </div>
             )}
-            <div className="flex items-center gap-2 text-xs font-mono bg-black/30 px-3 py-1 rounded border border-[#5a5245] text-rs3-gold shadow-inner">
+            <div className="flex items-center gap-2 text-xs font-mono bg-black/30 px-3 py-1 rounded border border-[#3f5866] text-rs3-gold shadow-inner">
                 <Coins size={12} className="text-yellow-400" />
                 <span>{formatNumber(vaultValue)} gp</span>
             </div>
-            <div className="text-xs font-mono bg-black/30 px-2 py-1 rounded border border-[#5a5245]">
+            <div className="text-xs font-mono bg-black/30 px-2 py-1 rounded border border-[#3f5866]">
                <span className="text-white">{globalStats.obtained}</span> / {globalStats.total}
             </div>
             <button
               onClick={() => setShowReach(s => !s)}
               title="How much of the log is obtainable with your current unlocks"
-              className={`text-xs font-mono px-2 py-1 rounded border transition-colors ${showReach ? 'bg-emerald-900/40 border-emerald-500/50' : 'bg-black/30 border-[#5a5245] hover:border-emerald-500/40'}`}
+              className={`text-xs font-mono px-2 py-1 rounded border transition-colors ${showReach ? 'bg-emerald-900/40 border-emerald-500/50' : 'bg-black/30 border-[#3f5866] hover:border-emerald-500/40'}`}
             >
-              <span className="text-emerald-300">{reach.pct}%</span> <span className="text-[#d4c5b0]">reachable</span>
+              <span className="text-emerald-300">{reach.pct}%</span> <span className="text-[#c3d0d7]">reachable</span>
             </button>
         </div>
       </div>
 
       {/* Reachability strip — obtainable now + top unlocks to open more slots */}
       {showReach && (
-        <div className="bg-[#2c241b] border-b-2 border-[#5a5245] px-3 py-2 shrink-0 text-[11px]">
+        <div className="bg-[#182831] border-b-2 border-[#3f5866] px-3 py-2 shrink-0 text-[11px]">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-2">
-            <span className="text-[#d4c5b0]">
+            <span className="text-[#c3d0d7]">
               <span className="text-emerald-300 font-bold">{reach.obtainable}</span> / {reach.total} slots obtainable now
             </span>
-            <span className="text-[#d4c5b0]">
+            <span className="text-[#c3d0d7]">
               Unlock-gated: <span className="text-white font-mono">{reach.gatedObtainable}/{reach.gatedTotal}</span>
             </span>
             {reach.tabs.filter(t => t.gated).map(t => (
-              <span key={t.tab} className="text-[#9a8a73]">{t.tab}: <span className="text-[#d4c5b0] font-mono">{t.obtainable}/{t.total}</span></span>
+              <span key={t.tab} className="text-[#808f97]">{t.tab}: <span className="text-[#c3d0d7] font-mono">{t.obtainable}/{t.total}</span></span>
             ))}
           </div>
           {reach.suggestions.length > 0 && (
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-[#9a8a73] uppercase tracking-wide text-[9px]">Open most slots:</span>
+              <span className="text-[#808f97] uppercase tracking-wide text-[9px]">Open most slots:</span>
               {reach.suggestions.slice(0, 6).map(s => (
-                <span key={s.tab + s.page} className="px-1.5 py-0.5 rounded bg-black/30 border border-[#5a5245] text-[#d4c5b0]">
+                <span key={s.tab + s.page} className="px-1.5 py-0.5 rounded bg-black/30 border border-[#3f5866] text-[#c3d0d7]">
                   {s.kind === 'boss' ? '🗡' : '🎯'} {s.unlock} <span className="text-emerald-300 font-mono">+{s.items}</span>
                 </span>
               ))}
             </div>
           )}
-          <div className="text-[9px] text-[#7a6f5e] mt-1.5 italic">
+          <div className="text-[9px] text-[#617480] mt-1.5 italic">
             Based on boss/minigame unlocks. Slayer, Clues &amp; Other slots are counted as always-available (no single gating source), so this % is approximate.
           </div>
         </div>
       )}
 
       {/* Tabs Row */}
-      <div className="flex bg-[#3e3529] border-b border-[#5a5245] overflow-x-auto no-scrollbar shrink-0">
+      <div className="flex bg-[#233a48] border-b border-[#3f5866] overflow-x-auto no-scrollbar shrink-0">
         {Object.keys(COLLECTION_LOG_DATA).map(tab => (
           <button
             key={tab}
             onClick={() => { setActiveTab(tab); setViewMode('PAGE'); }}
-            className={`flex-1 min-w-[80px] py-1.5 text-center text-[10px] font-bold border-r border-[#5a5245] hover:bg-[#4b4236] transition-colors uppercase tracking-wide
-              ${activeTab === tab && !searchTerm ? 'bg-[#4b4236] text-white shadow-[inset_0_0_5px_rgba(0,0,0,0.5)]' : 'text-[#ff981f] bg-[#3e3529]'}
+            className={`flex-1 min-w-[80px] py-1.5 text-center text-[10px] font-bold border-r border-[#3f5866] hover:bg-[#2f4857] transition-colors uppercase tracking-wide
+              ${activeTab === tab && !searchTerm ? 'bg-[#2f4857] text-white shadow-[inset_0_0_5px_rgba(0,0,0,0.5)]' : 'text-[#e8c06b] bg-[#233a48]'}
               ${searchTerm ? 'opacity-50' : 'opacity-100'}
             `}
           >
@@ -359,12 +359,12 @@ export const CollectionLog: React.FC<CollectionLogProps> = ({ searchTerm = '' })
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar List */}
-        <div className="w-1/3 min-w-[120px] bg-[#3e3529] border-r-2 border-[#5a5245] flex flex-col">
-           <div className="overflow-y-auto custom-scrollbar flex-1 bg-[#3e3529]">
+        <div className="w-1/3 min-w-[120px] bg-[#233a48] border-r-2 border-[#3f5866] flex flex-col">
+           <div className="overflow-y-auto custom-scrollbar flex-1 bg-[#233a48]">
              {searchTerm && (
                  <button
                     onClick={() => setViewMode('SEARCH_ALL')}
-                    className={`w-full text-left px-2 py-2 border-b border-[#463d32] hover:bg-[#4b4236] flex items-center gap-2 transition-colors ${viewMode === 'SEARCH_ALL' ? 'bg-[#52483a] text-white' : 'text-[#ff981f]'}`}
+                    className={`w-full text-left px-2 py-2 border-b border-[#294454] hover:bg-[#2f4857] flex items-center gap-2 transition-colors ${viewMode === 'SEARCH_ALL' ? 'bg-[#354e5d] text-white' : 'text-[#e8c06b]'}`}
                  >
                     <ListFilter size={14} />
                     <span className="text-[10px] font-bold uppercase">All Results ({allSearchItems.length})</span>
@@ -385,27 +385,27 @@ export const CollectionLog: React.FC<CollectionLogProps> = ({ searchTerm = '' })
                         setActivePage(key); 
                         setViewMode('PAGE'); 
                     }}
-                    className={`w-full text-left px-2 py-1.5 border-b border-[#463d32] hover:bg-[#4b4236] flex flex-col transition-colors ${isActive ? 'bg-[#52483a]' : ''}`}
+                    className={`w-full text-left px-2 py-1.5 border-b border-[#294454] hover:bg-[#2f4857] flex flex-col transition-colors ${isActive ? 'bg-[#354e5d]' : ''}`}
                   >
                     <div className="flex justify-between items-center w-full">
-                        <span className={`text-[10px] truncate pr-1 ${isActive ? 'text-white' : isComplete ? 'text-green-400' : 'text-[#ff981f]'}`}>{data.name}</span>
+                        <span className={`text-[10px] truncate pr-1 ${isActive ? 'text-white' : isComplete ? 'text-green-400' : 'text-[#e8c06b]'}`}>{data.name}</span>
                         {isComplete && <CheckCircle2 size={8} className="text-green-500 shrink-0" />}
                     </div>
-                    {searchTerm && <span className="text-[8px] text-[#887] uppercase tracking-wide leading-tight">{tab}</span>}
+                    {searchTerm && <span className="text-[8px] text-[#788891] uppercase tracking-wide leading-tight">{tab}</span>}
                   </button>
                 );
              })}
-             {filteredPages.length === 0 && !allSearchItems.length && <div className="p-4 text-center text-[10px] text-[#887] italic">No results found</div>}
+             {filteredPages.length === 0 && !allSearchItems.length && <div className="p-4 text-center text-[10px] text-[#788891] italic">No results found</div>}
            </div>
         </div>
 
         {/* Grid Area */}
-        <div className="w-2/3 bg-[#1e1b16] flex flex-col relative">
-           <div className="p-1.5 text-center border-b border-[#3e3529] bg-[#2c241b] shadow-md shrink-0">
-             <h3 className="text-[#ff981f] text-sm font-bold text-shadow truncate px-2">
+        <div className="w-2/3 bg-[#121d24] flex flex-col relative">
+           <div className="p-1.5 text-center border-b border-[#233a48] bg-[#182831] shadow-md shrink-0">
+             <h3 className="text-[#e8c06b] text-sm font-bold text-shadow truncate px-2">
                 {viewMode === 'SEARCH_ALL' ? `Search: "${searchTerm}"` : (currentTabContent?.pages[activePage]?.name || "Select a Category")}
              </h3>
-             <div className="text-[9px] text-[#887] mt-0.5">
+             <div className="text-[9px] text-[#788891] mt-0.5">
                   {viewMode === 'SEARCH_ALL' ? 
                     `${allSearchItems.filter(i => unlocks.collectionLog[i.id]).length} / ${allSearchItems.length} Found` :
                     currentTabContent?.pages[activePage] ? 
@@ -429,7 +429,7 @@ export const CollectionLog: React.FC<CollectionLogProps> = ({ searchTerm = '' })
                  {Cell}
                </Grid>
              ) : (
-               <div className="flex flex-col items-center justify-center h-full text-[#5a5245] italic text-xs gap-2">
+               <div className="flex flex-col items-center justify-center h-full text-[#3f5866] italic text-xs gap-2">
                  <Search size={24} className="opacity-20" />
                  <span>{searchTerm && allSearchItems.length === 0 ? "No matches found" : "Select a category to view items"}</span>
                </div>

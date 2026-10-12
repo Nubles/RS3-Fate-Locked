@@ -106,7 +106,7 @@ const QuestCard: React.FC<QuestCardProps> = ({ quest, unlocks, currentQP, onTogg
               hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/40
               ${isCompleted ? 'bg-green-900/10 border-green-500/20 opacity-60 hover:opacity-100' :
                 isAvailable ? 'bg-blue-900/10 border-blue-500/40 hover:bg-blue-900/20' :
-                'bg-[#1a1a1a] border-white/5 opacity-80 hover:opacity-100'}
+                'bg-[#121d24] border-white/5 opacity-80 hover:opacity-100'}
               ${highlight ? 'ring-2 ring-amber-400/70 shadow-[0_0_20px_rgba(251,191,36,0.25)]' : ''}
           `}
       >
@@ -485,7 +485,7 @@ export const QuestLog: React.FC<QuestLogProps> = ({ searchTerm: externalSearch =
   const currentQP = unlocks.quests.reduce((acc, qid) => acc + (QUEST_DATA[qid]?.points || 0), 0);
 
   return (
-    <div className="bg-[#121212] flex flex-col h-full rounded-lg border border-white/10 overflow-hidden">
+    <div className="bg-[#0c1419] flex flex-col h-full rounded-lg border border-white/10 overflow-hidden">
       <JournalFilterBar
         title="Quest Journal"
         icon={<BookOpen size={14} />}
@@ -560,7 +560,7 @@ export const QuestLog: React.FC<QuestLogProps> = ({ searchTerm: externalSearch =
             <>
                 {seriesGroups.map(([seriesName, quests]) => (
                     <div key={seriesName}>
-                        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest px-1 pb-2 flex items-center gap-2 sticky top-0 bg-[#121212] z-10 border-b border-white/5 mb-2">
+                        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest px-1 pb-2 flex items-center gap-2 sticky top-0 bg-[#0c1419] z-10 border-b border-white/5 mb-2">
                             <Layers size={12} /> {seriesName} ({quests.length})
                         </h3>
                         <div className="space-y-2">
@@ -592,7 +592,7 @@ export const QuestLog: React.FC<QuestLogProps> = ({ searchTerm: externalSearch =
             <>
                 {mainQuests.length > 0 && (
                     <div>
-                        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest px-1 pb-2 flex items-center gap-2 sticky top-0 bg-[#121212] z-10 border-b border-white/5 mb-2">
+                        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest px-1 pb-2 flex items-center gap-2 sticky top-0 bg-[#0c1419] z-10 border-b border-white/5 mb-2">
                             <Scroll size={12} /> Quests ({mainQuests.length})
                         </h3>
                         <div className="space-y-2">
@@ -616,7 +616,7 @@ export const QuestLog: React.FC<QuestLogProps> = ({ searchTerm: externalSearch =
 
                 {miniquests.length > 0 && (
                     <div>
-                        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest px-1 pb-2 pt-2 flex items-center gap-2 sticky top-0 bg-[#121212] z-10 border-b border-white/5 mb-2">
+                        <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest px-1 pb-2 pt-2 flex items-center gap-2 sticky top-0 bg-[#0c1419] z-10 border-b border-white/5 mb-2">
                             <Bookmark size={12} /> Miniquests ({miniquests.length})
                         </h3>
                         <div className="space-y-2">

@@ -94,7 +94,7 @@ export const SkillTrainingPopover: React.FC<Props> = ({
     <div
       ref={ref}
       style={posStyle}
-      className="rounded-xl border border-white/15 bg-[#181818] shadow-[0_8px_40px_rgba(0,0,0,0.7)] overflow-hidden"
+      className="rounded-xl border border-white/15 bg-[#101b21] shadow-[0_8px_40px_rgba(0,0,0,0.7)] overflow-hidden"
     >
       {/* ── Header ─────────────────────────────────────────── */}
       <div className="flex items-center justify-between px-3 py-2.5 bg-black/40 border-b border-white/10">

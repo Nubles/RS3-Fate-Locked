@@ -1308,7 +1308,7 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
       {/* ── Chunk lens control ─────────────────────────────────────────────── */}
       {!authoring && (
         <div className="absolute top-2 left-2 z-30 w-64 max-w-[70%]">
-          <div className="bg-[#101010]/95 border border-white/15 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden">
+          <div className="bg-[#0b1216]/95 border border-white/15 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden">
             <div className="flex items-center gap-1.5 px-2 py-1.5">
               <Search size={13} className="text-gray-500 shrink-0" />
               <input
@@ -1413,7 +1413,7 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
       {/* ── Map overlay layers ─────────────────────────────────────────────── */}
       {!authoring && (
         <div className="absolute bottom-2 left-2 z-30 w-56 max-w-[70%]">
-          <div className="bg-[#101010]/95 border border-white/15 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden">
+          <div className="bg-[#0b1216]/95 border border-white/15 rounded-lg shadow-xl backdrop-blur-sm overflow-hidden">
             <div className={`flex items-center gap-1.5 px-2 py-1.5 ${overlayCollapsed ? '' : 'border-b border-white/5'}`}>
               <button onClick={() => setOverlayCollapsed(c => !c)} className="flex items-center gap-1.5 flex-1 min-w-0 text-left" title={overlayCollapsed ? 'Expand overlays' : 'Collapse overlays'}>
                 <Layers size={12} className="text-sky-400 shrink-0" />
@@ -1529,7 +1529,7 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
           transform would otherwise offset it off-screen). */}
       {hoverMarker && createPortal(
         <div
-          className="fixed z-[100] pointer-events-none bg-[#0b0b0b]/95 border border-white/15 rounded-md shadow-xl px-2 py-1.5 max-w-[220px]"
+          className="fixed z-[100] pointer-events-none bg-[#080c0f]/95 border border-white/15 rounded-md shadow-xl px-2 py-1.5 max-w-[220px]"
           style={{ left: hoverMarker.x + 14, top: hoverMarker.y + 14 }}
         >
           {hoverMarker.star ? (

@@ -20,7 +20,7 @@ const rateColor = (rate: number): string =>
   : rate >= 50 ? 'text-red-400'
   : rate >= 25 ? 'text-blue-400'
   : rate >= 11 ? 'text-green-400'
-  : 'text-[#a8a29a]';
+  : 'text-[#9faab0]';
 
 // Visual identity for each Void Altar ritual (data comes from economy.RITUALS).
 const ALTAR_UI: Record<string, { icon: any; color: string; border: string }> = {
@@ -56,10 +56,10 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
 
   return (
     <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Game reference" tabIndex={-1} className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-in fade-in duration-200">
-      <div className="bg-[#121212] border border-rs3-border w-full max-w-5xl rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col h-[85vh]">
+      <div className="bg-[#0c1419] border border-rs3-border w-full max-w-5xl rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col h-[85vh]">
         
         {/* Header */}
-        <div className="bg-[#1a1a1a] p-4 border-b border-rs3-border flex justify-between items-center shrink-0">
+        <div className="bg-[#121d24] p-4 border-b border-rs3-border flex justify-between items-center shrink-0">
           <div className="flex items-center gap-3">
              <div className="bg-rs3-gold/10 p-2 rounded-lg border border-rs3-gold/20">
                 <HelpCircle className="w-5 h-5 text-rs3-gold" />
@@ -83,7 +83,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
         {/* Main Content Layout */}
         <div className="flex flex-1 overflow-hidden">
             {/* Sidebar Navigation */}
-            <div className="w-64 bg-[#161616] border-r border-rs3-border flex flex-col overflow-y-auto custom-scrollbar shrink-0">
+            <div className="w-64 bg-[#0f191f] border-r border-rs3-border flex flex-col overflow-y-auto custom-scrollbar shrink-0">
                 <div className="p-3 space-y-1">
                     {tabs.map(tab => {
                         const Icon = tab.icon;
@@ -95,8 +95,8 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 className={`
                                     w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-bold transition-all duration-200
                                     ${isActive 
-                                        ? 'bg-[#252525] text-rs3-gold border border-rs3-gold/20 shadow-md translate-x-1' 
-                                        : 'text-gray-400 hover:bg-[#202020] hover:text-gray-200 border border-transparent'}
+                                        ? 'bg-[#192a34] text-rs3-gold border border-rs3-gold/20 shadow-md translate-x-1' 
+                                        : 'text-gray-400 hover:bg-[#16242d] hover:text-gray-200 border border-transparent'}
                                 `}
                             >
                                 <Icon size={18} className={isActive ? 'text-rs3-gold' : 'text-gray-500'} />
@@ -114,7 +114,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
             </div>
 
             {/* Scrollable Content Area */}
-            <div className="flex-1 overflow-y-auto custom-scrollbar bg-[#1a1a1a] relative">
+            <div className="flex-1 overflow-y-auto custom-scrollbar bg-[#121d24] relative">
                 <div className="p-8 max-w-4xl mx-auto">
                     
                     {activeTab === 'core' && (
@@ -125,7 +125,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                             </div>
 
                             {/* The Concept */}
-                            <div className="bg-[#222] p-6 rounded-xl border border-white/5">
+                            <div className="bg-[#17272f] p-6 rounded-xl border border-white/5">
                                  <h3 className="text-rs3-gold font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
                                     <Skull size={18} /> The Concept
                                 </h3>
@@ -136,7 +136,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                             </div>
 
                             {/* The Core Loop */}
-                            <div className="bg-[#222] p-6 rounded-xl border border-white/5">
+                            <div className="bg-[#17272f] p-6 rounded-xl border border-white/5">
                                 <h3 className="text-green-400 font-bold uppercase tracking-widest mb-6 flex items-center gap-2">
                                     <Activity size={18} /> The Core Loop
                                 </h3>
@@ -177,7 +177,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
 
                             {/* The Progression */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="bg-[#222] p-4 rounded-xl border border-white/5">
+                                <div className="bg-[#17272f] p-4 rounded-xl border border-white/5">
                                     <h4 className="font-bold text-gray-200 mb-2 flex items-center gap-2"><Shield size={16} className="text-rs3-pity"/> Fate Points</h4>
                                     <p className="text-xs text-gray-400">
                                         Bad luck protection. Each failed roll adds 1 Fate Point.
@@ -189,7 +189,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                         )}
                                     </p>
                                 </div>
-                                 <div className="bg-[#222] p-4 rounded-xl border border-white/5">
+                                 <div className="bg-[#17272f] p-4 rounded-xl border border-white/5">
                                     <h4 className="font-bold text-gray-200 mb-2 flex items-center gap-2"><Sparkles size={16} className="text-purple-400"/> Omni-Keys</h4>
                                     <p className="text-xs text-gray-400">
                                         Rare upgrade on a successful roll (<span className="text-white font-bold">{rules.omniChanceBase}% base chance</span> in your mode).
@@ -210,7 +210,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                             </div>
 
                             {/* The loop */}
-                            <div className="bg-[#222] p-6 rounded-xl border border-white/5">
+                            <div className="bg-[#17272f] p-6 rounded-xl border border-white/5">
                                 <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-wider">
                                     <span className="px-3 py-2 rounded-lg bg-green-900/30 text-green-300 border border-green-500/20">Do a task</span>
                                     <ArrowUp className="rotate-90 text-gray-600 shrink-0" size={14} />
@@ -230,7 +230,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 <h3 className="text-rs3-gold font-bold uppercase tracking-widest mb-4 flex items-center gap-2"><Key size={18}/> The Three Keys</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     {KEY_TYPES.map(k => (
-                                        <div key={k.id} className="bg-[#222] rounded-xl border border-white/5 p-5 flex flex-col">
+                                        <div key={k.id} className="bg-[#17272f] rounded-xl border border-white/5 p-5 flex flex-col">
                                             <div className="flex items-center gap-2 mb-1">
                                                 <img src={k.icon} alt="" className="w-6 h-6 object-contain" />
                                                 <h4 className={`font-bold text-lg ${k.accent}`}>{k.name}</h4>
@@ -252,7 +252,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                             </div>
 
                             {/* Worked example */}
-                            <div className="bg-gradient-to-br from-[#1d2230] to-[#222] p-6 rounded-xl border border-blue-500/20">
+                            <div className="bg-gradient-to-br from-[#1d2230] to-[#17272f] p-6 rounded-xl border border-blue-500/20">
                                 <h3 className="text-blue-300 font-bold uppercase tracking-widest mb-4 flex items-center gap-2"><Dices size={18}/> A single roll, start to finish</h3>
                                 <ol className="space-y-3 text-sm text-gray-300">
                                     <li><b className="text-white">1.</b> You finish <b>Desert Treasure</b> — a <b className="text-purple-400">Master</b> quest — and tick it off in the Journal.</li>
@@ -265,7 +265,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
 
                             {/* Fate + altar quick ref */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="bg-[#222] p-5 rounded-xl border border-white/5">
+                                <div className="bg-[#17272f] p-5 rounded-xl border border-white/5">
                                     <h4 className="font-bold text-gray-200 mb-2 flex items-center gap-2"><Shield size={16} className="text-rs3-pity"/> Fate Points</h4>
                                     <p className="text-xs text-gray-400 leading-relaxed">
                                         Earned <b>+1 per failed roll</b>, reset to 0 the moment you get any Key.
@@ -275,7 +275,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                         {' '}Either way, they're the fuel for the Void Altar.
                                     </p>
                                 </div>
-                                <div className="bg-[#222] p-5 rounded-xl border border-white/5">
+                                <div className="bg-[#17272f] p-5 rounded-xl border border-white/5">
                                     <h4 className="font-bold text-gray-200 mb-2 flex items-center gap-2"><Zap size={16} className="text-purple-400"/> Spend Fate at the Altar</h4>
                                     <ul className="space-y-1.5 text-xs text-gray-400">
                                         {RITUALS.map(r => (
@@ -294,7 +294,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                             </p>
 
                             {/* Smart play */}
-                            <div className="bg-gradient-to-br from-emerald-950/40 to-[#222] p-6 rounded-xl border border-emerald-500/20">
+                            <div className="bg-gradient-to-br from-emerald-950/40 to-[#17272f] p-6 rounded-xl border border-emerald-500/20">
                                 <h3 className="text-emerald-300 font-bold uppercase tracking-widest mb-3 flex items-center gap-2"><Compass size={18}/> Smart Play</h3>
                                 <ul className="space-y-2 text-sm text-gray-300">
                                     <li className="flex gap-2"><span className="text-emerald-400 font-bold shrink-0">›</span><span><b>Slayer is your engine.</b> It's the most repeatable roll — climb to higher masters (Konar 35%, Duradel 70%, Boss tasks 80%) as soon as you can survive them.</span></li>
@@ -314,7 +314,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 <p className="text-gray-400">Every run is played under one fixed ruleset.</p>
                             </div>
 
-                            <div className="bg-[#222] p-6 rounded-xl border border-amber-500/20">
+                            <div className="bg-[#17272f] p-6 rounded-xl border border-amber-500/20">
                                 <h3 className="text-amber-400 font-bold uppercase tracking-widest mb-3 flex items-center gap-2">
                                     <Lock size={16} /> The Mode Locks On Start
                                 </h3>
@@ -326,7 +326,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 </p>
                             </div>
 
-                            <div className="bg-[#222] p-6 rounded-xl border border-white/5">
+                            <div className="bg-[#17272f] p-6 rounded-xl border border-white/5">
                                 <h3 className="text-gray-200 font-bold uppercase tracking-widest mb-4">The Rule Knobs</h3>
                                 <ul className="space-y-3 text-sm text-gray-400">
                                     <li><b className="text-sky-400">Pity System</b> — whether failed rolls eventually guarantee a Key, and after how many Fate Points.</li>
@@ -341,7 +341,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                     const isActive = mode.id === activeMode.id;
                                     const r = (mode.id === 'custom' && isActive) ? rules : mode.rules;
                                     return (
-                                        <div key={mode.id} className={`bg-[#222] p-5 rounded-xl border ${isActive ? 'border-amber-500/60' : 'border-white/5'}`}>
+                                        <div key={mode.id} className={`bg-[#17272f] p-5 rounded-xl border ${isActive ? 'border-amber-500/60' : 'border-white/5'}`}>
                                             <div className="flex items-center justify-between mb-1">
                                                 <h4 className="font-bold text-white text-lg">{mode.name}</h4>
                                                 {isActive && <span className="text-[9px] uppercase tracking-wider bg-emerald-900/60 text-emerald-300 px-1.5 py-0.5 rounded">Your run</span>}
@@ -376,9 +376,9 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 <p className="text-gray-400">How to obtain the Keys of Fate.</p>
                             </div>
 
-                            <div className="bg-[#222] rounded-xl border border-white/5 overflow-hidden">
+                            <div className="bg-[#17272f] rounded-xl border border-white/5 overflow-hidden">
                                 <table className="w-full text-left text-sm">
-                                    <thead className="bg-[#111] text-gray-400 uppercase text-xs">
+                                    <thead className="bg-[#0c1318] text-gray-400 uppercase text-xs">
                                         <tr>
                                             <th className="p-4">Activity Source</th>
                                             <th className="p-4">Drop Rate</th>
@@ -473,7 +473,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                     const ui = ALTAR_UI[r.id];
                                     const Icon = ui.icon;
                                     return (
-                                        <div key={r.id} className={`bg-[#222] p-6 rounded-xl border ${ui.border} relative overflow-hidden`}>
+                                        <div key={r.id} className={`bg-[#17272f] p-6 rounded-xl border ${ui.border} relative overflow-hidden`}>
                                             <div className="absolute top-0 right-0 p-4 opacity-10"><Icon size={64} /></div>
                                             <h3 className={`${ui.color} font-bold text-lg mb-2`}>{r.name}</h3>
                                             <p className="text-sm text-gray-300 mb-4">{r.tagline}</p>
@@ -497,7 +497,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 <p className="text-gray-400">Passive modifiers granted by the continents you've explored.</p>
                             </div>
 
-                            <div className={`p-4 rounded-xl border ${rules.regionModifiers ? 'bg-emerald-950/30 border-emerald-500/30' : 'bg-[#222] border-white/5'}`}>
+                            <div className={`p-4 rounded-xl border ${rules.regionModifiers ? 'bg-emerald-950/30 border-emerald-500/30' : 'bg-[#17272f] border-white/5'}`}>
                                 <p className="text-sm text-gray-300 leading-relaxed">
                                     {rules.regionModifiers ? (
                                         <><b className="text-emerald-400">Active in {activeMode.name} mode.</b> A continent's passive switches on once you unlock any region inside it, and every active bonus stacks.</>
@@ -507,9 +507,9 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 </p>
                             </div>
 
-                            <div className="bg-[#222] rounded-xl border border-white/5 overflow-hidden">
+                            <div className="bg-[#17272f] rounded-xl border border-white/5 overflow-hidden">
                                 <table className="w-full text-left text-sm">
-                                    <thead className="bg-[#111] text-gray-400 uppercase text-xs">
+                                    <thead className="bg-[#0c1318] text-gray-400 uppercase text-xs">
                                         <tr>
                                             <th className="p-4">Continent</th>
                                             <th className="p-4">Passive</th>
@@ -545,21 +545,21 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
 
                             {/* Key types */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div className="bg-[#222] p-4 rounded-xl border border-amber-500/30">
+                                <div className="bg-[#17272f] p-4 rounded-xl border border-amber-500/30">
                                     <h4 className="font-bold text-amber-400 mb-1 flex items-center gap-2"><Key size={16}/> Standard Key</h4>
                                     <p className="text-xs text-gray-400 leading-relaxed">
                                         Spend on a chosen table (Skills, Regions, Equipment…) to unlock a
                                         <b> random</b> entry from it. Your bread-and-butter currency.
                                     </p>
                                 </div>
-                                <div className="bg-[#222] p-4 rounded-xl border border-purple-500/30">
+                                <div className="bg-[#17272f] p-4 rounded-xl border border-purple-500/30">
                                     <h4 className="font-bold text-purple-400 mb-1 flex items-center gap-2"><Sparkles size={16}/> Omni-Key</h4>
                                     <p className="text-xs text-gray-400 leading-relaxed">
                                         Spend on a table to <b>pick exactly</b> the entry you want — no RNG.
                                         Earned by upgrading a successful roll, or forged at the Altar.
                                     </p>
                                 </div>
-                                <div className="bg-[#222] p-4 rounded-xl border border-red-500/30">
+                                <div className="bg-[#17272f] p-4 rounded-xl border border-red-500/30">
                                     <h4 className="font-bold text-red-400 mb-1 flex items-center gap-2"><Dna size={16}/> Chaos Key</h4>
                                     <p className="text-xs text-gray-400 leading-relaxed">
                                         Unlocks a <b>random entry from ANY table</b> — you don't choose the
@@ -570,7 +570,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
 
                             <div className="space-y-6">
                                 <div className="flex gap-4 items-start">
-                                    <div className="bg-[#222] p-3 rounded-lg border border-white/10 shrink-0">
+                                    <div className="bg-[#17272f] p-3 rounded-lg border border-white/10 shrink-0">
                                         <Shield size={24} className="text-gray-400" />
                                     </div>
                                     <div>
@@ -585,7 +585,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 </div>
 
                                 <div className="flex gap-4 items-start">
-                                    <div className="bg-[#222] p-3 rounded-lg border border-white/10 shrink-0">
+                                    <div className="bg-[#17272f] p-3 rounded-lg border border-white/10 shrink-0">
                                         <BookOpen size={24} className="text-blue-400" />
                                     </div>
                                     <div>
@@ -601,7 +601,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 </div>
 
                                 <div className="flex gap-4 items-start">
-                                    <div className="bg-[#222] p-3 rounded-lg border border-white/10 shrink-0">
+                                    <div className="bg-[#17272f] p-3 rounded-lg border border-white/10 shrink-0">
                                         <Map size={24} className="text-emerald-400" />
                                     </div>
                                     <div>
@@ -623,7 +623,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 <p className="text-xs text-gray-500 mb-4">A Standard Key cashes in on whichever table you choose, for a random entry from it. Equipment and Skills are tiered — repeat unlocks deepen them (slots × tiers); the rest are one-and-done.</p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                     {SPEND_TABLES.map(t => (
-                                        <div key={t.label} className="bg-[#222] rounded-lg border border-white/5 p-3 flex items-start gap-3">
+                                        <div key={t.label} className="bg-[#17272f] rounded-lg border border-white/5 p-3 flex items-start gap-3">
                                             <div className="text-[11px] font-mono font-bold text-rs3-gold bg-black/30 rounded px-2 py-1 shrink-0 mt-0.5" title={t.tiers ? `${t.count} entries × ${t.tiers} tiers` : `${t.count} entries`}>
                                                 {t.count}{t.tiers ? `×${t.tiers}` : ''}
                                             </div>
@@ -646,9 +646,9 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 <p className="text-gray-400">Progression of gear power, by RS3 item tier (the level needed to wield or wear it).</p>
                             </div>
 
-                            <div className="bg-[#222] rounded-xl border border-white/5 overflow-hidden">
+                            <div className="bg-[#17272f] rounded-xl border border-white/5 overflow-hidden">
                                 <table className="w-full text-left text-sm">
-                                    <thead className="bg-[#111] text-gray-400 uppercase text-xs">
+                                    <thead className="bg-[#0c1318] text-gray-400 uppercase text-xs">
                                         <tr>
                                             <th className="p-4">Tier</th>
                                             <th className="p-4">Material / Level</th>
@@ -679,7 +679,7 @@ export const ReferenceModal: React.FC<ReferenceModalProps> = ({ onClose }) => {
                                 <p className="text-gray-400">Inventory management is key.</p>
                             </div>
 
-                            <div className="bg-[#222] p-6 rounded-xl border border-white/5">
+                            <div className="bg-[#17272f] p-6 rounded-xl border border-white/5">
                                 <h3 className="font-bold text-gray-200 text-lg mb-4 flex items-center gap-2"><Package size={20}/> The Rules</h3>
                                 <ul className="space-y-4 text-sm text-gray-300 list-disc list-inside">
                                     <li><b>No Banking</b> allowed by default (Ultimate Ironman).</li>

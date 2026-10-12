@@ -266,10 +266,10 @@ export const OracleSearch: React.FC<OracleSearchProps> = ({ onClose }) => {
 
   return (
     <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Oracle search" tabIndex={-1} className="fixed inset-0 z-[300] flex items-start justify-center pt-24 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="w-full max-w-2xl bg-[#1a1a1a] border border-[#333] rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[70vh]">
+      <div className="w-full max-w-2xl bg-[#121d24] border border-[#233a47] rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[70vh]">
         
         {/* Input Header */}
-        <div className="flex items-center px-4 py-4 border-b border-[#333] gap-3">
+        <div className="flex items-center px-4 py-4 border-b border-[#233a47] gap-3">
           <Search className="text-gray-500 w-5 h-5" />
           <input
             ref={inputRef}
@@ -281,7 +281,7 @@ export const OracleSearch: React.FC<OracleSearchProps> = ({ onClose }) => {
             onKeyDown={handleKeyDown}
           />
           <SectionGuide id="ORACLE" />
-          <button onClick={onClose} className="p-1 hover:bg-[#333] rounded text-gray-500 hover:text-white transition-colors">
+          <button onClick={onClose} className="p-1 hover:bg-[#233a47] rounded text-gray-500 hover:text-white transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -306,7 +306,7 @@ export const OracleSearch: React.FC<OracleSearchProps> = ({ onClose }) => {
                 <div
                   key={`${hit.kind}|${hit.name}`}
                   onClickCapture={() => window.setTimeout(onClose, 60)}
-                  className="flex items-start gap-3 px-3 py-2 hover:bg-[#252525] rounded-lg transition-colors"
+                  className="flex items-start gap-3 px-3 py-2 hover:bg-[#192a34] rounded-lg transition-colors"
                 >
                   <div className="p-2 rounded-lg shrink-0 bg-cyan-950/40 text-cyan-300">
                     <Map size={18} />
@@ -327,7 +327,7 @@ export const OracleSearch: React.FC<OracleSearchProps> = ({ onClose }) => {
           
           {results.length === 0 && !query && (
              <div className="text-center py-12 text-gray-700">
-               <div className="inline-flex items-center justify-center p-4 bg-[#222] rounded-full mb-3">
+               <div className="inline-flex items-center justify-center p-4 bg-[#17272f] rounded-full mb-3">
                   <Search className="w-6 h-6 opacity-50" />
                </div>
                <p className="text-xs font-mono uppercase tracking-widest">Type to reveal destiny</p>
@@ -341,10 +341,10 @@ export const OracleSearch: React.FC<OracleSearchProps> = ({ onClose }) => {
             return (
               <div 
                 key={`${item.type}-${item.name}-${idx}`}
-                className="group flex items-center justify-between p-3 hover:bg-[#252525] rounded-lg transition-colors border border-transparent hover:border-[#333]"
+                className="group flex items-center justify-between p-3 hover:bg-[#192a34] rounded-lg transition-colors border border-transparent hover:border-[#233a47]"
               >
                 <div className="flex items-center gap-4 min-w-0 flex-1">
-                  <div className={`p-2 rounded-lg shrink-0 ${isUnlocked ? 'bg-green-900/20 text-green-400' : 'bg-[#222] text-gray-500'}`}>
+                  <div className={`p-2 rounded-lg shrink-0 ${isUnlocked ? 'bg-green-900/20 text-green-400' : 'bg-[#17272f] text-gray-500'}`}>
                     <Icon size={20} />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -380,11 +380,11 @@ export const OracleSearch: React.FC<OracleSearchProps> = ({ onClose }) => {
         </div>
 
         {/* Footer */}
-        <div className="bg-[#111] px-4 py-2 border-t border-[#333] flex justify-between items-center text-[10px] text-gray-600 font-mono uppercase">
+        <div className="bg-[#0c1318] px-4 py-2 border-t border-[#233a47] flex justify-between items-center text-[10px] text-gray-600 font-mono uppercase">
            <span>Global Search</span>
            <div className="flex gap-4">
-              <span className="flex items-center gap-1"><kbd className="bg-[#333] px-1 rounded text-gray-400">Esc</kbd> to close</span>
-              <span className="flex items-center gap-1"><kbd className="bg-[#333] px-1 rounded text-gray-400">Ctrl+K</kbd> to open</span>
+              <span className="flex items-center gap-1"><kbd className="bg-[#233a47] px-1 rounded text-gray-400">Esc</kbd> to close</span>
+              <span className="flex items-center gap-1"><kbd className="bg-[#233a47] px-1 rounded text-gray-400">Ctrl+K</kbd> to open</span>
            </div>
         </div>
 

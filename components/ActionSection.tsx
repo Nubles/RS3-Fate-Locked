@@ -51,11 +51,11 @@ const WikiIcon = ({ name, fallbackSrc, className }: { name: string, fallbackSrc?
 // Unified difficulty tier styles (quest / diary / clue / slayer tiers)
 const TIER_STYLES = {
   STONE: {
-    bg: 'bg-[#2a2620]',
-    border: 'border-[#4a453d]',
-    hover: 'hover:bg-[#38332a] hover:border-[#6a655d]',
-    text: 'text-[#a8a29a]',
-    pill: 'bg-[#151310] border-[#3a352e] text-[#888]'
+    bg: 'bg-[#192a34]',
+    border: 'border-[#324b5a]',
+    hover: 'hover:bg-[#223844] hover:border-[#566c79]',
+    text: 'text-[#9faab0]',
+    pill: 'bg-[#0d151a] border-[#243b48] text-[#829099]'
   },
   GREEN: { // Easy / Novice
     bg: 'bg-[#142618]',
@@ -334,7 +334,7 @@ const InfoChip: React.FC<{
   accent: string;
   badge: string;
 }> = ({ icon, label, desc, rate, accent, badge }) => (
-  <div className="flex-1 min-w-0 bg-[#111] border border-dashed border-[#333] rounded px-2.5 py-2.5 flex flex-col items-center text-center gap-1.5 font-mono hover:border-white/20 transition-colors">
+  <div className="flex-1 min-w-0 bg-[#0c1318] border border-dashed border-[#233a47] rounded px-2.5 py-2.5 flex flex-col items-center text-center gap-1.5 font-mono hover:border-white/20 transition-colors">
     <div className="flex items-center gap-1.5">
       {icon}
       <span className={`text-[10px] font-bold uppercase tracking-wide ${accent}`}>{label}</span>
@@ -421,7 +421,7 @@ export const ActionSection: React.FC = () => {
     <div className="h-full p-4 flex flex-col gap-3">
 
       {/* Sub-tab toggle */}
-      <div className="flex gap-1 bg-[#161616] border border-white/5 rounded-lg p-1 shrink-0">
+      <div className="flex gap-1 bg-[#0f191f] border border-white/5 rounded-lg p-1 shrink-0">
         {tabs.map(tab => {
           const isActive = subTab === tab.id;
           return (
@@ -430,8 +430,8 @@ export const ActionSection: React.FC = () => {
               onClick={() => setSubTab(tab.id)}
               className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-xs font-bold uppercase tracking-wider transition-all
                 ${isActive
-                  ? 'bg-[#252525] text-gray-100 shadow-sm'
-                  : 'text-gray-500 hover:text-gray-300 hover:bg-[#1d1d1d]'}`}
+                  ? 'bg-[#192a34] text-gray-100 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-300 hover:bg-[#142128]'}`}
             >
               <img src={tab.icon} alt="" className={`w-4 h-4 object-contain ${isActive ? 'opacity-100' : 'opacity-50'}`} />
               {tab.label}
@@ -488,7 +488,7 @@ export const ActionSection: React.FC = () => {
               value={bossQuery}
               onChange={(e) => setBossQuery(e.target.value)}
               placeholder="Search bosses…"
-              className="w-full mb-3 bg-[#161616] border border-white/10 rounded-lg px-3 py-2 text-xs text-gray-200 placeholder:text-gray-600 focus:outline-none focus:border-white/25"
+              className="w-full mb-3 bg-[#0f191f] border border-white/10 rounded-lg px-3 py-2 text-xs text-gray-200 placeholder:text-gray-600 focus:outline-none focus:border-white/25"
             />
             {TIER_ORDER.map(tier => {
               const q = bossQuery.trim().toLowerCase();
@@ -547,7 +547,7 @@ export const ActionSection: React.FC = () => {
 
       {/* Other key sources — compact, always-visible navigational hints */}
       <div className="shrink-0">
-        <div className="text-[9px] font-bold text-[#666] uppercase tracking-widest mb-1.5">Other Key Sources</div>
+        <div className="text-[9px] font-bold text-[#596f7b] uppercase tracking-widest mb-1.5">Other Key Sources</div>
         <div className="flex gap-2 items-stretch">
           <InfoChip
             icon={<img src={RS3_ICONS.STATS} alt="" className="w-3.5 h-3.5" />}

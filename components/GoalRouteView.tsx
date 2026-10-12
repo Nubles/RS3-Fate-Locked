@@ -38,7 +38,7 @@ export const GoalRouteView: React.FC<{ goalId: string }> = ({ goalId }) => {
   const met = (xs: { met: boolean }[]) => xs.filter(x => x.met).length;
 
   return (
-    <div className="bg-[#161616] border border-cyan-500/20 rounded-lg p-3 text-[11px] animate-in fade-in slide-in-from-top-1 duration-200">
+    <div className="bg-[#0f191f] border border-cyan-500/20 rounded-lg p-3 text-[11px] animate-in fade-in slide-in-from-top-1 duration-200">
       <div className="flex items-center gap-2 mb-2 pb-2 border-b border-white/5">
         <Route size={13} className="text-cyan-400" />
         <span className="font-bold text-cyan-200">Route to {route.goalId}</span>

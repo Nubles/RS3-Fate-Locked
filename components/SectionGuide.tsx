@@ -263,7 +263,7 @@ export const SectionGuide: React.FC<Props> = ({ id, className }) => {
         <>
           <div className="fixed inset-0 z-[9990]" onClick={() => setOpen(false)} />
           <div
-            className="fixed z-[9991] w-72 bg-[#1b1b1b] border border-white/15 rounded-xl shadow-[0_12px_48px_rgba(0,0,0,0.7)] p-3.5 animate-in fade-in zoom-in-95 duration-150"
+            className="fixed z-[9991] w-72 bg-[#131f26] border border-white/15 rounded-xl shadow-[0_12px_48px_rgba(0,0,0,0.7)] p-3.5 animate-in fade-in zoom-in-95 duration-150"
             style={{ top: pos.top, left: pos.left }}
             onClick={(e) => e.stopPropagation()}
           >

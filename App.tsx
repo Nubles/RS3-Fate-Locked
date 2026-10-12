@@ -62,8 +62,8 @@ class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryStat
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#161616] flex items-center justify-center p-8">
-          <div className="bg-[#1e1e1e] border border-red-500/30 rounded-xl p-8 max-w-lg text-center">
+        <div className="min-h-screen bg-[#0f191f] flex items-center justify-center p-8">
+          <div className="bg-[#15222a] border border-red-500/30 rounded-xl p-8 max-w-lg text-center">
             <h1 className="text-2xl font-bold text-red-400 mb-4">Something went wrong</h1>
             <p className="text-gray-400 mb-4">
               The application encountered an error. Your save data is preserved in localStorage.
@@ -145,7 +145,7 @@ const ToastNotification = () => {
   if (!visible || !host) return null;
 
   return createPortal(
-    <div className="pointer-events-auto bg-[#222] border border-white/20 shadow-2xl rounded-lg p-3 flex items-center gap-4 animate-in slide-in-from-bottom-5 fade-in duration-300">
+    <div className="pointer-events-auto bg-[#17272f] border border-white/20 shadow-2xl rounded-lg p-3 flex items-center gap-4 animate-in slide-in-from-bottom-5 fade-in duration-300">
        <span className="text-sm font-bold text-gray-200">{message}</span>
     </div>,
     host,
@@ -223,7 +223,7 @@ const Header = ({ setShowAltar, setShowStats, setShowReference, setShowOracle, s
   };
 
   return (
-      <header className="bg-[#1e1e1e] border-b border-white/10 sticky top-0 z-50 shadow-xl backdrop-blur-md bg-opacity-95">
+      <header className="rs3-titlebar sticky top-0 z-50 shadow-xl">
         <div className="max-w-[1600px] mx-auto px-4 py-2 flex flex-col xl:flex-row items-center justify-between gap-4">
 
           {/* Logo Section */}
@@ -232,7 +232,7 @@ const Header = ({ setShowAltar, setShowStats, setShowReference, setShowOracle, s
               <WikiIcon file="Crystal_key.png" alt="Fate Locked" Fallback={Key} size={24} className="drop-shadow-md" />
             </div>
             <div>
-              <h1 className="text-lg font-black text-gray-100 tracking-tight uppercase leading-none">RS3 Fate Locked Ironman</h1>
+              <h1 className="text-lg font-black rs3-title tracking-tight uppercase leading-none">RS3 Fate Locked Ironman</h1>
               <p className="text-[10px] text-gray-500 font-mono mt-0.5 tracking-wide">RNG EDITION COMMAND CENTER</p>
             </div>
             <ProfileSwitcher />
@@ -276,7 +276,7 @@ const Header = ({ setShowAltar, setShowStats, setShowReference, setShowOracle, s
              <button
                 data-tour="altar"
                 onClick={() => setShowAltar(true)}
-                className={`h-8 group px-3 rounded-lg border font-bold text-[10px] uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg ${activeBuff !== 'NONE' ? activeBuff === 'GREED' ? 'bg-amber-900/40 border-amber-500 text-amber-300' : 'bg-blue-900/40 border-blue-500 text-blue-300' : 'bg-[#252525] border-purple-500/30 text-purple-300 hover:bg-purple-900/20'}`}
+                className={`h-8 group px-3 rounded-lg border font-bold text-[10px] uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg ${activeBuff !== 'NONE' ? activeBuff === 'GREED' ? 'bg-amber-900/40 border-amber-500 text-amber-300' : 'bg-blue-900/40 border-blue-500 text-blue-300' : 'bg-[#192a34] border-purple-500/30 text-purple-300 hover:bg-purple-900/20'}`}
              >
                 <span className={`w-1.5 h-1.5 rounded-full ${activeBuff !== 'NONE' ? (activeBuff === 'GREED' ? 'bg-amber-400 animate-bounce' : 'bg-blue-400 animate-pulse') : 'bg-purple-500'}`}></span>
                 <span>{activeBuff === 'NONE' ? 'Altar' : activeBuff}</span>
@@ -285,7 +285,7 @@ const Header = ({ setShowAltar, setShowStats, setShowReference, setShowOracle, s
              <button
                data-tour="palette"
                onClick={() => window.dispatchEvent(new CustomEvent('fate:open-palette'))}
-               className="h-8 px-2.5 rounded-lg border border-white/10 bg-[#252525] hover:bg-white/5 hover:border-white/20 text-gray-400 hover:text-white flex items-center gap-2 transition-colors group"
+               className="h-8 px-2.5 rounded-lg rs3-tray hover:bg-white/5 hover:border-rs3-border-hi text-gray-400 hover:text-white flex items-center gap-2 transition-colors group"
                title="Command palette — jump to anything"
              >
                 <Search size={13} />
@@ -293,7 +293,7 @@ const Header = ({ setShowAltar, setShowStats, setShowReference, setShowOracle, s
                 <kbd className="text-[9px] font-mono text-gray-500 border border-white/15 rounded px-1 py-0.5 hidden sm:inline group-hover:border-white/25">⌘K</kbd>
              </button>
 
-             <div className="flex items-center bg-[#252525] border border-white/10 rounded-lg p-0.5 gap-0.5 h-8">
+             <div className="flex items-center rs3-tray rounded-lg p-0.5 gap-0.5 h-8">
                  <button onClick={() => setShowOracle(true)} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 rounded transition-colors" title="Oracle — search content" aria-label="Oracle — search content"><Search size={14} /></button>
                  <div className="w-px h-4 bg-white/10"></div>
                  <button onClick={() => setShowStrategy(true)} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-emerald-400 hover:bg-white/5 rounded transition-colors" title="Strategy Guide" aria-label="Strategy Guide"><Compass size={14} /></button>
@@ -307,7 +307,7 @@ const Header = ({ setShowAltar, setShowStats, setShowReference, setShowOracle, s
                  <button onClick={() => setShowGameMode(true)} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-amber-400 hover:bg-white/5 rounded transition-colors" title="Game Mode" aria-label="Game Mode"><SlidersHorizontal size={14} /></button>
              </div>
 
-             <div className="flex items-center bg-[#252525] border border-white/10 rounded-lg p-0.5 gap-0.5 h-8">
+             <div className="flex items-center rs3-tray rounded-lg p-0.5 gap-0.5 h-8">
                  <button onClick={toggleAnimations} className={`w-7 h-full flex items-center justify-center rounded transition-colors ${animationsEnabled ? 'text-green-400' : 'text-gray-500'}`} title="Animations" aria-label="Toggle animations" aria-pressed={animationsEnabled}>
                     {animationsEnabled ? <PlayCircle size={14} /> : <PauseCircle size={14} />}
                  </button>
@@ -345,33 +345,33 @@ const ControlPanel = () => {
   }, []);
 
   return (
-    <div className="flex flex-col h-full bg-[#1b1b1b] border border-[#333] rounded-lg overflow-hidden shadow-xl">
+    <div className="flex flex-col h-full rs3-window rounded-lg overflow-hidden">
       {/* Tabs */}
-      <div className="flex border-b border-[#333] bg-[#161616] shrink-0">
+      <div className="flex border-b border-[#233a47] bg-[#0f191f] shrink-0">
         <button
           data-tour="farm"
           onClick={() => setActiveTab('FARM')}
-          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'FARM' ? 'bg-[#252525] text-green-400 border-b-2 border-green-400' : 'text-gray-500 hover:text-gray-300 hover:bg-[#1a1a1a]'}`}
+          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'FARM' ? 'rs3-tab-active text-green-400 border-b-2 border-green-400' : 'rs3-tab text-gray-500 hover:text-gray-300'}`}
         >
           <WikiIcon file="Slayer_icon.png" alt="Farm Keys" Fallback={Swords} size={15} className={activeTab === 'FARM' ? '' : 'opacity-60 grayscale'} /> Farm Keys
         </button>
         <button
           data-tour="spend"
           onClick={() => setActiveTab('SPEND')}
-          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'SPEND' ? 'bg-[#252525] text-rs3-gold border-b-2 border-rs3-gold' : 'text-gray-500 hover:text-gray-300 hover:bg-[#1a1a1a]'}`}
+          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'SPEND' ? 'rs3-tab-active text-rs3-gold border-b-2 border-rs3-gold' : 'rs3-tab text-gray-500 hover:text-gray-300'}`}
         >
           <WikiIcon file="Mystery_box.png" alt="Spend Keys" Fallback={ShoppingBag} size={15} className={activeTab === 'SPEND' ? '' : 'opacity-60 grayscale'} /> Spend Keys
         </button>
         <button
           onClick={() => setActiveTab('LOG')}
-          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'LOG' ? 'bg-[#252525] text-blue-400 border-b-2 border-blue-400' : 'text-gray-500 hover:text-gray-300 hover:bg-[#1a1a1a]'}`}
+          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'LOG' ? 'rs3-tab-active text-blue-400 border-b-2 border-blue-400' : 'rs3-tab text-gray-500 hover:text-gray-300'}`}
         >
           <WikiIcon file="Watch.png" alt="History" Fallback={ScrollText} size={15} className={activeTab === 'LOG' ? '' : 'opacity-60 grayscale'} /> History
         </button>
       </div>
 
       {/* Contextual guide for the active panel */}
-      <div className="flex items-center justify-end gap-1.5 px-3 py-1 bg-[#141414] border-b border-[#2a2a2a] shrink-0 text-[10px] text-gray-500">
+      <div className="flex items-center justify-end gap-1.5 px-3 py-1 bg-[#0e171c] border-b border-[#1d303b] shrink-0 text-[10px] text-gray-500">
         <span>{GUIDES[activeTab]?.title}</span>
         <SectionGuide id={activeTab} />
       </div>

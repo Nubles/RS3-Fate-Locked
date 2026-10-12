@@ -56,7 +56,7 @@ export const AchievementReveal: React.FC<Props> = ({ data, onDismiss, onView }) 
         ${visible ? 'translate-x-0' : 'translate-x-[120%]'}
       `}
     >
-      <div className="bg-[#191919] border border-amber-500/30 rounded-xl shadow-[0_12px_48px_rgba(0,0,0,0.8)] overflow-hidden">
+      <div className="bg-[#111c23] border border-amber-500/30 rounded-xl shadow-[0_12px_48px_rgba(0,0,0,0.8)] overflow-hidden">
         {/* Header */}
         <div className="flex items-start gap-2.5 px-3 py-2.5 bg-gradient-to-r from-amber-900/40 to-transparent border-b border-white/8">
           <Trophy size={16} className="text-amber-400 shrink-0 mt-0.5 animate-bounce" />
