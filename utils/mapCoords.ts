@@ -4,8 +4,11 @@
 // squares of the RuneScape Wiki maps project (mejrs/layers_rs3, zoom 2,
 // plane 0) by scripts/build-rs3-map.py. It covers the Gielinor mainland
 // (incl. Prifddinas, Menaphos, Fort Forinthry, the Wilderness and the
-// Daemonheim peninsula) and Anachronia. The Arc (far north) and Havenhythe
-// (not in the tile set yet) are list-only regions in components/RegionMap.tsx.
+// Daemonheim peninsula) and Anachronia, plus INSETS (see MAP_INSETS below):
+// areas that sit far outside that box in game coordinates — The Arc,
+// Havenhythe, Mazcab, the Lost Grove and Ashdale — drawn into open sea at a
+// whole-map-square offset. tileToPixel / pixelToTile route their tiles through
+// the inset, so canonical chunk coords work everywhere.
 //
 // Axes:
 //   Game tile X increases east (right).  Image pixel X increases right. Same direction.
@@ -51,15 +54,69 @@ export interface TileCoord { tx: number; ty: number }
 export interface PixelCoord { px: number; py: number }
 export interface ChunkCoord { cx: number; cy: number }
 
-export const tileToPixel = ({ tx, ty }: TileCoord): PixelCoord => ({
+/**
+ * An area drawn into open sea on the image. `src` is its box of canonical map
+ * squares (inclusive); it is drawn at src + (dx, dy) squares, at the same
+ * 3 px/tile scale, so the chunk grid stays aligned. Must match INSETS in
+ * scripts/build-rs3-map.py, which renders the image.
+ */
+export interface MapInset {
+  name: string;
+  src: { x0: number; x1: number; y0: number; y1: number };
+  dx: number;
+  dy: number;
+}
+
+export const MAP_INSETS: readonly MapInset[] = [
+  { name: 'The Arc', src: { x0: 26, x1: 41, y0: 171, y1: 188 }, dx: 40, dy: -125 },
+  { name: 'Havenhythe', src: { x0: 52, x1: 60, y0: 19, y1: 28 }, dx: 8, dy: 12 },
+  { name: 'Mazcab', src: { x0: 63, x1: 70, y0: 10, y1: 15 }, dx: 21, dy: 45 },
+  { name: 'Lost Grove', src: { x0: 20, x1: 22, y0: 86, y1: 89 }, dx: 8, dy: -51 },
+  { name: 'Ashdale', src: { x0: 37, x1: 40, y0: 140, y1: 143 }, dx: -4, dy: -106 },
+];
+
+// Inclusive on the far edges so a chunk's top/right corner (cy + 1) * 64 in
+// the last row/column still routes through its inset. Insets sit far apart
+// from each other and from the mainland, so the shared edge is never ambiguous.
+const insetForTile = (tx: number, ty: number): MapInset | undefined =>
+  MAP_INSETS.find(i =>
+    tx >= i.src.x0 * CHUNK_TILES && tx <= (i.src.x1 + 1) * CHUNK_TILES &&
+    ty >= i.src.y0 * CHUNK_TILES && ty <= (i.src.y1 + 1) * CHUNK_TILES);
+
+const insetForDrawnTile = (tx: number, ty: number): MapInset | undefined =>
+  MAP_INSETS.find(i =>
+    tx >= (i.src.x0 + i.dx) * CHUNK_TILES && tx < (i.src.x1 + 1 + i.dx) * CHUNK_TILES &&
+    ty >= (i.src.y0 + i.dy) * CHUNK_TILES && ty < (i.src.y1 + 1 + i.dy) * CHUNK_TILES);
+
+/** The inset a chunk is drawn in, if any. */
+export const insetOfChunk = ({ cx, cy }: ChunkCoord): MapInset | undefined =>
+  insetForTile((cx + 0.5) * CHUNK_TILES, (cy + 0.5) * CHUNK_TILES);
+
+const linearTileToPixel = (tx: number, ty: number): PixelCoord => ({
   px: ((tx - MAP_BOUNDS.tileMinX) / TILE_WIDTH) * MAP_IMAGE.width,
   py: ((MAP_BOUNDS.tileMaxY - ty) / TILE_HEIGHT) * MAP_IMAGE.height,
 });
 
-export const pixelToTile = ({ px, py }: PixelCoord): TileCoord => ({
-  tx: MAP_BOUNDS.tileMinX + (px / MAP_IMAGE.width) * TILE_WIDTH,
-  ty: MAP_BOUNDS.tileMaxY - (py / MAP_IMAGE.height) * TILE_HEIGHT,
-});
+export const tileToPixel = ({ tx, ty }: TileCoord): PixelCoord => {
+  const i = insetForTile(tx, ty);
+  return i
+    ? linearTileToPixel(tx + i.dx * CHUNK_TILES, ty + i.dy * CHUNK_TILES)
+    : linearTileToPixel(tx, ty);
+};
+
+export const pixelToTile = ({ px, py }: PixelCoord): TileCoord => {
+  const tx = MAP_BOUNDS.tileMinX + (px / MAP_IMAGE.width) * TILE_WIDTH;
+  const ty = MAP_BOUNDS.tileMaxY - (py / MAP_IMAGE.height) * TILE_HEIGHT;
+  const i = insetForDrawnTile(tx, ty);
+  return i ? { tx: tx - i.dx * CHUNK_TILES, ty: ty - i.dy * CHUNK_TILES } : { tx, ty };
+};
+
+/** Where an inset is drawn, in image pixels (for its border and label). */
+export const insetPixelRect = (i: MapInset) => {
+  const tl = linearTileToPixel((i.src.x0 + i.dx) * CHUNK_TILES, (i.src.y1 + 1 + i.dy) * CHUNK_TILES);
+  const br = linearTileToPixel((i.src.x1 + 1 + i.dx) * CHUNK_TILES, (i.src.y0 + i.dy) * CHUNK_TILES);
+  return { x: tl.px, y: tl.py, w: br.px - tl.px, h: br.py - tl.py };
+};
 
 export const tileToChunk = ({ tx, ty }: TileCoord): ChunkCoord => ({
   cx: Math.floor(tx / CHUNK_TILES),

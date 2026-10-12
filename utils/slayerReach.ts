@@ -2,8 +2,9 @@
  * Slayer task reachability.
  *
  * Given each Slayer master's assignable-monster table (ChunkContentService
- * slayerMasters — empty in the current RS3 cache-derived dataset, which has no
- * assignment tables, so the panel stays hidden until one is supplied) and
+ * slayerMasters — merged into the dataset from the RuneScape Wiki's Slayer
+ * master pages when scripts/rs3-wiki/slayer-masters.json exists; the panel
+ * hides itself whenever the table is empty) and
  * your current state, work out which tasks you could actually be assigned
  * and complete: Slayer level, quest unlocks, combat level (RS3 formula, so a
  * master's combat floor — Vannaka 30, Mazchna 50, Chaeldar 75, Sumona 90,
@@ -114,6 +115,21 @@ export const combatLevel = (levels: Record<string, number>): number => {
       + Math.floor(L('Prayer') / 2) + Math.floor(L('Summoning') / 2)) / 4,
   );
   return Math.min(138, lvl);
+};
+
+/**
+ * Candidate monster names for a task name, most literal first: "Wolves" →
+ * Wolves, Wolf, Wolfe, Wolve; "Cave bugs" → Cave bugs, Cave bug; "Jellies" → Jelly.
+ */
+export const taskNameForms = (task: string): string[] => {
+  const t = task.trim();
+  const out = [t];
+  if (/ies$/i.test(t)) out.push(t.slice(0, -3) + 'y');
+  if (/ves$/i.test(t)) out.push(t.slice(0, -3) + 'f', t.slice(0, -3) + 'fe');
+  if (/men$/i.test(t)) out.push(t.slice(0, -3) + 'man');
+  if (/es$/i.test(t)) out.push(t.slice(0, -2));
+  if (/s$/i.test(t)) out.push(t.slice(0, -1));
+  return [...new Set(out)];
 };
 
 /** A req string like "Priest in Peril Complete the quest" → quest name. */

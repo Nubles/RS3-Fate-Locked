@@ -12,11 +12,12 @@
  *      starts in first), each placed at a representative chunk of that
  *      continent so the UI can still list and jump to them.
  *
- * The current RS3 dataset (RS3 cache NPC/object spawns — mejrs / RuneScape
- * Wiki maps project) carries no quest-step data, so quests resolve through
- * their authored regions. That fallback is reported with `hasData: false`, so
- * it never loosens the region gate: refineQuestRegion only grants access on
- * real chunk evidence.
+ * Quest chunk data comes from the RuneScape Wiki quest table
+ * (scripts/rs3-wiki/quests.json, merged by sync-chunk-content.mjs: the start
+ * NPC's / start coordinates' chunk is 'first', named places are 'step'). Quests
+ * it can't place resolve through their authored regions. That fallback is
+ * reported with `hasData: false`, so it never loosens the region gate:
+ * refineQuestRegion only grants access on real chunk evidence.
  */
 import { chunkContentService, EntityLocation } from '../services/ChunkContentService';
 import { placeOf, chunkUnlocked, chunkForPlace, placeUnlocked, ChunkPlace } from './chunkLocations';

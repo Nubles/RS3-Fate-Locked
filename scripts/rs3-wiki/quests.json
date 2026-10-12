@@ -1,0 +1,4537 @@
+{
+  "A Shadow over Ashdale": {
+    "startNpc": "Gudrik",
+    "start": "Speak to Gudrik, who can be found east of Gerrant's Fishy Business in Port Sarim.",
+    "places": [
+      "Port Sarim",
+      "Ashdale",
+      "Ashdale Farm",
+      "Ashdale Caves"
+    ],
+    "coords": {
+      "x": 3029,
+      "y": 3229
+    },
+    "coordsSource": "npc"
+  },
+  "A Soul's Bane": {
+    "startNpc": "Launa",
+    "start": "Talk to Launa by the rift east of Varrock, just south-east of the earth altar.",
+    "places": [
+      "Varrock",
+      "Varrock Dig Site",
+      "Archaeology Campus",
+      "Earth ruins",
+      "Tolna's rift",
+      "Bridge of Hope"
+    ],
+    "coords": {
+      "x": 3232,
+      "y": 3437
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Varrock"
+  },
+  "Beneath Cursed Tides": {
+    "startNpc": "Wizard Myrtle",
+    "start": "Speak to Wizard Myrtle at the fountains in front of the Wizards' Tower.",
+    "places": [
+      "Wizards' Tower",
+      "Tutorial Island",
+      "Edgeville",
+      "Mudskipper Point",
+      "Port Sarim"
+    ],
+    "coords": {
+      "x": 3104,
+      "y": 3168
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Wizards' Tower"
+  },
+  "Broken Home": {
+    "startNpc": "Maria",
+    "start": "Speak to Maria, a servant outside the mansion northeast of Varrock, just south of the Silvarea quarry.",
+    "places": [
+      "Gulvas Mansion",
+      "Silvarea",
+      "Varrock",
+      "Silvarea quarry",
+      "Senntisten",
+      "Paterdomus"
+    ],
+    "coords": {
+      "x": 3360,
+      "y": 3481
+    },
+    "coordsSource": "npc"
+  },
+  "Chef's Assistant": {
+    "startNpc": "Head Chef",
+    "start": "Talk to the Head Chef in the Cooking Guild.",
+    "places": [
+      "Varrock",
+      "Falador",
+      "Lumbridge",
+      "Taverley",
+      "Fort Forinthry",
+      "Cooks' Guild"
+    ],
+    "coords": {
+      "x": 3143,
+      "y": 3444
+    },
+    "coordsSource": "npc"
+  },
+  "Cook's Assistant": {
+    "startNpc": "Cook",
+    "start": "Speak to the cook in the kitchen of Lumbridge Castle.",
+    "places": [
+      "Lumbridge Castle",
+      "Lumbridge cow field",
+      "Lumbridge Watermill",
+      "Fred the Farmer's farm",
+      "Mill Lane Mill",
+      "Lumbridge"
+    ],
+    "coords": {
+      "x": 3209,
+      "y": 3215
+    },
+    "coordsSource": "npc"
+  },
+  "Death Plateau": {
+    "startNpc": "Commander Denulth",
+    "start": "Talk to Commander Denulth at the Burthorpe training camp.",
+    "places": [
+      "Burthorpe training camp",
+      "Sabbot's cave",
+      "Death Plateau",
+      "Burthorpe Castle"
+    ],
+    "coords": {
+      "x": 2918,
+      "y": 3561
+    },
+    "coordsSource": "npc"
+  },
+  "Demon Slayer": {
+    "startNpc": "Gideon Bede",
+    "start": "Talk to Gideon Bede at the Saradominist church north of Varrock Museum in north-east Varrock.",
+    "places": [
+      "Varrock",
+      "Varrock Saradominist church",
+      "Silverlight Crypt",
+      "Temple of Zamorak",
+      "Zamorakian Crypt"
+    ],
+    "coords": {
+      "x": 3232,
+      "y": 3437
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Varrock"
+  },
+  "Dragon Slayer": {
+    "startNpc": "Guildmaster",
+    "start": "Talk to the Guildmaster inside the Champions' Guild, south of Varrock.",
+    "places": [
+      "Champions' Guild",
+      "Crandor",
+      "Melzar's Maze",
+      "Ice Mountain",
+      "Port Sarim",
+      "Lumbridge"
+    ],
+    "coords": {
+      "x": 3191,
+      "y": 3362
+    },
+    "coordsSource": "npc"
+  },
+  "Druidic Ritual": {
+    "startNpc": "Kaqemeex",
+    "start": "Talk to Kaqemeex at the stone circle north of Taverley south of the Heroes' Guild.",
+    "places": [
+      "Taverley",
+      "Burthorpe",
+      "Heroes' Guild",
+      "Burthorpe Slayer Cave",
+      "Stone circle"
+    ],
+    "coords": {
+      "x": 2924,
+      "y": 3484
+    },
+    "coordsSource": "npc"
+  },
+  "Duck Quest": {
+    "start": "Investigate a strange fishing spot on the riverbank south of Draynor Village.",
+    "places": [
+      "Draynor Village",
+      "Lumbridge Swamp",
+      "Lumbridge",
+      "Varrock",
+      "Paddlington",
+      "Mill Lane Mill"
+    ],
+    "coords": {
+      "x": 3104,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Draynor Village"
+  },
+  "Ernest the Chicken": {
+    "startNpc": "Veronica",
+    "start": "Talk to Veronica, south of Draynor Manor gates.",
+    "places": [
+      "Draynor Manor",
+      "Draynor Village"
+    ],
+    "coords": {
+      "x": 3110,
+      "y": 3330
+    },
+    "coordsSource": "npc"
+  },
+  "Gertrude's Cat": {
+    "startNpc": "Gertrude",
+    "start": "Speak to Gertrude in her house west of Varrock.",
+    "places": [
+      "Varrock",
+      "Gunnarsgrunn",
+      "Varrock Square",
+      "Barbarian Village",
+      "Lumber Yard"
+    ],
+    "coords": {
+      "x": 3151,
+      "y": 3410
+    },
+    "coordsSource": "npc"
+  },
+  "Goblin Diplomacy": {
+    "startNpc": "General Bentnoze",
+    "start": "Go to the Goblin Village and talk to General Bentnoze or General Wartface.",
+    "places": [
+      "Goblin Village",
+      "Falador",
+      "Taverley",
+      "Draynor Village"
+    ],
+    "coords": {
+      "x": 2958,
+      "y": 3513
+    },
+    "coordsSource": "npc"
+  },
+  "Gower Quest": {
+    "startNpc": "Andrew Gower",
+    "start": "Talk to Andrew Gower at the cabbage farm south of Varrock, south-east of the Varrock lodestone.",
+    "places": [
+      "Varrock",
+      "Dwarven Mine"
+    ],
+    "coords": {
+      "x": 3232,
+      "y": 3437
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Varrock"
+  },
+  "Gunnar's Ground": {
+    "startNpc": "Dororan",
+    "start": "Speak to Dororan at the Gunnarsgrunn gate.",
+    "places": [
+      "Gunnarsgrunn",
+      "Edgeville",
+      "The Long Hall"
+    ],
+    "coords": {
+      "x": 3060,
+      "y": 3432
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Gunnarsgrunn"
+  },
+  "Hearts of Sanguine": {
+    "startNpc": "Adam",
+    "start": "Speak to Adam at his house in Wendlewick.",
+    "places": [
+      "Wendlewick",
+      "Hollow Hill",
+      "Burnt Lobster Tavern",
+      "Eastfold Farm",
+      "Blighted Cave",
+      "Highweald Forest"
+    ],
+    "coords": {
+      "x": 3437,
+      "y": 1530
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Wendlewick"
+  },
+  "Heartstealer": {
+    "startNpc": "Caelyn Kadaan",
+    "start": "Talk to Caelyn on the 1st floor [UK] / 2nd floor [US] of the house north of Edgeville bank.",
+    "places": [
+      "Edgeville",
+      "Varrock",
+      "Thessalia's Fine Clothes",
+      "Varrock Museum"
+    ],
+    "coords": {
+      "x": 3083,
+      "y": 3509
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Edgeville"
+  },
+  "Imp Catcher": {
+    "startNpc": "Wizard Mizgog",
+    "start": "Talk to Wizard Mizgog on the 1st floor [UK] / 2nd floor [US] of the Wizards' Tower, south of Draynor Village.",
+    "places": [
+      "Wizards' Tower",
+      "Lumbridge Swamp",
+      "Lumbridge Castle",
+      "Al Kharid",
+      "Varrock",
+      "Barbarian Village"
+    ],
+    "coords": {
+      "x": 3109,
+      "y": 3148
+    },
+    "coordsSource": "npc"
+  },
+  "Let Them Eat Pie": {
+    "startNpc": "Nails Newton",
+    "start": "Talk to Nails Newton outside The Pick and Lute tavern in west Taverley.",
+    "places": [
+      "Taverley",
+      "The Pick and Lute",
+      "Burthorpe"
+    ],
+    "coords": {
+      "x": 2881,
+      "y": 3444
+    },
+    "coordsSource": "npc"
+  },
+  "Missing, Presumed Death": {
+    "startNpc": "Brother Samwell",
+    "start": "Talk to Brother Samwell in Silvarea, west of Paterdomus and east of Varrock.",
+    "places": [
+      "Silvarea",
+      "Paterdomus",
+      "Varrock",
+      "Draynor Village",
+      "Wizards' Tower",
+      "Empyrean Citadel"
+    ],
+    "coords": {
+      "x": 3360,
+      "y": 3488
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Silvarea"
+  },
+  "Myths of the White Lands": {
+    "startNpc": "Explorer Jack",
+    "start": "Talk to Explorer Jack in his house by the Lumbridge General Store.",
+    "places": [
+      "Lumbridge",
+      "Wizards' Tower",
+      "Land of Snow"
+    ],
+    "coords": {
+      "x": 3204,
+      "y": 3241
+    },
+    "coordsSource": "npc"
+  },
+  "Necromancy!": {
+    "start": "Investigate the white light portal north of the Draynor lodestone.",
+    "places": [
+      "Draynor Village",
+      "Death's Office",
+      "Underworld",
+      "City of Um"
+    ],
+    "coords": {
+      "x": 3104,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Draynor"
+  },
+  "Once Upon a Slime": {
+    "startNpc": "Peter",
+    "start": "Talk to Peter in Rimmington.",
+    "places": [
+      "Rimmington",
+      "Varrock",
+      "Thessalia's Fine Clothes"
+    ],
+    "coords": {
+      "x": 2944,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Rimmington"
+  },
+  "One Piercing Note": {
+    "startNpc": "Sister Catherina",
+    "start": "Speak to Sister Catherina outside the Abbey of St. Elspeth Citharede, east of Al Kharid.",
+    "places": [
+      "Al Kharid",
+      "Abbey of St. Elspeth Citharede",
+      "Kharidian Desert"
+    ],
+    "coords": {
+      "x": 3296,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Al Kharid"
+  },
+  "Perils of Ice Mountain": {
+    "startNpc": "Lakki the delivery dwarf",
+    "start": "Talk to Lakki, on the road south of Ice Mountain.",
+    "places": [
+      "Ice Mountain",
+      "Dwarven Mine",
+      "Monastery",
+      "Falador",
+      "Gunnarsgrunn"
+    ],
+    "coords": {
+      "x": 3009,
+      "y": 3487
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Ice Mountain"
+  },
+  "Pirate's Treasure": {
+    "startNpc": "Redbeard Frank",
+    "start": "Speak to Redbeard Frank just south of The Rusty Anchor pub in Port Sarim.",
+    "places": [
+      "Port Sarim",
+      "Karamja",
+      "Musa Point",
+      "Varrock",
+      "Blue Moon Inn",
+      "Falador Park"
+    ],
+    "coords": {
+      "x": 3049,
+      "y": 3253
+    },
+    "coordsSource": "npc"
+  },
+  "Rune Memories": {
+    "startNpc": "Ariane",
+    "start": "Talk to Ariane in the ruins beneath the Wizards' Tower, south of Draynor Village.",
+    "places": [
+      "Wizards' Tower",
+      "Draynor Village",
+      "Abyss"
+    ],
+    "coords": {
+      "x": 3104,
+      "y": 3168
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Wizards' Tower"
+  },
+  "Rune Mysteries": {
+    "startNpc": "Ariane",
+    "start": "Talk to Ariane in the lobby of the Wizards' Tower, south of Draynor Village.",
+    "places": [
+      "Wizards' Tower",
+      "Ruins beneath the Wizards' Tower",
+      "Chamber of Shrines"
+    ],
+    "coords": {
+      "x": 3104,
+      "y": 3168
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Wizards' Tower"
+  },
+  "Shield of Arrav": {
+    "startNpc": "Reldo",
+    "start": "Talk to Reldo in the Varrock palace library.",
+    "places": [
+      "Varrock Palace",
+      "Phoenix Gang Hideout",
+      "Blue Moon Inn",
+      "Black Arm Gang Hideout",
+      "Varrock Museum",
+      "Varrock"
+    ],
+    "coords": {
+      "x": 3232,
+      "y": 3437
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Varrock"
+  },
+  "Song from the Depths": {
+    "startNpc": "Lucille",
+    "start": "Talk to Lucille in Rimmington.",
+    "places": [
+      "Rimmington",
+      "Dreamer's cave",
+      "Grotworm Lair"
+    ],
+    "coords": {
+      "x": 2944,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Rimmington"
+  },
+  "Stolen Hearts": {
+    "startNpc": "Ozan",
+    "start": "Talk to Ozan in Draynor Village.",
+    "places": [
+      "Draynor Village",
+      "Draynor jail",
+      "Al Kharid",
+      "Al Kharid palace",
+      "Wizards' Tower"
+    ],
+    "coords": {
+      "x": 3104,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Draynor Village"
+  },
+  "Swept Away": {
+    "startNpc": "Maggie",
+    "start": "Talk to Maggie the witch at her caravan, north of Draynor Village, west of the Draynor lodestone.",
+    "places": [
+      "Draynor Village",
+      "Port Sarim",
+      "Rimmington",
+      "Betty's Magic Emporium"
+    ],
+    "coords": {
+      "x": 3082,
+      "y": 3298
+    },
+    "coordsSource": "npc"
+  },
+  "The Blood Pact": {
+    "startNpc": "Xenia",
+    "start": "Talk to Xenia, in the Lumbridge cemetery.",
+    "places": [
+      "Lumbridge cemetery",
+      "Lumbridge Catacombs",
+      "Wizards' Tower",
+      "Lumbridge Church"
+    ],
+    "coords": {
+      "x": 3200,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lumbridge"
+  },
+  "The Death of Chivalry": {
+    "startNpc": "Sir Owen",
+    "start": "Speak to Sir Owen at the Edgeville Monastery west of Edgeville.",
+    "places": [
+      "Edgeville Monastery",
+      "Edgeville",
+      "Black Knights' Fortress",
+      "Tomb of the Fallen"
+    ],
+    "coords": {
+      "x": 3052,
+      "y": 3477
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Edgeville Monastery"
+  },
+  "The Knight's Sword": {
+    "startNpc": "Squire Asrol",
+    "start": "Talk to Squire Asrol located in the White Knights' Castle's courtyard in Falador.",
+    "places": [
+      "Falador",
+      "White Knights' Castle",
+      "Varrock",
+      "Port Sarim",
+      "Asgarnian Ice Dungeon"
+    ],
+    "coords": {
+      "x": 2975,
+      "y": 3343
+    },
+    "coordsSource": "npc"
+  },
+  "The Restless Ghost": {
+    "startNpc": "Father Aereck",
+    "start": "Speak to Father Aereck in the Lumbridge Church, east of Lumbridge Castle.",
+    "places": [
+      "Lumbridge Church",
+      "Lumbridge Castle",
+      "Lumbridge Swamp",
+      "Lumbridge cemetery"
+    ],
+    "coords": {
+      "x": 3246,
+      "y": 3205
+    },
+    "coordsSource": "npc"
+  },
+  "There's No Place Like Home...": {
+    "startNpc": "Alfred Stonemason",
+    "start": "Talk to Alfred Stonemason in Rimmington.",
+    "places": [
+      "Rimmington",
+      "Player-owned house",
+      "Sawmill"
+    ],
+    "coords": {
+      "x": 2953,
+      "y": 3229
+    },
+    "coordsSource": "npc"
+  },
+  "Vampyre Slayer": {
+    "startNpc": "Morgan",
+    "start": "Talk to Morgan in Draynor Village.",
+    "places": [
+      "Draynor Village",
+      "Draynor Manor",
+      "Blue Moon Inn",
+      "Varrock"
+    ],
+    "coords": {
+      "x": 3098,
+      "y": 3268
+    },
+    "coordsSource": "npc"
+  },
+  "Violet is Blue": {
+    "startNpc": "Violet",
+    "start": "Enter the portal to the Land of Snow on White Wolf Mountain (accessed from the Taverley side).",
+    "places": [
+      "Land of Snow",
+      "White Wolf Mountain",
+      "Taverley",
+      "Yeti Town"
+    ],
+    "coords": {
+      "x": 2830,
+      "y": 3503
+    },
+    "coordsSource": "place",
+    "coordsPlace": "White Wolf Mountain"
+  },
+  "Violet is Blue Too": {
+    "startNpc": "Postie Pete",
+    "start": "Talk to Postie Pete beside the Land of Snow portal in Taverley, near White Wolf Mountain.",
+    "places": [
+      "Taverley",
+      "Land of Snow",
+      "Yeti Town"
+    ],
+    "coords": {
+      "x": 2891,
+      "y": 3467
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Taverley"
+  },
+  "Visions of Havenhythe": {
+    "startNpc": "Bartender",
+    "start": "Speak to the bartender at the Rusty Anchor Tavern in Port Sarim.",
+    "places": [
+      "Port Sarim",
+      "The Rusty Anchor",
+      "Havenhythe",
+      "Wendlewick",
+      "Shrine of Inanna"
+    ],
+    "coords": {
+      "x": 3019,
+      "y": 3189
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Port Sarim"
+  },
+  "What's Mine is Yours": {
+    "startNpc": "Doric",
+    "start": "Speak to Doric who is inside his hut just outside the gates of Taverley and north-west of the Falador lodestone.",
+    "places": [
+      "Taverley",
+      "Falador",
+      "Dwarven Mine",
+      "Rimmington",
+      "White Knights' Castle"
+    ],
+    "coords": {
+      "x": 2959,
+      "y": 3439
+    },
+    "coordsSource": "npc"
+  },
+  "Witch's House": {
+    "startNpc": "Harvey",
+    "start": "Talk to Harvey, the crying boy west of Falador.",
+    "places": [
+      "Falador",
+      "Taverley"
+    ],
+    "coords": {
+      "x": 2994,
+      "y": 3360
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Falador"
+  },
+  "Wolf Whistle": {
+    "startNpc": "Pikkupstix",
+    "start": "Talk to Pikkupstix in his house in Taverley.",
+    "places": [
+      "Taverley",
+      "White Wolf Mountain",
+      "Morytania"
+    ],
+    "coords": {
+      "x": 2929,
+      "y": 3448
+    },
+    "coordsSource": "npc"
+  },
+  "Biohazard": {
+    "startNpc": "Elena",
+    "start": "Talk to Elena in her house in East Ardougne, the most north-eastern home west of the River Dougne and north of Ardougne Castle.",
+    "places": [
+      "East Ardougne",
+      "West Ardougne",
+      "Varrock",
+      "Rimmington",
+      "Ardougne Castle"
+    ],
+    "coords": {
+      "x": 2624,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "East Ardougne"
+  },
+  "Bringing Home the Bacon": {
+    "startNpc": "Eli Bacon",
+    "start": "Talk to Eli Bacon in his pig pen, by the Falador farm, north of Port Sarim.",
+    "places": [
+      "Falador farm",
+      "Draynor Village",
+      "Lumbridge",
+      "Varrock",
+      "Falador",
+      "East Ardougne"
+    ],
+    "coords": {
+      "x": 2994,
+      "y": 3360
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Falador"
+  },
+  "Buyers and Cellars": {
+    "startNpc": "Darren Lightfinger",
+    "start": "Speak to Darren Lightfinger in his cellar, reached by a trapdoor north of the Lumbridge furnace.",
+    "places": [
+      "Lumbridge",
+      "Lumbridge Castle",
+      "Thieves' Guild",
+      "Lumbridge Swamp"
+    ],
+    "coords": {
+      "x": 3200,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lumbridge"
+  },
+  "Call of the Ancestors": {
+    "startNpc": "Tunks",
+    "start": "Talk to Tunks near the Mazcab world window, north-west of the Menaphos gates.",
+    "places": [
+      "Mazcab",
+      "Kanatah",
+      "Nemi Forest",
+      "Menaphos"
+    ],
+    "coords": {
+      "x": 3181,
+      "y": 2688
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Menaphos"
+  },
+  "Clock Tower": {
+    "startNpc": "Brother Kojo",
+    "start": "Speak to Brother Kojo in the Clock Tower south of Ardougne.",
+    "places": [
+      "Clock Tower",
+      "Clock Tower Dungeon",
+      "Ardougne Zoo",
+      "East Ardougne"
+    ],
+    "coords": {
+      "x": 2569,
+      "y": 3249
+    },
+    "coordsSource": "npc"
+  },
+  "Diamond in the Rough": {
+    "startNpc": "Osman",
+    "start": "Speak to Osman in Al Kharid palace.",
+    "places": [
+      "Al Kharid palace",
+      "Shantay Pass",
+      "Al Kharid"
+    ],
+    "coords": {
+      "x": 3296,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Al Kharid"
+  },
+  "Dwarf Cannon": {
+    "startNpc": "Captain Lawgof",
+    "start": "Talk to Captain Lawgof, south of the coal truck mining site to the west of McGrubor's Wood.",
+    "places": [
+      "Coal Trucks",
+      "McGrubor's Wood",
+      "Goblin Cave",
+      "East Ardougne",
+      "Fishing Guild"
+    ],
+    "coords": {
+      "x": 2567,
+      "y": 3460
+    },
+    "coordsSource": "npc"
+  },
+  "Eagles' Peak": {
+    "startNpc": "Charlie the Zookeeper",
+    "start": "Talk to Charlie the Zookeeper in Ardougne Zoo.",
+    "places": [
+      "Ardougne Zoo",
+      "Eagles' Peak",
+      "Piscatoris Fishing Colony",
+      "Tree Gnome Stronghold",
+      "Varrock",
+      "Draynor Village"
+    ],
+    "coords": {
+      "x": 2614,
+      "y": 3273
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Ardougne Zoo"
+  },
+  "Elemental Workshop I": {
+    "start": "Search the shelves in a house in Seers' Village for an old book.",
+    "places": [
+      "Seers' Village",
+      "Elemental Workshop"
+    ],
+    "coords": {
+      "x": 2699,
+      "y": 3499
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Seers' Village"
+  },
+  "Eye of Het I": {
+    "startNpc": "Icthlarin",
+    "start": "Talk to Icthlarin at the entrance to Het's Oasis.",
+    "places": [
+      "Het's Oasis",
+      "Al Kharid",
+      "Kharid-et"
+    ]
+  },
+  "Eye of Het II": {
+    "startNpc": "Icthlarin",
+    "start": "Talk to Icthlarin at the entrance to Het's Oasis.",
+    "places": [
+      "Het's Oasis",
+      "Senntisten"
+    ]
+  },
+  "Fishing Contest": {
+    "startNpc": "Austri",
+    "start": "Talk to Vestri or Austri, near the White Wolf Mountain.",
+    "places": [
+      "Hemenster",
+      "McGrubor's Wood",
+      "White Wolf Mountain",
+      "Seers' Village",
+      "Catherby",
+      "Taverley"
+    ],
+    "coords": {
+      "x": 2880,
+      "y": 3458
+    },
+    "coordsSource": "npc"
+  },
+  "Fur 'n Seek": {
+    "startNpc": "Odd Old Man",
+    "start": "Talk to the Odd Old Man at the quarry west of Paterdomus.",
+    "places": [
+      "Silvarea",
+      "Rellekka",
+      "Fremennik Slayer Dungeon",
+      "Zanaris",
+      "Canifis"
+    ],
+    "coords": {
+      "x": 3424,
+      "y": 3488
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Paterdomus"
+  },
+  "Hazeel Cult": {
+    "startNpc": "Sir Ceril Carnillean",
+    "start": "Talk to Sir Ceril Carnillean in his mansion in south-west Ardougne.",
+    "places": [
+      "East Ardougne",
+      "Ardougne Sewers",
+      "Ardougne Castle",
+      "Mahjarrat Ritual Site"
+    ],
+    "coords": {
+      "x": 2624,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Ardougne"
+  },
+  "Hermit Permits": {
+    "start": "Read the village noticeboard in Wendlewick.",
+    "places": [
+      "Wendlewick",
+      "Burnt Lobster Tavern",
+      "Hermit Cave",
+      "Havenhythe"
+    ],
+    "coords": {
+      "x": 3437,
+      "y": 1530
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Wendlewick"
+  },
+  "Impressing the Locals": {
+    "startNpc": "Trader Stan",
+    "start": "Talk to Trader Stan in Port Sarim about the Skulls pirate named Jed.",
+    "places": [
+      "Port Sarim",
+      "Draynor Village",
+      "Rimmington",
+      "Wushanko Isles",
+      "The Arc"
+    ],
+    "coords": {
+      "x": 3033,
+      "y": 3190
+    },
+    "coordsSource": "npc"
+  },
+  "Jungle Potion": {
+    "startNpc": "Trufitus",
+    "start": "Speak to Trufitus near Tai Bwo Wannai.",
+    "places": [
+      "Karamja",
+      "Tai Bwo Wannai",
+      "Pothole Dungeon"
+    ],
+    "coords": {
+      "x": 2809,
+      "y": 3086
+    },
+    "coordsSource": "npc"
+  },
+  "Monk's Friend": {
+    "startNpc": "Brother Omad",
+    "start": "Speak to Brother Omad at the Monastery south of Ardougne.",
+    "places": [
+      "Ardougne Monastery",
+      "Clock Tower Dungeon",
+      "Ardougne Zoo",
+      "East Ardougne"
+    ],
+    "coords": {
+      "x": 2604,
+      "y": 3209
+    },
+    "coordsSource": "npc"
+  },
+  "Murder Mystery": {
+    "startNpc": "Guard",
+    "start": "Talk to the guard at Sinclair Mansion, north of Camelot and north-east of Seers' Village.",
+    "places": [
+      "Sinclair Mansion",
+      "Camelot",
+      "Seers' Village"
+    ],
+    "coords": {
+      "x": 2741,
+      "y": 3562
+    },
+    "coordsSource": "npc"
+  },
+  "Murder on the Border": {
+    "startNpc": "Aster",
+    "start": "Speak to Aster in the Town Hall of Fort Forinthry.",
+    "places": [
+      "Fort Forinthry"
+    ],
+    "coords": {
+      "x": 3328,
+      "y": 3552
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Fort Forinthry"
+  },
+  "Nature Spirit": {
+    "startNpc": "Drezel",
+    "start": "Speak to Drezel under the Saradomin temple near the River Salve.",
+    "places": [
+      "Paterdomus",
+      "Morytania",
+      "Mort Myre Swamp",
+      "Nature Grotto",
+      "Lumbridge Swamp"
+    ],
+    "coords": {
+      "x": 3410,
+      "y": 3438
+    },
+    "coordsSource": "place",
+    "coordsPlace": "River Salve"
+  },
+  "New Foundations": {
+    "startNpc": "King Roald",
+    "start": "Portal outside the throne room in the Varrock Palace.",
+    "places": [
+      "Varrock Palace",
+      "Fort Forinthry",
+      "Varrock",
+      "Draynor Village"
+    ],
+    "coords": {
+      "x": 3222,
+      "y": 3476
+    },
+    "coordsSource": "npc"
+  },
+  "Observatory Quest": {
+    "startNpc": "Observatory professor",
+    "start": "Talk to the observatory professor in the observatory north of Castle Wars.",
+    "places": [
+      "Observatory",
+      "Observatory Dungeon",
+      "Castle Wars",
+      "Yanille",
+      "Varrock Museum"
+    ],
+    "coords": {
+      "x": 2432,
+      "y": 3168
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Observatory"
+  },
+  "Plague City": {
+    "startNpc": "Edmond",
+    "start": "Talk to Edmond in East Ardougne (north of the castle, next to the wall surrounding West Ardougne).",
+    "places": [
+      "East Ardougne",
+      "McGrubor's Wood",
+      "Ardougne Sewers",
+      "West Ardougne"
+    ],
+    "coords": {
+      "x": 2624,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "East Ardougne"
+  },
+  "Priest in Peril": {
+    "startNpc": "King Roald",
+    "start": "Speak to King Roald in the Varrock Palace.",
+    "places": [
+      "Varrock Palace",
+      "Paterdomus",
+      "River Salve",
+      "Morytania",
+      "Varrock"
+    ],
+    "coords": {
+      "x": 3222,
+      "y": 3476
+    },
+    "coordsSource": "npc"
+  },
+  "Princess and the Pauper": {
+    "startNpc": "Rodney",
+    "start": "Talk to Rodney in the kitchen of Fort Forinthry.",
+    "places": [
+      "Fort Forinthry",
+      "Jolly Boar Inn",
+      "Varrock",
+      "Edgeville"
+    ],
+    "coords": {
+      "x": 3328,
+      "y": 3552
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Fort Forinthry"
+  },
+  "Rag and Bone Man": {
+    "startNpc": "Odd Old Man",
+    "start": "Talk to the Odd Old Man at the quarry west of Paterdomus.",
+    "places": [
+      "Silvarea",
+      "Paterdomus",
+      "Draynor Village",
+      "Lumbridge Swamp Caves",
+      "Ardougne Zoo",
+      "Karamja"
+    ],
+    "coords": {
+      "x": 3424,
+      "y": 3488
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Paterdomus"
+  },
+  "Raksha, the Shadow Colossus": {
+    "startNpc": "Laniakea",
+    "start": "Talk to Laniakea on Anachronia.",
+    "places": [
+      "Anachronia",
+      "Orthen",
+      "Anachronia Swamp Fortress"
+    ],
+    "coords": {
+      "x": 5460,
+      "y": 2354
+    },
+    "coordsSource": "npc"
+  },
+  "Recruitment Drive": {
+    "startNpc": "Sir Amik Varze",
+    "start": "Talk to Sir Amik Varze on the 2nd floor [UK] / 3rd floor [US] of the White Knights' Castle in Falador.",
+    "places": [
+      "Falador",
+      "White Knights' Castle",
+      "Falador Park",
+      "Temple Knight HQ"
+    ],
+    "coords": {
+      "x": 2960,
+      "y": 3336
+    },
+    "coordsSource": "npc"
+  },
+  "Rune Mechanics": {
+    "startNpc": "Apprentice Clerval",
+    "start": "Speak to Apprentice Clerval in the basement of the Mage Training Arena.",
+    "places": [
+      "Mage Training Arena",
+      "Het's Oasis",
+      "Fire altar",
+      "Water altar"
+    ],
+    "coords": {
+      "x": 3360,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Mage Training Arena"
+  },
+  "Rune Mythos": {
+    "startNpc": "Malignius Mortifer",
+    "start": "Speak to Malignius Mortifer in the City of Um.",
+    "places": [
+      "City of Um",
+      "Necromantic Rune Temple",
+      "Underworld"
+    ]
+  },
+  "Sheep Herder": {
+    "startNpc": "Councillor Halgrive",
+    "start": "Speak to Councillor Halgrive outside of the East Ardougne church, north of the Ardougne Zoo.",
+    "places": [
+      "East Ardougne",
+      "Ardougne Zoo",
+      "Fishing Guild"
+    ],
+    "coords": {
+      "x": 2617,
+      "y": 3299
+    },
+    "coordsSource": "npc"
+  },
+  "The Jack of Spades": {
+    "startNpc": "Ali Mirza",
+    "start": "Talk to Ali Mirza in the Al Kharid palace.",
+    "places": [
+      "Al Kharid palace",
+      "Menaphos"
+    ],
+    "coords": {
+      "x": 3296,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Al Kharid"
+  },
+  "The Needle Skips": {
+    "start": "Find the Needle on the hill west of Piscatoris.",
+    "places": [
+      "Piscatoris Fishing Colony"
+    ],
+    "coords": {
+      "x": 2345,
+      "y": 3693
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Piscatoris"
+  },
+  "The Tale of the Muspah": {
+    "startNpc": "Erjolf",
+    "start": "Talk to Erjolf at the cave entrance half way up the mountain north-east of Rellekka.",
+    "places": [
+      "Rellekka",
+      "Pollnivneach",
+      "Kharidian Desert",
+      "Mahjarrat Ritual Site"
+    ],
+    "coords": {
+      "x": 2677,
+      "y": 3723
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Rellekka"
+  },
+  "Tower of Life": {
+    "startNpc": "Effigy",
+    "start": "Talk to Effigy outside the Tower of Life south of Ardougne.",
+    "places": [
+      "Tower of Life",
+      "East Ardougne"
+    ],
+    "coords": {
+      "x": 2650,
+      "y": 3213
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Tower of Life"
+  },
+  "Wiz Kid": {
+    "startNpc": "Ben",
+    "start": "Speak to Ben on Marigold Farm in Wendlewick.",
+    "places": [
+      "Marigold Farm",
+      "Wendlewick",
+      "Havenhythe",
+      "Wizards' Tower"
+    ],
+    "coords": {
+      "x": 3437,
+      "y": 1530
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Wendlewick"
+  },
+  "A Tail of Two Cats": {
+    "startNpc": "Unferth",
+    "start": "Talk to Unferth in his house in Burthorpe.",
+    "places": [
+      "Burthorpe",
+      "Varrock",
+      "Sophanem",
+      "Taverley",
+      "Falador",
+      "Lumbridge"
+    ],
+    "coords": {
+      "x": 2891,
+      "y": 3595
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Burthorpe"
+  },
+  "All Fired Up": {
+    "startNpc": "King Roald",
+    "start": "Talk to King Roald in the Varrock Palace Throne room.",
+    "places": [
+      "Varrock Palace",
+      "Fort Forinthry",
+      "Silvarea",
+      "Paterdomus",
+      "River Salve"
+    ],
+    "coords": {
+      "x": 3222,
+      "y": 3476
+    },
+    "coordsSource": "npc"
+  },
+  "Animal Magnetism": {
+    "startNpc": "Ava",
+    "start": "Talk to Ava in Draynor Manor.",
+    "places": [
+      "Draynor Manor",
+      "Ectofuntus",
+      "Rimmington",
+      "Burthorpe",
+      "Slayer Tower"
+    ],
+    "coords": {
+      "x": 3108,
+      "y": 3345
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Draynor Manor"
+  },
+  "Another Slice of H.A.M.": {
+    "startNpc": "Ambassador Alvijar",
+    "start": "Speak with Ambassador Alvijar in Ur-tag's house in Dorgesh-Kaan.",
+    "places": [
+      "Dorgesh-Kaan",
+      "Keldagrim",
+      "Goblin Village",
+      "Lumbridge Swamp Caves",
+      "Lumbridge Swamp"
+    ]
+  },
+  "Battle of the Monolith": {
+    "startNpc": "Ali the Wise",
+    "start": "Talk to Ali the Wise or Wizard Trindy at the Archaeology Campus.",
+    "places": [
+      "Archaeology Campus",
+      "Archaeology Guild",
+      "Varrock",
+      "Senntisten"
+    ],
+    "coords": {
+      "x": 3360,
+      "y": 3374
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Archaeology Campus"
+  },
+  "Big Chompy Bird Hunting": {
+    "startNpc": "Rantz",
+    "start": "Talk to Rantz, in eastern Feldip Hills.",
+    "places": [
+      "Feldip Hills"
+    ],
+    "coords": {
+      "x": 2545,
+      "y": 2993
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Feldip Hills"
+  },
+  "Carnillean Rising": {
+    "startNpc": "Xenia",
+    "start": "Speak with Xenia outside of the Carnillean mansion in south-west East Ardougne.",
+    "places": [
+      "East Ardougne",
+      "Forgotten Sewers"
+    ],
+    "coords": {
+      "x": 2624,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "East Ardougne"
+  },
+  "Cold War": {
+    "startNpc": "Larry",
+    "start": "Speak to Larry at Ardougne Zoo.",
+    "places": [
+      "Ardougne Zoo",
+      "Rellekka",
+      "Iceberg",
+      "Lumbridge",
+      "Keldagrim"
+    ],
+    "coords": {
+      "x": 2614,
+      "y": 3273
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Ardougne Zoo"
+  },
+  "Creature of Fenkenstrain": {
+    "startNpc": "Dr Fenkenstrain",
+    "start": "Read the signpost in Canifis or talk to Dr Fenkenstrain to be hired as his butler.",
+    "places": [
+      "Canifis",
+      "Fenkenstrain's Castle",
+      "Haunted Woods",
+      "Port Phasmatys"
+    ],
+    "coords": {
+      "x": 3488,
+      "y": 3488
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Canifis"
+  },
+  "Daughter of Chaos": {
+    "startNpc": "Adrasteia",
+    "start": "Speak to Adrasteia in the Falador castle throne room.",
+    "places": [
+      "White Knights' Castle",
+      "Edgeville",
+      "Red Dragon Isle",
+      "Wilderness Crater",
+      "Wilderness"
+    ],
+    "coords": {
+      "x": 2994,
+      "y": 3360
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Falador"
+  },
+  "Death to the Dorgeshuun": {
+    "startNpc": "Mistag",
+    "start": "Talk to Mistag in the Dorgeshuun Mines.",
+    "places": [
+      "Dorgeshuun Mines",
+      "Lumbridge Castle",
+      "Lumbridge",
+      "H.A.M. Hideout",
+      "Lumbridge Watermill"
+    ]
+  },
+  "Desperate Creatures": {
+    "startNpc": "The Curator",
+    "start": "Speak to the Curator north of the Burthorpe lodestone.",
+    "places": [
+      "Burthorpe",
+      "Anachronia",
+      "Anachronia base camp",
+      "Burthorpe Castle"
+    ],
+    "coords": {
+      "x": 2891,
+      "y": 3595
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Burthorpe"
+  },
+  "Desperate Measures": {
+    "startNpc": "Seren",
+    "start": "Talk to Seren, up the stairs in Burthorpe castle.",
+    "places": [
+      "Burthorpe Castle",
+      "Anachronia",
+      "Anachronia base camp",
+      "Heart of Gielinor"
+    ],
+    "coords": {
+      "x": 2891,
+      "y": 3595
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Burthorpe"
+  },
+  "Desperate Times": {
+    "startNpc": "Seren",
+    "start": "Talk to Seren, up the stairs in Burthorpe castle.",
+    "places": [
+      "Burthorpe Castle",
+      "McGrubor's Wood",
+      "Varrock Dig Site",
+      "Varrock Palace",
+      "Black Knights' Fortress"
+    ],
+    "coords": {
+      "x": 2891,
+      "y": 3595
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Burthorpe"
+  },
+  "Dishonour among Thieves": {
+    "startNpc": "Moia",
+    "start": "Speak to Moia in the Empyrean Citadel.",
+    "places": [
+      "Empyrean Citadel",
+      "Uzer",
+      "Black Knights' Base"
+    ]
+  },
+  "Elemental Workshop II": {
+    "start": "Search the bookshelf in the Exam Centre in the Varrock Dig Site for an old book.",
+    "places": [
+      "Varrock Dig Site",
+      "Varrock",
+      "Seers' Village",
+      "Elemental Workshop"
+    ],
+    "coords": {
+      "x": 3361,
+      "y": 3345
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Exam Centre"
+  },
+  "Elemental Workshop III": {
+    "start": "Search a bookcase in Seers' Village church.",
+    "places": [
+      "Seers' Village",
+      "Elemental Workshop",
+      "Coal Trucks"
+    ],
+    "coords": {
+      "x": 2699,
+      "y": 3499
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Seers' Village"
+  },
+  "Elemental Workshop IV": {
+    "start": "Search the bookcase on the ground floor [UK] / 1st floor [US] of the Sorcerer's Tower.",
+    "places": [
+      "Sorcerer's Tower",
+      "Seers' Village",
+      "Elemental Workshop",
+      "Daemonheim"
+    ],
+    "coords": {
+      "x": 2718,
+      "y": 3415
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Sorcerer's Tower"
+  },
+  "Enlightened Journey": {
+    "startNpc": "Auguste",
+    "start": "Talk to Auguste on Entrana (bring neither weapons nor armour with you).",
+    "places": [
+      "Entrana",
+      "Port Sarim",
+      "Taverley"
+    ],
+    "coords": {
+      "x": 2808,
+      "y": 3355
+    },
+    "coordsSource": "npc"
+  },
+  "Evil Dave's Big Day Out": {
+    "startNpc": "Evil Dave",
+    "start": "Talk to Evil Dave in his Basement of Doom in Edgeville.",
+    "places": [
+      "Edgeville",
+      "Grand Exchange",
+      "Falador",
+      "White Knights' Castle",
+      "Shantay Pass",
+      "Kalphite Hive"
+    ],
+    "coords": {
+      "x": 3083,
+      "y": 3509
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Edgeville"
+  },
+  "Forgettable Tale of a Drunken Dwarf": {
+    "startNpc": "Commander Veldaban",
+    "start": "Talk to Commander Veldaban at the Black Guard headquarters, in Keldagrim.",
+    "places": [
+      "Keldagrim",
+      "Taverley",
+      "Falador"
+    ],
+    "coords": {
+      "x": 2714,
+      "y": 3713
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Keldagrim"
+  },
+  "Garden of Tranquillity": {
+    "startNpc": "Queen Ellamaria",
+    "start": "Speak to Queen Ellamaria in the garden of Varrock Palace.",
+    "places": [
+      "Varrock Palace",
+      "Draynor Village",
+      "Ice Mountain",
+      "Edgeville Monastery",
+      "Port Phasmatys",
+      "Falador"
+    ],
+    "coords": {
+      "x": 3232,
+      "y": 3437
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Varrock"
+  },
+  "Ghosts Ahoy": {
+    "startNpc": "Velorina",
+    "start": "Talk to Velorina in Port Phasmatys.",
+    "places": [
+      "Port Phasmatys",
+      "Canifis",
+      "Mazchna",
+      "Dragontooth Island",
+      "Ectofuntus"
+    ],
+    "coords": {
+      "x": 3678,
+      "y": 3510
+    },
+    "coordsSource": "npc"
+  },
+  "Heart of Stone": {
+    "startNpc": "Ariane",
+    "start": "Talk to Ariane at the entrance to the Wizards' Tower.",
+    "places": [
+      "Wizards' Tower",
+      "Entrana",
+      "Karamja Volcano",
+      "White Wolf Mountain",
+      "Sophanem",
+      "Lumbridge cemetery"
+    ],
+    "coords": {
+      "x": 3104,
+      "y": 3168
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Wizards' Tower"
+  },
+  "Holy Grail": {
+    "startNpc": "King Arthur",
+    "start": "Talk to King Arthur in Camelot.",
+    "places": [
+      "Camelot",
+      "Entrana",
+      "Fisher Realm",
+      "Draynor Manor",
+      "Brimhaven",
+      "Seers' Village"
+    ],
+    "coords": {
+      "x": 2764,
+      "y": 3515
+    },
+    "coordsSource": "npc"
+  },
+  "Hunt for Red Raktuber": {
+    "startNpc": "Larry",
+    "start": "Talk to Larry at the Ardougne Zoo.",
+    "places": [
+      "Ardougne Zoo",
+      "Witchaven",
+      "Iceberg",
+      "Rellekka",
+      "Yanille"
+    ],
+    "coords": {
+      "x": 2614,
+      "y": 3273
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Ardougne Zoo"
+  },
+  "Icthlarin's Little Helper": {
+    "startNpc": "Wanderer",
+    "start": "Talk to the wanderer, south-east of the southern bridge over the River Elid, in the desert far south of Al Kharid.",
+    "places": [
+      "Sophanem",
+      "Uzer",
+      "Al Kharid",
+      "Kharidian Desert"
+    ],
+    "coords": {
+      "x": 3371,
+      "y": 3068
+    },
+    "coordsSource": "place",
+    "coordsPlace": "River Elid"
+  },
+  "In Aid of the Myreque": {
+    "startNpc": "Veliaf Hurtz",
+    "start": "Talk to Veliaf in the Myreque Hideout, beneath the pub in Canifis.",
+    "places": [
+      "Canifis",
+      "Mort'ton",
+      "Burgh de Rott",
+      "Mort Myre Swamp",
+      "Paterdomus"
+    ],
+    "coords": {
+      "x": 3488,
+      "y": 3488
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Canifis"
+  },
+  "In Search of the Myreque": {
+    "startNpc": "Vanstrom Klause",
+    "start": "Talk to Vanstrom Klause within the Hair of the Dog tavern in Canifis.",
+    "places": [
+      "Canifis",
+      "Mort'ton",
+      "Mort Myre Swamp",
+      "The Hollows"
+    ],
+    "coords": {
+      "x": 3488,
+      "y": 3488
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Canifis"
+  },
+  "Kennith's Concerns": {
+    "startNpc": "Kennith",
+    "start": "Talk to Kennith in Witchaven, east of Ardougne.",
+    "places": [
+      "Witchaven",
+      "Witchaven Dungeon",
+      "Legends' Guild",
+      "East Ardougne"
+    ],
+    "coords": {
+      "x": 2752,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Witchaven"
+  },
+  "Kili Row": {
+    "startNpc": "Kili",
+    "start": "Talk to Kili in the City of Um's smithy.",
+    "places": [
+      "City of Um",
+      "Underworld",
+      "Lumbridge",
+      "Taverley"
+    ]
+  },
+  "Making History": {
+    "startNpc": "Jorral",
+    "start": "Talk to Jorral in the outpost south of the Tree Gnome Stronghold, north-west of West Ardougne.",
+    "places": [
+      "West Ardougne",
+      "East Ardougne",
+      "Port Phasmatys",
+      "Rellekka",
+      "Tree Gnome Stronghold"
+    ],
+    "coords": {
+      "x": 2437,
+      "y": 3347
+    },
+    "coordsSource": "npc"
+  },
+  "Meeting History": {
+    "startNpc": "Jorral",
+    "start": "Talk to Jorral in the outpost south of the Tree Gnome Stronghold, north-west of West Ardougne.",
+    "places": [
+      "East Ardougne",
+      "West Ardougne"
+    ],
+    "coords": {
+      "x": 2437,
+      "y": 3347
+    },
+    "coordsSource": "npc"
+  },
+  "Merlin's Crystal": {
+    "startNpc": "King Arthur",
+    "start": "Talk to King Arthur in Camelot.",
+    "places": [
+      "Camelot",
+      "Keep Le Faye",
+      "Catherby",
+      "Port Sarim",
+      "Varrock",
+      "Taverley"
+    ],
+    "coords": {
+      "x": 2764,
+      "y": 3515
+    },
+    "coordsSource": "npc"
+  },
+  "Missing My Mummy": {
+    "startNpc": "Leela",
+    "start": "Speak to Leela in Draynor Village.",
+    "places": [
+      "Draynor Village",
+      "Uzer",
+      "Al Kharid",
+      "Varrock",
+      "Sophanem",
+      "Pollnivneach"
+    ],
+    "coords": {
+      "x": 3104,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Draynor Village"
+  },
+  "Mountain Daughter": {
+    "startNpc": "Hamal the Chieftain",
+    "start": "Talk to Hamal the Chieftain in the Mountain Camp east of Rellekka.",
+    "places": [
+      "Mountain Camp",
+      "Rellekka",
+      "White Wolf Mountain",
+      "Burthorpe"
+    ],
+    "coords": {
+      "x": 2794,
+      "y": 3663
+    },
+    "coordsSource": "npc"
+  },
+  "My Arm's Big Adventure": {
+    "startNpc": "Burntmeat",
+    "start": "Talk to Burntmeat in the kitchen of the Troll Stronghold.",
+    "places": [
+      "Troll Stronghold",
+      "Death Plateau",
+      "Karamja",
+      "Brimhaven",
+      "Tai Bwo Wannai",
+      "Burthorpe"
+    ],
+    "coords": {
+      "x": 2835,
+      "y": 3681
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Troll Stronghold"
+  },
+  "Olaf's Quest": {
+    "startNpc": "Olaf Hradson",
+    "start": "Talk to Olaf Hradson in his camp north-east of Rellekka, south of the Rellekka Hunter area.",
+    "places": [
+      "Rellekka",
+      "Brine Rat Cavern"
+    ],
+    "coords": {
+      "x": 2724,
+      "y": 3729
+    },
+    "coordsSource": "npc"
+  },
+  "Quiet Before the Swarm": {
+    "startNpc": "Sir Tiffy Cashien",
+    "start": "Speak to Sir Tiffy in Falador Park.",
+    "places": [
+      "Falador Park",
+      "Void Knights' Outpost",
+      "Port Sarim",
+      "Falador",
+      "Temple Knight HQ"
+    ],
+    "coords": {
+      "x": 2997,
+      "y": 3373
+    },
+    "coordsSource": "npc"
+  },
+  "Rat Catchers": {
+    "startNpc": "Gertrude",
+    "start": "Talk to Gertrude, in her house west of Varrock.",
+    "places": [
+      "Varrock",
+      "Varrock Sewers",
+      "East Ardougne",
+      "Keldagrim",
+      "Port Sarim",
+      "Pollnivneach"
+    ],
+    "coords": {
+      "x": 3151,
+      "y": 3410
+    },
+    "coordsSource": "npc"
+  },
+  "Salt in the Wound": {
+    "startNpc": "Kennith",
+    "start": "Talk to Kennith in the east of Daemonheim peninsula.",
+    "places": [
+      "Daemonheim",
+      "Fishing Platform",
+      "Witchaven"
+    ],
+    "coords": {
+      "x": 3470,
+      "y": 3680
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Daemonheim Peninsula"
+  },
+  "Scorpion Catcher": {
+    "startNpc": "Thormac",
+    "start": "Talk to Thormac on the top floor of the Sorcerer's Tower south of Seers' Village, near the Ranging Guild.",
+    "places": [
+      "Sorcerer's Tower",
+      "Seers' Village",
+      "Taverley Dungeon",
+      "Barbarian Outpost",
+      "Edgeville Monastery",
+      "Gunnarsgrunn"
+    ],
+    "coords": {
+      "x": 2702,
+      "y": 3405
+    },
+    "coordsSource": "npc"
+  },
+  "Sea Slug": {
+    "startNpc": "Caroline",
+    "start": "Speak to Caroline north of Witchaven, east of Ardougne.",
+    "places": [
+      "Witchaven",
+      "Fishing Platform"
+    ],
+    "coords": {
+      "x": 2752,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Witchaven"
+  },
+  "Secrets of Amberfell": {
+    "startNpc": "Ranger",
+    "start": "Speak to the ranger guarding the ruined bridge to Amberfell.",
+    "places": [
+      "Wendlewick",
+      "Amberfell",
+      "Moonrise Temple",
+      "Highweald Forest",
+      "Shrine of Inanna"
+    ],
+    "coords": {
+      "x": 3744,
+      "y": 1568
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Amberfell"
+  },
+  "Shades of Mort'ton": {
+    "start": "Read a diary found in a house in Mort'ton.",
+    "places": [
+      "Mort'ton",
+      "Morytania",
+      "Shade Catacombs",
+      "Mort Myre Swamp",
+      "Varrock"
+    ],
+    "coords": {
+      "x": 3456,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Mort'ton"
+  },
+  "Shadow of the Storm": {
+    "startNpc": "Father Reen",
+    "start": "Speak to Father Reen just south of Al Kharid bank.",
+    "places": [
+      "Al Kharid",
+      "Uzer"
+    ],
+    "coords": {
+      "x": 3296,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Al Kharid"
+  },
+  "Smoking Kills": {
+    "startNpc": "Sumona",
+    "start": "Talk to Sumona in her house in Pollnivneach.",
+    "places": [
+      "Pollnivneach",
+      "Agility Pyramid",
+      "Ullek",
+      "Pollnivneach Slayer Dungeon",
+      "Sophanem"
+    ],
+    "coords": {
+      "x": 3328,
+      "y": 2976
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Pollnivneach"
+  },
+  "Spirit of Summer": {
+    "startNpc": "Summer Bonde",
+    "start": "Talk to the little ghost by the Wilderness wall north-east of Varrock.",
+    "places": [
+      "Wilderness",
+      "Varrock",
+      "Infernal Source Dig Site",
+      "Spirit Realm",
+      "Forgotten Cemetery"
+    ],
+    "coords": {
+      "x": 3232,
+      "y": 3437
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Varrock"
+  },
+  "Spirits of the Elid": {
+    "startNpc": "Awusah the Mayor",
+    "start": "Talk to Awusah the Mayor in Nardah.",
+    "places": [
+      "Nardah",
+      "Shantay Pass"
+    ],
+    "coords": {
+      "x": 3442,
+      "y": 2912
+    },
+    "coordsSource": "npc"
+  },
+  "Tai Bwo Wannai Trio": {
+    "startNpc": "Timfraku",
+    "start": "Talk to Timfraku in his house in Tai Bwo Wannai.",
+    "places": [
+      "Tai Bwo Wannai",
+      "Cairn Isle",
+      "Karamja",
+      "Musa Point",
+      "Brimhaven"
+    ],
+    "coords": {
+      "x": 2780,
+      "y": 3087
+    },
+    "coordsSource": "npc"
+  },
+  "Tears of Guthix": {
+    "startNpc": "Juna",
+    "start": "Talk to Juna, inside the cave under Lumbridge Swamp.",
+    "places": [
+      "Lumbridge Swamp Caves",
+      "Lumbridge Swamp",
+      "Tears of Guthix cavern",
+      "Lumbridge",
+      "Rimmington"
+    ],
+    "coords": {
+      "x": 3189,
+      "y": 3162
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lumbridge Swamp"
+  },
+  "The Darkness of Hallowvale": {
+    "startNpc": "Veliaf Hurtz",
+    "start": "Talk to Veliaf Hurtz in Burgh de Rott, who is in the cellar of Myreque Hideout.",
+    "places": [
+      "Burgh de Rott",
+      "Meiyerditch",
+      "Paterdomus",
+      "Varrock Palace",
+      "Castle Drakan",
+      "Silvarea"
+    ],
+    "coords": {
+      "x": 3520,
+      "y": 3200
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Burgh de Rott"
+  },
+  "The Dig Site": {
+    "startNpc": "Examiner",
+    "start": "Talk to an examiner in the Exam Centre in the Archaeology Campus.",
+    "places": [
+      "Archaeology Campus",
+      "Archaeology Guild",
+      "Varrock Dig Site"
+    ],
+    "coords": {
+      "x": 3357,
+      "y": 3345
+    },
+    "coordsSource": "npc"
+  },
+  "The Eyes of Glouphrie": {
+    "startNpc": "Brimstail",
+    "start": "Brimstail in a cave in the south-west side of the Gnome Stronghold, directly west of the bank.",
+    "places": [
+      "Tree Gnome Stronghold",
+      "Grand Tree",
+      "Yanille"
+    ],
+    "coords": {
+      "x": 2400,
+      "y": 3435
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Gnome Stronghold"
+  },
+  "The Feud": {
+    "startNpc": "Ali Morrisane",
+    "start": "Talk to Ali Morrisane in Al Kharid.",
+    "places": [
+      "Al Kharid",
+      "Pollnivneach",
+      "Shantay Pass",
+      "Bandit Camp"
+    ],
+    "coords": {
+      "x": 3303,
+      "y": 3211
+    },
+    "coordsSource": "npc"
+  },
+  "The Fremennik Trials": {
+    "startNpc": "Brundt the Chieftain",
+    "start": "Speak to Brundt the Chieftain in the longhall in Rellekka.",
+    "places": [
+      "Rellekka",
+      "Seers' Village"
+    ],
+    "coords": {
+      "x": 2658,
+      "y": 3667
+    },
+    "coordsSource": "npc"
+  },
+  "The Giant Dwarf": {
+    "startNpc": "Commander Veldaban",
+    "start": "Speak with Commander Veldaban at the Black Guard headquarters on Keldagrim's western side. To reach Keldagrim, speak with the dwarf boatman in the dwarven mine east of Rellekka.",
+    "places": [
+      "Keldagrim",
+      "Rellekka",
+      "Port Sarim",
+      "Mudskipper Point"
+    ],
+    "coords": {
+      "x": 2714,
+      "y": 3713
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Keldagrim"
+  },
+  "The Golem": {
+    "startNpc": "Clay golem",
+    "start": "Talk to the clay golem in the ruins of Uzer.",
+    "places": [
+      "Uzer",
+      "Kharidian Desert",
+      "Shantay Pass",
+      "Varrock Dig Site",
+      "Varrock Museum"
+    ],
+    "coords": {
+      "x": 3488,
+      "y": 3072
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Ruins of Uzer"
+  },
+  "The Hand in the Sand": {
+    "startNpc": "Bert",
+    "start": "Talk to Bert in Yanille near the sandpit.",
+    "places": [
+      "Yanille",
+      "Wizards' Guild",
+      "Port Sarim",
+      "Brimhaven",
+      "Entrana"
+    ],
+    "coords": {
+      "x": 2560,
+      "y": 3104
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Yanille"
+  },
+  "The Lost Tribe": {
+    "startNpc": "Sigmund",
+    "start": "Talk to Sigmund in Lumbridge Castle.",
+    "places": [
+      "Lumbridge Castle",
+      "Lumbridge Swamp Caves",
+      "Varrock Palace",
+      "Goblin Village",
+      "H.A.M. Hideout"
+    ],
+    "coords": {
+      "x": 3200,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lumbridge"
+  },
+  "The Slug Menace": {
+    "startNpc": "Sir Tiffy Cashien",
+    "start": "Talk to Sir Tiffy Cashien in Falador park.",
+    "places": [
+      "Falador Park",
+      "Witchaven",
+      "Witchaven Dungeon",
+      "Fishing Platform"
+    ],
+    "coords": {
+      "x": 2997,
+      "y": 3373
+    },
+    "coordsSource": "npc"
+  },
+  "The Tourist Trap": {
+    "startNpc": "Irena",
+    "start": "Speak to Irena, the woman crying at the Shantay Pass, south of Al Kharid.",
+    "places": [
+      "Shantay Pass",
+      "Al Kharid",
+      "Desert Mining Camp",
+      "Bedabin Camp",
+      "Kharidian Desert"
+    ],
+    "coords": {
+      "x": 3296,
+      "y": 3104
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Shantay Pass"
+  },
+  "Tree Gnome Village": {
+    "startNpc": "King Bolren",
+    "start": "Talk to King Bolren at the centre of the Tree Gnome Village maze.",
+    "places": [
+      "Tree Gnome Village",
+      "Khazard Stronghold",
+      "West Ardougne",
+      "Yanille"
+    ],
+    "coords": {
+      "x": 2542,
+      "y": 3169
+    },
+    "coordsSource": "npc"
+  },
+  "Tribal Totem": {
+    "startNpc": "Kangai Mau",
+    "start": "Speak to Kangai Mau in Brimhaven.",
+    "places": [
+      "Brimhaven",
+      "East Ardougne",
+      "Handelmort Mansion",
+      "Wizards' Tower"
+    ],
+    "coords": {
+      "x": 2791,
+      "y": 3182
+    },
+    "coordsSource": "npc"
+  },
+  "Unwelcome Guests": {
+    "startNpc": "Overseer Siv",
+    "start": "Talk to Overseer Siv in the Command Centre of Fort Forinthry.",
+    "places": [
+      "Fort Forinthry",
+      "Wilderness"
+    ],
+    "coords": {
+      "x": 3328,
+      "y": 3552
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Fort Forinthry"
+  },
+  "Vessel of the Harbinger": {
+    "startNpc": "Death",
+    "start": "Speak to Death in the City of Um.",
+    "places": [
+      "City of Um",
+      "Ectofuntus",
+      "Port Phasmatys",
+      "Slayer Tower",
+      "Canifis"
+    ]
+  },
+  "Wanted!": {
+    "startNpc": "Sir Tiffy Cashien",
+    "start": "Begin by speaking to Sir Tiffy Cashien in Falador Park.",
+    "places": [
+      "Falador Park",
+      "Taverley Dungeon",
+      "Canifis",
+      "Edgeville"
+    ],
+    "coords": {
+      "x": 2997,
+      "y": 3373
+    },
+    "coordsSource": "npc"
+  },
+  "Watchtower": {
+    "startNpc": "Watchtower Wizard",
+    "start": "Speak to the Watchtower Wizard in the Watchtower, just north-west of Yanille.",
+    "places": [
+      "Yanille",
+      "Watchtower",
+      "Gu'Tanoth",
+      "Ogre Enclave",
+      "Feldip Hills"
+    ],
+    "coords": {
+      "x": 2549,
+      "y": 3116
+    },
+    "coordsSource": "npc"
+  },
+  "Waterfall Quest": {
+    "startNpc": "Almera",
+    "start": "Speak to Almera in her house north-east of the Baxtorian Falls.",
+    "places": [
+      "Baxtorian Falls",
+      "Tree Gnome Village",
+      "Glarial's Tomb",
+      "Waterfall Dungeon",
+      "Barbarian Outpost"
+    ],
+    "coords": {
+      "x": 2522,
+      "y": 3498
+    },
+    "coordsSource": "npc"
+  },
+  "What Lies Below": {
+    "startNpc": "Rat Burgiss",
+    "start": "Talk to Rat Burgiss south of Varrock.",
+    "places": [
+      "Varrock",
+      "Wilderness",
+      "Varrock Palace",
+      "Chaos altar"
+    ],
+    "coords": {
+      "x": 3267,
+      "y": 3333
+    },
+    "coordsSource": "npc"
+  },
+  "You Are It": {
+    "start": "Chop the tree in the south-west of McGrubor's Wood.",
+    "places": [
+      "McGrubor's Wood",
+      "Varrock Palace",
+      "Lumbridge Castle",
+      "Lumbridge cemetery",
+      "Rimmington",
+      "Draynor Manor"
+    ],
+    "coords": {
+      "x": 2647,
+      "y": 3480
+    },
+    "coordsSource": "place",
+    "coordsPlace": "McGrubor's Wood"
+  },
+  "Zogre Flesh Eaters": {
+    "startNpc": "Grish",
+    "start": "Talk to Grish, located west of Gu'Tanoth and south of Castle Wars.",
+    "places": [
+      "Jiggig",
+      "Feldip Hills",
+      "Gu'Tanoth",
+      "Yanille",
+      "Castle Wars"
+    ],
+    "coords": {
+      "x": 2443,
+      "y": 3051
+    },
+    "coordsSource": "npc"
+  },
+  "Once Upon a Time in Gielinor": {
+    "startNpc": "Relomia",
+    "start": "Talk to Relomia in the Blue Moon Inn in Varrock.",
+    "places": [
+      "Blue Moon Inn",
+      "Varrock",
+      "Draynor Village"
+    ],
+    "coords": {
+      "x": 3232,
+      "y": 3437
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Varrock"
+  },
+  "A Fairy Tale I - Growing Pains": {
+    "startNpc": "Martin the Master Gardener",
+    "start": "Talk to Martin the Master Gardener in Draynor Village.",
+    "places": [
+      "Draynor Village",
+      "Lumbridge Swamp",
+      "Zanaris",
+      "Dark Wizards' Tower",
+      "Mort Myre Swamp",
+      "Draynor Manor"
+    ],
+    "coords": {
+      "x": 3077,
+      "y": 3255
+    },
+    "coordsSource": "npc"
+  },
+  "A Fairy Tale II - Cure a Queen": {
+    "startNpc": "Martin the Master Gardener",
+    "start": "Talk to Martin the Master Gardener in Draynor Village.",
+    "places": [
+      "Draynor Village",
+      "Zanaris",
+      "Cosmic altar"
+    ],
+    "coords": {
+      "x": 3077,
+      "y": 3255
+    },
+    "coordsSource": "npc"
+  },
+  "A Fairy Tale III - Battle at Ork's Rift": {
+    "startNpc": "Fairy Queen",
+    "start": "Talk to the Fairy Queen at Fairy Resistance Hideout, reached by using the main fairy ring in Zanaris.",
+    "places": [
+      "Zanaris",
+      "Ape Atoll"
+    ]
+  },
+  "A Void Dance": {
+    "startNpc": "Commodore Tyr",
+    "start": "Talk to Commodore Tyr at the Void Knights' Outpost, reached through the squire at the Port Sarim docks.",
+    "places": [
+      "Port Sarim",
+      "Void Knights' Outpost",
+      "Karamja",
+      "Musa Point",
+      "Rimmington",
+      "Falador"
+    ],
+    "coords": {
+      "x": 2656,
+      "y": 2624
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Void Knights' Outpost"
+  },
+  "Aftermath": {
+    "startNpc": "Adrasteia",
+    "start": "Speak with Adrasteia in the White Knights' Castle library in Falador, close to the interrogation room.",
+    "places": [
+      "White Knights' Castle",
+      "Falador",
+      "Senntisten",
+      "Kharid-et"
+    ],
+    "coords": {
+      "x": 2961,
+      "y": 3345
+    },
+    "coordsSource": "place",
+    "coordsPlace": "White Knights' Castle"
+  },
+  "Ancient Awakening": {
+    "startNpc": "Overseer Siv",
+    "start": "Talk to Overseer Siv in Fort Forinthry.",
+    "places": [
+      "Fort Forinthry",
+      "Ungael",
+      "Jolly Boar Inn",
+      "Draynor Manor",
+      "Varrock"
+    ],
+    "coords": {
+      "x": 3328,
+      "y": 3552
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Fort Forinthry"
+  },
+  "As a First Resort": {
+    "startNpc": "Chief Tess",
+    "start": "Talk to Chief Tess in the centre of Oo'glog.",
+    "places": [
+      "Oo'glog"
+    ],
+    "coords": {
+      "x": 2547,
+      "y": 2852
+    },
+    "coordsSource": "npc"
+  },
+  "Azzanadra's Quest": {
+    "startNpc": "Azzanadra",
+    "start": "Talk to Azzanadra at the Council of Burthorpe upstairs in the Burthorpe Castle.",
+    "places": [
+      "Burthorpe",
+      "Kharid-et",
+      "Freneskae",
+      "Falador",
+      "TzHaar City"
+    ],
+    "coords": {
+      "x": 2891,
+      "y": 3595
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Burthorpe"
+  },
+  "Battle of Forinthry": {
+    "startNpc": "The Raptor",
+    "start": "Talk to the Raptor in Fort Forinthry.",
+    "places": [
+      "Fort Forinthry"
+    ],
+    "coords": {
+      "x": 3328,
+      "y": 3552
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Fort Forinthry"
+  },
+  "Beneath Scabaras' Sands": {
+    "startNpc": "Pharaoh Osman, Chosen of Tumeken",
+    "start": "Enter the Menaphos throne room.",
+    "places": [
+      "Menaphos",
+      "Sophanem",
+      "Pollnivneach",
+      "Nardah",
+      "Al Kharid",
+      "Uzer"
+    ],
+    "coords": {
+      "x": 3181,
+      "y": 2688
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Menaphos"
+  },
+  "Between a Rock...": {
+    "startNpc": "Dondakan the Dwarf",
+    "start": "Speak with Dondakan the Dwarf in the Keldagrim mines, east of Rellekka and north of the Mountain Camp.",
+    "places": [
+      "Keldagrim",
+      "Rellekka",
+      "Mountain Camp",
+      "White Wolf Mountain"
+    ],
+    "coords": {
+      "x": 2714,
+      "y": 3713
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Keldagrim"
+  },
+  "Cabin Fever": {
+    "startNpc": "Bill Teach",
+    "start": "Talk to Bill Teach in the Port Phasmatys inn, The Green Ghost.",
+    "places": [
+      "Port Phasmatys",
+      "Mos Le'Harmless"
+    ],
+    "coords": {
+      "x": 3659,
+      "y": 3531
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Port Phasmatys"
+  },
+  "Dead and Buried": {
+    "startNpc": "The Raptor",
+    "start": "Talk to the Raptor north of the guardhouse in Fort Forinthry.",
+    "places": [
+      "Fort Forinthry",
+      "Varrock Palace",
+      "Ungael"
+    ],
+    "coords": {
+      "x": 3328,
+      "y": 3552
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Fort Forinthry"
+  },
+  "Defender of Varrock": {
+    "startNpc": "Captain Rovin",
+    "start": "Talk to Captain Rovin, in the north-west tower of Varrock Palace.",
+    "places": [
+      "Varrock Palace",
+      "Chaos Temple",
+      "Thurgo's Peninsula",
+      "Camdozaal",
+      "Ice Mountain"
+    ],
+    "coords": {
+      "x": 3204,
+      "y": 3496
+    },
+    "coordsSource": "npc"
+  },
+  "Devious Minds": {
+    "startNpc": "Monk",
+    "start": "Talk to the monk just outside Paterdomus (the temple on the Salve).",
+    "places": [
+      "Paterdomus",
+      "Entrana",
+      "Falador Park",
+      "Abyss",
+      "Wilderness"
+    ],
+    "coords": {
+      "x": 3424,
+      "y": 3488
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Paterdomus"
+  },
+  "Eadgar's Ruse": {
+    "startNpc": "Sanfew",
+    "start": "Talk to Sanfew in Taverley.",
+    "places": [
+      "Taverley",
+      "Trollheim",
+      "Troll Stronghold",
+      "East Ardougne"
+    ],
+    "coords": {
+      "x": 2916,
+      "y": 3438
+    },
+    "coordsSource": "npc"
+  },
+  "Eclipse of the Heart": {
+    "start": "Enter the Menaphos throne room.",
+    "places": [
+      "Menaphos",
+      "Sophanem",
+      "Het's Oasis",
+      "Nardah",
+      "Grand Pyramid"
+    ],
+    "coords": {
+      "x": 3181,
+      "y": 2688
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Menaphos"
+  },
+  "Enakhra's Lament": {
+    "startNpc": "Lazim",
+    "start": "Talk to Lazim, found in the desert south of the Bandit Camp.",
+    "places": [
+      "Kharidian Desert",
+      "Bandit Camp",
+      "Desert Quarry",
+      "Enakhra's Temple"
+    ],
+    "coords": {
+      "x": 3168,
+      "y": 2976
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Bandit Camp"
+  },
+  "Family Crest": {
+    "startNpc": "Dimintheis",
+    "start": "Talk to Dimintheis in south-east Varrock, next to the Fancy Clothes Store.",
+    "places": [
+      "Varrock",
+      "Catherby",
+      "Al Kharid mine",
+      "Witchaven Dungeon",
+      "Jolly Boar Inn",
+      "Edgeville Dungeon"
+    ],
+    "coords": {
+      "x": 3232,
+      "y": 3437
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Varrock"
+  },
+  "Fight Arena": {
+    "startNpc": "Lady Servil",
+    "start": "Talk to Lady Servil, just north-west of the fight arena, which is south of Ardougne.",
+    "places": [
+      "Fight Arena",
+      "East Ardougne",
+      "Ardougne Monastery"
+    ],
+    "coords": {
+      "x": 2592,
+      "y": 3168
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Fight Arena"
+  },
+  "Haunted Mine": {
+    "startNpc": "Zealot",
+    "start": "Talk to the zealot at the entrance of the Abandoned Mine in south Morytania.",
+    "places": [
+      "Morytania",
+      "Mort Myre Swamp",
+      "Abandoned Mine",
+      "Burgh de Rott"
+    ],
+    "coords": {
+      "x": 3444,
+      "y": 3258
+    },
+    "coordsSource": "npc"
+  },
+  "Heralds of Crimson": {
+    "startNpc": "Sorrel",
+    "start": "Speak to Sorrel in Amberfell.",
+    "places": [
+      "Amberfell",
+      "Wendlewick",
+      "Hollow Hill"
+    ],
+    "coords": {
+      "x": 3744,
+      "y": 1568
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Amberfell"
+  },
+  "Hero's Welcome": {
+    "startNpc": "Alfrick the Planner",
+    "start": "Talk to Alfrick the Planner or Freya Lune at the Rellekka docks.",
+    "places": [
+      "Rellekka",
+      "Ancient Cavern"
+    ],
+    "coords": {
+      "x": 2677,
+      "y": 3723
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Rellekka"
+  },
+  "Heroes' Quest": {
+    "startNpc": "Achietties",
+    "start": "Talk to Achietties at the entrance to the Heroes' Guild in Burthorpe.",
+    "places": [
+      "Burthorpe",
+      "Taverley",
+      "Entrana",
+      "White Wolf Mountain",
+      "Varrock",
+      "Brimhaven"
+    ],
+    "coords": {
+      "x": 2918,
+      "y": 3513
+    },
+    "coordsSource": "npc"
+  },
+  "Horror from the Deep": {
+    "startNpc": "Larrissa",
+    "start": "Talk to Larrissa, who is outside of the Lighthouse, north of the Barbarian Outpost.",
+    "places": [
+      "Lighthouse",
+      "Barbarian Outpost"
+    ],
+    "coords": {
+      "x": 2508,
+      "y": 3635
+    },
+    "coordsSource": "npc"
+  },
+  "Housing of Parliament": {
+    "startNpc": "Deryn",
+    "start": "Speak to Deryn in the City of Um's owlery.",
+    "places": [
+      "City of Um",
+      "Yanille",
+      "Taverley",
+      "Mort Myre Swamp"
+    ]
+  },
+  "In Pyre Need": {
+    "startNpc": "Priest of Guthix",
+    "start": "Talk to the Priest of Guthix outside a cave south-west of the Piscatoris Fishing Colony.",
+    "places": [
+      "Piscatoris Fishing Colony",
+      "Eagles' Peak"
+    ],
+    "coords": {
+      "x": 2336,
+      "y": 3603
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Piscatoris Fishing Colony"
+  },
+  "Kindred Spirits": {
+    "startNpc": "Linza",
+    "start": "Talk to Linza at the smithy in Burthorpe.",
+    "places": [
+      "Burthorpe",
+      "Draynor Village",
+      "Daemonheim"
+    ],
+    "coords": {
+      "x": 2891,
+      "y": 3595
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Burthorpe"
+  },
+  "King's Ransom": {
+    "startNpc": "Gossip",
+    "start": "Talk to Gossip, outside Sinclair Mansion.",
+    "places": [
+      "Sinclair Mansion",
+      "Seers' Village",
+      "Camelot",
+      "Keep Le Faye",
+      "East Ardougne",
+      "Black Knights' Fortress"
+    ],
+    "coords": {
+      "x": 2742,
+      "y": 3555
+    },
+    "coordsSource": "npc"
+  },
+  "Land of the Goblins": {
+    "startNpc": "Grubfoot",
+    "start": "Speak to Grubfoot in the Dorgeshuun mine, north of Dorgesh-Kaan.",
+    "places": [
+      "Dorgeshuun Mines",
+      "Dorgesh-Kaan",
+      "Goblin Cave",
+      "Falador"
+    ]
+  },
+  "Legacy of Seergaze": {
+    "startNpc": "Mercenary Adventurer",
+    "start": "Talk to the mercenary adventurer east of Paterdomus in Morytania.",
+    "places": [
+      "Paterdomus",
+      "Meiyerditch",
+      "Burgh de Rott",
+      "Morytania"
+    ],
+    "coords": {
+      "x": 3424,
+      "y": 3488
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Paterdomus"
+  },
+  "Lost City": {
+    "startNpc": "Warrior",
+    "start": "Talk to the warrior adventurer north-west of Lumbridge Swamp.",
+    "places": [
+      "Lumbridge Swamp",
+      "Port Sarim",
+      "Entrana",
+      "Entrana Dungeon",
+      "Draynor Village",
+      "Zanaris"
+    ],
+    "coords": {
+      "x": 3186,
+      "y": 3145
+    },
+    "coordsSource": "npc"
+  },
+  "Lunar Diplomacy": {
+    "startNpc": "Lokar Searunner",
+    "start": "Go to the westernmost dock of Rellekka and talk to Lokar Searunner.",
+    "places": [
+      "Rellekka",
+      "Pirates' Cove",
+      "Lunar Isle"
+    ],
+    "coords": {
+      "x": 2621,
+      "y": 3688
+    },
+    "coordsSource": "npc"
+  },
+  "One Small Favour": {
+    "startNpc": "Yanni Salika",
+    "start": "Talk to Yanni Salika in the antique shop in Shilo Village.",
+    "places": [
+      "Shilo Village",
+      "Port Sarim",
+      "Draynor Village",
+      "East Ardougne",
+      "Feldip Hills",
+      "Seers' Village"
+    ],
+    "coords": {
+      "x": 2835,
+      "y": 2985
+    },
+    "coordsSource": "npc"
+  },
+  "Osseous Rex": {
+    "startNpc": "'Calm' Archaeologist",
+    "start": "Talk to the 'calm' Archaeologist in Anachronia base camp.",
+    "places": [
+      "Anachronia base camp",
+      "Anachronia"
+    ],
+    "coords": {
+      "x": 5440,
+      "y": 2336
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Anachronia Base Camp"
+  },
+  "Pharaoh's Folly": {
+    "startNpc": "Leela",
+    "start": "Speak to Leela outside the gates of Menaphos.",
+    "places": [
+      "Menaphos",
+      "Sophanem",
+      "Al Kharid",
+      "Pollnivneach"
+    ],
+    "coords": {
+      "x": 3181,
+      "y": 2688
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Menaphos"
+  },
+  "Royal Trouble": {
+    "startNpc": "Advisor Ghrim",
+    "start": "Talk to Advisor Ghrim in the castle of Miscellania.",
+    "places": [
+      "Miscellania",
+      "Etceteria"
+    ],
+    "coords": {
+      "x": 2545,
+      "y": 3879
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Miscellania"
+  },
+  "Rum Deal": {
+    "startNpc": "Pirate Pete",
+    "start": "Pirate Pete, at the docks north of Port Phasmatys.",
+    "places": [
+      "Port Phasmatys",
+      "Braindeath Island"
+    ],
+    "coords": {
+      "x": 3680,
+      "y": 3537
+    },
+    "coordsSource": "npc"
+  },
+  "Shilo Village": {
+    "startNpc": "Mosol Rei",
+    "start": "Talk to Mosol Rei, who is outside of Shilo Village in the south part of Karamja.",
+    "places": [
+      "Shilo Village",
+      "Tai Bwo Wannai",
+      "Cairn Isle"
+    ],
+    "coords": {
+      "x": 2883,
+      "y": 2951
+    },
+    "coordsSource": "npc"
+  },
+  "Some Like It Cold": {
+    "startNpc": "Chuck",
+    "start": "Speak to Chuck at Ardougne Zoo.",
+    "places": [
+      "Ardougne Zoo",
+      "Rellekka",
+      "Iceberg"
+    ],
+    "coords": {
+      "x": 2614,
+      "y": 3273
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Ardougne Zoo"
+  },
+  "Soul Searching": {
+    "startNpc": "Suspicious Stranger",
+    "start": "Speak with the Suspicious Stranger, then eavesdrop on their talk in the City of Um.",
+    "places": [
+      "City of Um",
+      "Underworld"
+    ]
+  },
+  "Stellar Born": {
+    "start": "Investigate a mysterious crashed star in Piscatoris.",
+    "places": [
+      "Piscatoris Fishing Colony",
+      "Wizards' Tower",
+      "Menaphos",
+      "Observatory"
+    ],
+    "coords": {
+      "x": 2345,
+      "y": 3693
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Piscatoris"
+  },
+  "Succession": {
+    "startNpc": "Adrasteia",
+    "start": "Speak to Adrasteia in the Falador castle throne room.",
+    "places": [
+      "White Knights' Castle",
+      "Senntisten",
+      "Menaphos",
+      "Mage Arena",
+      "Wilderness",
+      "Fort Forinthry"
+    ],
+    "coords": {
+      "x": 2994,
+      "y": 3360
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Falador"
+  },
+  "Summer's End": {
+    "startNpc": "Summer Bonde",
+    "start": "Speak to Summer Bonde at the Wilderness wall north-east of Varrock, north of the Varrock Saradominist church.",
+    "places": [
+      "Varrock",
+      "Wilderness",
+      "Fort Forinthry",
+      "Oo'glog"
+    ],
+    "coords": {
+      "x": 3232,
+      "y": 3437
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Varrock"
+  },
+  "Temple of Ikov": {
+    "startNpc": "Lucien",
+    "start": "Speak to Lucien in the Flying Horse Inn, in the north-west of East Ardougne.",
+    "places": [
+      "East Ardougne",
+      "McGrubor's Wood",
+      "Varrock",
+      "Edgeville"
+    ],
+    "coords": {
+      "x": 2624,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "East Ardougne"
+  },
+  "The Chosen Commander": {
+    "startNpc": "Captain Undak",
+    "start": "Talk to Captain Undak, north-east of the market in Dorgesh-Kaan, just across from the bank.",
+    "places": [
+      "Dorgesh-Kaan",
+      "Lumbridge Castle",
+      "H.A.M. Hideout",
+      "East Ardougne"
+    ]
+  },
+  "The Fremennik Isles": {
+    "startNpc": "Mord Gunnars",
+    "start": "Talk to Mord Gunnars in northern Rellekka.",
+    "places": [
+      "Rellekka",
+      "Jatizso",
+      "Neitiznot",
+      "Ice Troll Caves"
+    ],
+    "coords": {
+      "x": 2644,
+      "y": 3709
+    },
+    "coordsSource": "npc"
+  },
+  "The Grand Tree": {
+    "startNpc": "King Narnode Shareen",
+    "start": "Talk to King Narnode Shareen in The Grand Tree in the Tree Gnome Stronghold.",
+    "places": [
+      "Tree Gnome Stronghold",
+      "Grand Tree",
+      "Yanille",
+      "Karamja"
+    ],
+    "coords": {
+      "x": 2466,
+      "y": 3497
+    },
+    "coordsSource": "npc"
+  },
+  "The Great Brain Robbery": {
+    "startNpc": "Brother Tranquillity",
+    "start": "Talk to Brother Tranquillity, who is located just off the docks on Mos Le'Harmless.",
+    "places": [
+      "Harmony Island",
+      "Mos Le'Harmless",
+      "Port Phasmatys",
+      "Fenkenstrain's Castle",
+      "Canifis",
+      "Edgeville Monastery"
+    ],
+    "coords": {
+      "x": 3765,
+      "y": 2997
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Mos Le'Harmless"
+  },
+  "The Path of Glouphrie": {
+    "startNpc": "King Bolren",
+    "start": "Talk to King Bolren in the Tree Gnome Village.",
+    "places": [
+      "Tree Gnome Village",
+      "Grand Tree",
+      "Castle Wars"
+    ],
+    "coords": {
+      "x": 2542,
+      "y": 3169
+    },
+    "coordsSource": "npc"
+  },
+  "The Spirit of War": {
+    "startNpc": "Kharen",
+    "start": "Speak to Kharen in the City of Um.",
+    "places": [
+      "City of Um",
+      "Lake Mnemosyne",
+      "Rasial's Citadel"
+    ]
+  },
+  "The Vault of Shadows": {
+    "startNpc": "Dr Nabanik",
+    "start": "Talk to Dr Nabanik outside the Kharid-et Dig Site.",
+    "places": [
+      "Kharid-et",
+      "Varrock",
+      "Al Kharid"
+    ],
+    "coords": {
+      "x": 3352,
+      "y": 3195
+    },
+    "coordsSource": "npc"
+  },
+  "Throne of Miscellania": {
+    "startNpc": "King Vargas",
+    "start": "Talk to King Vargas in the castle of Miscellania, accessed from a longboat on the north coast of Rellekka.",
+    "places": [
+      "Miscellania",
+      "Etceteria",
+      "Rellekka"
+    ],
+    "coords": {
+      "x": 2545,
+      "y": 3879
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Miscellania"
+  },
+  "TokTz-Ket-Dill": {
+    "startNpc": "TzHaar-Mej-Malk",
+    "start": "Talk to any of the three TzHaar at the collapsed tunnel in the south-east corridor of TzHaar City.",
+    "places": [
+      "TzHaar City",
+      "Karamja Volcano",
+      "Varrock Palace"
+    ]
+  },
+  "Troll Romance": {
+    "startNpc": "Ug",
+    "start": "Speak to Ug at the Troll Stronghold.",
+    "places": [
+      "Troll Stronghold",
+      "Trollheim",
+      "Burthorpe",
+      "Catherby",
+      "Trollweiss Mountain"
+    ],
+    "coords": {
+      "x": 2835,
+      "y": 3681
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Troll Stronghold"
+  },
+  "Troll Stronghold": {
+    "startNpc": "Commander Denulth",
+    "start": "Talk to Commander Denulth at the Burthorpe training camp.",
+    "places": [
+      "Burthorpe",
+      "Trollheim",
+      "Troll Stronghold",
+      "Death Plateau"
+    ],
+    "coords": {
+      "x": 2918,
+      "y": 3561
+    },
+    "coordsSource": "npc"
+  },
+  "Underground Pass": {
+    "startNpc": "King Lathas",
+    "start": "Talk to King Lathas on the 1st floor [UK] / 2nd floor [US] of Ardougne castle.",
+    "places": [
+      "East Ardougne",
+      "Ardougne Castle",
+      "West Ardougne",
+      "Underground Pass",
+      "Tirannwn"
+    ],
+    "coords": {
+      "x": 2624,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Ardougne castle"
+  },
+  "That Old Black Magic": {
+    "startNpc": "Lady Grey",
+    "start": "Speak to Lady Grey in the City of Um's bandstand.",
+    "places": [
+      "City of Um",
+      "Underworld",
+      "Everlight"
+    ]
+  },
+  "'Phite Club": {
+    "startNpc": "Grand Vizier Hassan",
+    "start": "Talk to Hassan in the Menaphos Merchant district.",
+    "places": [
+      "Menaphos"
+    ],
+    "coords": {
+      "x": 3181,
+      "y": 2688
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Menaphos"
+  },
+  "A Clockwork Syringe": {
+    "start": "Enter the portal to your player-owned house.",
+    "places": [
+      "Player-owned house",
+      "Mos Le'Harmless",
+      "Braindeath Island",
+      "Port Phasmatys",
+      "Port Sarim"
+    ]
+  },
+  "Back to my Roots": {
+    "startNpc": "Horacio",
+    "start": "Talk to Horacio outside Lord Handelmort's mansion, in East Ardougne.",
+    "places": [
+      "East Ardougne",
+      "Karamja",
+      "Handelmort Mansion",
+      "Brimhaven",
+      "Shilo Village"
+    ],
+    "coords": {
+      "x": 2635,
+      "y": 3311
+    },
+    "coordsSource": "npc"
+  },
+  "Back to the Freezer": {
+    "startNpc": "Chuck",
+    "start": "Talk to Chuck at the Ardougne Zoo.",
+    "places": [
+      "Ardougne Zoo",
+      "Rellekka",
+      "Pollnivneach",
+      "Iceberg",
+      "Draynor Manor",
+      "Mining Guild"
+    ],
+    "coords": {
+      "x": 2614,
+      "y": 3273
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Ardougne Zoo"
+  },
+  "Blood Runs Deep": {
+    "startNpc": "Baba Yaga",
+    "start": "Talk to Baba Yaga on Lunar Isle.",
+    "places": [
+      "Lunar Isle",
+      "Rellekka",
+      "Waterbirth Island",
+      "Etceteria",
+      "Miscellania"
+    ],
+    "coords": {
+      "x": 2112,
+      "y": 3904
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lunar Isle"
+  },
+  "Catapult Construction": {
+    "startNpc": "Tyras guard",
+    "start": "Talk to the Tyras guard next to the catapult in the Isafdar Forest.",
+    "places": [
+      "Isafdar",
+      "Tyras Camp",
+      "Ice Mountain",
+      "Port Sarim",
+      "Port Tyras",
+      "Tirannwn"
+    ],
+    "coords": {
+      "x": 2188,
+      "y": 3171
+    },
+    "coordsSource": "npc"
+  },
+  "City of Senntisten": {
+    "startNpc": "Ariane",
+    "start": "Talk to Ariane outside the Heart of Gielinor in the Kharidian Desert.",
+    "places": [
+      "Heart of Gielinor",
+      "Kharidian Desert",
+      "Senntisten",
+      "Archaeology Guild",
+      "Daemonheim"
+    ],
+    "coords": {
+      "x": 3378,
+      "y": 2882
+    },
+    "coordsSource": "place",
+    "coordsPlace": "The Heart"
+  },
+  "Contact!": {
+    "startNpc": "High Priest",
+    "start": "Talk to the High Priest of Icthlarin in the southern temple of Sophanem.",
+    "places": [
+      "Sophanem",
+      "Menaphos",
+      "Kharidian Desert",
+      "Sophanem Dungeon",
+      "Al Kharid",
+      "Draynor Village"
+    ],
+    "coords": {
+      "x": 3328,
+      "y": 2752
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Sophanem"
+  },
+  "Crocodile Tears": {
+    "startNpc": "Senliten",
+    "start": "Talk to Leela and Senliten in Senliten's tomb.",
+    "places": [
+      "Uzer",
+      "Sophanem",
+      "Menaphos"
+    ],
+    "coords": {
+      "x": 3479,
+      "y": 3098
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Senliten's tomb"
+  },
+  "Curse of the Black Stone": {
+    "startNpc": "Bryll Thoksdottir",
+    "start": "Talk to Bryll Thoksdottir at Daemonheim.",
+    "places": [
+      "Daemonheim",
+      "Waiko",
+      "Goshima"
+    ],
+    "coords": {
+      "x": 3441,
+      "y": 3696
+    },
+    "coordsSource": "npc"
+  },
+  "Deadliest Catch": {
+    "startNpc": "Jones",
+    "start": "Speak to Jones next to the Fishing Guild bank.",
+    "places": [
+      "Fishing Guild",
+      "Hemenster",
+      "Tower of Life",
+      "East Ardougne"
+    ],
+    "coords": {
+      "x": 2592,
+      "y": 3424
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Fishing Guild"
+  },
+  "Dealing with Scabaras": {
+    "startNpc": "High Priest",
+    "start": "Talk to the High Priest of Icthlarin in the south temple of Sophanem.",
+    "places": [
+      "Sophanem",
+      "Agility Pyramid",
+      "Nardah",
+      "Pollnivneach",
+      "Ullek"
+    ],
+    "coords": {
+      "x": 3328,
+      "y": 2752
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Sophanem"
+  },
+  "Desert Treasure": {
+    "startNpc": "Asgarnia Smith",
+    "start": "Talk to Asgarnia Smith, the archaeologist exploring the Bedabin Camp south-west of the Shantay Pass.",
+    "places": [
+      "Bedabin Camp",
+      "Bandit Camp",
+      "Canifis",
+      "Trollheim",
+      "Pollnivneach"
+    ],
+    "coords": {
+      "x": 3178,
+      "y": 3043
+    },
+    "coordsSource": "npc"
+  },
+  "Do No Evil": {
+    "startNpc": "Leela",
+    "start": "Speak with Leela and Senliten in Senliten's tomb.",
+    "places": [
+      "Uzer",
+      "Sophanem",
+      "Ape Atoll",
+      "Kharidian Desert",
+      "Draynor Manor",
+      "Kalphite Hive"
+    ],
+    "coords": {
+      "x": 3479,
+      "y": 3098
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Senliten's tomb"
+  },
+  "Dream Mentor": {
+    "startNpc": "Cyrisus",
+    "start": "Talk to the fallen man inside the small cave in the Lunar Isle Mine.",
+    "places": [
+      "Lunar Isle",
+      "Rellekka",
+      "Port Sarim",
+      "Pirates' Cove"
+    ],
+    "coords": {
+      "x": 2112,
+      "y": 3904
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lunar Isle"
+  },
+  "Forgiveness of a Chaos Dwarf": {
+    "startNpc": "Commander Veldaban",
+    "start": "Speak to Commander Veldaban in the Black Guard headquarters on the western side of Keldagrim.",
+    "places": [
+      "Keldagrim"
+    ],
+    "coords": {
+      "x": 2714,
+      "y": 3713
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Keldagrim"
+  },
+  "Glorious Memories": {
+    "startNpc": "Manni the Reveller",
+    "start": "Speak to Manni the Reveller inside the longhall in Rellekka.",
+    "places": [
+      "Rellekka",
+      "Miscellania",
+      "Neitiznot",
+      "Jatizso",
+      "Mountain Camp"
+    ],
+    "coords": {
+      "x": 2659,
+      "y": 3675
+    },
+    "coordsSource": "npc"
+  },
+  "Grim Tales": {
+    "startNpc": "Sylas",
+    "start": "Talk to Sylas south of Taverley.",
+    "places": [
+      "Taverley",
+      "White Wolf Mountain"
+    ],
+    "coords": {
+      "x": 2912,
+      "y": 3379
+    },
+    "coordsSource": "npc"
+  },
+  "King of the Dwarves": {
+    "startNpc": "Lava-flow miner Sven",
+    "start": "Talk to Lava-flow miner Sven outside the Lava Flow Mine in East Keldagrim.",
+    "places": [
+      "Keldagrim"
+    ],
+    "coords": {
+      "x": 2714,
+      "y": 3713
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Keldagrim"
+  },
+  "Legends' Quest": {
+    "startNpc": "Legends' guard",
+    "start": "Talk to the guards just outside of the Legends' Guild.",
+    "places": [
+      "Legends' Guild",
+      "Kharazi Jungle",
+      "Karamja",
+      "Shilo Village",
+      "Brimhaven"
+    ],
+    "coords": {
+      "x": 2726,
+      "y": 3349
+    },
+    "coordsSource": "npc"
+  },
+  "Love Story": {
+    "startNpc": "Mabel",
+    "start": "Speak to Mabel at the barn north-east of Draynor Village.",
+    "places": [
+      "Draynor Village",
+      "Rimmington",
+      "Wizards' Tower",
+      "Crafting Guild",
+      "Port Sarim"
+    ],
+    "coords": {
+      "x": 3104,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Draynor Village"
+  },
+  "Monkey Madness": {
+    "startNpc": "King Narnode Shareen",
+    "start": "Talk to King Narnode Shareen in the Grand Tree in the Tree Gnome Stronghold.",
+    "places": [
+      "Grand Tree",
+      "Tree Gnome Stronghold",
+      "Karamja",
+      "Crash Island",
+      "Ape Atoll"
+    ],
+    "coords": {
+      "x": 2466,
+      "y": 3497
+    },
+    "coordsSource": "npc"
+  },
+  "Mourning's End Part I": {
+    "startNpc": "Eluned",
+    "start": "Speak to Eluned in Isafdar in Tirannwn, either east of the current Tyras Camp or east of the remains of the former one.",
+    "places": [
+      "Isafdar",
+      "Lletya",
+      "Arandar",
+      "West Ardougne",
+      "Feldip Hills",
+      "Tyras Camp"
+    ],
+    "coords": {
+      "x": 2165,
+      "y": 3147
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Tyras Camp"
+  },
+  "Mourning's End Part II": {
+    "startNpc": "Head Mourner",
+    "start": "Speak with the Head Mourner in the Mourner Headquarters under West Ardougne, after reporting your findings to Arianwyn in Lletya.",
+    "places": [
+      "West Ardougne",
+      "Lletya",
+      "Temple of Light",
+      "Death altar"
+    ],
+    "coords": {
+      "x": 2507,
+      "y": 3317
+    },
+    "coordsSource": "place",
+    "coordsPlace": "West Ardougne"
+  },
+  "Nomad's Elegy": {
+    "startNpc": "Zimberfizz",
+    "start": "Speak to Zimberfizz at Soul Wars (via the Edgeville portal).",
+    "places": [
+      "Soul Wars",
+      "Edgeville",
+      "Death's Office",
+      "Lumbridge Castle"
+    ],
+    "coords": {
+      "x": 1887,
+      "y": 3275
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Soul Wars"
+  },
+  "Ode of the Devourer": {
+    "startNpc": "Bill",
+    "start": "Check on Bill at the Fort Forinthry workshop.",
+    "places": [
+      "Fort Forinthry",
+      "Al Kharid",
+      "City of Um",
+      "Mahjarrat Ritual Site"
+    ],
+    "coords": {
+      "x": 3328,
+      "y": 3552
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Fort Forinthry"
+  },
+  "Our Man in the North": {
+    "startNpc": "Grand Vizier Hassan",
+    "start": "Talk to Hassan in the Menaphos Merchant district.",
+    "places": [
+      "Menaphos",
+      "Pollnivneach",
+      "Uzer",
+      "Al Kharid",
+      "Het's Oasis"
+    ],
+    "coords": {
+      "x": 3181,
+      "y": 2688
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Menaphos"
+  },
+  "Regicide": {
+    "start": "Receive a message from King Lathas's messenger (typically about 15 minutes after completing Underground Pass).",
+    "places": [
+      "Ardougne Castle",
+      "Isafdar",
+      "Tyras Camp",
+      "Rimmington"
+    ]
+  },
+  "Remains of the Necrolord": {
+    "startNpc": "Death",
+    "start": "Speak to Death in the City of Um.",
+    "places": [
+      "City of Um",
+      "Daemonheim",
+      "Underworld"
+    ]
+  },
+  "Requiem for a Dragon": {
+    "startNpc": "Aster",
+    "start": "Speak to Aster in the Fort Forinthry townhall.",
+    "places": [
+      "Fort Forinthry",
+      "Ungael",
+      "City of Um",
+      "Archaeology Campus"
+    ],
+    "coords": {
+      "x": 3328,
+      "y": 3552
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Fort Forinthry"
+  },
+  "Rocking Out": {
+    "startNpc": "Bill Teach",
+    "start": "Talk to Bill Teach in Mos Le'Harmless or Port Phasmatys.",
+    "places": [
+      "Rimmington",
+      "Braindeath Island",
+      "Port Sarim",
+      "Mos Le'Harmless",
+      "Dragontooth Island"
+    ],
+    "coords": {
+      "x": 3765,
+      "y": 2997
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Mos Le'Harmless"
+  },
+  "Roving Elves": {
+    "startNpc": "Islwyn",
+    "start": "Talk to Islwyn, a roving elf somewhere in the elven forest of Isafdar in Tirannwn.",
+    "places": [
+      "Isafdar",
+      "Tirannwn",
+      "Glarial's Tomb",
+      "Port Tyras",
+      "Lletya"
+    ],
+    "coords": {
+      "x": 2291,
+      "y": 3147
+    },
+    "coordsSource": "npc"
+  },
+  "Swan Song": {
+    "startNpc": "Herman Caranos",
+    "start": "Speak to Herman Caranos at the Piscatoris Fishing Colony.",
+    "places": [
+      "Piscatoris Fishing Colony",
+      "Draynor Village",
+      "Yanille",
+      "Port Sarim",
+      "Falador",
+      "Crafting Guild"
+    ],
+    "coords": {
+      "x": 2354,
+      "y": 3683
+    },
+    "coordsSource": "npc"
+  },
+  "The Branches of Darkmeyer": {
+    "startNpc": "Veliaf Hurtz",
+    "start": "Talk to Veliaf Hurtz in the Myreque base under Burgh de Rott.",
+    "places": [
+      "Burgh de Rott",
+      "Meiyerditch",
+      "Darkmeyer"
+    ],
+    "coords": {
+      "x": 3520,
+      "y": 3200
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Burgh de Rott"
+  },
+  "The Curse of Arrav": {
+    "startNpc": "Ali the Wise",
+    "start": "Talk to Ali the Wise in Nardah.",
+    "places": [
+      "Nardah",
+      "Trollheim",
+      "Trollweiss Mountain",
+      "Uzer",
+      "Varrock Palace",
+      "Chaos Temple"
+    ],
+    "coords": {
+      "x": 3445,
+      "y": 2933
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Nardah"
+  },
+  "The Elder Kiln": {
+    "startNpc": "TzHaar-Mej-Jeh",
+    "start": "Talk to TzHaar-Mej-Jeh at the TzHaar Birthing Pool.",
+    "places": [
+      "TzHaar City"
+    ]
+  },
+  "The Firemaker's Curse": {
+    "startNpc": "Phoenix",
+    "start": "Talk to one of the firemakers, such as Phoenix, at a cave entrance south of Eagles' Peak and west of the Tree Gnome Stronghold.",
+    "places": [
+      "Eagles' Peak",
+      "Tree Gnome Stronghold",
+      "Piscatoris Hunter area",
+      "Oo'glog"
+    ],
+    "coords": {
+      "x": 2304,
+      "y": 3488
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Eagles' Peak"
+  },
+  "The Lord of Vampyrium": {
+    "startNpc": "Vanescula Drakan",
+    "start": "Talk to Vanescula Drakan, by the rowboat entrance to Meiyerditch near Burgh de Rott.",
+    "places": [
+      "Burgh de Rott",
+      "Meiyerditch",
+      "Darkmeyer",
+      "Castle Drakan"
+    ],
+    "coords": {
+      "x": 3695,
+      "y": 3209
+    },
+    "coordsSource": "npc"
+  },
+  "The Mighty Fall": {
+    "startNpc": "Ur-tag",
+    "start": "Speak to Ur-tag in Dorgesh-Kaan.",
+    "places": [
+      "Dorgesh-Kaan",
+      "Lumbridge Swamp Caves",
+      "Lumbridge Castle",
+      "Goblin Village"
+    ]
+  },
+  "The Prisoner of Glouphrie": {
+    "startNpc": "Golrie",
+    "start": "Talk to Golrie in his cave beneath the Tree Gnome Village.",
+    "places": [
+      "Tree Gnome Village",
+      "Arandar",
+      "Lletya"
+    ],
+    "coords": {
+      "x": 2528,
+      "y": 3174
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Tree Gnome Village"
+  },
+  "The Temple at Senntisten": {
+    "startNpc": "Ali the Wise",
+    "start": "Speak with Ali the Wise at his house in Nardah.",
+    "places": [
+      "Nardah",
+      "Varrock Dig Site",
+      "Barrows",
+      "Ghorrock"
+    ],
+    "coords": {
+      "x": 3445,
+      "y": 2933
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Nardah"
+  },
+  "Tomes of the Warlock": {
+    "startNpc": "Death",
+    "start": "Speak to Death in the City of Um.",
+    "places": [
+      "City of Um",
+      "Kharid-et",
+      "Varrock Palace",
+      "Wizards' Tower",
+      "Menaphos"
+    ]
+  },
+  "Twilight of the Gods": {
+    "startNpc": "Sir Cadian",
+    "start": "Talk to a wounded knight outside the surface entrance to Senntisten.",
+    "places": [
+      "Senntisten",
+      "Falador",
+      "Jolly Boar Inn"
+    ]
+  },
+  "Within the Light": {
+    "startNpc": "Arianwyn",
+    "start": "Talk to Arianwyn in Lletya.",
+    "places": [
+      "Lletya",
+      "Temple of Light",
+      "West Ardougne",
+      "Death altar"
+    ],
+    "coords": {
+      "x": 2336,
+      "y": 3168
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lletya"
+  },
+  "Dimension of Disaster": {
+    "startNpc": "Aris",
+    "start": "Talk to Aris in her tent south-west of Varrock square.",
+    "places": [
+      "Varrock",
+      "Varrock Square",
+      "Varrock Museum",
+      "Varrock Palace",
+      "Blue Moon Inn"
+    ],
+    "coords": {
+      "x": 3232,
+      "y": 3437
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Varrock"
+  },
+  "Alpha vs Omega": {
+    "startNpc": "Rasial, the First Necromancer",
+    "start": "Talk to Rasial in the City of Um.",
+    "places": [
+      "City of Um",
+      "Rasial's Citadel",
+      "Underworld"
+    ]
+  },
+  "Birthright of the Dwarves": {
+    "startNpc": "Veldaban",
+    "start": "Talk to Veldaban on the top floor of Keldagrim Palace.",
+    "places": [
+      "Keldagrim",
+      "Taverley Dungeon"
+    ],
+    "coords": {
+      "x": 2714,
+      "y": 3713
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Keldagrim"
+  },
+  "Children of Mah": {
+    "startNpc": "Kharshai",
+    "start": "Talk to Kharshai in the frozen region north of Rellekka or, if you've completed Koschei's Troubles, in his cave beneath Rellekka.",
+    "places": [
+      "Rellekka",
+      "Freneskae",
+      "Mahjarrat Ritual Site",
+      "Varrock Dig Site"
+    ],
+    "coords": {
+      "x": 2677,
+      "y": 3723
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Rellekka"
+  },
+  "Extinction": {
+    "startNpc": "Moia",
+    "start": "Talk to Moia at the surface entrance of Senntisten.",
+    "places": [
+      "Senntisten",
+      "Anachronia",
+      "Freneskae"
+    ]
+  },
+  "Fate of the Gods": {
+    "startNpc": "Azzanadra",
+    "start": "Talk to Azzanadra at the World Gate, just north-west of the entrance to Arandar, south of the Eagles' Peak lodestone.",
+    "places": [
+      "World Gate",
+      "Arandar",
+      "Eagles' Peak",
+      "Freneskae"
+    ],
+    "coords": {
+      "x": 2368,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Arandar"
+  },
+  "Nomad's Requiem": {
+    "startNpc": "Zimberfizz",
+    "start": "Talk to Zimberfizz at Soul Wars camp.",
+    "places": [
+      "Soul Wars"
+    ],
+    "coords": {
+      "x": 1887,
+      "y": 3275
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Soul Wars"
+  },
+  "One of a Kind": {
+    "startNpc": "Mr Mordaut",
+    "start": "Talk to Mr Mordaut in his office under the stairs in Varrock Museum.",
+    "places": [
+      "Varrock Museum",
+      "Burthorpe",
+      "Brimhaven Dungeon",
+      "Entrana",
+      "Daemonheim",
+      "Dragontooth Island"
+    ],
+    "coords": {
+      "x": 3232,
+      "y": 3437
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Varrock"
+  },
+  "Pieces of Hate": {
+    "start": "Talk to Postie Pete at any player-owned house portal by attempting to enter the portal.",
+    "places": [
+      "Karamja",
+      "Mos Le'Harmless",
+      "Braindeath Island",
+      "Varrock"
+    ]
+  },
+  "Plague's End": {
+    "startNpc": "Arianwyn",
+    "start": "Speak to Arianwyn in eastern Lletya.",
+    "places": [
+      "Lletya",
+      "Prifddinas",
+      "West Ardougne",
+      "East Ardougne",
+      "Poison Waste",
+      "Daemonheim"
+    ],
+    "coords": {
+      "x": 2336,
+      "y": 3168
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lletya"
+  },
+  "Ritual of the Mahjarrat": {
+    "startNpc": "Sir Tiffy Cashien",
+    "start": "Speak to Sir Tiffy Cashien in Falador Park.",
+    "places": [
+      "Falador Park",
+      "Mos Le'Harmless",
+      "Ghorrock"
+    ],
+    "coords": {
+      "x": 2997,
+      "y": 3373
+    },
+    "coordsSource": "npc"
+  },
+  "River of Blood": {
+    "startNpc": "King Roald",
+    "start": "Talk to King Roald in Varrock Palace throne room.",
+    "places": [
+      "Varrock Palace",
+      "Paterdomus",
+      "Castle Drakan",
+      "Meiyerditch",
+      "Nature Grotto"
+    ],
+    "coords": {
+      "x": 3222,
+      "y": 3476
+    },
+    "coordsSource": "npc"
+  },
+  "Sins of the Father": {
+    "startNpc": "Mr Mordaut",
+    "start": "Talk to Mr Mordaut, located at the Anachronia base camp, east of the Anachronia lodestone.",
+    "places": [
+      "Anachronia",
+      "Anachronia base camp"
+    ],
+    "coords": {
+      "x": 5440,
+      "y": 2336
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Anachronia Base Camp"
+  },
+  "Sliske's Endgame": {
+    "startNpc": "Relomia",
+    "start": "Speak to Relomia in Draynor Village.",
+    "places": [
+      "Draynor Village",
+      "Heart of Gielinor",
+      "White Knights' Castle",
+      "Black Knights' Fortress",
+      "Prifddinas"
+    ],
+    "coords": {
+      "x": 3104,
+      "y": 3296
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Draynor Village"
+  },
+  "The Brink of Extinction": {
+    "startNpc": "TzHaar-Mej-Ak",
+    "start": "Talk to TzHaar-Mej-Ak or TzHaar-Mej-Jeh in the TzHaar City's main plaza.",
+    "places": [
+      "TzHaar City"
+    ]
+  },
+  "The Light Within": {
+    "startNpc": "Eluned",
+    "start": "Talk to Eluned in the Ithell district of Prifddinas.",
+    "places": [
+      "Prifddinas",
+      "Tower of Voices",
+      "Freneskae"
+    ],
+    "coords": {
+      "x": 2208,
+      "y": 3367
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Prifddinas"
+  },
+  "The Void Stares Back": {
+    "startNpc": "Captain Korasi",
+    "start": "Speak to Captain Korasi at the Falador Park.",
+    "places": [
+      "Falador Park",
+      "Black Knights' Fortress",
+      "Taverley Dungeon",
+      "Wizards' Tower"
+    ],
+    "coords": {
+      "x": 2994,
+      "y": 3360
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Falador"
+  },
+  "The World Wakes": {
+    "startNpc": "Orlando Smith",
+    "start": "Speak to Orlando Smith, excavating west of the Legends' Guild, south of Sorcerer's Tower.",
+    "places": [
+      "Legends' Guild",
+      "Sorcerer's Tower",
+      "Varrock Museum",
+      "God Wars Dungeon"
+    ],
+    "coords": {
+      "x": 2720,
+      "y": 3360
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Legends' Guild"
+  },
+  "While Guthix Sleeps": {
+    "startNpc": "Radimus Erkle",
+    "start": "Talk to Radimus Erkle in the Legends' Guild, north of East Ardougne.",
+    "places": [
+      "Legends' Guild",
+      "Taverley",
+      "Draynor Village",
+      "Falador",
+      "Black Knights' Fortress",
+      "Tears of Guthix cavern"
+    ],
+    "coords": {
+      "x": 2720,
+      "y": 3360
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Legends' Guild"
+  },
+  "Recipe for Disaster: Another Cook's Quest": {
+    "startNpc": "Cook",
+    "start": "Talk to the Cook in Lumbridge Castle's kitchen.",
+    "places": [
+      "Lumbridge Castle",
+      "Port Sarim",
+      "Yanille",
+      "Varrock",
+      "Grand Tree"
+    ],
+    "coords": {
+      "x": 3209,
+      "y": 3215
+    },
+    "coordsSource": "npc"
+  },
+  "Recipe for Disaster: Freeing the Goblin Generals": {
+    "startNpc": "General Wartface",
+    "start": "Inspect General Wartface or General Bentnoze in the banquet hall in Lumbridge Castle.",
+    "places": [
+      "Lumbridge Castle",
+      "Goblin Village"
+    ],
+    "coords": {
+      "x": 3200,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lumbridge"
+  },
+  "Recipe for Disaster: Freeing the Mountain Dwarf": {
+    "startNpc": "Mountain Dwarf",
+    "start": "Inspect the mountain dwarf in the banquet hall in Lumbridge Castle.",
+    "places": [
+      "Lumbridge Castle",
+      "Falador",
+      "Rising Sun Inn",
+      "White Wolf Mountain",
+      "Taverley",
+      "Catherby"
+    ],
+    "coords": {
+      "x": 3200,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lumbridge"
+  },
+  "Recipe for Disaster: Freeing Evil Dave": {
+    "startNpc": "Evil Dave",
+    "start": "Inspect Evil Dave in the banquet hall in Lumbridge Castle.",
+    "places": [
+      "Lumbridge Castle",
+      "Edgeville"
+    ],
+    "coords": {
+      "x": 3200,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lumbridge"
+  },
+  "Recipe for Disaster: Freeing the Lumbridge Sage": {
+    "startNpc": "Lumbridge Sage",
+    "start": "Inspect the Lumbridge Sage in the banquet hall in Lumbridge Castle.",
+    "places": [
+      "Lumbridge Castle",
+      "Wizards' Tower"
+    ],
+    "coords": {
+      "x": 3200,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lumbridge"
+  },
+  "Recipe for Disaster: Freeing Pirate Pete": {
+    "startNpc": "Pirate Pete",
+    "start": "Inspect Pirate Pete in the banquet hall in Lumbridge Castle.",
+    "places": [
+      "Lumbridge Castle",
+      "Port Khazard",
+      "Yanille",
+      "Tower of Life"
+    ],
+    "coords": {
+      "x": 3200,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lumbridge"
+  },
+  "Recipe for Disaster: Freeing Skrach Uglogwee": {
+    "startNpc": "Skrach Uglogwee",
+    "start": "Inspect Skrach Uglogwee in the banquet hall in Lumbridge Castle.",
+    "places": [
+      "Lumbridge Castle",
+      "Feldip Hills",
+      "Karamja",
+      "Tai Bwo Wannai"
+    ],
+    "coords": {
+      "x": 3200,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lumbridge"
+  },
+  "Recipe for Disaster: Freeing Sir Amik Varze": {
+    "startNpc": "Sir Amik Varze",
+    "start": "Inspect Sir Amik Varze in the banquet hall in Lumbridge Castle.",
+    "places": [
+      "Lumbridge Castle",
+      "Kharazi Jungle",
+      "Draynor Village",
+      "Lumbridge Swamp",
+      "Zanaris"
+    ],
+    "coords": {
+      "x": 3200,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lumbridge"
+  },
+  "Recipe for Disaster: Freeing King Awowogei": {
+    "startNpc": "Awowogei",
+    "start": "Inspect Awowogei in the banquet hall in Lumbridge Castle.",
+    "places": [
+      "Lumbridge Castle",
+      "Ape Atoll",
+      "Crash Island"
+    ],
+    "coords": {
+      "x": 3200,
+      "y": 3232
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Lumbridge"
+  },
+  "Recipe for Disaster": {
+    "startNpc": "Cook",
+    "start": "Speak to the cook in Lumbridge Castle.",
+    "places": [
+      "Lumbridge Castle",
+      "Goblin Village",
+      "Ape Atoll",
+      "Kharazi Jungle"
+    ],
+    "coords": {
+      "x": 3209,
+      "y": 3215
+    },
+    "coordsSource": "npc"
+  },
+  "Bar Crawl": {
+    "startNpc": "Barbarian guard",
+    "start": "Talk to one of the barbarian guards at the outer entrance of the Barbarian Outpost Agility Course.",
+    "places": [
+      "Barbarian Outpost",
+      "Varrock",
+      "Grand Tree",
+      "East Ardougne",
+      "Brimhaven",
+      "Port Sarim"
+    ],
+    "coords": {
+      "x": 2544,
+      "y": 3567
+    },
+    "coordsSource": "npc"
+  },
+  "Civil War I": {
+    "startNpc": "Adrasteia",
+    "start": "Speak to Adrasteia in the Falador Castle throne room.",
+    "places": [
+      "White Knights' Castle",
+      "Grand Exchange",
+      "Wilderness"
+    ],
+    "coords": {
+      "x": 2994,
+      "y": 3360
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Falador"
+  },
+  "Civil War II": {
+    "startNpc": "Anne Dimitri",
+    "start": "Speak to Anne Dimitri in the Wilderness.",
+    "places": [
+      "Wilderness",
+      "Edgeville",
+      "Taverley"
+    ],
+    "coords": {
+      "x": 3144,
+      "y": 3773
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Wilderness"
+  },
+  "Civil War III": {
+    "startNpc": "Anne Dimitri",
+    "start": "Speak to Anne Dimitri in the Wilderness.",
+    "places": [
+      "Wilderness",
+      "Het's Oasis",
+      "Wilderness Crater",
+      "Falador",
+      "White Knights' Castle"
+    ],
+    "coords": {
+      "x": 3144,
+      "y": 3773
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Wilderness"
+  },
+  "Curse of the Empty Lord": {
+    "startNpc": "Mysterious ghost",
+    "start": "Talk to the mysterious ghost (Valdez) near Glarial's tombstone, north-west of the Fishing Guild, while wearing a ring of visibility and with a means of speaking with ghosts.",
+    "places": [
+      "Fishing Guild",
+      "Rogues' Castle",
+      "Port Sarim",
+      "Wizards' Tower",
+      "Edgeville Dungeon"
+    ],
+    "coords": {
+      "x": 2592,
+      "y": 3424
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Fishing Guild"
+  },
+  "Enter the Abyss": {
+    "startNpc": "Mage of Zamorak",
+    "start": "Talk to the Mage of Zamorak at the beginning of the above-ground River Lum in the Wilderness (roams levels 4-7).",
+    "places": [
+      "Wilderness",
+      "Varrock",
+      "Abyss"
+    ]
+  },
+  "Koschei's Troubles": {
+    "startNpc": "Thorvald the Warrior",
+    "start": "Speak with Thorvald the Warrior inside Skulgrimen's Battle Gear in Rellekka.",
+    "places": [
+      "Rellekka"
+    ],
+    "coords": {
+      "x": 2666,
+      "y": 3693
+    },
+    "coordsSource": "npc"
+  },
+  "Lair of Tarn Razorlor": {
+    "start": "Recover Tarn Razorlor's diary; his lair's entrance is on the north wall of the Abandoned Mine's ground floor, reached via the surface cart tunnel.",
+    "places": [
+      "Abandoned Mine",
+      "Morytania",
+      "Burgh de Rott",
+      "Canifis",
+      "Mort'ton"
+    ],
+    "coords": {
+      "x": 3444,
+      "y": 3243
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Abandoned Mine"
+  },
+  "Purple Cat": {
+    "startNpc": "Wendy",
+    "start": "Ask Wendy (at Betty's Magic Emporium, Port Sarim) about her purple cat, Trogs.",
+    "places": [
+      "Port Sarim",
+      "Betty's Magic Emporium"
+    ],
+    "coords": {
+      "x": 3075,
+      "y": 3300
+    },
+    "coordsSource": "npc"
+  },
+  "Sheep Shearer": {
+    "startNpc": "Fred the Farmer",
+    "start": "Talk to Fred the Farmer in his house north of the Lumbridge Market.",
+    "places": [
+      "Lumbridge",
+      "Lumbridge Castle"
+    ],
+    "coords": {
+      "x": 3206,
+      "y": 3290
+    },
+    "coordsSource": "npc"
+  },
+  "Tales of the God Wars": {
+    "startNpc": "The Curator",
+    "start": "Talk to the Curator at the Heart of Gielinor, north of the Agility Pyramid in the Kharidian Desert.",
+    "places": [
+      "Heart of Gielinor",
+      "Tirannwn",
+      "Isafdar",
+      "God Wars Dungeon"
+    ],
+    "coords": {
+      "x": 3378,
+      "y": 2882
+    },
+    "coordsSource": "place",
+    "coordsPlace": "The Heart"
+  },
+  "The General's Shadow": {
+    "startNpc": "General Khazard",
+    "start": "Find the ghost of General Khazard on the road south-east of Rellekka (requires a ring of visibility, the full ghostly robe outfit, and a way to speak with ghosts).",
+    "places": [
+      "Rellekka",
+      "Seers' Village",
+      "Tai Bwo Wannai",
+      "Tree Gnome Stronghold",
+      "Falador",
+      "Goblin Cave"
+    ],
+    "coords": {
+      "x": 2677,
+      "y": 3723
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Rellekka"
+  },
+  "The Hunt for Surok": {
+    "startNpc": "Surok Magis",
+    "start": "Speak to Surok by the statue of Saradomin, east of Varrock.",
+    "places": [
+      "Varrock",
+      "Chaos Tunnels"
+    ],
+    "coords": {
+      "x": 3232,
+      "y": 3437
+    },
+    "coordsSource": "place",
+    "coordsPlace": "Varrock"
+  },
+  "Witch's Potion": {
+    "startNpc": "Hetty",
+    "start": "Talk to Hetty in her house in Rimmington, south of Falador and west of Port Sarim.",
+    "places": [
+      "Rimmington",
+      "Port Sarim",
+      "Falador",
+      "Lumbridge",
+      "Grand Exchange"
+    ],
+    "coords": {
+      "x": 2968,
+      "y": 3206
+    },
+    "coordsSource": "npc"
+  }
+}

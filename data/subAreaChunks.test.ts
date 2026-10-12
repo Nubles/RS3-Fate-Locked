@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { SUB_AREA_CHUNKS } from './subAreaChunks';
 import { REGION_CHUNKS } from './regionChunks';
-import { REGIONS_LIST, MISTHALIN_AREAS } from './items';
+import { REGIONS_LIST, MISTHALIN_AREAS, REGION_GROUPS } from './items';
 
 /** Chunks on the map, as "cx,cy" keys. */
 function mapChunkKeys(): Set<string> {
@@ -46,6 +46,15 @@ describe('sub-area chunk assignments', () => {
       expect(SUB_AREA_CHUNKS[name]?.length, name).toBeGreaterThan(0);
     }
     expect(SUB_AREA_CHUNKS['Fort Forinthry']).toContainEqual({ cx: 51, cy: 55 });
+  });
+
+  it('places the inset areas (The Arc, Havenhythe, Mazcab, Lost Grove, Ashdale)', () => {
+    for (const name of [...REGION_GROUPS['The Arc'], 'Wendlewick', 'Amberfell', 'Mazcab', 'Lost Grove', 'Ashdale']) {
+      expect(SUB_AREA_CHUNKS[name]?.length, name).toBeGreaterThan(0);
+    }
+    expect(SUB_AREA_CHUNKS['Tuai Leit']).toContainEqual({ cx: 28, cy: 186 });
+    expect(REGION_CHUNKS['The Arc']).toContainEqual({ cx: 28, cy: 186 });
+    expect(REGION_CHUNKS['Havenhythe']?.length).toBeGreaterThan(40);
   });
 
   it('covers the flagship example — Falador is a multi-chunk group', () => {

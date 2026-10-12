@@ -2,12 +2,15 @@
  * Chunk reachability over the transport graph.
  *
  * Owning a chunk isn't the same as being able to get to it — you might unlock an
- * island but not the way there. This walks the `connect` graph (the RS3
- * teleport networks found in the chunk data — lodestones, fairy rings, spirit
- * trees, canoe stations, Wilderness obelisks) plus grid adjacency, from your
- * home chunk (Lumbridge), to work out which owned chunks are actually
- * connected to your network and which are "stranded". Dungeons are folded
- * onto the surface square above them in the data, so stairs need no edges.
+ * island but not the way there. This walks the `connect` graph (the RS3 cache
+ * transport links — lodestones, fairy rings, spirit trees, gliders, balloons,
+ * carpets, charter ships, boats, canoes, Wilderness obelisks, dungeon
+ * entrances, cross-chunk stairs and agility shortcuts; named nodes such as
+ * "Fairy ring network" or "Burthorpe Troll Cave" are pass-through connectors)
+ * plus grid adjacency, from your home chunk (Lumbridge), to work out which
+ * owned chunks are actually connected to your network and which are
+ * "stranded". Old-style dungeons are folded onto the surface square above
+ * them in the data, so stairs inside one square need no edges.
  *
  * Approximate by nature: `connect` has no per-edge unlock requirements (e.g. a
  * fairy ring still needs the network unlocked), so this is a connectivity hint,

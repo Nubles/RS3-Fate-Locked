@@ -101,6 +101,8 @@ import {
   pixelToTile,
   tileToChunk,
   tileToPercent,
+  MAP_INSETS,
+  insetPixelRect,
 } from '../utils/mapCoords';
 
 // Continent marker positions, as game tiles (converted to % of the map image
@@ -117,18 +119,30 @@ const REGION_LABEL_TILES: Record<string, TileCoord> = {
   'Wilderness': { tx: 3145, ty: 3776 },
   'Daemonheim': { tx: 3460, ty: 3700 },
   'Anachronia': { tx: 5480, ty: 2300 },
+  // Drawn as insets in open sea (utils/mapCoords.ts MAP_INSETS); tileToPercent
+  // routes these canonical tiles to where the inset is drawn.
+  'The Arc': { tx: 2120, ty: 11530 }, // between Waiko and the Turtle islands
+  'Havenhythe': { tx: 3560, ty: 1520 }, // Highweald Forest, east of Wendlewick
   'Islands & Others': { tx: 2770, ty: 2750 }, // Ape Atoll
 };
 const REGION_COORDS: Record<string, { x: number; y: number }> = Object.fromEntries(
   Object.entries(REGION_LABEL_TILES).map(([r, t]) => [r, tileToPercent(t)]),
 );
 
-// Continents with no chunks on the RS3 map image (The Arc, far north;
-// Havenhythe, not in the map tile set yet) have no marker. They're listed in
-// an "Off the map" panel instead (see MapContent).
+// Continents with no chunks on the RS3 map image would have no marker; they'd
+// be listed in an "Off the map" panel instead (see MapContent). Every RS3
+// continent is drawn now (The Arc and Havenhythe as insets), so this is
+// normally empty — the panel then just counts the sub-areas with no squares of
+// their own (instanced/underground, or sharing a square with a neighbour).
 const OFF_MAP_CONTINENTS: string[] = Object.keys(REGION_GROUPS).filter(
   c => !REGION_COORDS[c] && !(REGION_CHUNKS[c]?.length),
 );
+const OFF_MAP_SUBAREAS: string[] = [...MISTHALIN_AREAS, ...Object.values(REGION_GROUPS).flat()].filter(
+  s => !(SUB_AREA_CHUNKS[s]?.length),
+);
+
+// Border + caption for each inset (areas drawn into open sea at an offset).
+const INSET_FRAMES = MAP_INSETS.map(i => ({ name: i.name, ...insetPixelRect(i) }));
 
 // REGION_CHUNKS lives in data/regionChunks.ts (shared with utils/chunkLocations
 // and the consistency tests). Re-exported here for back-compat.
@@ -320,7 +334,7 @@ const ProgressiveMapImage: React.FC = () => {
     <>
       <img
         src={MAP_IMAGE.srcLo}
-        alt="RuneScape 3 world map (Gielinor and Anachronia)"
+        alt="RuneScape 3 world map (Gielinor, Anachronia, and inset maps of The Arc, Havenhythe, Mazcab, the Lost Grove and Ashdale)"
         className="w-full h-full object-fill pointer-events-none opacity-60 grayscale-[0.2]"
         draggable={false}
       />
@@ -378,6 +392,25 @@ const MapSurface = React.memo(({ chunkRects, gridLines, showGrid, rectBox, rectK
           />
         );
       })()}
+
+      {/* Inset frames: these areas are far away in game coordinates and are
+          drawn into open sea here (not to scale with their real position). */}
+      <g>
+        {INSET_FRAMES.map(f => (
+          <g key={f.name}>
+            <rect
+              x={f.x + 6} y={f.y + 6} width={f.w - 12} height={f.h - 12} rx={18}
+              fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth={5} strokeDasharray="28 18"
+            />
+            <text
+              x={f.x + 30} y={f.y + 78} fill="rgba(255,255,255,0.75)" stroke="rgba(0,0,0,0.6)" strokeWidth={6}
+              paintOrder="stroke" fontSize={58} fontWeight={600} fontFamily="system-ui, sans-serif"
+            >
+              {f.name} <tspan fontSize={40} fill="rgba(255,255,255,0.55)">(inset)</tspan>
+            </text>
+          </g>
+        ))}
+      </g>
 
       {showGrid && (
         <g stroke={GRID_LINE_COLOR} strokeWidth={1}>
@@ -1762,8 +1795,8 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
           {authoring ? 'Authoring ON' : 'Authoring OFF'}
         </button>
 
-        {/* Continents that aren't on the map image (list-only). */}
-        {!authoring && OFF_MAP_CONTINENTS.length > 0 && (
+        {/* Continents / places that aren't on the map image (list-only). */}
+        {!authoring && (OFF_MAP_CONTINENTS.length > 0 || OFF_MAP_SUBAREAS.length > 0) && (
           <div className="bg-black/85 border border-white/15 rounded-md shadow-lg p-2 w-[220px] max-w-[60vw] flex flex-col gap-1.5">
             <div className="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">Off the map</div>
             {OFF_MAP_CONTINENTS.map(cont => {
@@ -1778,9 +1811,12 @@ const MapContent = React.memo(({ regionUnlocks }: { regionUnlocks: string[] }) =
                 </div>
               );
             })}
-            <p className="text-[9px] text-gray-500 leading-snug">
-              Not drawn on this map: The Arc is far north of Gielinor and Havenhythe isn't in the map data yet. Instanced places (Daemonheim floors, Zanaris, Puro-Puro, Mazcab, Everlight, …) aren't either — track them in the region list.
-            </p>
+            {OFF_MAP_SUBAREAS.length > 0 && (
+              <p className="text-[9px] text-gray-500 leading-snug" title={OFF_MAP_SUBAREAS.join(', ')}>
+                The Arc, Havenhythe, Mazcab, the Lost Grove and Ashdale are drawn as framed insets in the sea.
+                {' '}{OFF_MAP_SUBAREAS.length} places have no squares of their own — instanced or underground (Zanaris, Daemonheim floors, …) or sharing a square with a neighbour (hover for the list) — track them in the region list.
+              </p>
+            )}
           </div>
         )}
 
