@@ -12,7 +12,7 @@ beforeEach(() => {
   };
 });
 
-const KEY = 'FATE_PROFILE_test';
+const KEY = 'RS3_FATE_PROFILE_test';
 const save = (over: Record<string, unknown> = {}) =>
   JSON.stringify({ keys: 5, unlocks: { regions: ['Varrock'], skills: { Attack: 3 } }, history: [{ id: 'a' }], ...over });
 

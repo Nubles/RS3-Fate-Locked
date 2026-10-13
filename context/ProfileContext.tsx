@@ -2,10 +2,7 @@
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import { Profile, ProfileMetadata } from '../types';
 import { showToast } from '../utils/toast';
-
-const PROFILES_KEY = 'FATE_PROFILES';
-const LEGACY_SAVE_KEY = 'FATE_UIM_SAVE_V1';
-const PROFILE_PREFIX = 'FATE_PROFILE_';
+import { findSharedRs3Profiles, PROFILE_PREFIX, PROFILES_KEY } from '../utils/profileKeys';
 const MAX_PROFILES = 10;
 const MAX_NAME_LENGTH = 30;
 
@@ -20,7 +17,10 @@ const sanitizeName = (name: string): string => {
   return name.trim().slice(0, MAX_NAME_LENGTH) || 'Unnamed Profile';
 };
 
-/** One-time initialization: migrate legacy save or create default profile */
+/**
+ * One-time initialization: carry over RS3 runs saved under the keys this app
+ * used to share with the OSRS tracker, or create a default profile.
+ */
 const initializeProfiles = (): ProfileMetadata => {
   const existing = localStorage.getItem(PROFILES_KEY);
   if (existing) {
@@ -31,18 +31,21 @@ const initializeProfiles = (): ProfileMetadata => {
     }
   }
 
+  const carried = findSharedRs3Profiles(localStorage);
+  if (carried) {
+    for (const save of carried.saves) {
+      localStorage.setItem(`${PROFILE_PREFIX}${save.id}`, save.data);
+    }
+    localStorage.setItem(PROFILES_KEY, JSON.stringify(carried.metadata));
+    return carried.metadata;
+  }
+
   const newId = generateId();
   const defaultProfile: Profile = {
     id: newId,
     name: 'Main Account',
     createdAt: Date.now(),
   };
-
-  // Migrate legacy save if it exists
-  const legacySave = localStorage.getItem(LEGACY_SAVE_KEY);
-  if (legacySave) {
-    localStorage.setItem(`${PROFILE_PREFIX}${newId}`, legacySave);
-  }
 
   const metadata: ProfileMetadata = {
     profiles: [defaultProfile],
