@@ -3,7 +3,7 @@ import { ChevronDown, ChevronRight, Skull, MapPin, Sword } from 'lucide-react';
 import { useGame } from '../context/GameContext';
 import { chunkContentService } from '../services/ChunkContentService';
 import { chunkUnlocked, showChunkOnMap } from '../utils/chunkLocations';
-import { slayerReachability, SlayerStatus, SlayerTaskRow } from '../utils/slayerReach';
+import { slayerReachability, taskNameForms, SlayerStatus, SlayerTaskRow } from '../utils/slayerReach';
 
 const STATUS_META: Record<SlayerStatus, { label: string; cls: string }> = {
   'ready':         { label: 'ready',      cls: 'bg-emerald-900/30 border-emerald-500/40 text-emerald-200' },
@@ -55,7 +55,7 @@ export const SlayerReachabilityPanel: React.FC = () => {
     if (!ready) return null;
     const masters = chunkContentService.slayerMasters();
     const locate = (task: string) => {
-      for (const cand of [task, task.replace(/s$/, '')]) {
+      for (const cand of taskNameForms(task)) {
         const hit = chunkContentService.entityLocations(cand, ['monster']);
         if (hit && hit.locations.length) {
           const un = hit.locations.find(l => chunkUnlocked(l.cx, l.cy, unlocks));

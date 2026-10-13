@@ -90,9 +90,16 @@ const expandLinks = (graph: Record<string, string[]>, start: string, ownIds: Set
   return [...out.values()];
 };
 
-/** Classify a link by the named connector it routes through. */
+/**
+ * Classify a link by the named connector it routes through: a transport
+ * network node ("Fairy ring network", "Charter ship network", …) maps to its
+ * MOBILITY_LIST network; boat routes, altars and dungeons get their own groups.
+ */
 const classifyVia = (via: string | null): string => {
   if (!via) return 'Stairs & links';
+  const network = mobilityFor(via);
+  if (network) return network;
+  if (/^boat\b|\bship\b|ferry/i.test(via)) return 'Boats';
   if (/altar/i.test(via)) return 'Altars';
   if (/dungeon|cave|catacomb|lair|sewer|\bmine\b|crypt|basement|temple|prison|vault|nexus|cavern|hole|\bpit\b|ruins|tomb|tunnel/i.test(via)) return 'Dungeons & caves';
   return 'Stairs & links';
@@ -106,8 +113,9 @@ const classifyVia = (via: string | null): string => {
  * shops via their merchant category, farming patches / guilds / minigames
  * via their own unlock tables — and rendered green (usable) or red with a
  * strike-through (locked). A collapsible Can-do / Locked overview tops the
- * panel. Content data: ChunkContentService (RS3 cache NPC/object spawns —
- * mejrs / RuneScape Wiki maps project).
+ * panel. Content data: ChunkContentService (RS3 cache NPC/object spawns,
+ * map labels, clue steps and transport links — mejrs / RuneScape Wiki maps
+ * project — plus optional wiki quest/shop/slayer tables).
  */
 
 interface Props {
@@ -282,7 +290,9 @@ export const ChunkActivityPanel: React.FC<Props> = ({ chunk, region, subArea, re
       for (const [obj] of c?.objects ?? []) { const n = mobilityFor(obj); if (n) nets.add(n); }
       const sourceNet = nets.size === 1 ? [...nets][0] : null;
       for (const d of dests) {
-        const category = sourceNet ?? classifyVia(d.via);
+        // A named connector says exactly what the link is; fall back to the
+        // source chunk's transport object, then to a generic link.
+        const category = d.via ? classifyVia(d.via) : (sourceNet ?? classifyVia(null));
         if (!byCat.has(category)) byCat.set(category, new Map());
         const m = byCat.get(category)!;
         if (!m.has(d.label)) m.set(d.label, { cx: d.cx, cy: d.cy, unlocked: chunkUnlocked(d.cx, d.cy, unlocks) });

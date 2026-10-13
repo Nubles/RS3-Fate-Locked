@@ -1,5 +1,5 @@
 {
- "_about": "RS3 shooting star landing regions and sites for the Fate Locked world map. Telescopes (and the in-game Star Finder) announce a REGION and a time window, never the exact site: the star lands on one of that region's sites, so check each. Region and site names follow the RuneScape Wiki 'Shooting Star' page (runescape.wiki/w/Shooting_Star). Coordinates are RS3 game tiles placed on the RS3 world map (RuneScape Wiki maps project / mejrs tiles); sites without x/y couldn't be placed (Ashdale and Havenhythe aren't drawn on the map tiles, Anachronia's sites are listed without exact spots) and are shown in the list only. Menaphos sites aren't listed yet — see the wiki.",
+ "_about": "RS3 shooting star landing regions and sites for the Fate Locked world map. Telescopes (and the in-game Star Finder) announce a REGION and a time window, never the exact site: the star lands on one of that region's sites, so check each. Region and site names follow the RuneScape Wiki 'Shooting Star' page (runescape.wiki/w/Shooting_Star; site list cross-checked against its 'Shooting Star images' category and starfind.net's site abbreviations). Coordinates are RS3 game tiles placed on the RS3 world map (RuneScape Wiki maps project / mejrs tiles); Ashdale, the Lost Grove and Menaphos spots are placed from the map tiles and the cache's map labels (approximate to within a few dozen tiles). Ashdale, the Lost Grove and Havenhythe are drawn as insets in the map's open sea. Sites without x/y (Havenhythe's mines, two Anachronia spots, Piscatoris west, Lake Crystalmere) couldn't be placed reliably and are shown in the list only.",
  "regions": [
   {
    "region": "Asgarnia",
@@ -43,15 +43,19 @@
    "region": "Ashdale",
    "f2p": true,
    "centre": {
-    "x": 2470,
-    "y": 2700
+    "x": 2495,
+    "y": 9085
    },
    "sites": [
     {
-     "name": "Central Ashdale, south of the furnace"
+     "name": "Central Ashdale, in the open area just south of the furnace",
+     "x": 2495,
+     "y": 9080
     },
     {
-     "name": "North-western Ashdale, north-west of the lodestone"
+     "name": "North-western Ashdale, up the stairs north-west of the Ashdale lodestone",
+     "x": 2465,
+     "y": 9115
     }
    ]
   },
@@ -254,10 +258,21 @@
    "region": "Menaphos",
    "f2p": false,
    "centre": {
-    "x": 3170,
-    "y": 2720
+    "x": 3150,
+    "y": 2740
    },
-   "sites": []
+   "sites": [
+    {
+     "name": "Imperial District",
+     "x": 3105,
+     "y": 2700
+    },
+    {
+     "name": "Worker District",
+     "x": 3160,
+     "y": 2795
+    }
+   ]
   },
   {
    "region": "Misthalin",
@@ -328,6 +343,9 @@
      "y": 3635
     },
     {
+     "name": "Piscatoris west, by the airuts"
+    },
+    {
      "name": "North of the Gnome Stronghold bank",
      "x": 2460,
      "y": 3438
@@ -336,6 +354,11 @@
      "name": "Lletya, behind the archery store",
      "x": 2329,
      "y": 3163
+    },
+    {
+     "name": "Poison Waste, southern Tirannwn",
+     "x": 2240,
+     "y": 3085
     }
    ]
   },
@@ -393,7 +416,9 @@
    },
    "sites": [
     {
-     "name": "West of the spirit grove, by the Rex Matriarchs"
+     "name": "West of the spirit grove, by the Rex Matriarchs",
+     "x": 5505,
+     "y": 2338
     },
     {
      "name": "Beach south of the south-west mine"
@@ -409,6 +434,51 @@
    "sites": [
     {
      "name": "North-west of Amberfell, on the hill with a wolf"
+    }
+   ],
+   "centre": {
+    "x": 3740,
+    "y": 1570
+   }
+  },
+  {
+   "region": "Wendlewick (Havenhythe)",
+   "f2p": false,
+   "centre": {
+    "x": 3420,
+    "y": 1520
+   },
+   "sites": [
+    {
+     "name": "Deserted mine"
+    },
+    {
+     "name": "Highweald mine"
+    }
+   ]
+  },
+  {
+   "region": "The Lost Grove",
+   "f2p": false,
+   "centre": {
+    "x": 1377,
+    "y": 5648
+   },
+   "sites": [
+    {
+     "name": "Northern Lost Grove",
+     "x": 1380,
+     "y": 5730
+    },
+    {
+     "name": "Eastern Lost Grove, by the moss golems",
+     "x": 1435,
+     "y": 5640
+    },
+    {
+     "name": "Western Lost Grove, by the vinecrawlers",
+     "x": 1318,
+     "y": 5640
     }
    ]
   }

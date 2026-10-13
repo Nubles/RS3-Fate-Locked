@@ -230,10 +230,15 @@ Endpoint: `https://runescape.wiki/api.php?action=bucket&format=json&query=…`
 - Farming sources carry the patch type as `unlockId` (`'Herb'`, `'Bush'`,
   `'Tree'`, `'Cactus'`, …) from `FARMING_PATCH_LIST`.
 - **Chunk data.** `public/chunk-content.json` is built from RS3 cache data
-  (mejrs `data_rs3`: NPC spawns, objects, map labels) by
-  `scripts/sync-chunk-content.mjs`, on the RS3 map grid (`cx = x>>6`,
-  `cy = y>>6`). `utils/chunkResources.ts` gates gathering nodes with RS3
-  levels, including RS3-only nodes such as necrite, banite and elder trees.
+  (mejrs `data_rs3`: NPC spawns, objects incl. varbit-placed patches, world-map
+  labels → chunk names, clue steps, transport/teleport links → the `connect`
+  graph, lodestone tiles) by `scripts/sync-chunk-content.mjs`, on the RS3 map
+  grid (`cx = x>>6`, `cy = y>>6`). Wiki tables in `scripts/rs3-wiki/`
+  (slayer masters, drops, quests, shops) are merged when present — re-run the
+  script after they change. Diaries, ground spawns and skill yields have no
+  RS3 source and stay empty. `utils/chunkResources.ts` gates gathering nodes
+  with RS3 levels, including RS3-only nodes such as necrite, banite and elder
+  trees.
 
 ---
 

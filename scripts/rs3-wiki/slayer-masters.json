@@ -1,0 +1,2318 @@
+{
+  "Turael": {
+    "Birds": {
+      "weight": 10
+    },
+    "Cave bugs": {
+      "weight": 10,
+      "combat": 8,
+      "slayer": 7,
+      "req": [
+        "Members"
+      ]
+    },
+    "Cows": {
+      "weight": 10
+    },
+    "Crawling hands": {
+      "weight": 30,
+      "combat": 10,
+      "slayer": 5
+    },
+    "Gelatinous abominations": {
+      "weight": 15,
+      "slayer": 1
+    },
+    "Trolls": {
+      "weight": 10
+    },
+    "Wolves": {
+      "weight": 15,
+      "combat": 8
+    }
+  },
+  "Jacquelyn": {
+    "Bats": {
+      "weight": 10,
+      "combat": 15,
+      "req": [
+        "The Blood Pact"
+      ]
+    },
+    "Birds": {
+      "weight": 10
+    },
+    "Cave bugs": {
+      "weight": 10,
+      "combat": 15,
+      "slayer": 7
+    },
+    "Cave slimes": {
+      "weight": 10,
+      "combat": 25,
+      "slayer": 17
+    },
+    "Cows": {
+      "weight": 15
+    },
+    "Frogs": {
+      "weight": 10
+    },
+    "Ghosts": {
+      "weight": 10,
+      "combat": 20
+    },
+    "Goblins": {
+      "weight": 15
+    },
+    "Rats": {
+      "weight": 10
+    },
+    "Skeletons": {
+      "weight": 15,
+      "combat": 15,
+      "req": [
+        "The Blood Pact"
+      ]
+    },
+    "Spiders": {
+      "weight": 10
+    },
+    "Zombies": {
+      "weight": 15,
+      "combat": 9,
+      "req": [
+        "The Blood Pact"
+      ]
+    }
+  },
+  "Vannaka": {
+    "Bats": {
+      "weight": 15,
+      "combat": 40
+    },
+    "Bears": {
+      "weight": 10,
+      "combat": 20
+    },
+    "Beastmaster's hounds": {
+      "weight": 10,
+      "slayer": 43
+    },
+    "Catablepon": {
+      "weight": 15,
+      "combat": 50
+    },
+    "Cave slimes": {
+      "weight": 10,
+      "combat": 25,
+      "slayer": 17
+    },
+    "Cockroaches": {
+      "weight": 15,
+      "combat": 10
+    },
+    "Fleshcrawlers": {
+      "weight": 15,
+      "combat": 38
+    },
+    "Frogs": {
+      "weight": 10
+    },
+    "Ghosts": {
+      "weight": 15,
+      "combat": 25
+    },
+    "Grotworms": {
+      "weight": 15,
+      "combat": 25
+    },
+    "Hill giants": {
+      "weight": 15,
+      "combat": 40
+    },
+    "Hobgoblins": {
+      "weight": 15,
+      "combat": 30
+    },
+    "Ice giants": {
+      "weight": 15,
+      "combat": 50
+    },
+    "Ice warriors": {
+      "weight": 15,
+      "combat": 50
+    },
+    "Icefiends": {
+      "weight": 10,
+      "combat": 35
+    },
+    "Kalphite": {
+      "weight": 10,
+      "combat": 20
+    },
+    "Minotaurs": {
+      "weight": 10
+    },
+    "Mogres": {
+      "weight": 15,
+      "combat": 35,
+      "slayer": 32,
+      "req": [
+        "Mogre (lore activity)"
+      ]
+    },
+    "Moss giants": {
+      "weight": 15,
+      "combat": 50
+    },
+    "Sanguine crawlers": {
+      "weight": 15,
+      "combat": 28,
+      "req": [
+        "Visions of Havenhythe"
+      ]
+    },
+    "Scorpions": {
+      "weight": 10
+    },
+    "Skeletons": {
+      "weight": 15,
+      "combat": 15
+    },
+    "Spiders": {
+      "weight": 15
+    },
+    "Wall beasts": {
+      "weight": 10,
+      "combat": 45,
+      "slayer": 35,
+      "req": [
+        "Defence 5"
+      ]
+    },
+    "Wolves": {
+      "weight": 15,
+      "combat": 8
+    },
+    "Zombies": {
+      "weight": 15,
+      "combat": 10
+    }
+  },
+  "Mazchna": {
+    "Aberrant spectres": {
+      "weight": 15,
+      "combat": 70,
+      "slayer": 60,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Ankou": {
+      "weight": 15,
+      "combat": 55
+    },
+    "Banshees": {
+      "weight": 10,
+      "slayer": 15,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Basilisks": {
+      "weight": 15,
+      "combat": 70,
+      "slayer": 40,
+      "req": [
+        "Defence 20"
+      ]
+    },
+    "Beastmaster's hounds": {
+      "weight": 15,
+      "slayer": 43
+    },
+    "Bloodveld": {
+      "weight": 15,
+      "combat": 65,
+      "slayer": 50,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Brine rats": {
+      "weight": 10,
+      "slayer": 47,
+      "req": [
+        "Olaf's Quest"
+      ]
+    },
+    "Cave crawlers": {
+      "weight": 15,
+      "slayer": 10
+    },
+    "Cockatrice": {
+      "weight": 10,
+      "slayer": 25,
+      "req": [
+        "Defence 20"
+      ]
+    },
+    "Crocodiles": {
+      "weight": 10,
+      "combat": 40
+    },
+    "Cyclopes": {
+      "weight": 10,
+      "req": [
+        "Warriors' Guild cyclops enclosure access (tokens)"
+      ]
+    },
+    "Desert lizards": {
+      "weight": 15,
+      "combat": 60,
+      "slayer": 22
+    },
+    "Dogs": {
+      "weight": 10
+    },
+    "Earth warriors": {
+      "weight": 10,
+      "combat": 70
+    },
+    "Ghouls": {
+      "weight": 15,
+      "combat": 60,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Green dragons": {
+      "weight": 10,
+      "combat": 60
+    },
+    "Grotworms": {
+      "weight": 10
+    },
+    "Ice giants": {
+      "weight": 10
+    },
+    "Ice warriors": {
+      "weight": 15
+    },
+    "Infernal mages": {
+      "weight": 10,
+      "combat": 70,
+      "slayer": 45,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Jellies": {
+      "weight": 15,
+      "combat": 65,
+      "slayer": 52
+    },
+    "Jungle horrors": {
+      "weight": 15,
+      "combat": 65,
+      "req": [
+        "Cabin Fever"
+      ]
+    },
+    "Killerwatts": {
+      "weight": 10,
+      "combat": 60,
+      "slayer": 37,
+      "req": [
+        "Ernest the Chicken"
+      ]
+    },
+    "Lesser demons": {
+      "weight": 15,
+      "combat": 65
+    },
+    "Molanisks": {
+      "weight": 10,
+      "slayer": 39,
+      "req": [
+        "Death to the Dorgeshuun"
+      ]
+    },
+    "Moss giants": {
+      "weight": 10
+    },
+    "Ogres": {
+      "weight": 15,
+      "combat": 65
+    },
+    "Otherworldly beings": {
+      "weight": 15,
+      "combat": 60,
+      "req": [
+        "Lost City"
+      ]
+    },
+    "Pyrefiends": {
+      "weight": 15,
+      "combat": 55,
+      "slayer": 30
+    },
+    "Rock slugs": {
+      "weight": 15,
+      "slayer": 20
+    },
+    "Sanguine crawlers": {
+      "weight": 15,
+      "combat": 28,
+      "req": [
+        "Visions of Havenhythe"
+      ]
+    },
+    "Sea snakes": {
+      "weight": 10,
+      "combat": 60,
+      "req": [
+        "Royal Trouble"
+      ]
+    },
+    "Shades": {
+      "weight": 15,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Shadow warriors": {
+      "weight": 15,
+      "combat": 65,
+      "req": [
+        "Legends' Quest"
+      ]
+    },
+    "Turoth": {
+      "weight": 15,
+      "combat": 60,
+      "slayer": 55
+    },
+    "Vampyres": {
+      "weight": 15,
+      "combat": 55,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Werewolves": {
+      "weight": 10,
+      "combat": 60,
+      "req": [
+        "Morytania access"
+      ]
+    }
+  },
+  "Chaeldar": {
+    "Aberrant spectres": {
+      "weight": 15,
+      "slayer": 60,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Banshees": {
+      "weight": 5,
+      "slayer": 15,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Basilisks": {
+      "weight": 15,
+      "slayer": 40,
+      "req": [
+        "Defence 20"
+      ]
+    },
+    "Beastmaster's hounds": {
+      "weight": 15,
+      "slayer": 43
+    },
+    "Bloodveld": {
+      "weight": 15,
+      "slayer": 50,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Blue dragons": {
+      "weight": 10
+    },
+    "Brine rats": {
+      "weight": 10,
+      "slayer": 47,
+      "req": [
+        "Olaf's Quest"
+      ]
+    },
+    "Bronze dragons": {
+      "weight": 10,
+      "combat": 80
+    },
+    "Cave crawlers": {
+      "weight": 5,
+      "slayer": 10
+    },
+    "Cave horrors": {
+      "weight": 15,
+      "slayer": 58,
+      "req": [
+        "Cabin Fever"
+      ]
+    },
+    "Crawling hands": {
+      "weight": 5,
+      "slayer": 5
+    },
+    "Dagannoth": {
+      "weight": 10,
+      "req": [
+        "Horror from the Deep"
+      ]
+    },
+    "Dust devils": {
+      "weight": 15,
+      "slayer": 65,
+      "req": [
+        "What Lies Below or partial Desert Treasure"
+      ]
+    },
+    "Elves": {
+      "weight": 10,
+      "req": [
+        "Regicide"
+      ]
+    },
+    "Fever spiders": {
+      "weight": 10,
+      "slayer": 42,
+      "req": [
+        "Partial Rum Deal"
+      ]
+    },
+    "Fire giants": {
+      "weight": 10,
+      "combat": 50
+    },
+    "Fungal magi": {
+      "weight": 10,
+      "req": [
+        "Magic 50"
+      ]
+    },
+    "Gargoyles": {
+      "weight": 15,
+      "combat": 55,
+      "slayer": 75,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Grifolapines": {
+      "weight": 8,
+      "combat": 75,
+      "slayer": 88,
+      "req": [
+        "Magic 60"
+      ]
+    },
+    "Grifolaroos": {
+      "weight": 8,
+      "combat": 75,
+      "slayer": 82,
+      "req": [
+        "Magic 60"
+      ]
+    },
+    "Grotworms": {
+      "weight": 15
+    },
+    "Harpie bug swarms": {
+      "weight": 10,
+      "slayer": 33
+    },
+    "Infernal mages": {
+      "weight": 10,
+      "slayer": 45,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Jellies": {
+      "weight": 15,
+      "slayer": 52
+    },
+    "Jungle horrors": {
+      "weight": 15,
+      "req": [
+        "Cabin Fever"
+      ]
+    },
+    "Jungle strykewyrms": {
+      "weight": 12,
+      "combat": 80,
+      "slayer": 73
+    },
+    "Kalphite": {
+      "weight": 10
+    },
+    "Kurask": {
+      "weight": 10,
+      "combat": 55,
+      "slayer": 70
+    },
+    "Lesser demons": {
+      "weight": 10
+    },
+    "Mutated zygomites": {
+      "weight": 10,
+      "slayer": 57,
+      "req": [
+        "Lost City"
+      ]
+    },
+    "Shadow warriors": {
+      "weight": 10,
+      "req": [
+        "Legends' Quest"
+      ]
+    },
+    "Trolls": {
+      "weight": 10
+    },
+    "Turoth": {
+      "weight": 15,
+      "slayer": 55
+    },
+    "Vyrewatch": {
+      "weight": 10,
+      "req": [
+        "The Branches of Darkmeyer"
+      ]
+    },
+    "Warped tortoises": {
+      "weight": 10,
+      "slayer": 56,
+      "req": [
+        "The Path of Glouphrie"
+      ]
+    }
+  },
+  "Sumona": {
+    "Aberrant spectres": {
+      "weight": 15,
+      "slayer": 60,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Abyssal demons": {
+      "weight": 10,
+      "slayer": 85,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Aquanites": {
+      "weight": 10,
+      "slayer": 78
+    },
+    "Aviansies": {
+      "weight": 7,
+      "combat": 70,
+      "req": [
+        "Spoke to the knight outside God Wars Dungeon"
+      ]
+    },
+    "Banshees": {
+      "weight": 15,
+      "combat": 20,
+      "slayer": 15,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Basilisks": {
+      "weight": 15,
+      "slayer": 40,
+      "req": [
+        "Defence 20"
+      ]
+    },
+    "Beastmaster's hounds": {
+      "weight": 15,
+      "slayer": 43
+    },
+    "Black demons": {
+      "weight": 10,
+      "combat": 100
+    },
+    "Bloodveld": {
+      "weight": 10,
+      "slayer": 50,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Blue dragons": {
+      "weight": 5
+    },
+    "Cave crawlers": {
+      "weight": 15,
+      "combat": 10,
+      "slayer": 10
+    },
+    "Cave horrors": {
+      "weight": 15,
+      "slayer": 58,
+      "req": [
+        "Cabin Fever"
+      ]
+    },
+    "Corrupted creatures": {
+      "weight": 25,
+      "slayer": 88,
+      "req": [
+        "Partial Icthlarin's Little Helper"
+      ]
+    },
+    "Cres's creations": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 67,
+      "req": [
+        "Claimed additional rewards from The World Wakes"
+      ]
+    },
+    "Crocodiles": {
+      "weight": 4,
+      "combat": 40
+    },
+    "Dagannoth": {
+      "weight": 10,
+      "req": [
+        "Horror from the Deep"
+      ]
+    },
+    "Desert lizards": {
+      "weight": 4,
+      "combat": 20,
+      "slayer": 22
+    },
+    "Desert strykewyrms": {
+      "weight": 14,
+      "combat": 90,
+      "slayer": 77
+    },
+    "Dust devils": {
+      "weight": 15,
+      "slayer": 65,
+      "req": [
+        "What Lies Below or partial Desert Treasure"
+      ]
+    },
+    "Elves": {
+      "weight": 10,
+      "req": [
+        "Regicide"
+      ]
+    },
+    "Fire giants": {
+      "weight": 10
+    },
+    "Fungal magi": {
+      "weight": 10,
+      "req": [
+        "Magic 50"
+      ]
+    },
+    "Gargoyles": {
+      "weight": 10,
+      "slayer": 75,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Greater demons": {
+      "weight": 10
+    },
+    "Grifolapines": {
+      "weight": 8,
+      "combat": 75,
+      "slayer": 88,
+      "req": [
+        "Magic 60"
+      ]
+    },
+    "Grifolaroos": {
+      "weight": 8,
+      "combat": 75,
+      "slayer": 82,
+      "req": [
+        "Magic 60"
+      ]
+    },
+    "Grotworms": {
+      "weight": 15
+    },
+    "Hellhounds": {
+      "weight": 10
+    },
+    "Iron dragons": {
+      "weight": 7
+    },
+    "Jungle strykewyrms": {
+      "weight": 12,
+      "combat": 80,
+      "slayer": 73
+    },
+    "Kalphite": {
+      "weight": 10
+    },
+    "Kurask": {
+      "weight": 15,
+      "slayer": 70
+    },
+    "Mutated jadinkos": {
+      "weight": 10,
+      "combat": 90,
+      "slayer": 80
+    },
+    "Nechryael": {
+      "weight": 10,
+      "slayer": 80,
+      "req": [
+        "Morytania access or What Lies Below"
+      ]
+    },
+    "Profane Scabarites": {
+      "weight": 15,
+      "slayer": 87
+    },
+    "Red dragons": {
+      "weight": 5
+    },
+    "Scabarites": {
+      "weight": 5,
+      "req": [
+        "Dealing with Scabaras"
+      ]
+    },
+    "Scorpions": {
+      "weight": 4,
+      "combat": 10
+    },
+    "Soul devourers": {
+      "weight": 25,
+      "slayer": 105,
+      "req": [
+        "Partial Icthlarin's Little Helper"
+      ]
+    },
+    "Spiritual mages": {
+      "weight": 10,
+      "slayer": 83,
+      "req": [
+        "(Strength 60 or Agility 60) and Constitution 70"
+      ]
+    },
+    "Spiritual warriors": {
+      "weight": 10,
+      "slayer": 68,
+      "req": [
+        "(Strength 60 or Agility 60) and Constitution 70"
+      ]
+    },
+    "Terror dogs": {
+      "weight": 10,
+      "slayer": 40,
+      "req": [
+        "Haunted Mine"
+      ]
+    },
+    "Trolls": {
+      "weight": 10
+    },
+    "Turoth": {
+      "weight": 15,
+      "slayer": 55
+    },
+    "Vyrewatch": {
+      "weight": 10,
+      "req": [
+        "The Branches of Darkmeyer"
+      ]
+    },
+    "Warped tortoises": {
+      "weight": 10,
+      "slayer": 56,
+      "req": [
+        "The Path of Glouphrie"
+      ]
+    }
+  },
+  "Duradel": {
+    "Aberrant spectres": {
+      "weight": 10,
+      "slayer": 60,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Abyssal demons": {
+      "weight": 15,
+      "slayer": 85,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Airut": {
+      "weight": 8,
+      "combat": 110,
+      "slayer": 92
+    },
+    "Aquanites": {
+      "weight": 9,
+      "slayer": 78
+    },
+    "Ascension members": {
+      "weight": 8,
+      "combat": 105,
+      "slayer": 81
+    },
+    "Aviansies": {
+      "weight": 8,
+      "combat": 70,
+      "req": [
+        "Spoke to the knight outside God Wars Dungeon"
+      ]
+    },
+    "Black demons": {
+      "weight": 10
+    },
+    "Black dragons": {
+      "weight": 9
+    },
+    "Bloodveld": {
+      "weight": 10,
+      "slayer": 50,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Celestial dragons": {
+      "weight": 16,
+      "req": [
+        "One of a Kind"
+      ]
+    },
+    "Cres's creations": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 67,
+      "req": [
+        "Claimed additional rewards from The World Wakes"
+      ]
+    },
+    "Dagannoth": {
+      "weight": 10,
+      "req": [
+        "Horror from the Deep"
+      ]
+    },
+    "Dark beasts": {
+      "weight": 15,
+      "slayer": 90,
+      "req": [
+        "Partial Mourning's End Part II"
+      ]
+    },
+    "Desert strykewyrms": {
+      "weight": 11,
+      "combat": 90,
+      "slayer": 77
+    },
+    "Dust devils": {
+      "weight": 10,
+      "slayer": 65,
+      "req": [
+        "What Lies Below or partial Desert Treasure"
+      ]
+    },
+    "Edimmu": {
+      "weight": 10,
+      "combat": 110,
+      "slayer": 90,
+      "req": [
+        "Dungeoneering 115",
+        "Plague's End"
+      ]
+    },
+    "Fire giants": {
+      "weight": 10
+    },
+    "Fungal magi": {
+      "weight": 8,
+      "req": [
+        "Magic 50"
+      ]
+    },
+    "Ganodermic creatures": {
+      "weight": 6,
+      "slayer": 95,
+      "req": [
+        "Magic 60"
+      ]
+    },
+    "Gargoyles": {
+      "weight": 10,
+      "slayer": 75,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Goraks": {
+      "weight": 5,
+      "req": [
+        "Partial A Fairy Tale II - Cure a Queen"
+      ]
+    },
+    "Greater demons": {
+      "weight": 10
+    },
+    "Grifolapines": {
+      "weight": 10,
+      "slayer": 88,
+      "req": [
+        "Magic 60"
+      ]
+    },
+    "Grifolaroos": {
+      "weight": 10,
+      "slayer": 82,
+      "req": [
+        "Magic 60"
+      ]
+    },
+    "Grotworms": {
+      "weight": 10
+    },
+    "Hellhounds": {
+      "weight": 9
+    },
+    "Ice strykewyrms": {
+      "weight": 8,
+      "slayer": 93,
+      "req": [
+        "The Tale of the Muspah",
+        "Fire cape, TokHaar-Kal or Igneous Kal (or 2,000 Slayer points technique)"
+      ]
+    },
+    "Iron dragons": {
+      "weight": 9
+    },
+    "Jungle strykewyrms": {
+      "weight": 10,
+      "combat": 80,
+      "slayer": 73
+    },
+    "Kalphite": {
+      "weight": 10
+    },
+    "Mithril dragons": {
+      "weight": 7,
+      "combat": 100,
+      "req": [
+        "Partial Barbarian Training (pyre ship firemaking)"
+      ]
+    },
+    "Mutated jadinkos": {
+      "weight": 8,
+      "combat": 90,
+      "slayer": 80
+    },
+    "Nechryael": {
+      "weight": 10,
+      "slayer": 80,
+      "req": [
+        "Morytania access or What Lies Below"
+      ]
+    },
+    "Scabarites": {
+      "weight": 10,
+      "req": [
+        "Dealing with Scabaras"
+      ]
+    },
+    "Skeletal wyverns": {
+      "weight": 5,
+      "combat": 100,
+      "slayer": 72,
+      "req": [
+        "Elemental Workshop I"
+      ]
+    },
+    "Spiritual mages": {
+      "weight": 10,
+      "slayer": 83,
+      "req": [
+        "(Strength 60 or Agility 60) and Constitution 70"
+      ]
+    },
+    "Steel dragons": {
+      "weight": 7
+    },
+    "Suqahs": {
+      "weight": 5,
+      "req": [
+        "Partial Lunar Diplomacy"
+      ]
+    },
+    "Vyrewatch": {
+      "weight": 8,
+      "req": [
+        "The Branches of Darkmeyer"
+      ]
+    },
+    "Warped terrorbirds": {
+      "weight": 9,
+      "slayer": 56,
+      "req": [
+        "The Path of Glouphrie"
+      ]
+    },
+    "Waterfiends": {
+      "weight": 10,
+      "req": [
+        "What Lies Below or partial Barbarian Training (pyre ship firemaking)"
+      ]
+    }
+  },
+  "Kuradal": {
+    "Aberrant spectres": {
+      "weight": 10,
+      "slayer": 60,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Abyssal demons": {
+      "weight": 10,
+      "slayer": 85,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Acheron mammoths": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Adamant dragons": {
+      "weight": 8,
+      "combat": 95
+    },
+    "Airut": {
+      "weight": 10,
+      "combat": 110,
+      "slayer": 92
+    },
+    "Aquanites": {
+      "weight": 10,
+      "slayer": 78,
+      "req": [
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Ascension members": {
+      "weight": 10,
+      "combat": 105,
+      "slayer": 81
+    },
+    "Aviansies": {
+      "weight": 9,
+      "combat": 70,
+      "req": [
+        "Spoke to the knight outside God Wars Dungeon"
+      ]
+    },
+    "Black demons": {
+      "weight": 10
+    },
+    "Black dragons": {
+      "weight": 5
+    },
+    "Bloodveld": {
+      "weight": 10,
+      "slayer": 50,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Blue dragons": {
+      "weight": 7
+    },
+    "Camel warriors": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Celestial dragons": {
+      "weight": 10,
+      "req": [
+        "One of a Kind"
+      ]
+    },
+    "Chaos giants": {
+      "weight": 8,
+      "req": [
+        "Birthright of the Dwarves"
+      ]
+    },
+    "Corrupted creatures": {
+      "weight": 10,
+      "slayer": 88,
+      "req": [
+        "Partial Icthlarin's Little Helper"
+      ]
+    },
+    "Cres's creations": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 67,
+      "req": [
+        "Claimed additional rewards from The World Wakes"
+      ]
+    },
+    "Dagannoth": {
+      "weight": 10,
+      "req": [
+        "Horror from the Deep"
+      ]
+    },
+    "Dark beasts": {
+      "weight": 12,
+      "slayer": 90,
+      "req": [
+        "Partial Mourning's End Part II"
+      ]
+    },
+    "Desert strykewyrms": {
+      "weight": 7,
+      "slayer": 77
+    },
+    "Dust devils": {
+      "weight": 10,
+      "slayer": 65,
+      "req": [
+        "What Lies Below or partial Desert Treasure"
+      ]
+    },
+    "Edimmu": {
+      "weight": 10,
+      "combat": 110,
+      "slayer": 90,
+      "req": [
+        "Dungeoneering 115",
+        "Plague's End"
+      ]
+    },
+    "Elves": {
+      "weight": 12,
+      "req": [
+        "Plague's End"
+      ]
+    },
+    "Fire giants": {
+      "weight": 10
+    },
+    "Ganodermic creatures": {
+      "weight": 7,
+      "slayer": 95,
+      "req": [
+        "Magic 60"
+      ]
+    },
+    "Gargoyles": {
+      "weight": 12,
+      "slayer": 75,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Gemstone dragons": {
+      "weight": 10,
+      "slayer": 95,
+      "req": [
+        "Shilo Village",
+        "Hard Karamja achievement rewards claimed"
+      ]
+    },
+    "Glacors": {
+      "weight": 8,
+      "req": [
+        "Ritual of the Mahjarrat",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Greater demons": {
+      "weight": 11
+    },
+    "Grifolapines": {
+      "weight": 9,
+      "slayer": 88,
+      "req": [
+        "Magic 60"
+      ]
+    },
+    "Grifolaroos": {
+      "weight": 8,
+      "slayer": 82,
+      "req": [
+        "Magic 60"
+      ]
+    },
+    "Grotworms": {
+      "weight": 10
+    },
+    "Hellhounds": {
+      "weight": 10
+    },
+    "Ice strykewyrms": {
+      "weight": 9,
+      "slayer": 93,
+      "req": [
+        "The Tale of the Muspah",
+        "Fire cape, TokHaar-Kal or Igneous Kal (or 2,000 Slayer points technique)"
+      ]
+    },
+    "Iron dragons": {
+      "weight": 9
+    },
+    "Jungle strykewyrms": {
+      "weight": 8,
+      "combat": 80,
+      "slayer": 73
+    },
+    "Kal'gerion demons": {
+      "weight": 5,
+      "slayer": 90,
+      "req": [
+        "Dungeoneering 90"
+      ]
+    },
+    "Kalphite": {
+      "weight": 5
+    },
+    "Lava strykewyrms": {
+      "weight": 12,
+      "slayer": 94
+    },
+    "Living rock creatures": {
+      "weight": 10,
+      "combat": 80
+    },
+    "Living wyverns": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Mithril dragons": {
+      "weight": 8,
+      "combat": 90,
+      "req": [
+        "Partial Barbarian Training (pyre ship firemaking)"
+      ]
+    },
+    "Muspah": {
+      "weight": 16,
+      "req": [
+        "Fate of the Gods",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Mutated jadinkos": {
+      "weight": 8,
+      "combat": 90,
+      "slayer": 80
+    },
+    "Nechryael": {
+      "weight": 10,
+      "slayer": 80,
+      "req": [
+        "Morytania access or What Lies Below"
+      ]
+    },
+    "Nightmare creatures": {
+      "weight": 8,
+      "req": [
+        "Children of Mah",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Nihil": {
+      "weight": 16,
+      "req": [
+        "Fate of the Gods",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Profane Scabarites": {
+      "weight": 10,
+      "slayer": 87
+    },
+    "Ravenous strigoi": {
+      "weight": 0,
+      "slayer": 104
+    },
+    "Ripper demons": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Sanguine werewolves": {
+      "weight": 0,
+      "combat": 110
+    },
+    "Skeletal wyverns": {
+      "weight": 5,
+      "slayer": 72,
+      "req": [
+        "Elemental Workshop I"
+      ]
+    },
+    "Soul devourers": {
+      "weight": 8,
+      "slayer": 105,
+      "req": [
+        "Partial Icthlarin's Little Helper"
+      ]
+    },
+    "Spiritual mages": {
+      "weight": 10,
+      "slayer": 83,
+      "req": [
+        "(Strength 60 or Agility 60) and Constitution 70"
+      ]
+    },
+    "Stalker creatures": {
+      "weight": 8,
+      "slayer": 71,
+      "req": [
+        "Dishonour among Thieves"
+      ]
+    },
+    "Steel dragons": {
+      "weight": 9
+    },
+    "Suqahs": {
+      "weight": 5,
+      "req": [
+        "Partial Lunar Diplomacy"
+      ]
+    },
+    "Terror dogs": {
+      "weight": 6,
+      "slayer": 40,
+      "req": [
+        "Haunted Mine"
+      ]
+    },
+    "Tormented demons": {
+      "weight": 8,
+      "req": [
+        "While Guthix Sleeps",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "TzHaar": {
+      "weight": 7
+    },
+    "Vyrewatch": {
+      "weight": 8,
+      "req": [
+        "The Branches of Darkmeyer"
+      ]
+    },
+    "Warped tortoises": {
+      "weight": 8,
+      "slayer": 56,
+      "req": [
+        "The Path of Glouphrie"
+      ]
+    },
+    "Waterfiends": {
+      "weight": 9,
+      "req": [
+        "What Lies Below or partial Barbarian Training (pyre ship firemaking)"
+      ]
+    }
+  },
+  "Morvran": {
+    "Abyssal demons": {
+      "weight": 10,
+      "slayer": 85,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Acheron mammoths": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Adamant dragons": {
+      "weight": 8,
+      "combat": 95
+    },
+    "Airut": {
+      "weight": 10,
+      "combat": 110,
+      "slayer": 92
+    },
+    "Aquanites": {
+      "weight": 10,
+      "slayer": 78,
+      "req": [
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Ascension members": {
+      "weight": 10,
+      "combat": 105,
+      "slayer": 81
+    },
+    "Aviansies": {
+      "weight": 9,
+      "combat": 70,
+      "req": [
+        "Spoke to the knight outside God Wars Dungeon"
+      ]
+    },
+    "Black demons": {
+      "weight": 10
+    },
+    "Black dragons": {
+      "weight": 5
+    },
+    "Camel warriors": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Celestial dragons": {
+      "weight": 10,
+      "req": [
+        "One of a Kind"
+      ]
+    },
+    "Chaos giants": {
+      "weight": 8,
+      "req": [
+        "Birthright of the Dwarves"
+      ]
+    },
+    "Corrupted creatures": {
+      "weight": 12,
+      "slayer": 88,
+      "req": [
+        "Partial Icthlarin's Little Helper"
+      ]
+    },
+    "Creatures of the Lost Grove": {
+      "weight": 12,
+      "slayer": 104
+    },
+    "Cres's creations": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 67,
+      "req": [
+        "Claimed additional rewards from The World Wakes"
+      ]
+    },
+    "Crystal shapeshifters": {
+      "weight": 12,
+      "slayer": 75,
+      "req": [
+        "The Light Within"
+      ]
+    },
+    "Dagannoth": {
+      "weight": 10,
+      "req": [
+        "Horror from the Deep"
+      ]
+    },
+    "Dark beasts": {
+      "weight": 12,
+      "slayer": 90,
+      "req": [
+        "Partial Mourning's End Part II"
+      ]
+    },
+    "Desert strykewyrms": {
+      "weight": 7,
+      "slayer": 77
+    },
+    "Edimmu": {
+      "weight": 10,
+      "combat": 110,
+      "slayer": 90,
+      "req": [
+        "Dungeoneering 115",
+        "Plague's End"
+      ]
+    },
+    "Elves": {
+      "weight": 12,
+      "req": [
+        "Plague's End"
+      ]
+    },
+    "Ganodermic creatures": {
+      "weight": 7,
+      "slayer": 95,
+      "req": [
+        "Magic 60"
+      ]
+    },
+    "Gargoyles": {
+      "weight": 8,
+      "slayer": 75,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Gemstone dragons": {
+      "weight": 10,
+      "slayer": 95,
+      "req": [
+        "Shilo Village",
+        "Hard Karamja achievement rewards claimed"
+      ]
+    },
+    "Glacors": {
+      "weight": 8,
+      "req": [
+        "Ritual of the Mahjarrat",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Greater demons": {
+      "weight": 11
+    },
+    "Grotworms": {
+      "weight": 10
+    },
+    "Ice strykewyrms": {
+      "weight": 8,
+      "slayer": 93,
+      "req": [
+        "The Tale of the Muspah",
+        "Fire cape, TokHaar-Kal or Igneous Kal (or 2,000 Slayer points technique)"
+      ]
+    },
+    "Iron dragons": {
+      "weight": 7
+    },
+    "Kal'gerion demons": {
+      "weight": 5,
+      "slayer": 90,
+      "req": [
+        "Dungeoneering 90"
+      ]
+    },
+    "Kalphite": {
+      "weight": 5
+    },
+    "Lava strykewyrms": {
+      "weight": 8,
+      "slayer": 94
+    },
+    "Living wyverns": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Mithril dragons": {
+      "weight": 8,
+      "combat": 90,
+      "req": [
+        "Partial Barbarian Training (pyre ship firemaking)"
+      ]
+    },
+    "Muspah": {
+      "weight": 10,
+      "req": [
+        "Fate of the Gods",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Mutated jadinkos": {
+      "weight": 8,
+      "combat": 90,
+      "slayer": 80
+    },
+    "Nechryael": {
+      "weight": 10,
+      "slayer": 80,
+      "req": [
+        "Morytania access or What Lies Below"
+      ]
+    },
+    "Nightmare creatures": {
+      "weight": 8,
+      "req": [
+        "Children of Mah",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Nihil": {
+      "weight": 10,
+      "req": [
+        "Fate of the Gods",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Nodon dragonkin": {
+      "weight": 8,
+      "slayer": 92
+    },
+    "Profane Scabarites": {
+      "weight": 12,
+      "slayer": 87
+    },
+    "Ravenous strigoi": {
+      "weight": 0,
+      "slayer": 104
+    },
+    "Ripper demons": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Rune dragons": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 76,
+      "req": [
+        "Fate of the Gods",
+        "Ritual of the Mahjarrat"
+      ]
+    },
+    "Sanguine werewolves": {
+      "weight": 0,
+      "combat": 110
+    },
+    "Shadow creatures": {
+      "weight": 10,
+      "combat": 100,
+      "req": [
+        "Plague's End"
+      ]
+    },
+    "Soul devourers": {
+      "weight": 12,
+      "slayer": 105,
+      "req": [
+        "Partial Icthlarin's Little Helper"
+      ]
+    },
+    "Stalker creatures": {
+      "weight": 8,
+      "slayer": 71,
+      "req": [
+        "Dishonour among Thieves"
+      ]
+    },
+    "Steel dragons": {
+      "weight": 9
+    },
+    "Tormented demons": {
+      "weight": 8,
+      "req": [
+        "While Guthix Sleeps",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "TzHaar": {
+      "weight": 8
+    },
+    "Vyrewatch": {
+      "weight": 7,
+      "req": [
+        "The Branches of Darkmeyer"
+      ]
+    },
+    "Waterfiends": {
+      "weight": 9,
+      "req": [
+        "What Lies Below or partial Barbarian Training (pyre ship firemaking)"
+      ]
+    }
+  },
+  "Laniakea": {
+    "Abyssal demons": {
+      "weight": 10,
+      "slayer": 85,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Acheron mammoths": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Adamant dragons": {
+      "weight": 8,
+      "combat": 95
+    },
+    "Airut": {
+      "weight": 10,
+      "combat": 110,
+      "slayer": 92
+    },
+    "Aquanites": {
+      "weight": 10,
+      "slayer": 78,
+      "req": [
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Armoured phantoms": {
+      "weight": 8,
+      "slayer": 113,
+      "req": [
+        "Unwelcome Guests"
+      ]
+    },
+    "Ascension members": {
+      "weight": 10,
+      "combat": 105,
+      "slayer": 81
+    },
+    "Aviansies": {
+      "weight": 9,
+      "combat": 70,
+      "req": [
+        "Spoke to the knight outside God Wars Dungeon"
+      ]
+    },
+    "Black demons": {
+      "weight": 10
+    },
+    "Black dragons": {
+      "weight": 5
+    },
+    "Camel warriors": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Celestial dragons": {
+      "weight": 10,
+      "req": [
+        "One of a Kind"
+      ]
+    },
+    "Chaos giants": {
+      "weight": 8,
+      "req": [
+        "Birthright of the Dwarves"
+      ]
+    },
+    "Corrupted creatures": {
+      "weight": 10,
+      "slayer": 88,
+      "req": [
+        "Partial Icthlarin's Little Helper"
+      ]
+    },
+    "Creatures of Daemonheim": {
+      "weight": 4
+    },
+    "Creatures of the Lost Grove": {
+      "weight": 12,
+      "slayer": 104
+    },
+    "Cres's creations": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 67,
+      "req": [
+        "Claimed additional rewards from The World Wakes"
+      ]
+    },
+    "Crystal shapeshifters": {
+      "weight": 12,
+      "slayer": 75,
+      "req": [
+        "The Light Within"
+      ]
+    },
+    "Dagannoth": {
+      "weight": 10,
+      "req": [
+        "Horror from the Deep"
+      ]
+    },
+    "Dark beasts": {
+      "weight": 12,
+      "slayer": 90,
+      "req": [
+        "Partial Mourning's End Part II"
+      ]
+    },
+    "Demons": {
+      "weight": 4,
+      "slayer": 85
+    },
+    "Dinosaurs": {
+      "weight": 9,
+      "slayer": 90
+    },
+    "Dragons": {
+      "weight": 4
+    },
+    "Edimmu": {
+      "weight": 10,
+      "combat": 110,
+      "slayer": 90,
+      "req": [
+        "Dungeoneering 115",
+        "Plague's End"
+      ]
+    },
+    "Elves": {
+      "weight": 12,
+      "req": [
+        "Plague's End"
+      ]
+    },
+    "Ganodermic creatures": {
+      "weight": 7,
+      "slayer": 95,
+      "req": [
+        "Magic 60"
+      ]
+    },
+    "Gargoyles": {
+      "weight": 8,
+      "slayer": 75,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Gemstone dragons": {
+      "weight": 10,
+      "slayer": 95,
+      "req": [
+        "Shilo Village",
+        "Hard Karamja achievement rewards claimed"
+      ]
+    },
+    "Glacors": {
+      "weight": 8,
+      "req": [
+        "Ritual of the Mahjarrat",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Greater demons": {
+      "weight": 11
+    },
+    "Ice strykewyrms": {
+      "weight": 8,
+      "slayer": 93,
+      "req": [
+        "The Tale of the Muspah",
+        "Fire cape, TokHaar-Kal or Igneous Kal (or 2,000 Slayer points technique)"
+      ]
+    },
+    "Iron dragons": {
+      "weight": 7
+    },
+    "Kal'gerion demons": {
+      "weight": 5,
+      "slayer": 90,
+      "req": [
+        "Dungeoneering 90"
+      ]
+    },
+    "Kalphite": {
+      "weight": 5
+    },
+    "Lava strykewyrms": {
+      "weight": 8,
+      "slayer": 94
+    },
+    "Living wyverns": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Mithril dragons": {
+      "weight": 8,
+      "combat": 90,
+      "req": [
+        "Partial Barbarian Training (pyre ship firemaking)"
+      ]
+    },
+    "Muspah": {
+      "weight": 10,
+      "req": [
+        "Fate of the Gods",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Mutated jadinkos": {
+      "weight": 8,
+      "combat": 90,
+      "slayer": 80
+    },
+    "Nightmare creatures": {
+      "weight": 8,
+      "req": [
+        "Children of Mah",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Nihil": {
+      "weight": 10,
+      "req": [
+        "Fate of the Gods",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Nodon dragonkin": {
+      "weight": 8,
+      "slayer": 92
+    },
+    "Profane Scabarites": {
+      "weight": 12,
+      "slayer": 87
+    },
+    "Ravenous strigoi": {
+      "weight": 0,
+      "slayer": 104
+    },
+    "Ripper demons": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Risen ghosts": {
+      "weight": 8,
+      "slayer": 85,
+      "req": [
+        "Unwelcome Guests"
+      ]
+    },
+    "Rune dragons": {
+      "weight": 8,
+      "combat": 100,
+      "req": [
+        "Fate of the Gods",
+        "Ritual of the Mahjarrat"
+      ]
+    },
+    "Sanguine werewolves": {
+      "weight": 0,
+      "combat": 110
+    },
+    "Shadow creatures": {
+      "weight": 10,
+      "combat": 100,
+      "req": [
+        "Plague's End"
+      ]
+    },
+    "Soul devourers": {
+      "weight": 12,
+      "slayer": 105,
+      "req": [
+        "Partial Icthlarin's Little Helper"
+      ]
+    },
+    "Stalker creatures": {
+      "weight": 8,
+      "slayer": 71,
+      "req": [
+        "Dishonour among Thieves"
+      ]
+    },
+    "Steel dragons": {
+      "weight": 9
+    },
+    "Strykewyrms": {
+      "weight": 4,
+      "slayer": 73
+    },
+    "Tormented demons": {
+      "weight": 8,
+      "req": [
+        "While Guthix Sleeps",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Undead": {
+      "weight": 4
+    },
+    "Vile blooms": {
+      "weight": 9,
+      "slayer": 90
+    },
+    "Vyrewatch": {
+      "weight": 7,
+      "req": [
+        "The Branches of Darkmeyer"
+      ]
+    }
+  },
+  "Mandrith": {
+    "Abyssal beasts": {
+      "weight": 6,
+      "slayer": 105
+    },
+    "Abyssal demons": {
+      "weight": 8,
+      "slayer": 85,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Abyssal lords": {
+      "weight": 6,
+      "slayer": 115
+    },
+    "Abyssal savages": {
+      "weight": 6,
+      "slayer": 95
+    },
+    "Acheron mammoths": {
+      "weight": 6,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Black demons": {
+      "weight": 8
+    },
+    "Dark beasts": {
+      "weight": 6,
+      "slayer": 90,
+      "req": [
+        "Partial Mourning's End Part II"
+      ]
+    },
+    "Gargoyles": {
+      "weight": 8,
+      "slayer": 75,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Glacors": {
+      "weight": 5,
+      "slayer": 84,
+      "req": [
+        "Ritual of the Mahjarrat",
+        "Toggled on for 50 Slayer points"
+      ]
+    },
+    "Greater demon berserkers and ash lords": {
+      "weight": 4
+    },
+    "Hydrix dragons": {
+      "weight": 6,
+      "slayer": 101
+    },
+    "Ice strykewyrms": {
+      "weight": 6,
+      "slayer": 93,
+      "req": [
+        "The Tale of the Muspah",
+        "Fire cape, TokHaar-Kal or Igneous Kal (or 2,000 Slayer points technique)"
+      ]
+    },
+    "Kal'gerion demons": {
+      "weight": 6,
+      "slayer": 90,
+      "req": [
+        "Dungeoneering 90"
+      ]
+    },
+    "Lava strykewyrms": {
+      "weight": 8,
+      "slayer": 94
+    },
+    "Living wyverns": {
+      "weight": 6,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Onyx dragons": {
+      "weight": 6,
+      "slayer": 98
+    },
+    "Revenants": {
+      "weight": 6
+    },
+    "Ripper demons": {
+      "weight": 8,
+      "combat": 100,
+      "slayer": 96
+    },
+    "Soulgazers": {
+      "weight": 5,
+      "slayer": 99
+    }
+  },
+  "The Raptor": {
+    "Aberrant spectres": {
+      "weight": 7,
+      "slayer": 60,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Abyssal demons": {
+      "weight": 7,
+      "slayer": 85,
+      "req": [
+        "Morytania access"
+      ]
+    },
+    "Acheron mammoths": {
+      "weight": 6,
+      "slayer": 96
+    },
+    "Ankou": {
+      "weight": 7
+    },
+    "Armoured phantoms": {
+      "weight": 8,
+      "slayer": 113,
+      "req": [
+        "Unwelcome Guests"
+      ]
+    },
+    "Aviansies": {
+      "weight": 7,
+      "req": [
+        "Spoke to the knight outside God Wars Dungeon"
+      ]
+    },
+    "Black demons": {
+      "weight": 8
+    },
+    "Black dragons": {
+      "weight": 5,
+      "req": [
+        "Dragon Slayer"
+      ]
+    },
+    "Bound skeletons": {
+      "weight": 8,
+      "slayer": 50,
+      "req": [
+        "Unwelcome Guests"
+      ]
+    },
+    "Camel warriors": {
+      "weight": 6,
+      "slayer": 96
+    },
+    "Dagannoth": {
+      "weight": 8,
+      "req": [
+        "Horror from the Deep"
+      ]
+    },
+    "Dark beasts": {
+      "weight": 7,
+      "slayer": 90
+    },
+    "Demons": {
+      "weight": 6
+    },
+    "Dragons": {
+      "weight": 5,
+      "req": [
+        "Dragon Slayer"
+      ]
+    },
+    "Fetid zombies": {
+      "weight": 8,
+      "req": [
+        "Unwelcome Guests"
+      ]
+    },
+    "Fire giants": {
+      "weight": 7
+    },
+    "Ghosts": {
+      "weight": 7
+    },
+    "Greater demons": {
+      "weight": 7
+    },
+    "Green dragons": {
+      "weight": 5,
+      "req": [
+        "Dragon Slayer"
+      ]
+    },
+    "Grotworms": {
+      "weight": 8
+    },
+    "Hellhounds": {
+      "weight": 7
+    },
+    "Kalphite": {
+      "weight": 7
+    },
+    "Lesser demons": {
+      "weight": 8
+    },
+    "Living wyverns": {
+      "weight": 6,
+      "slayer": 96
+    },
+    "Ripper demons": {
+      "weight": 6,
+      "slayer": 96
+    },
+    "Risen ghosts": {
+      "weight": 8,
+      "slayer": 85,
+      "req": [
+        "Unwelcome Guests"
+      ]
+    },
+    "Skeletons": {
+      "weight": 7
+    },
+    "Undead": {
+      "weight": 6
+    },
+    "Zemouregal's undead": {
+      "weight": 8,
+      "slayer": 50,
+      "req": [
+        "Unwelcome Guests"
+      ]
+    },
+    "Zombies": {
+      "weight": 7
+    }
+  }
+}

@@ -10,8 +10,10 @@
  * Facts (which node belongs to which RS3 transport network) follow the
  * RuneScape Wiki's Transportation article; the node *names* are the RS3 names
  * in our chunk-content dataset ("Varrock lodestone", "Spirit tree", "Fairy
- * ring", "Canoe station", "Obelisk"). Every network returned is a
- * MOBILITY_LIST entry.
+ * ring", "Canoe station", "Obelisk"), and the same rules classify the
+ * transport graph's named network nodes ("Fairy ring network", "Charter ship
+ * network", "Portmaster Kags (Menaphos boats)", "Abyss"). Every network
+ * returned is a MOBILITY_LIST entry.
  */
 
 // Ordered specific → general; first match wins.
@@ -32,6 +34,9 @@ const MOBILITY_RULES: [RegExp, string][] = [
   [/charter|sailing ship/i, 'Charter Ships'],
   [/digsite pendant/i, 'Digsite Pendant'],
   [/max guild portal|boss portal|skilling portal/i, 'Max Guild Portals'],
+  [/menaphos boat|portmaster kags/i, 'Menaphos Boats'],
+  // The Abyss connector node in the transport graph (Mage of Zamorak teleport).
+  [/^abyss$/i, 'Abyss Teleport'],
 ];
 
 // Things that look transport-ish but aren't: cart-shaped scenery (not the

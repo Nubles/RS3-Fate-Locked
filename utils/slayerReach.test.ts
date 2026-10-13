@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { slayerReachability, combatLevel, SlayerStatus, RS3_SLAYER_MASTERS, rs3MasterFor } from './slayerReach';
+import { slayerReachability, taskNameForms, combatLevel, SlayerStatus, RS3_SLAYER_MASTERS, rs3MasterFor } from './slayerReach';
 import { SlayerMasters } from '../services/ChunkContentService';
 import { UnlockState } from '../types';
 
@@ -82,5 +82,14 @@ describe('slayerReachability', () => {
     const r = slayerReachability(MASTERS, u, locate);
     // Crawling + Bigfella ready (unlocked chunks); Banshees area-locked
     expect(r.masters[0].ready).toBe(2);
+  });
+});
+
+describe('taskNameForms', () => {
+  it('derives singular monster names from plural task names', () => {
+    expect(taskNameForms('Wolves')).toContain('Wolf');
+    expect(taskNameForms('Cave bugs')).toContain('Cave bug');
+    expect(taskNameForms('Jellies')).toContain('Jelly');
+    expect(taskNameForms('Dagannoth')[0]).toBe('Dagannoth');
   });
 });

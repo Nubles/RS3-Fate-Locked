@@ -54,3 +54,39 @@ describe('aggregateContent', () => {
     expect(agg.quests).toEqual({});
   });
 });
+
+// The shipped dataset (scripts/sync-chunk-content.mjs). Guards the shape the
+// map and panels rely on, not exact counts.
+import chunkDoc from '../public/chunk-content.json';
+
+describe('public/chunk-content.json', () => {
+  const doc = chunkDoc as unknown as {
+    version: number;
+    chunks: Record<string, { n?: string; c?: Record<string, number> }>;
+    connect: Record<string, string[]>;
+    overlays: Record<string, { x: number; y: number; cx: number; cy: number; t?: string }[]>;
+  };
+
+  it('is the v10 dataset with chunk names (Lumbridge square named)', () => {
+    expect(doc.version).toBe(10);
+    expect(doc.chunks[String(50 * 256 + 50)]?.n).toBe('Lumbridge');
+  });
+
+  it('connect is undirected and has named network nodes', () => {
+    for (const [a, list] of Object.entries(doc.connect)) {
+      for (const b of list) expect(doc.connect[b], `${a} → ${b}`).toContain(a);
+    }
+    expect(doc.connect['Fairy ring network']?.length).toBeGreaterThan(20);
+    expect(doc.connect['Lodestone network']?.length).toBeGreaterThan(20);
+  });
+
+  it('clue overlay points carry a known tier and sit in their chunk', () => {
+    const pts = doc.overlays.Clues ?? [];
+    expect(pts.length).toBeGreaterThan(500);
+    for (const p of pts) {
+      expect(['Easy', 'Medium', 'Hard', 'Elite', 'Master']).toContain(p.t);
+      expect(p.x >> 6).toBe(p.cx);
+      expect(p.y >> 6).toBe(p.cy);
+    }
+  });
+});

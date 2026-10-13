@@ -26,7 +26,7 @@ export const GUIDES: Record<string, Guide> = {
     blurb: 'Everywhere fate has let you travel — on the RuneScape 3 world map.',
     bullets: [
       'See which regions and sub-areas you’ve unlocked, lit up on the world map.',
-      'RS3-only areas (Daemonheim, Anachronia, the Arc…) aren’t on the map image — they’re listed in the “Off the map” panel.',
+      'RS3-only areas are on the map too: Daemonheim and Anachronia in place, and the Arc, Havenhythe, Mazcab, the Lost Grove and Ashdale as framed insets in the sea. Instanced places (Zanaris, Daemonheim floors…) are listed in the “Off the map” panel.',
       'Pan and zoom the map; hover for tile/chunk coordinates.',
       'Track region mastery per continent and what’s left to unlock.',
     ],
