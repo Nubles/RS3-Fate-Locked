@@ -58,7 +58,7 @@ export const ShortcutsPanel: React.FC = () => {
   const rows = filter === 'all' ? reach.rows : reach.rows.filter(r => r.status === filter);
 
   return (
-    <div className="mb-4 rounded-lg border border-fuchsia-500/20 bg-[#161616] overflow-hidden">
+    <div className="mb-4 rounded-lg border border-fuchsia-500/20 bg-[#181614] overflow-hidden">
       <button onClick={() => setOpen(o => !o)} className="w-full flex items-center gap-2 px-3 py-2 border-b border-white/5 bg-fuchsia-950/15 text-left">
         {open ? <ChevronDown size={12} className="text-gray-500" /> : <ChevronRight size={12} className="text-gray-500" />}
         <Footprints size={13} className="text-fuchsia-300" />

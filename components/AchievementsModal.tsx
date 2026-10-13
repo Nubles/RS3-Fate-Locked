@@ -67,11 +67,11 @@ export const AchievementsModal: React.FC<Props> = ({ onClose }) => {
       aria-label="Achievements"
     >
       <div
-        className="bg-[#161616] border border-white/10 rounded-xl shadow-2xl w-full max-w-3xl h-[80vh] flex flex-col overflow-hidden"
+        className="bg-[#181614] border border-white/10 rounded-xl shadow-2xl w-full max-w-3xl h-[80vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 p-4 border-b border-white/10 bg-[#1b1b1b] shrink-0">
+        <div className="flex items-center gap-3 p-4 border-b border-white/10 bg-[#1e1b18] shrink-0">
           <div className="p-2 bg-amber-900/20 rounded-lg border border-amber-500/30 text-amber-400">
             <Trophy size={18} />
           </div>
@@ -113,7 +113,7 @@ export const AchievementsModal: React.FC<Props> = ({ onClose }) => {
                 className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border transition-colors ${
                   isActive
                     ? 'bg-amber-900/30 border-amber-500/40 text-amber-300'
-                    : 'bg-[#1a1a1a] border-white/10 text-gray-500 hover:text-gray-300'
+                    : 'bg-[#1d1a17] border-white/10 text-gray-500 hover:text-gray-300'
                 }`}
               >
                 {c === 'ALL' ? 'All' : c}
@@ -142,7 +142,7 @@ const AchievementCard: React.FC<{ a: EvaluatedAchievement }> = ({ a }) => {
       className={`relative flex items-center gap-3 rounded-lg border px-3 py-2.5 transition-colors ${
         a.earned
           ? 'bg-gradient-to-r from-amber-900/20 to-transparent border-amber-500/30'
-          : 'bg-[#1a1a1a] border-white/5'
+          : 'bg-[#1d1a17] border-white/5'
       }`}
     >
       <div

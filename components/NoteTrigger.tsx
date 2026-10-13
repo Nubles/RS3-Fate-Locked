@@ -34,7 +34,7 @@ export const NoteTrigger: React.FC<NoteTriggerProps> = ({ id, title, className }
 
       {isOpen && createPortal(
         <div className="fixed inset-0 z-[1500] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200" onClick={() => setIsOpen(false)}>
-          <div className="bg-[#1e1e1e] border border-yellow-600/30 w-full max-w-md rounded-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
+          <div className="bg-[#211e1b] border border-yellow-600/30 w-full max-w-md rounded-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
             <div className="bg-yellow-900/20 p-3 border-b border-yellow-600/20 flex justify-between items-center">
               <h3 className="text-yellow-500 font-bold text-sm flex items-center gap-2">
                 <StickyNote size={16} /> Note: {title || id}
@@ -44,7 +44,7 @@ export const NoteTrigger: React.FC<NoteTriggerProps> = ({ id, title, className }
             
             <div className="p-4">
               <textarea 
-                className="w-full h-32 bg-[#121212] border border-[#333] rounded p-3 text-sm text-gray-200 focus:border-yellow-500/50 focus:outline-none resize-none font-mono"
+                className="w-full h-32 bg-[#141210] border border-[#39332d] rounded p-3 text-sm text-gray-200 focus:border-yellow-500/50 focus:outline-none resize-none font-mono"
                 placeholder="Write your plans here... (e.g. 'Farm Blue Dragons after 70 Agility')"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
@@ -52,7 +52,7 @@ export const NoteTrigger: React.FC<NoteTriggerProps> = ({ id, title, className }
               />
             </div>
 
-            <div className="p-3 border-t border-[#333] bg-[#151515] flex justify-end gap-2">
+            <div className="p-3 border-t border-[#39332d] bg-[#171513] flex justify-end gap-2">
               <button onClick={() => setIsOpen(false)} className="px-3 py-1.5 text-xs text-gray-400 hover:text-white transition-colors">Cancel</button>
               <button 
                 onClick={handleSave} 

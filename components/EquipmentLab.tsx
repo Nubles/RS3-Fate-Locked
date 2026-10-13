@@ -68,11 +68,11 @@ export const EquipmentLab: React.FC<Props> = ({ onUpgrade }) => {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex justify-between items-center bg-[#151515] p-2 rounded border border-white/5 mb-4 shrink-0">
+      <div className="flex justify-between items-center bg-[#171513] p-2 rounded border border-white/5 mb-4 shrink-0">
         <div className="flex items-center gap-3">
           <h3 className="text-gray-300 font-bold text-sm flex items-center gap-1.5">Equipment Lab <SectionGuide id="EQUIPMENT_LAB" /></h3>
           {/* Tiers / Gear / DPS mode toggle */}
-          <div className="flex items-center rounded-lg border border-white/10 bg-[#1f1f1f] p-0.5">
+          <div className="flex items-center rounded-lg border border-white/10 bg-[#221f1c] p-0.5">
             {(['tiers', 'gear', 'dps'] as const).map((m) => (
               <button
                 key={m}
@@ -95,7 +95,7 @@ export const EquipmentLab: React.FC<Props> = ({ onUpgrade }) => {
                 className={`flex items-center gap-1.5 px-2 py-1 rounded border text-[10px] font-bold uppercase tracking-wide transition-colors ${
                   planMode
                     ? 'border-cyan-500/50 bg-cyan-950/40 text-cyan-300'
-                    : 'border-white/10 bg-[#1f1f1f] text-gray-400 hover:text-gray-200'
+                    : 'border-white/10 bg-[#221f1c] text-gray-400 hover:text-gray-200'
                 }`}
                 title="Plan a target loadout and see the Omni-Key cost"
               >
@@ -141,7 +141,7 @@ export const EquipmentLab: React.FC<Props> = ({ onUpgrade }) => {
                     alt={slot}
                     className={`w-10 h-10 object-contain drop-shadow-md transition-all duration-300 ${isUnlocked ? 'opacity-100 brightness-110 scale-110' : 'opacity-20 grayscale scale-90 group-hover:opacity-40'}`}
                   />
-                  <div className={`absolute -bottom-3 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border shadow-md transition-colors ${isUnlocked ? 'bg-[#3d3322] text-[#fbbf24] border-[#fbbf24]/30' : 'bg-[#151515] text-gray-600 border-gray-700'}`}>
+                  <div className={`absolute -bottom-3 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border shadow-md transition-colors ${isUnlocked ? 'bg-[#3d3322] text-[#fbbf24] border-[#fbbf24]/30' : 'bg-[#171513] text-gray-600 border-gray-700'}`}>
                     T{tier}
                   </div>
                   {canUnlock && (
@@ -161,13 +161,13 @@ export const EquipmentLab: React.FC<Props> = ({ onUpgrade }) => {
 
       {/* Lower panel: breakdown OR planner */}
       {planMode ? (
-        <div className="mt-4 bg-[#151515] border border-cyan-500/20 rounded-xl p-4 space-y-3">
+        <div className="mt-4 bg-[#171513] border border-cyan-500/20 rounded-xl p-4 space-y-3">
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <span className="text-[11px] font-bold uppercase tracking-widest text-cyan-300 flex items-center gap-1.5">
               <SlidersHorizontal size={12} /> Target loadout
             </span>
             <div className="flex items-center gap-1.5">
-              <button onClick={resetPlan} className="px-2 py-1 rounded border border-white/10 bg-[#1f1f1f] text-gray-400 hover:text-gray-200 text-[10px] font-bold flex items-center gap-1"><RotateCcw size={10} /> Reset</button>
+              <button onClick={resetPlan} className="px-2 py-1 rounded border border-white/10 bg-[#221f1c] text-gray-400 hover:text-gray-200 text-[10px] font-bold flex items-center gap-1"><RotateCcw size={10} /> Reset</button>
               <button onClick={maxPlan} className="px-2 py-1 rounded border border-yellow-500/30 bg-yellow-950/30 text-yellow-300 hover:bg-yellow-900/40 text-[10px] font-bold flex items-center gap-1"><Crown size={10} /> Max</button>
             </div>
           </div>
@@ -185,22 +185,22 @@ export const EquipmentLab: React.FC<Props> = ({ onUpgrade }) => {
                       <div
                         key={i}
                         className={`flex-1 transition-all duration-300 ${
-                          cur > i ? equipTierColor(cur) : tgt > i ? 'bg-cyan-500/30' : 'bg-[#1a1a1a]'
+                          cur > i ? equipTierColor(cur) : tgt > i ? 'bg-cyan-500/30' : 'bg-[#1d1a17]'
                         }`}
                       />
                     ))}
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
-                    <button onClick={() => setTarget(slot, tgt - 1)} disabled={tgt <= cur} className="w-5 h-5 rounded bg-[#1f1f1f] border border-white/10 text-gray-400 disabled:opacity-30 hover:text-white flex items-center justify-center"><Minus size={10} /></button>
+                    <button onClick={() => setTarget(slot, tgt - 1)} disabled={tgt <= cur} className="w-5 h-5 rounded bg-[#221f1c] border border-white/10 text-gray-400 disabled:opacity-30 hover:text-white flex items-center justify-center"><Minus size={10} /></button>
                     <span className="text-[10px] font-mono font-bold w-6 text-center text-cyan-200">T{tgt}</span>
-                    <button onClick={() => setTarget(slot, tgt + 1)} disabled={tgt >= EQUIPMENT_TIER_MAX} className="w-5 h-5 rounded bg-[#1f1f1f] border border-white/10 text-gray-400 disabled:opacity-30 hover:text-white flex items-center justify-center"><Plus size={10} /></button>
+                    <button onClick={() => setTarget(slot, tgt + 1)} disabled={tgt >= EQUIPMENT_TIER_MAX} className="w-5 h-5 rounded bg-[#221f1c] border border-white/10 text-gray-400 disabled:opacity-30 hover:text-white flex items-center justify-center"><Plus size={10} /></button>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          <div className={`flex items-center justify-between rounded-lg px-3 py-2 border ${planCost === 0 ? 'border-white/5 bg-[#1a1a1a]' : planCost <= specialKeys ? 'border-emerald-500/30 bg-emerald-950/30' : 'border-amber-500/30 bg-amber-950/30'}`}>
+          <div className={`flex items-center justify-between rounded-lg px-3 py-2 border ${planCost === 0 ? 'border-white/5 bg-[#1d1a17]' : planCost <= specialKeys ? 'border-emerald-500/30 bg-emerald-950/30' : 'border-amber-500/30 bg-amber-950/30'}`}>
             <span className="text-[10px] uppercase tracking-wide text-gray-400">This loadout needs</span>
             <span className="flex items-center gap-1.5 text-[12px] font-bold">
               <Sparkles size={12} className="text-purple-400" />
@@ -210,7 +210,7 @@ export const EquipmentLab: React.FC<Props> = ({ onUpgrade }) => {
           </div>
         </div>
       ) : (
-        <div className="mt-4 bg-[#151515] border border-white/10 rounded-xl p-4 space-y-4">
+        <div className="mt-4 bg-[#171513] border border-white/10 rounded-xl p-4 space-y-4">
           {/* summary + legend */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {[
@@ -219,7 +219,7 @@ export const EquipmentLab: React.FC<Props> = ({ onUpgrade }) => {
               { label: 'Maxed', value: `${stats.maxed}`, sub: `at T${EQUIPMENT_TIER_MAX}`, color: 'text-yellow-400' },
               { label: 'Weakest', value: stats.weakest.slot, sub: `T${stats.weakest.tier}`, color: 'text-red-300' },
             ].map((t) => (
-              <div key={t.label} className="bg-[#1a1a1a] border border-white/5 rounded-lg px-3 py-2 hover-lift">
+              <div key={t.label} className="bg-[#1d1a17] border border-white/5 rounded-lg px-3 py-2 hover-lift">
                 <div className="text-[9px] uppercase tracking-widest text-gray-500 mb-0.5">{t.label}</div>
                 <div className={`text-sm font-bold truncate ${t.color}`} title={t.value}>{t.value}</div>
                 <div className="text-[9px] text-gray-600 font-mono">{t.sub}</div>
@@ -245,7 +245,7 @@ export const EquipmentLab: React.FC<Props> = ({ onUpgrade }) => {
                 <span className={`text-[10px] font-semibold w-14 shrink-0 ${tier > 0 ? 'text-gray-300' : 'text-gray-600'}`}>{slot}</span>
                 <div className="flex gap-px flex-1 h-1.5 bg-black/50 rounded-sm overflow-hidden border border-white/5">
                   {Array.from({ length: EQUIPMENT_TIER_MAX }).map((_, i) => (
-                    <div key={i} className={`flex-1 transition-all duration-500 ${tier > i ? equipTierColor(tier) : 'bg-[#1a1a1a]'}`} />
+                    <div key={i} className={`flex-1 transition-all duration-500 ${tier > i ? equipTierColor(tier) : 'bg-[#1d1a17]'}`} />
                   ))}
                 </div>
                 <span className={`text-[9px] font-mono font-bold w-7 text-right shrink-0 ${tier >= EQUIPMENT_TIER_MAX ? 'text-yellow-400' : tier > 0 ? 'text-amber-300/80' : 'text-gray-600'}`}>T{tier}</span>

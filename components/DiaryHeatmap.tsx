@@ -42,7 +42,7 @@ export const DiaryHeatmap: React.FC<{ onPick: (diaryId: string) => void }> = ({ 
   }, [unlocks]);
 
   return (
-    <div className="shrink-0 border-b border-white/5 bg-[#161616]">
+    <div className="shrink-0 border-b border-white/5 bg-[#181614]">
       <button onClick={() => setOpen(o => !o)} className="w-full flex items-center gap-2 px-3 py-1.5 text-left">
         {open ? <ChevronDown size={12} className="text-gray-500" /> : <ChevronRight size={12} className="text-gray-500" />}
         <LayoutGrid size={12} className="text-green-300" />

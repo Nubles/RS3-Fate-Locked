@@ -39,7 +39,7 @@ export const UpdateBanner: React.FC = () => {
   if (!stale || dismissed) return null;
 
   return (
-    <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 px-3 py-2 rounded-lg bg-[#0b0b0b]/95 border border-emerald-600/50 shadow-xl backdrop-blur-sm">
+    <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-3 px-3 py-2 rounded-lg bg-[#0c0b0a]/95 border border-emerald-600/50 shadow-xl backdrop-blur-sm">
       <RefreshCw size={14} className="text-emerald-400 shrink-0" />
       <span className="text-[12px] text-gray-200">A new version is available.</span>
       <button

@@ -8,17 +8,17 @@ import {
 } from 'lucide-react';
 
 // --- SHARED STYLES ---
-const CARD_BASE = "relative overflow-hidden rounded-lg border-2 transition-all duration-300 bg-[#2a2620] border-[#4a453d]";
+const CARD_BASE = "relative overflow-hidden rounded-lg border-2 transition-all duration-300 bg-[#2a2620] border-[#4b443c]";
 const TEXT_GOLD = "text-[#fbbf24]";
-const TEXT_MUTED = "text-[#888]";
+const TEXT_MUTED = "text-[#908980]";
 
 // --- VISUAL DEMO 1: THE LOCK (Concept) ---
 const ConceptVisual: React.FC = () => {
   return (
-    <div className="relative w-full max-w-[300px] aspect-video bg-[#1a1a1a] rounded-lg border border-white/10 p-4 grid grid-cols-3 gap-2 overflow-hidden shadow-2xl">
+    <div className="relative w-full max-w-[300px] aspect-video bg-[#1d1a17] rounded-lg border border-white/10 p-4 grid grid-cols-3 gap-2 overflow-hidden shadow-2xl">
       {/* Grid of Locked Skills */}
       {[...Array(9)].map((_, i) => (
-        <div key={i} className="bg-[#111] rounded border border-white/5 flex flex-col items-center justify-center relative group">
+        <div key={i} className="bg-[#13110f] rounded border border-white/5 flex flex-col items-center justify-center relative group">
           <div className="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center mb-1">
              <Lock size={12} className="text-red-500/50" />
           </div>
@@ -141,7 +141,7 @@ const FateVisual: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full max-w-[280px] bg-[#1b1b1b] p-4 rounded-xl border border-white/10 shadow-xl flex flex-col gap-4">
+    <div className="w-full max-w-[280px] bg-[#1e1b18] p-4 rounded-xl border border-white/10 shadow-xl flex flex-col gap-4">
       {/* Status Bar Mockup */}
       <div className="w-full">
          <div className="flex justify-between text-[10px] mb-1.5 font-bold uppercase tracking-wider">
@@ -190,7 +190,7 @@ const UnlockVisual: React.FC = () => {
       {/* Mock Spend Card */}
       <div className={`
         relative overflow-hidden rounded-md border-2 transition-all duration-300 w-full p-3 shadow-lg min-h-[100px] flex flex-col justify-between
-        ${state === 'reveal' ? 'bg-[#2a2620] border-[#fbbf24] shadow-[0_0_20px_rgba(251,191,36,0.2)]' : 'bg-[#111] border-[#333]'}
+        ${state === 'reveal' ? 'bg-[#2a2620] border-[#fbbf24] shadow-[0_0_20px_rgba(251,191,36,0.2)]' : 'bg-[#13110f] border-[#39332d]'}
       `}>
         {/* Header */}
         <div className="flex justify-between items-start w-full relative z-10">
@@ -198,7 +198,7 @@ const UnlockVisual: React.FC = () => {
              <Shield size={18} />
           </div>
           <div className="flex flex-col items-end">
-             <span className="text-[8px] text-[#666] font-bold uppercase">Price</span>
+             <span className="text-[8px] text-[#6f675d] font-bold uppercase">Price</span>
              <span className="text-[#fbbf24] font-bold">1 Key</span>
           </div>
         </div>
@@ -206,7 +206,7 @@ const UnlockVisual: React.FC = () => {
         {/* Text */}
         <div className="mt-2">
             <h3 className={`text-sm font-bold ${state === 'reveal' ? 'text-white' : 'text-gray-500'}`}>Equipment</h3>
-            <p className="text-[9px] text-[#666] uppercase">Unlock Slot</p>
+            <p className="text-[9px] text-[#6f675d] uppercase">Unlock Slot</p>
         </div>
 
         {/* Void Reveal Effect Overlay */}
@@ -263,9 +263,9 @@ const AltarVisual: React.FC = () => {
             w-full p-3 rounded-lg border-2 flex items-center gap-3 transition-all duration-300 relative overflow-hidden
             ${active 
                 ? 'bg-blue-900/30 border-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.3)] scale-[1.02]' 
-                : 'bg-[#1a1a1a] border-blue-900/30 opacity-70'}
+                : 'bg-[#1d1a17] border-blue-900/30 opacity-70'}
         `}>
-            <div className={`p-2 rounded-full border ${active ? 'bg-blue-500 text-white border-blue-300' : 'bg-[#111] text-blue-900 border-blue-900/50'}`}>
+            <div className={`p-2 rounded-full border ${active ? 'bg-blue-500 text-white border-blue-300' : 'bg-[#13110f] text-blue-900 border-blue-900/50'}`}>
                 <Dices size={18} />
             </div>
             <div className="flex-1">
@@ -360,10 +360,10 @@ export const OnboardingWizard: React.FC = () => {
          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10"></div>
       </div>
 
-      <div className="relative w-full max-w-4xl h-[600px] bg-[#161616] border border-white/10 rounded-2xl shadow-2xl flex overflow-hidden">
+      <div className="relative w-full max-w-4xl h-[600px] bg-[#181614] border border-white/10 rounded-2xl shadow-2xl flex overflow-hidden">
         
         {/* Left: Interactive Visual */}
-        <div className="w-1/2 bg-[#0a0a0a] border-r border-white/5 relative flex flex-col items-center justify-center p-8 overflow-hidden">
+        <div className="w-1/2 bg-[#0b0a09] border-r border-white/5 relative flex flex-col items-center justify-center p-8 overflow-hidden">
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
             
             <div key={step} className="relative z-10 w-full flex items-center justify-center animate-in zoom-in slide-in-from-bottom-4 duration-500">

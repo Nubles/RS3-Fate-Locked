@@ -116,7 +116,7 @@ export const AdvisorList: React.FC<Props> = ({
               onClick={() => onItemClick(item.id)}
               aria-label={aria}
               style={{ animationDelay: `${idx * 40}ms` }}
-              className={`w-full flex items-center gap-2.5 px-2.5 py-2 bg-[#1a1a1a] border border-white/5 rounded-md hover:bg-white/5 hover:border-white/15 transition-all text-left group outline-none focus-visible:ring-2 ${c.ring} animate-in fade-in slide-in-from-bottom-1 duration-300 fill-mode-both`}
+              className={`w-full flex items-center gap-2.5 px-2.5 py-2 bg-[#1d1a17] border border-white/5 rounded-md hover:bg-white/5 hover:border-white/15 transition-all text-left group outline-none focus-visible:ring-2 ${c.ring} animate-in fade-in slide-in-from-bottom-1 duration-300 fill-mode-both`}
             >
               {/* Rank */}
               <span className="text-[9px] font-mono font-bold text-gray-600 w-4 shrink-0 text-right" aria-hidden>
@@ -212,7 +212,7 @@ export const AdvisorList: React.FC<Props> = ({
 
   if (variant === 'card') {
     return (
-      <section className="bg-[#151515] border border-white/10 rounded-xl p-4" aria-label={heading}>
+      <section className="bg-[#171513] border border-white/10 rounded-xl p-4" aria-label={heading}>
         {Header}
         {Body}
       </section>

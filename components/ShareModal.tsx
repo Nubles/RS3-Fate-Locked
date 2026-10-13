@@ -17,9 +17,9 @@ interface ShareModalProps {
 type CardTheme = 'VOID' | 'GILDED' | 'IRON' | 'BLOOD' | 'NATURE';
 
 const TIER_COLORS = [
-  'bg-[#292524]', // T1 Stone
+  'bg-[#2b2722]', // T1 Stone
   'bg-[#7c2d12]', // T2 Bronze
-  'bg-[#52525b]', // T3 Iron
+  'bg-[#5f574e]', // T3 Iron
   'bg-[#94a3b8]', // T4 Steel
   'bg-[#047857]', // T5 Adamant
   'bg-[#0891b2]', // T6 Rune
@@ -87,12 +87,12 @@ const StatsShareCard: React.FC<ShareModalProps & { embedded?: boolean }> = ({ on
         };
       case 'IRON':
         return {
-          bg: 'bg-[#1a1a1a]',
+          bg: 'bg-[#1d1a17]',
           border: 'border-gray-500',
           accent: 'text-gray-300',
           sub: 'text-gray-500',
-          panel: 'bg-[#262626]',
-          gradient: 'from-gray-800/40 via-[#1a1a1a] to-black',
+          panel: 'bg-[#2a2622]',
+          gradient: 'from-gray-800/40 via-[#1d1a17] to-black',
           deco: 'border-gray-500/20',
           bar: 'bg-gray-400'
         };
@@ -125,7 +125,7 @@ const StatsShareCard: React.FC<ShareModalProps & { embedded?: boolean }> = ({ on
           border: 'border-purple-900',
           accent: 'text-purple-400',
           sub: 'text-purple-200/50',
-          panel: 'bg-[#18181b]',
+          panel: 'bg-[#1c1a17]',
           gradient: 'from-purple-900/20 via-[#0f0f13] to-black',
           deco: 'border-purple-500/20',
           bar: 'bg-purple-500'
@@ -227,7 +227,7 @@ Progression: ${progressPercent}% | Total Level: ${totalLevel}
       <div className="flex flex-col gap-6 items-center w-full max-w-5xl my-auto">
 
         {/* Theme Selectors */}
-        <div className="flex gap-2 p-1.5 bg-[#1a1a1a] rounded-full border border-white/10 shadow-xl overflow-x-auto max-w-full">
+        <div className="flex gap-2 p-1.5 bg-[#1d1a17] rounded-full border border-white/10 shadow-xl overflow-x-auto max-w-full">
             {(['VOID', 'GILDED', 'IRON', 'BLOOD', 'NATURE'] as CardTheme[]).map(t => (
                 <button
                     key={t}
@@ -454,7 +454,7 @@ Progression: ${progressPercent}% | Total Level: ${totalLevel}
         <div className="flex gap-4 w-full max-w-[850px]">
             <button 
                 onClick={handleCopyText}
-                className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#2d2d2d] hover:bg-[#3d3d3d] text-white font-bold rounded-lg transition-all border border-white/10 shadow-lg"
+                className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#322d28] hover:bg-[#443d36] text-white font-bold rounded-lg transition-all border border-white/10 shadow-lg"
             >
                 {copyStatus === 'copied' ? <span className="text-green-400 flex items-center gap-2"><div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>Copied!</span> : <><Copy size={18} /> Copy Summary</>}
             </button>
@@ -492,7 +492,7 @@ export const ShareModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       aria-label="Share run"
     >
       <div className="min-h-full flex flex-col items-center justify-center gap-4 py-4" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center gap-1.5 p-1.5 bg-[#1a1a1a] rounded-full border border-white/10 shadow-xl">
+        <div className="flex items-center gap-1.5 p-1.5 bg-[#1d1a17] rounded-full border border-white/10 shadow-xl">
           {(['stats', 'map'] as const).map((s) => (
             <button
               key={s}

@@ -62,7 +62,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }: any) => {
        <div 
          className={`
            group relative flex flex-col items-center justify-center p-1 rounded transition-all duration-200 cursor-pointer h-full border border-transparent
-           ${isHighlighted ? 'bg-white/10 ring-1 ring-[#ff981f]' : 'hover:bg-white/5 hover:border-[#ff981f]/30'}
+           ${isHighlighted ? 'bg-white/10 ring-1 ring-[#f0be79]' : 'hover:bg-white/5 hover:border-[#f0be79]/30'}
          `}
          onClick={(e) => handleItemClick(e, item.id, item.name)}
          title={`${item.name} ${isUnlocked ? `(x${count})` : '(Locked)'}`}
@@ -73,21 +73,21 @@ const Cell = ({ columnIndex, rowIndex, style, data }: any) => {
            </div>
            
            {isUnlocked && count > 1 && (
-             <div className="absolute -top-1 -right-1 text-[8px] font-bold text-black bg-[#ff981f] px-1 rounded-full border border-black shadow-sm leading-tight z-10">
+             <div className="absolute -top-1 -right-1 text-[8px] font-bold text-black bg-[#f0be79] px-1 rounded-full border border-black shadow-sm leading-tight z-10">
                {count}
              </div>
            )}
            {!isUnlocked && (
              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-40">
-               <Lock size={12} className="text-[#887]" />
+               <Lock size={12} className="text-[#898076]" />
              </div>
            )}
          </div>
-         <span className={`text-[8px] mt-1 text-center leading-tight line-clamp-2 w-full ${isUnlocked ? 'text-green-400' : 'text-[#887]'} ${isHighlighted ? 'text-white font-bold' : ''}`}>
+         <span className={`text-[8px] mt-1 text-center leading-tight line-clamp-2 w-full ${isUnlocked ? 'text-green-400' : 'text-[#898076]'} ${isHighlighted ? 'text-white font-bold' : ''}`}>
            <WikiLink name={item.name} className="hover:underline decoration-dotted underline-offset-2" />
          </span>
          {item.sourcePage && (
-             <span className="text-[7px] text-[#ff981f]/60 mt-0.5 text-center leading-none w-full truncate px-1">
+             <span className="text-[7px] text-[#f0be79]/60 mt-0.5 text-center leading-none w-full truncate px-1">
                  {item.sourcePage}
              </span>
          )}
@@ -280,16 +280,16 @@ export const CollectionLog: React.FC<CollectionLogProps> = ({ searchTerm = '' })
   const [showReach, setShowReach] = useState(false);
 
   return (
-    <div className="flex flex-col h-full bg-[#3e3529] border-2 border-[#5a5245] rounded-lg overflow-hidden font-sans shadow-2xl relative text-[#ff981f]">
+    <div className="flex flex-col h-full rs3-window rounded-[3px] overflow-hidden font-sans relative text-[#f0be79]">
       {/* Top Bar */}
-      <div className="flex justify-between items-center p-2 bg-[#3e3529] border-b-2 border-[#5a5245] shadow-md shrink-0">
-        <h2 className="text-[#ff981f] text-shadow font-bold px-2 text-sm uppercase tracking-wider">Collection Log</h2>
+      <div className="flex justify-between items-center p-2 rs3-titlebar shrink-0">
+        <h2 className="rs3-title px-2 text-base">Collection Log</h2>
         
         {/* Wealth Ticker */}
         <div className="flex items-center gap-4">
             {mostValuable && (
                 <div className="hidden md:flex items-center gap-2 text-[10px] bg-[#2c241b] px-2 py-1 rounded border border-[#5a5245] shadow-inner text-[#d4c5b0]">
-                    <span className="text-[#ff981f] font-bold flex items-center gap-1"><TrendingUp size={10} /> MVP:</span>
+                    <span className="text-[#f0be79] font-bold flex items-center gap-1"><TrendingUp size={10} /> MVP:</span>
                     <span className="truncate max-w-[80px] text-white">{mostValuable.name}</span>
                     <span className="text-green-400 font-mono">({formatNumber(mostValuable.value)})</span>
                 </div>
@@ -348,7 +348,7 @@ export const CollectionLog: React.FC<CollectionLogProps> = ({ searchTerm = '' })
             key={tab}
             onClick={() => { setActiveTab(tab); setViewMode('PAGE'); }}
             className={`flex-1 min-w-[80px] py-1.5 text-center text-[10px] font-bold border-r border-[#5a5245] hover:bg-[#4b4236] transition-colors uppercase tracking-wide
-              ${activeTab === tab && !searchTerm ? 'bg-[#4b4236] text-white shadow-[inset_0_0_5px_rgba(0,0,0,0.5)]' : 'text-[#ff981f] bg-[#3e3529]'}
+              ${activeTab === tab && !searchTerm ? 'bg-[#4b4236] text-white shadow-[inset_0_0_5px_rgba(0,0,0,0.5)]' : 'text-[#f0be79] bg-[#3e3529]'}
               ${searchTerm ? 'opacity-50' : 'opacity-100'}
             `}
           >
@@ -364,7 +364,7 @@ export const CollectionLog: React.FC<CollectionLogProps> = ({ searchTerm = '' })
              {searchTerm && (
                  <button
                     onClick={() => setViewMode('SEARCH_ALL')}
-                    className={`w-full text-left px-2 py-2 border-b border-[#463d32] hover:bg-[#4b4236] flex items-center gap-2 transition-colors ${viewMode === 'SEARCH_ALL' ? 'bg-[#52483a] text-white' : 'text-[#ff981f]'}`}
+                    className={`w-full text-left px-2 py-2 border-b border-[#463d32] hover:bg-[#4b4236] flex items-center gap-2 transition-colors ${viewMode === 'SEARCH_ALL' ? 'bg-[#52483a] text-white' : 'text-[#f0be79]'}`}
                  >
                     <ListFilter size={14} />
                     <span className="text-[10px] font-bold uppercase">All Results ({allSearchItems.length})</span>
@@ -388,24 +388,24 @@ export const CollectionLog: React.FC<CollectionLogProps> = ({ searchTerm = '' })
                     className={`w-full text-left px-2 py-1.5 border-b border-[#463d32] hover:bg-[#4b4236] flex flex-col transition-colors ${isActive ? 'bg-[#52483a]' : ''}`}
                   >
                     <div className="flex justify-between items-center w-full">
-                        <span className={`text-[10px] truncate pr-1 ${isActive ? 'text-white' : isComplete ? 'text-green-400' : 'text-[#ff981f]'}`}>{data.name}</span>
+                        <span className={`text-[10px] truncate pr-1 ${isActive ? 'text-white' : isComplete ? 'text-green-400' : 'text-[#f0be79]'}`}>{data.name}</span>
                         {isComplete && <CheckCircle2 size={8} className="text-green-500 shrink-0" />}
                     </div>
-                    {searchTerm && <span className="text-[8px] text-[#887] uppercase tracking-wide leading-tight">{tab}</span>}
+                    {searchTerm && <span className="text-[8px] text-[#898076] uppercase tracking-wide leading-tight">{tab}</span>}
                   </button>
                 );
              })}
-             {filteredPages.length === 0 && !allSearchItems.length && <div className="p-4 text-center text-[10px] text-[#887] italic">No results found</div>}
+             {filteredPages.length === 0 && !allSearchItems.length && <div className="p-4 text-center text-[10px] text-[#898076] italic">No results found</div>}
            </div>
         </div>
 
         {/* Grid Area */}
         <div className="w-2/3 bg-[#1e1b16] flex flex-col relative">
            <div className="p-1.5 text-center border-b border-[#3e3529] bg-[#2c241b] shadow-md shrink-0">
-             <h3 className="text-[#ff981f] text-sm font-bold text-shadow truncate px-2">
+             <h3 className="text-[#f0be79] text-sm font-bold text-shadow truncate px-2">
                 {viewMode === 'SEARCH_ALL' ? `Search: "${searchTerm}"` : (currentTabContent?.pages[activePage]?.name || "Select a Category")}
              </h3>
-             <div className="text-[9px] text-[#887] mt-0.5">
+             <div className="text-[9px] text-[#898076] mt-0.5">
                   {viewMode === 'SEARCH_ALL' ? 
                     `${allSearchItems.filter(i => unlocks.collectionLog[i.id]).length} / ${allSearchItems.length} Found` :
                     currentTabContent?.pages[activePage] ? 

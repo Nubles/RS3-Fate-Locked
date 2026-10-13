@@ -83,7 +83,7 @@ export const UnlockReveal: React.FC<Props> = ({ data, onDismiss, onViewJournal }
         ${visible ? 'translate-x-0' : 'translate-x-[115%]'}
       `}
     >
-      <div className="bg-[#191919] border border-white/15 rounded-xl shadow-[0_12px_48px_rgba(0,0,0,0.8)] overflow-hidden">
+      <div className="bg-[#1c1916] border border-white/15 rounded-xl shadow-[0_12px_48px_rgba(0,0,0,0.8)] overflow-hidden">
 
         {/* ── Header ─────────────────────────────────────── */}
         <div className="flex items-start gap-2.5 px-3 py-2.5 bg-gradient-to-r from-green-900/30 to-transparent border-b border-white/8">

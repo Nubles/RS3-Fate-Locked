@@ -44,7 +44,7 @@ export const VoidAltar: React.FC<VoidAltarProps> = ({ onClose }) => {
 
   return (
     <div ref={dialogRef} role="dialog" aria-modal="true" aria-label="Void altar" tabIndex={-1} className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 animate-in fade-in duration-300">
-      <div className="bg-[#121212] border border-purple-900/50 w-full max-w-5xl rounded-xl shadow-[0_0_50px_rgba(88,28,135,0.3)] overflow-hidden flex flex-col relative max-h-[90vh]">
+      <div className="bg-[#141210] border border-purple-900/50 w-full max-w-5xl rounded-xl shadow-[0_0_50px_rgba(88,28,135,0.3)] overflow-hidden flex flex-col relative max-h-[90vh]">
         
         {/* Background Effects */}
         {animationsEnabled && (
@@ -55,7 +55,7 @@ export const VoidAltar: React.FC<VoidAltarProps> = ({ onClose }) => {
         )}
 
         {/* Header */}
-        <div className="bg-[#1a1a1a] p-6 border-b border-purple-900/30 flex justify-between items-center relative z-10">
+        <div className="bg-[#1d1a17] p-6 border-b border-purple-900/30 flex justify-between items-center relative z-10">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-purple-950 rounded-lg border border-purple-700/50 shadow-inner">
                 <Sparkles className={`w-6 h-6 text-purple-400 ${animationsEnabled ? 'animate-spin-slow' : ''}`} />

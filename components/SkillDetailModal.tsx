@@ -123,10 +123,10 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({ skill, curre
 
   return (
     <div ref={dialogRef} role="dialog" aria-modal="true" aria-label={`${skill} skill detail`} tabIndex={-1} className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="bg-[#1a1a1a] border border-white/10 w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+      <div className="bg-[#1d1a17] border border-white/10 w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
 
         {/* Header */}
-        <div className="bg-[#222] p-4 border-b border-white/10 flex justify-between items-center shrink-0">
+        <div className="bg-[#26221e] p-4 border-b border-white/10 flex justify-between items-center shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-black/40 rounded-lg border border-white/5 flex items-center justify-center">
                 <img src={iconUrl} alt={skill} className="w-6 h-6 object-contain" />
@@ -146,14 +146,14 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({ skill, curre
         </div>
 
         {/* Tabs */}
-        <div className="shrink-0 flex gap-1 px-4 pt-3 bg-[#1a1a1a] border-b border-white/5">
+        <div className="shrink-0 flex gap-1 px-4 pt-3 bg-[#1d1a17] border-b border-white/5">
           {([['gather', 'Map Gathering', MapPin], ['unlocks', 'Skill Unlocks', BookOpen]] as const).map(([id, label, Icon]) => (
             <button
               key={id}
               onClick={() => setTab(id)}
               disabled={id === 'gather' && !hasGathering}
               className={`flex items-center gap-1.5 px-3 py-2 text-xs font-bold rounded-t-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${
-                tab === id ? 'bg-[#111] text-white border-x border-t border-white/10' : 'text-gray-500 hover:text-gray-300'}`}
+                tab === id ? 'bg-[#13110f] text-white border-x border-t border-white/10' : 'text-gray-500 hover:text-gray-300'}`}
             >
               <Icon size={13} /> {label}
               {id === 'gather' && hasGathering && (
@@ -177,7 +177,7 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({ skill, curre
 
           {/* Localised filter bar */}
           {(tab === 'unlocks' || hasGathering) && (
-            <div className="flex items-center gap-2 sticky -top-6 z-10 -mx-6 px-6 py-2 bg-[#1a1a1a]/95 backdrop-blur-sm">
+            <div className="flex items-center gap-2 sticky -top-6 z-10 -mx-6 px-6 py-2 bg-[#1d1a17]/95 backdrop-blur-sm">
               <div className="relative flex-1">
                 <Search size={13} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
                 <input
@@ -249,9 +249,9 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({ skill, curre
 
               return (
                 <div key={tier} className={`relative border rounded-lg overflow-hidden transition-all ${
-                  isUnlocked ? 'bg-[#1f2937] border-green-500/30 shadow-[0_0_10px_rgba(16,185,129,0.05)]'
-                    : isNext ? 'bg-[#1a1a1a] border-purple-500/40 ring-1 ring-purple-500/20'
-                    : 'bg-[#111] border-white/5 opacity-70'}`}>
+                  isUnlocked ? 'bg-[#302b26] border-green-500/30 shadow-[0_0_10px_rgba(16,185,129,0.05)]'
+                    : isNext ? 'bg-[#1d1a17] border-purple-500/40 ring-1 ring-purple-500/20'
+                    : 'bg-[#13110f] border-white/5 opacity-70'}`}>
 
                   <div className={`px-4 py-2 flex justify-between items-center text-xs font-bold uppercase tracking-wider ${
                     isUnlocked ? 'bg-green-900/20 text-green-400 border-b border-green-500/10' : isNext ? 'bg-purple-900/20 text-purple-300 border-b border-purple-500/10' : 'bg-black/40 text-gray-500 border-b border-white/5'}`}>

@@ -24,6 +24,7 @@ import { PanelErrorBoundary } from './components/PanelErrorBoundary';
 import { UpdateBanner } from './components/UpdateBanner';
 import { ModalFallback } from './components/LoadingFallback';
 import { JournalSummaryCard } from './components/JournalSummaryCard';
+import { RibbonButton, ActionStat, ActionSlot, Rs3Window } from './components/Rs3Hud';
 import { useEscapeKey } from './hooks/useEscapeKey';
 import { resolveModeRules } from './config/gameModes';
 import { showToast } from './utils/toast';
@@ -40,7 +41,7 @@ const GameModePicker = lazy(() => import('./components/GameModePicker').then(m =
 const SyncCodeModal = lazy(() => import('./components/SyncCodeModal').then(m => ({ default: m.SyncCodeModal })));
 import { obfuscateFateSave, deobfuscateFateSave } from './utils/encryption';
 import { GameState } from './types';
-import { Key, Sparkles, Download, Upload, RotateCcw, BarChart3, HelpCircle, Dna, PlayCircle, PauseCircle, Search, Swords, ShoppingBag, ScrollText, Compass, Database, SlidersHorizontal, Link2, Lightbulb } from 'lucide-react';
+import { Key, Sparkles, Download, Upload, RotateCcw, BarChart3, HelpCircle, Dna, PlayCircle, PauseCircle, Search, Swords, ShoppingBag, ScrollText, Compass, Database, SlidersHorizontal, Link2, Lightbulb, Flame, Spline } from 'lucide-react';
 
 // --- Error Boundary ---
 interface ErrorBoundaryState {
@@ -62,8 +63,8 @@ class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBoundaryStat
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#161616] flex items-center justify-center p-8">
-          <div className="bg-[#1e1e1e] border border-red-500/30 rounded-xl p-8 max-w-lg text-center">
+        <div className="min-h-screen bg-[#1a1714] flex items-center justify-center p-8">
+          <div className="bg-[#23201c] border border-red-500/30 rounded-xl p-8 max-w-lg text-center">
             <h1 className="text-2xl font-bold text-red-400 mb-4">Something went wrong</h1>
             <p className="text-gray-400 mb-4">
               The application encountered an error. Your save data is preserved in localStorage.
@@ -145,7 +146,7 @@ const ToastNotification = () => {
   if (!visible || !host) return null;
 
   return createPortal(
-    <div className="pointer-events-auto bg-[#222] border border-white/20 shadow-2xl rounded-lg p-3 flex items-center gap-4 animate-in slide-in-from-bottom-5 fade-in duration-300">
+    <div className="pointer-events-auto bg-[#27231f] border border-white/20 shadow-2xl rounded-lg p-3 flex items-center gap-4 animate-in slide-in-from-bottom-5 fade-in duration-300">
        <span className="text-sm font-bold text-gray-200">{message}</span>
     </div>,
     host,
@@ -222,111 +223,79 @@ const Header = ({ setShowAltar, setShowStats, setShowReference, setShowOracle, s
       }
   };
 
-  return (
-      <header className="bg-[#1e1e1e] border-b border-white/10 sticky top-0 z-50 shadow-xl backdrop-blur-md bg-opacity-95">
-        <div className="max-w-[1600px] mx-auto px-4 py-2 flex flex-col xl:flex-row items-center justify-between gap-4">
+  const openNav = (target: string) => window.dispatchEvent(new CustomEvent('fate:nav', { detail: { target } }));
+  const fateShare = Math.min(1, fatePoints / pityCap);
+  const altarGlow = activeBuff === 'GREED' ? 'rgba(251,191,36,0.55)' : activeBuff !== 'NONE' ? 'rgba(96,165,250,0.55)' : undefined;
 
-          {/* Logo Section */}
+  return (
+    <>
+      {/* Top: title on the left, the RS3 ribbon of menu buttons on the right. */}
+      <header className="rs3-hudbar sticky top-0 z-50">
+        <div className="max-w-[1600px] mx-auto px-4 py-1.5 flex flex-col md:flex-row items-center justify-between gap-2">
           <div className="flex items-center gap-3 shrink-0">
-            <div className="w-10 h-10 bg-gradient-to-br from-amber-600 to-amber-900 rounded-lg flex items-center justify-center border border-amber-500/50 shadow-inner">
-              <WikiIcon file="Crystal_key.png" alt="Fate Locked" Fallback={Key} size={24} className="drop-shadow-md" />
+            <div className="rs3-slot w-9 h-9 rounded-sm flex items-center justify-center">
+              <WikiIcon file="Crystal_key.png" alt="Fate Locked" Fallback={Key} size={20} className="drop-shadow-md" />
             </div>
             <div>
-              <h1 className="text-lg font-black text-gray-100 tracking-tight uppercase leading-none">RS3 Fate Locked Ironman</h1>
-              <p className="text-[10px] text-gray-500 font-mono mt-0.5 tracking-wide">RNG EDITION COMMAND CENTER</p>
+              <h1 className="text-lg rs3-title leading-none">RS3 Fate Locked Ironman</h1>
+              <p className="text-[10px] text-[#c7a27f] font-mono mt-0.5 tracking-wide">RNG EDITION COMMAND CENTER</p>
             </div>
             <ProfileSwitcher />
           </div>
 
-          {/* Resources Bar */}
-          <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6 bg-black/20 p-1.5 pr-4 rounded-xl border border-white/5 w-full xl:w-auto shadow-inner">
-            <div className="w-full md:w-48 lg:w-64 px-2">
-               <div className="flex justify-between text-[10px] mb-1.5 font-bold uppercase tracking-wider">
-                  <span className={nearPity ? "text-red-400 animate-pulse" : "text-gray-500"}>Fate Points</span>
-                  <span className="text-gray-400">{pityRules.pityEnabled ? `${fatePoints}/${pityRules.pityThreshold}` : `${fatePoints} Fate`}</span>
-               </div>
-               <div className="h-2 bg-black/50 rounded-full overflow-hidden border border-white/10 relative">
-                 <div className={`relative h-full overflow-hidden transition-all duration-500 ${animationsEnabled ? 'progress-sheen' : ''} ${nearPity ? 'bg-red-500 shadow-[0_0_10px_#ef4444]' : 'bg-amber-600'}`} style={{ width: `${Math.min(100, (fatePoints / pityCap) * 100)}%` }} />
-                      </div>
-            </div>
-            <div className="hidden md:block w-px h-8 bg-white/5"></div>
-            <div data-tour="keys" className="flex items-center gap-3 justify-center">
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 rounded-lg min-w-[60px] justify-center" title="Keys — spend on a table in Spend Keys for a random unlock">
-                   <WikiIcon file="Crystal_key.png" alt="Keys" Fallback={Key} size={17} className="drop-shadow" />
-                   <span className="font-bold text-amber-100 text-lg leading-none"><PopOnChange value={keys} /></span>
-                </div>
-                <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-colors min-w-[60px] justify-center ${specialKeys > 0 ? 'bg-purple-500/20 border-purple-500/40 shadow-[0_0_10px_rgba(168,85,247,0.2)]' : 'bg-white/5 border-white/10 opacity-50'}`} title="Omni-keys — click any locked item in the Dashboard to unlock exactly it">
-                   <WikiIcon file="Enhanced_crystal_key.png" alt="Omni-keys" Fallback={Sparkles} size={18} className={specialKeys > 0 ? 'animate-pulse' : 'opacity-50 grayscale'} />
-                   <span className={`font-bold text-lg leading-none ${specialKeys > 0 ? 'text-purple-200' : 'text-gray-500'}`}><PopOnChange value={specialKeys} /></span>
-                </div>
-                {chaosKeys > 0 && (
-                  <div className="flex items-center gap-2 px-3 py-1.5 bg-red-500/20 border border-red-500/40 rounded-lg animate-in fade-in slide-in-from-right-4 min-w-[60px] justify-center" title="Chaos keys (unlock from any category)">
-                     <WikiIcon file="Sinister_key.png" alt="Chaos keys" Fallback={Dna} size={17} className="animate-pulse drop-shadow" />
-                     <span className="font-bold text-red-100 text-lg leading-none"><PopOnChange value={chaosKeys} /></span>
-                  </div>
-                )}
-            </div>
-          </div>
+          {/* Accept .fate files and legacy .json files */}
+          <input type="file" ref={fileInputRef} className="hidden" accept=".json,.fate" onChange={handleFileChange} />
 
-          {/* Controls */}
-          <div className="flex items-center gap-2 shrink-0">
-             {/* Accept .fate files and legacy .json files */}
-             <input type="file" ref={fileInputRef} className="hidden" accept=".json,.fate" onChange={handleFileChange} />
-
-             <button
-                data-tour="altar"
-                onClick={() => setShowAltar(true)}
-                className={`h-8 group px-3 rounded-lg border font-bold text-[10px] uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg ${activeBuff !== 'NONE' ? activeBuff === 'GREED' ? 'bg-amber-900/40 border-amber-500 text-amber-300' : 'bg-blue-900/40 border-blue-500 text-blue-300' : 'bg-[#252525] border-purple-500/30 text-purple-300 hover:bg-purple-900/20'}`}
-             >
-                <span className={`w-1.5 h-1.5 rounded-full ${activeBuff !== 'NONE' ? (activeBuff === 'GREED' ? 'bg-amber-400 animate-bounce' : 'bg-blue-400 animate-pulse') : 'bg-purple-500'}`}></span>
-                <span>{activeBuff === 'NONE' ? 'Altar' : activeBuff}</span>
-             </button>
-
-             <button
-               data-tour="palette"
-               onClick={() => window.dispatchEvent(new CustomEvent('fate:open-palette'))}
-               className="h-8 px-2.5 rounded-lg border border-white/10 bg-[#252525] hover:bg-white/5 hover:border-white/20 text-gray-400 hover:text-white flex items-center gap-2 transition-colors group"
-               title="Command palette — jump to anything"
-             >
-                <Search size={13} />
-                <span className="text-[11px] font-medium hidden sm:inline">Jump to…</span>
-                <kbd className="text-[9px] font-mono text-gray-500 border border-white/15 rounded px-1 py-0.5 hidden sm:inline group-hover:border-white/25">⌘K</kbd>
-             </button>
-
-             <div className="flex items-center bg-[#252525] border border-white/10 rounded-lg p-0.5 gap-0.5 h-8">
-                 <button onClick={() => setShowOracle(true)} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/5 rounded transition-colors" title="Oracle — search content" aria-label="Oracle — search content"><Search size={14} /></button>
-                 <div className="w-px h-4 bg-white/10"></div>
-                 <button onClick={() => setShowStrategy(true)} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-emerald-400 hover:bg-white/5 rounded transition-colors" title="Strategy Guide" aria-label="Strategy Guide"><Compass size={14} /></button>
-                 <div className="w-px h-4 bg-white/10"></div>
-                 <button onClick={() => setShowSupplyChain(true)} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-cyan-400 hover:bg-white/5 rounded transition-colors" title="Resource Engine" aria-label="Resource Engine"><Database size={14} /></button>
-                 <div className="w-px h-4 bg-white/10"></div>
-                 <button onClick={() => setShowStats(true)} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-blue-400 hover:bg-white/5 rounded transition-colors" title="Stats" aria-label="Stats"><BarChart3 size={14} /></button>
-                 <div className="w-px h-4 bg-white/10"></div>
-                 <button onClick={() => setShowReference(true)} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-yellow-400 hover:bg-white/5 rounded transition-colors" title="Rules" aria-label="Rules"><HelpCircle size={14} /></button>
-                 <div className="w-px h-4 bg-white/10"></div>
-                 <button onClick={() => setShowGameMode(true)} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-amber-400 hover:bg-white/5 rounded transition-colors" title="Game Mode" aria-label="Game Mode"><SlidersHorizontal size={14} /></button>
-             </div>
-
-             <div className="flex items-center bg-[#252525] border border-white/10 rounded-lg p-0.5 gap-0.5 h-8">
-                 <button onClick={toggleAnimations} className={`w-7 h-full flex items-center justify-center rounded transition-colors ${animationsEnabled ? 'text-green-400' : 'text-gray-500'}`} title="Animations" aria-label="Toggle animations" aria-pressed={animationsEnabled}>
-                    {animationsEnabled ? <PlayCircle size={14} /> : <PauseCircle size={14} />}
-                 </button>
-                 <div className="w-px h-4 bg-white/10"></div>
-                 <button onClick={toggleAdvisors} className={`w-7 h-full flex items-center justify-center rounded transition-colors ${advisorsEnabled ? 'text-amber-400' : 'text-gray-500 hover:text-gray-300'}`} title={advisorsEnabled ? 'Advisor panels: on' : 'Advisor panels: off'} aria-label="Toggle advisor panels" aria-pressed={advisorsEnabled}>
-                    <Lightbulb size={14} />
-                 </button>
-                 <div className="w-px h-4 bg-white/10"></div>
-                 <button onClick={() => fileInputRef.current?.click()} className="w-7 h-full flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/5 rounded" title="Import Save" aria-label="Import Save"><Upload size={14} /></button>
-                 <div className="w-px h-4 bg-white/10"></div>
-                 <button onClick={handleExport} className="w-7 h-full flex items-center justify-center text-gray-500 hover:text-white hover:bg-white/5 rounded" title="Export Encrypted Save" aria-label="Export Encrypted Save"><Download size={14} /></button>
-                 <div className="w-px h-4 bg-white/10"></div>
-                 <button onClick={() => setShowSyncCode(true)} className="w-7 h-full flex items-center justify-center text-gray-500 hover:text-cyan-400 hover:bg-white/5 rounded" title="Sync Code (move run between devices)" aria-label="Sync Code"><Link2 size={14} /></button>
-                 <div className="w-px h-4 bg-white/10"></div>
-                 <button onClick={() => { if(window.confirm("Are you sure you want to reset ALL progress? This cannot be undone.")) resetGame(); }} className="w-7 h-full flex items-center justify-center text-gray-500 hover:text-red-400 hover:bg-white/5 rounded" title="Reset" aria-label="Reset all progress"><RotateCcw size={14} /></button>
-             </div>
-          </div>
+          <nav className="rs3-ribbon flex items-center gap-1 p-1 overflow-x-auto max-w-full" aria-label="Menu">
+            <RibbonButton label="Jump to… (⌘K)" data-tour="palette" onClick={() => window.dispatchEvent(new CustomEvent('fate:open-palette'))}><Search size={16} /></RibbonButton>
+            <RibbonButton label="Hero — Stats" onClick={() => setShowStats(true)}><BarChart3 size={16} /></RibbonButton>
+            <RibbonButton label="Adventures — Strategy Guide" onClick={() => setShowStrategy(true)}><Compass size={16} /></RibbonButton>
+            <RibbonButton label="Rules" onClick={() => setShowReference(true)}><HelpCircle size={16} /></RibbonButton>
+            <RibbonButton label="Game Mode" onClick={() => setShowGameMode(true)}><SlidersHorizontal size={16} /></RibbonButton>
+            <div className="w-px h-6 bg-black/60 mx-0.5" />
+            <RibbonButton label={animationsEnabled ? 'Animations: on' : 'Animations: off'} active={animationsEnabled} onClick={toggleAnimations}>
+              {animationsEnabled ? <PlayCircle size={16} /> : <PauseCircle size={16} />}
+            </RibbonButton>
+            <RibbonButton label={advisorsEnabled ? 'Advisor panels: on' : 'Advisor panels: off'} active={advisorsEnabled} onClick={toggleAdvisors}><Lightbulb size={16} /></RibbonButton>
+            <RibbonButton label="Import Save" onClick={() => fileInputRef.current?.click()}><Upload size={16} /></RibbonButton>
+            <RibbonButton label="Export Encrypted Save" onClick={handleExport}><Download size={16} /></RibbonButton>
+            <RibbonButton label="Sync Code (move run between devices)" onClick={() => setShowSyncCode(true)}><Link2 size={16} /></RibbonButton>
+            <RibbonButton label="Reset all progress" className="hover:!text-red-400" onClick={() => { if(window.confirm("Are you sure you want to reset ALL progress? This cannot be undone.")) resetGame(); }}><RotateCcw size={16} /></RibbonButton>
+          </nav>
         </div>
       </header>
+
+      {/* Bottom: the RS3 action bar — a stat row (keys and the Fate bar) over action slots. */}
+      <div className="fixed bottom-0 inset-x-0 z-40 flex justify-center pointer-events-none px-2">
+        <div className="rs3-actionbar pointer-events-auto flex flex-col gap-1.5 px-3 pt-2 pb-2 max-w-full overflow-x-auto">
+          <div data-tour="keys" className="flex items-center gap-5 shrink-0">
+            <ActionStat label="Keys" title="Keys — spend on a table in Spend Keys for a random unlock" value={<PopOnChange value={keys} />}
+              icon={<WikiIcon file="Crystal_key.png" alt="Keys" Fallback={Key} size={18} className="drop-shadow" />} />
+            <ActionStat label="Fate Points" className="w-40"
+              title={pityRules.pityEnabled ? `Fate Points — pity triggers at ${pityRules.pityThreshold}` : 'Fate Points'}
+              value={pityRules.pityEnabled ? `${fatePoints}/${pityRules.pityThreshold}` : `${fatePoints}`}
+              fill={fateShare} tone={nearPity ? 'lp' : 'adren'}
+              icon={<Flame size={18} className={nearPity ? 'text-red-400 animate-pulse' : 'text-[#efad74]'} />} />
+            <ActionStat label="Omni-keys" title="Omni-keys — click any locked item in the Dashboard to unlock exactly it" value={<PopOnChange value={specialKeys} />} dim={specialKeys === 0}
+              icon={<WikiIcon file="Enhanced_crystal_key.png" alt="Omni-keys" Fallback={Sparkles} size={18} className={specialKeys > 0 ? 'animate-pulse' : 'grayscale'} />} />
+            {chaosKeys > 0 && (
+              <ActionStat label="Chaos keys" title="Chaos keys (unlock from any category)" value={<PopOnChange value={chaosKeys} />}
+                icon={<WikiIcon file="Sinister_key.png" alt="Chaos keys" Fallback={Dna} size={18} className="animate-pulse drop-shadow" />} />
+            )}
+          </div>
+          <div className="flex items-center gap-0.5 shrink-0">
+            <ActionSlot label={activeBuff === 'NONE' ? 'Void Altar' : `Void Altar — ${activeBuff} active`} data-tour="altar" onClick={() => setShowAltar(true)} glow={altarGlow}>
+              <Flame size={20} className={activeBuff === 'NONE' ? 'text-purple-300' : activeBuff === 'GREED' ? 'text-amber-300' : 'text-blue-300'} />
+            </ActionSlot>
+            <ActionSlot label="Oracle — search content" onClick={() => setShowOracle(true)}><Search size={18} /></ActionSlot>
+            <ActionSlot label="Resource Engine" onClick={() => setShowSupplyChain(true)}><Database size={18} /></ActionSlot>
+            <ActionSlot label="Fate Thread" onClick={() => openNav('open:fatethread')}><Spline size={18} /></ActionSlot>
+            <ActionSlot label="Strategy Guide" onClick={() => setShowStrategy(true)}><Compass size={18} /></ActionSlot>
+            <ActionSlot label="Stats" onClick={() => setShowStats(true)}><BarChart3 size={18} /></ActionSlot>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
@@ -345,33 +314,33 @@ const ControlPanel = () => {
   }, []);
 
   return (
-    <div className="flex flex-col h-full bg-[#1b1b1b] border border-[#333] rounded-lg overflow-hidden shadow-xl">
+    <Rs3Window title="Fate Actions" icon={<Key size={13} className="text-rs3-gold" />} className="h-full" bodyClassName="flex flex-col">
       {/* Tabs */}
-      <div className="flex border-b border-[#333] bg-[#161616] shrink-0">
+      <div className="flex border-b border-[#574930] bg-[#171412] px-1 shrink-0">
         <button
           data-tour="farm"
           onClick={() => setActiveTab('FARM')}
-          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'FARM' ? 'bg-[#252525] text-green-400 border-b-2 border-green-400' : 'text-gray-500 hover:text-gray-300 hover:bg-[#1a1a1a]'}`}
+          className={`flex-1 py-2 text-[13px] rs3-tab-label flex items-center justify-center gap-2 transition-colors ${activeTab === 'FARM' ? 'rs3-tab-active text-green-400' : 'rs3-tab text-gray-500 hover:text-gray-300'}`}
         >
           <WikiIcon file="Slayer_icon.png" alt="Farm Keys" Fallback={Swords} size={15} className={activeTab === 'FARM' ? '' : 'opacity-60 grayscale'} /> Farm Keys
         </button>
         <button
           data-tour="spend"
           onClick={() => setActiveTab('SPEND')}
-          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'SPEND' ? 'bg-[#252525] text-rs3-gold border-b-2 border-rs3-gold' : 'text-gray-500 hover:text-gray-300 hover:bg-[#1a1a1a]'}`}
+          className={`flex-1 py-2 text-[13px] rs3-tab-label flex items-center justify-center gap-2 transition-colors ${activeTab === 'SPEND' ? 'rs3-tab-active text-rs3-gold' : 'rs3-tab text-gray-500 hover:text-gray-300'}`}
         >
           <WikiIcon file="Mystery_box.png" alt="Spend Keys" Fallback={ShoppingBag} size={15} className={activeTab === 'SPEND' ? '' : 'opacity-60 grayscale'} /> Spend Keys
         </button>
         <button
           onClick={() => setActiveTab('LOG')}
-          className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-colors ${activeTab === 'LOG' ? 'bg-[#252525] text-blue-400 border-b-2 border-blue-400' : 'text-gray-500 hover:text-gray-300 hover:bg-[#1a1a1a]'}`}
+          className={`flex-1 py-2 text-[13px] rs3-tab-label flex items-center justify-center gap-2 transition-colors ${activeTab === 'LOG' ? 'rs3-tab-active text-blue-400' : 'rs3-tab text-gray-500 hover:text-gray-300'}`}
         >
           <WikiIcon file="Watch.png" alt="History" Fallback={ScrollText} size={15} className={activeTab === 'LOG' ? '' : 'opacity-60 grayscale'} /> History
         </button>
       </div>
 
       {/* Contextual guide for the active panel */}
-      <div className="flex items-center justify-end gap-1.5 px-3 py-1 bg-[#141414] border-b border-[#2a2a2a] shrink-0 text-[10px] text-gray-500">
+      <div className="flex items-center justify-end gap-1.5 px-3 py-1 bg-[#171513] border-b border-[#312c27] shrink-0 text-[10px] text-gray-500">
         <span>{GUIDES[activeTab]?.title}</span>
         <SectionGuide id={activeTab} />
       </div>
@@ -388,7 +357,7 @@ const ControlPanel = () => {
            <LogViewer />
         </div>
       </div>
-    </div>
+    </Rs3Window>
   );
 };
 
@@ -506,13 +475,13 @@ const GameLayout = () => {
   }, anyModalOpen);
 
   return (
-    <div className="min-h-screen bg-rs3-bg text-rs3-text pb-6 font-sans selection:bg-rs3-gold selection:text-black relative">
+    <div className="min-h-screen bg-rs3-bg text-rs3-text font-sans selection:bg-rs3-gold selection:text-black relative">
       <EffectsLayer />
 
       {/* Shared notification stacks: every toast/reveal portals into one of
           these so they queue cleanly instead of overlapping in a corner. */}
       <div id="reveal-top" className="fixed top-24 right-5 z-[9998] flex flex-col gap-3 items-end pointer-events-none" />
-      <div id="reveal-bottom" className="fixed bottom-5 right-5 z-[9997] flex flex-col-reverse gap-3 items-end pointer-events-none" />
+      <div id="reveal-bottom" className="fixed bottom-28 right-5 z-[9997] flex flex-col-reverse gap-3 items-end pointer-events-none" />
       <ToastNotification />
 
       {!hasSeenOnboarding && <OnboardingWizard />}
@@ -553,7 +522,7 @@ const GameLayout = () => {
       <QuestCompleteOverlay />
 
       {/* Main Command Center Layout */}
-      <main className="max-w-[1600px] mx-auto px-4 py-4 h-[calc(100vh-80px)]">
+      <main className="max-w-[1600px] mx-auto px-4 pt-3 pb-[96px] h-[calc(100vh-52px)]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-full">
 
           {/* LEFT: Journal summary + Interaction & Control (35%).

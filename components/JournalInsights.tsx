@@ -37,7 +37,7 @@ const Shell: React.FC<{ storageKey: string; title: string; icon: React.ReactNode
   ({ storageKey, title, icon, summary, children }) => {
     const [open, setOpen] = useLocalStorage<boolean>(storageKey, true);
     return (
-      <div className="border-b border-white/10 bg-[#171717] shrink-0">
+      <div className="border-b border-white/10 bg-[#1a1714] shrink-0">
         <button
           onClick={() => setOpen(o => !o)}
           className="w-full px-3 py-1.5 flex items-center gap-2 text-left hover:bg-white/[0.03] transition-colors"

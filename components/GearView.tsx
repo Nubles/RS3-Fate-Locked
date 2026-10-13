@@ -77,7 +77,7 @@ export const GearView: React.FC = () => {
             <button
               key={s}
               onClick={() => setAutoStyle(s)}
-              className={`px-2 py-1 text-[10px] font-bold ${autoStyle === s ? `bg-white/10 ${STYLE_CLS[s]}` : 'bg-[#1a1a1a] text-gray-500 hover:text-gray-300'}`}
+              className={`px-2 py-1 text-[10px] font-bold ${autoStyle === s ? `bg-white/10 ${STYLE_CLS[s]}` : 'bg-[#1d1a17] text-gray-500 hover:text-gray-300'}`}
             >
               {STYLE_LABEL[s]}
             </button>
@@ -130,7 +130,7 @@ export const GearView: React.FC = () => {
       </div>
 
       {/* Gear stats */}
-      <div className="mt-4 bg-[#151515] border border-white/10 rounded-xl p-4">
+      <div className="mt-4 bg-[#171513] border border-white/10 rounded-xl p-4">
         <div className="flex items-center justify-between mb-3">
           <h4 className="text-[11px] font-bold uppercase tracking-widest text-gray-400 flex items-center gap-1.5">
             <Shirt size={12} className="text-amber-300" /> Gear Stats
@@ -150,7 +150,7 @@ export const GearView: React.FC = () => {
         </div>
         <div className="mt-3 pt-2 border-t border-white/5 grid grid-cols-2 sm:grid-cols-4 gap-2">
           {COMBAT_STYLES.map((s) => (
-            <div key={s} className={`rounded bg-[#1a1a1a] border px-2 py-1 ${weaponStyle === s ? 'border-white/20' : 'border-white/5'}`}>
+            <div key={s} className={`rounded bg-[#1d1a17] border px-2 py-1 ${weaponStyle === s ? 'border-white/20' : 'border-white/5'}`}>
               <div className={`text-[9px] uppercase tracking-widest ${STYLE_CLS[s]}`}>{STYLE_LABEL[s]} bonus</div>
               <div className="text-[12px] font-mono font-bold text-gray-200">+{styleDamageBonus(items, s)}</div>
             </div>
@@ -214,8 +214,8 @@ const GearPicker: React.FC<PickerProps> = ({ slot, currentItemId, unlockedTier, 
       aria-modal="true"
       aria-label={`Choose ${slot}`}
     >
-      <div className="bg-[#161616] border border-white/10 rounded-xl shadow-2xl w-full max-w-md h-[70vh] flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center gap-3 p-3 border-b border-white/10 bg-[#1b1b1b] shrink-0">
+      <div className="bg-[#181614] border border-white/10 rounded-xl shadow-2xl w-full max-w-md h-[70vh] flex flex-col overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center gap-3 p-3 border-b border-white/10 bg-[#1e1b18] shrink-0">
           <img src={emptySlotImg(slot)} alt="" className="w-6 h-6 object-contain opacity-70" />
           <div className="flex-1 min-w-0">
             <h3 className="text-sm font-bold text-white leading-none">{slot}</h3>
@@ -247,7 +247,7 @@ const GearPicker: React.FC<PickerProps> = ({ slot, currentItemId, unlockedTier, 
                 <button
                   key={s}
                   onClick={() => setStyle(s)}
-                  className={`px-2 py-0.5 rounded text-[10px] font-bold border ${style === s ? 'border-white/20 bg-white/10 text-gray-100' : 'border-white/5 bg-[#1a1a1a] text-gray-500 hover:text-gray-300'}`}
+                  className={`px-2 py-0.5 rounded text-[10px] font-bold border ${style === s ? 'border-white/20 bg-white/10 text-gray-100' : 'border-white/5 bg-[#1d1a17] text-gray-500 hover:text-gray-300'}`}
                 >
                   {s === 'any' ? 'All' : STYLE_LABEL[s]}
                 </button>
@@ -286,7 +286,7 @@ const GearPicker: React.FC<PickerProps> = ({ slot, currentItemId, unlockedTier, 
                       <span className={STYLE_CLS[item.style]}>{item.style === 'all' ? 'Utility' : STYLE_LABEL[item.style]}</span> · {itemSummary(item)}
                     </div>
                   </div>
-                  <span className={`shrink-0 text-[9px] font-mono font-bold px-1.5 py-0.5 rounded ${locked ? 'bg-[#1a1a1a] text-gray-500 border border-white/5' : `${equipTierColor(tier)} text-black/80`}`}>
+                  <span className={`shrink-0 text-[9px] font-mono font-bold px-1.5 py-0.5 rounded ${locked ? 'bg-[#1d1a17] text-gray-500 border border-white/5' : `${equipTierColor(tier)} text-black/80`}`}>
                     {locked ? <span className="flex items-center gap-0.5"><Lock size={8} /> T{tier}</span> : `T${tier}`}
                   </span>
                 </button>

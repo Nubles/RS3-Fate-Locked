@@ -13,15 +13,35 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Retint Tailwind's gray scale to the warm charcoal-browns of the RS3
+        // interface (sampled from in-game captures), so every gray panel,
+        // border and label picks up the RS3 look.
+        gray: {
+          50: '#f6f3ee',
+          100: '#ebe5dc',
+          200: '#d6cdbf',
+          300: '#b9ad9b',
+          400: '#978a77',
+          500: '#766b5c',
+          600: '#5a5146',
+          700: '#423b33',
+          800: '#2c2823',
+          900: '#1c1916',
+          950: '#110f0d',
+        },
+        // RS3 interface palette: dark brown window bodies, bronze frames,
+        // gold serif titles, maroon buttons.
         rs3: {
-          bg: '#0a1128',
-          panel: '#121a36',
-          border: '#1d2d5c',
-          gold: '#f59e0b',
-          text: '#e2e8f0',
-          accent: '#06b6d4',
-          success: '#22c55e',
-          fail: '#ef4444',
+          bg: '#0f0d0b',
+          panel: '#1e1b18',
+          'panel-hi': '#2a2520',
+          border: '#745d39',
+          'border-hi': '#9a7e4e',
+          gold: '#f0be79',
+          text: '#e8e2d8',
+          accent: '#e6c17d',
+          success: '#5caf47',
+          fail: '#f35737',
           pity: '#f59e0b'
         }
       },
